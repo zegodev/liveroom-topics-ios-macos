@@ -9,7 +9,9 @@
 #import "AppDelegate.h"
 #import "./ZGTopicsTableViewController.h"
 #import "./MediaPlayerUI/ZGMediaPlayerViewController.h"
+#import "./MediaSideInfoUI/ZGMediaSideInfoViewController.h"
 #import "ZGManager.h"
+#import "ZGHelper.h"
 
 @interface AppDelegate () <ZGTopicsTableViewControllerDelegate>
 
@@ -24,7 +26,7 @@
 
 @end
 
-NSString* kZGTopicMediaPlayer = @"Media Player";
+NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 
 @implementation AppDelegate
 
@@ -32,9 +34,7 @@ NSString* kZGTopicMediaPlayer = @"Media Player";
     // Insert code here to initialize your application
     
     self.comps = [NSMutableDictionary dictionary];
-    
-    self.topicList = @[kZGTopicMediaPlayer];
-    
+    self.topicList = @[kZGTopicMediaPlayer, kZGTopicMediaSideInfo];
     self.topicsController.delegate = self;
     [self.topicsController setTopicList:self.topicList];
     
@@ -51,21 +51,20 @@ NSString* kZGTopicMediaPlayer = @"Media Player";
 
 - (void)onTopicSelected:(NSString *)topic {
     NSLog(@"%s: %@", __func__, topic);
+    
+    [self.currentController.view removeFromSuperview];
+    
     NSViewController* vc = nil;
-    if ([topic isEqualToString:kZGTopicMediaPlayer]) {
-        // show media player page
-        vc = [self.comps objectForKey:kZGTopicMediaPlayer];
-        if (self.currentController && self.currentController != vc) {
-            [self.currentController.view removeFromSuperview];
-        }
-        
-        if (!vc) {
-            vc = [[ZGMediaPlayerViewController alloc] initWithNibName:@"ZGMediaPlayerViewController" bundle:nil];
-            self.currentController = vc;
-            [self.comps setObject:vc forKey:kZGTopicMediaPlayer];
-        }
+
+    if ([topic isEqualToString:kZGTopicMediaPlayer]) { // show media player page
+        vc = [[ZGMediaPlayerViewController alloc] initWithNibName:@"ZGMediaPlayerViewController" bundle:nil];
+    } else if ([topic isEqualToString:kZGTopicMediaSideInfo]) {
+        vc = [[ZGMediaSideInfoViewController alloc] initWithNibName:@"ZGMediaSideInfoViewController" bundle:nil];
     }
     
+    self.currentController = vc;
+    [self.comps setObject:vc forKey:topic];
+
     if (vc) {
         NSView* view = vc.view;
         [self.contentContainer addSubview:view];

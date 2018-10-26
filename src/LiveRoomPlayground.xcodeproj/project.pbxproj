@@ -44,6 +44,14 @@
 		A7CD84B5215CC516006A23DB /* ZGVideoCaptureForMediaPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A77AD6CE215A2A73004D0D75 /* ZGVideoCaptureForMediaPlayer.mm */; };
 		A7CD84B6215CC519006A23DB /* ZGMediaPlayerPublishingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A77AD6D5215A3ECA004D0D75 /* ZGMediaPlayerPublishingHelper.m */; };
 		A7CD84B7215CC51C006A23DB /* ZGMediaPlayerDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A13DB3215BCE8300C61045 /* ZGMediaPlayerDemo.m */; };
+		A7F19FF721807BD9004EAE25 /* ZGMediaSideInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F19FF521807BD9004EAE25 /* ZGMediaSideInfoViewController.m */; };
+		A7F19FF821807BD9004EAE25 /* ZGMediaSideInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7F19FF621807BD9004EAE25 /* ZGMediaSideInfoViewController.xib */; };
+		A7F1A00421816733004EAE25 /* ZGMediaSideInfoDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F1A00321816733004EAE25 /* ZGMediaSideInfoDemo.m */; };
+		A7F1A00521816733004EAE25 /* ZGMediaSideInfoDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F1A00321816733004EAE25 /* ZGMediaSideInfoDemo.m */; };
+		A7F1A0082181A2F3004EAE25 /* ZGMediaSideInfoDemoEnvirentmentHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F1A0072181A2F3004EAE25 /* ZGMediaSideInfoDemoEnvirentmentHelper.m */; };
+		A7F1A0092181A2F3004EAE25 /* ZGMediaSideInfoDemoEnvirentmentHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F1A0072181A2F3004EAE25 /* ZGMediaSideInfoDemoEnvirentmentHelper.m */; };
+		A7F1A00C2181D202004EAE25 /* MediaSideInfo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7F1A00B2181D202004EAE25 /* MediaSideInfo.storyboard */; };
+		A7F1A0132181E86C004EAE25 /* ZGMediaSideInfoViewController_iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F1A0122181E86C004EAE25 /* ZGMediaSideInfoViewController_iOS.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -120,6 +128,16 @@
 		A7CD84A9215CA905006A23DB /* ZGMediaPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGMediaPlayerViewController.h; sourceTree = "<group>"; };
 		A7CD84AA215CA905006A23DB /* ZGMediaPlayerViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ZGMediaPlayerViewController.mm; sourceTree = "<group>"; };
 		A7CD84B1215CC1CA006A23DB /* ZGHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGHelper.m; sourceTree = "<group>"; };
+		A7F19FF421807BD9004EAE25 /* ZGMediaSideInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGMediaSideInfoViewController.h; sourceTree = "<group>"; };
+		A7F19FF521807BD9004EAE25 /* ZGMediaSideInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGMediaSideInfoViewController.m; sourceTree = "<group>"; };
+		A7F19FF621807BD9004EAE25 /* ZGMediaSideInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ZGMediaSideInfoViewController.xib; sourceTree = "<group>"; };
+		A7F1A00221816733004EAE25 /* ZGMediaSideInfoDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGMediaSideInfoDemo.h; sourceTree = "<group>"; };
+		A7F1A00321816733004EAE25 /* ZGMediaSideInfoDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGMediaSideInfoDemo.m; sourceTree = "<group>"; };
+		A7F1A0062181A2F3004EAE25 /* ZGMediaSideInfoDemoEnvirentmentHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGMediaSideInfoDemoEnvirentmentHelper.h; sourceTree = "<group>"; };
+		A7F1A0072181A2F3004EAE25 /* ZGMediaSideInfoDemoEnvirentmentHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGMediaSideInfoDemoEnvirentmentHelper.m; sourceTree = "<group>"; };
+		A7F1A00B2181D202004EAE25 /* MediaSideInfo.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MediaSideInfo.storyboard; sourceTree = "<group>"; };
+		A7F1A0112181E86C004EAE25 /* ZGMediaSideInfoViewController_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGMediaSideInfoViewController_iOS.h; sourceTree = "<group>"; };
+		A7F1A0122181E86C004EAE25 /* ZGMediaSideInfoViewController_iOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGMediaSideInfoViewController_iOS.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +200,7 @@
 				A7CCA5ED21515D5D00191B55 /* ZGTopicsTableViewController.h */,
 				A7CCA5EE21515D5D00191B55 /* ZGTopicsTableViewController.m */,
 				A7CCA6012151F7AB00191B55 /* MediaPlayerUI */,
+				A7F19FF321807B8A004EAE25 /* MediaSideInfoUI */,
 				A7CCA5F52151689300191B55 /* AudioAuxInput */,
 				A7CCA5E421515BBD00191B55 /* Info.plist */,
 				A7CCA5E521515BBD00191B55 /* main.m */,
@@ -232,6 +251,7 @@
 				A7CD8498215C8878006A23DB /* ZGTopicsTableViewController.h */,
 				A7CD8499215C8878006A23DB /* ZGTopicsTableViewController.m */,
 				A7CD849B215C9073006A23DB /* MediaPlayerUI */,
+				A7F1A00A2181AF47004EAE25 /* MediaSideInfoUI */,
 			);
 			path = "LiveRoomPlayground-iOS";
 			sourceTree = "<group>";
@@ -240,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				A7CD848D215C8401006A23DB /* MediaPlayer */,
+				A7F19FF9218166E1004EAE25 /* MediaSideInfo */,
 			);
 			path = Topics;
 			sourceTree = "<group>";
@@ -297,6 +318,37 @@
 				A75A21B8217F2E63001F361C /* ZGAppServiceConfig.h */,
 			);
 			path = AppSupport;
+			sourceTree = "<group>";
+		};
+		A7F19FF321807B8A004EAE25 /* MediaSideInfoUI */ = {
+			isa = PBXGroup;
+			children = (
+				A7F19FF421807BD9004EAE25 /* ZGMediaSideInfoViewController.h */,
+				A7F19FF521807BD9004EAE25 /* ZGMediaSideInfoViewController.m */,
+				A7F19FF621807BD9004EAE25 /* ZGMediaSideInfoViewController.xib */,
+			);
+			path = MediaSideInfoUI;
+			sourceTree = "<group>";
+		};
+		A7F19FF9218166E1004EAE25 /* MediaSideInfo */ = {
+			isa = PBXGroup;
+			children = (
+				A7F1A00221816733004EAE25 /* ZGMediaSideInfoDemo.h */,
+				A7F1A00321816733004EAE25 /* ZGMediaSideInfoDemo.m */,
+				A7F1A0062181A2F3004EAE25 /* ZGMediaSideInfoDemoEnvirentmentHelper.h */,
+				A7F1A0072181A2F3004EAE25 /* ZGMediaSideInfoDemoEnvirentmentHelper.m */,
+			);
+			path = MediaSideInfo;
+			sourceTree = "<group>";
+		};
+		A7F1A00A2181AF47004EAE25 /* MediaSideInfoUI */ = {
+			isa = PBXGroup;
+			children = (
+				A7F1A00B2181D202004EAE25 /* MediaSideInfo.storyboard */,
+				A7F1A0112181E86C004EAE25 /* ZGMediaSideInfoViewController_iOS.h */,
+				A7F1A0122181E86C004EAE25 /* ZGMediaSideInfoViewController_iOS.m */,
+			);
+			path = MediaSideInfoUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -390,6 +442,7 @@
 				A7CCA6062151F7C300191B55 /* ZGMediaPlayerViewController.xib in Resources */,
 				A7CCA5E321515BBD00191B55 /* MainMenu.xib in Resources */,
 				A7CCA5FA2151689300191B55 /* ZGAudioAuxInputViewController.xib in Resources */,
+				A7F19FF821807BD9004EAE25 /* ZGMediaSideInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7CD84A7215C9A6B006A23DB /* ad.mp4 in Resources */,
+				A7F1A00C2181D202004EAE25 /* MediaSideInfo.storyboard in Resources */,
 				A7CD84A8215C9A6B006A23DB /* sample_-50_tempo.mp3 in Resources */,
 				A7CD8485215C8112006A23DB /* LaunchScreen.storyboard in Resources */,
 				A7CD8482215C8112006A23DB /* Assets.xcassets in Resources */,
@@ -417,9 +471,12 @@
 				A7CD84A6215C966C006A23DB /* ZGMediaPlayerDemoHelper.m in Sources */,
 				A7CCA5E621515BBD00191B55 /* main.m in Sources */,
 				A7CCA6052151F7C300191B55 /* ZGMediaPlayerViewController.mm in Sources */,
+				A7F1A0092181A2F3004EAE25 /* ZGMediaSideInfoDemoEnvirentmentHelper.m in Sources */,
+				A7F1A00521816733004EAE25 /* ZGMediaSideInfoDemo.m in Sources */,
 				A7CCA5DE21515BBB00191B55 /* AppDelegate.m in Sources */,
 				A7CCA5F92151689300191B55 /* ZGAudioAuxInputViewController.m in Sources */,
 				A7CD84B2215CC1CA006A23DB /* ZGHelper.m in Sources */,
+				A7F19FF721807BD9004EAE25 /* ZGMediaSideInfoViewController.m in Sources */,
 				A7CCA6092151F8A400191B55 /* ZGManager.m in Sources */,
 				A7A13DB4215BCE8300C61045 /* ZGMediaPlayerDemo.m in Sources */,
 				A7CCA5EF21515D5D00191B55 /* ZGTopicsTableViewController.m in Sources */,
@@ -438,10 +495,13 @@
 				A7CD84A2215C9519006A23DB /* ZGMediaSourceTableViewController.m in Sources */,
 				A7CD84AB215CA905006A23DB /* ZGMediaPlayerViewController.mm in Sources */,
 				A7CD847A215C8111006A23DB /* AppDelegate.m in Sources */,
+				A7F1A00421816733004EAE25 /* ZGMediaSideInfoDemo.m in Sources */,
 				A7CD84A5215C966C006A23DB /* ZGMediaPlayerDemoHelper.m in Sources */,
+				A7F1A0082181A2F3004EAE25 /* ZGMediaSideInfoDemoEnvirentmentHelper.m in Sources */,
 				A7CD84B4215CC241006A23DB /* ZGHelper.m in Sources */,
 				A7CD84B3215CC23E006A23DB /* ZGManager.m in Sources */,
 				A7CD84B7215CC51C006A23DB /* ZGMediaPlayerDemo.m in Sources */,
+				A7F1A0132181E86C004EAE25 /* ZGMediaSideInfoViewController_iOS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

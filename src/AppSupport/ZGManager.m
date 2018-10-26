@@ -6,6 +6,7 @@
 //
 
 #import "ZGManager.h"
+#import "ZGHelper.h"
 
 // * -----
 #import "ZGAppServiceConfig.h"
@@ -52,6 +53,7 @@ static ZegoLiveRoomApi *s_apiInstance = nil;
 + (ZegoLiveRoomApi*)api {
     
     if (!s_apiInstance) {
+        [ZegoLiveRoomApi setUserID:[ZGHelper getDeviceUUID] userName:[ZGHelper getDeviceUUID]];
         uint32_t appid = GetAppID();
         NSData* sign = GetAppSignKey();
         s_apiInstance = [[ZegoLiveRoomApi alloc] initWithAppID:appid appSignature:sign];

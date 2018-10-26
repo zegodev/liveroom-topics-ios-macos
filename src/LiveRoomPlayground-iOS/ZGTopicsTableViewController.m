@@ -8,6 +8,7 @@
 
 #import "ZGTopicsTableViewController.h"
 #import "ZGManager.h"
+#import "ZGHelper.h"
 
 @implementation ZGTopicsTableViewController {
     NSArray<NSString*>* _topicList;
@@ -16,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _topicList = @[@"Media Player"];
+    _topicList = @[kZGTopicMediaPlayer, kZGTopicMediaSideInfo];
 }
 
 - (void)setTopicList:(NSArray<NSString *> *)topics {
@@ -50,10 +51,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%s, %@", __func__, indexPath);
     
-    UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MediaPlayer" bundle:[NSBundle mainBundle]];
-    UIViewController* vc = [sb instantiateViewControllerWithIdentifier:@"ZGMediaSourceTableViewController"];
+    if (indexPath.row >= _topicList.count) return;
     
-    [self.navigationController pushViewController:vc animated:YES];
+    NSString* topicName = _topicList[indexPath.row];
+    
+    UIViewController* vc = nil;
+    
+    if ([topicName isEqualToString:kZGTopicMediaPlayer]) {
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MediaPlayer" bundle:[NSBundle mainBundle]];
+        vc = [sb instantiateViewControllerWithIdentifier:@"ZGMediaSourceTableViewController"];
+    } else if ([topicName isEqualToString:kZGTopicMediaSideInfo]) {
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MediaSideInfo" bundle:[NSBundle mainBundle]];
+        vc = [sb instantiateViewControllerWithIdentifier:@"ZGMediaSideInfoViewController_iOS"];
+    }
+    
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 @end

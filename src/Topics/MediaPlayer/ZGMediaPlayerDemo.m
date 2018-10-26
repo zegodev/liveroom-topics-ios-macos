@@ -7,7 +7,6 @@
 
 #import "ZGMediaPlayerDemo.h"
 #import "ZGVideoCaptureForMediaPlayer.h"
-#import "ZGManager.h"
 
 typedef enum {
     ZGPlayerState_Stopped,

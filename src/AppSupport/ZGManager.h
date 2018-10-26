@@ -13,13 +13,16 @@
 #import <ZegoLiveRoomOSX/ZegoLiveRoomApi-Publisher.h>
 #import <ZegoLiveRoomOSX/zego-api-external-video-capture-oc.h>
 #import <ZegoLiveRoomOSX/ZegoVideoCapture.h>
+#define ZGView NSView
 #elif TARGET_OS_IOS
 #import <ZegoLiveRoom/ZegoLiveRoomApi.h>
 #import <ZegoLiveRoom/ZegoLiveRoomApi-Player.h>
 #import <ZegoLiveRoom/ZegoLiveRoomApi-Publisher.h>
 #import <ZegoLiveRoom/zego-api-external-video-capture-oc.h>
 #import <ZegoLiveRoom/ZegoVideoCapture.h>
+#define ZGView UIView
 #endif
+
 
 NS_ASSUME_NONNULL_BEGIN
 

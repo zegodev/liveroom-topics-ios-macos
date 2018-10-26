@@ -7,14 +7,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "ZGManager.h"
 #if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
 #import <ZegoLiveRoomOSX/zego-api-mediaplayer-oc.h>
-#define ZGView NSView
 #elif TARGET_OS_IOS
 #import <UIKit/UIKit.h>
 #import <ZegoLiveRoom/zego-api-mediaplayer-oc.h>
-#define ZGView UIView
 #endif
 
 #import "ZGMediaPlayerPublishingHelper.h"

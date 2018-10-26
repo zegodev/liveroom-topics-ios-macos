@@ -22,8 +22,6 @@
 }
 
 - (void)startPublishing {
-    [ZegoLiveRoomApi setUserID:[ZGHelper getDeviceUUID] userName:[ZGHelper getDeviceUUID]];
-
     [[ZGManager api] setPublisherDelegate:self];
         
     __weak ZGMediaPlayerPublishingHelper* weak_self = self;

@@ -13,6 +13,9 @@
 #import <UIKit/UIKit.h>
 #endif
 
+NSString* kZGTopicMediaPlayer = @"Media Player";
+NSString* kZGTopicMediaSideInfo = @"Media Side Info";
+
 @implementation ZGHelper
 
 #if TARGET_OS_OSX
