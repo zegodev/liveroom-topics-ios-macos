@@ -134,6 +134,8 @@
     [self updateStatusDesc];
     
     // * enable/disable controls
+    self.onlyAudioCheck.enabled = NO;
+    self.customPacketCheck.enabled = NO;
     switch (_status) {
         case kZGMediaSideTopicStatus_None:
         case kZGMediaSideTopicStatus_Starting_Login_Room:
@@ -144,6 +146,8 @@
             break;
             
         case kZGMediaSideTopicStatus_Login_OK:
+            self.onlyAudioCheck.enabled = YES;
+            self.customPacketCheck.enabled = YES;
             self.startPublishingBtn.enabled = YES;
             self.sendBtn.enabled = NO;
             break;

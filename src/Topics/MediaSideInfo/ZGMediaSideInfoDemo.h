@@ -62,6 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
  激活媒体次要信息通道
 
  @param channelIndex 推流通道
+ @discassion 在创建了 ZegoLiveRoomApi 对象之后，推流之前调用
  */
 - (void)activateMediaSideInfoForPublishChannel:(ZegoAPIPublishChannelIndex)channelIndex;
 

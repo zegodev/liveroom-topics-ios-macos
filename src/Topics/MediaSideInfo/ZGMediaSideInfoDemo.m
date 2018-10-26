@@ -68,27 +68,39 @@
         return;
     }
     
-    if (!self.config.customPacket) {
-        uint32_t mediaType = ntohl(*(uint32_t*)data.bytes);
+    /* basic format
+     * +--------+--------+--------+--------+----------------------+
+     * |        |        |        |        |                      |
+     * |             MediaType             |       DATA...        |
+     * |        |     4 Bytes     |        |                      |
+     * +--------+-----------------+--------+----------------------+
+     */
+    uint32_t mediaType = ntohl(*(uint32_t*)data.bytes);
+    
+    if (mediaType == 1001) {
+        // * SDK packet
         NSData* realData = [data subdataWithRange:NSMakeRange(4, data.length - 4)];
-        
-        if (mediaType == 1001) {
-            if ([delegate respondsToSelector:@selector(onReceiveMediaSideInfo:ofStream:)]) {
-                [delegate onReceiveMediaSideInfo:realData ofStream:streamID];
-            }
-        } else if (mediaType == 1002) {
-            // * mix stream user data
-            if ([delegate respondsToSelector:@selector(onReceiveMixStreamUserData:ofStream:)]) {
-                [delegate onReceiveMixStreamUserData:realData ofStream:streamID];
-            }
+        if ([delegate respondsToSelector:@selector(onReceiveMediaSideInfo:ofStream:)]) {
+            [delegate onReceiveMediaSideInfo:realData ofStream:streamID];
+        }
+    } else if (mediaType == 1002) {
+        // * mix stream user data
+        NSData* realData = [data subdataWithRange:NSMakeRange(4, data.length - 4)];
+        if ([delegate respondsToSelector:@selector(onReceiveMixStreamUserData:ofStream:)]) {
+            [delegate onReceiveMixStreamUserData:realData ofStream:streamID];
         }
     } else {
-        uint8_t* bytes = (uint8_t*)data.bytes;
-        uint32_t length = bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3];
-        // ntohl(*(uint32_t*)data.bytes);
-        char nalType = *(char*)(data.bytes + 4);
+        // * custom packet (1000)
         
-        NSLog(@"%s, len: %d, nal: %d", __func__, length, (int)nalType);
+        /* custom packet format
+         * +--------+--------+--------+--------+--------+----------------------+
+         * |        |        |        |        |        |                      |
+         * |             MediaType             |NALTYPE |       DATA...        |
+         * |        |     4 Bytes     |        | 1 Byte |                      |
+         * +--------+-----------------+--------+--------+----------------------+
+         */
+        char nalType = *(char*)(data.bytes + 4);
+        NSLog(@"%s, media type: %d, nal: %d", __func__, mediaType, (int)nalType);
         
         NSData* realData = [data subdataWithRange:NSMakeRange(5, data.length - 5)];
         if ([delegate respondsToSelector:@selector(onReceiveMediaSideInfo:ofStream:)]) {
