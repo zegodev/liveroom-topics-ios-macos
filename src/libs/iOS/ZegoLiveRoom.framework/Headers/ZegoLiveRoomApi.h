@@ -517,7 +517,7 @@ typedef enum : NSUInteger {
  直播事件回调
  
  @param event 直播事件状态，参考 ZegoLiveEvent 定义
- @param info 信息，目前为空
+ @param info 信息
  @discussion 调用 [ZegoLiveRoomApi -setLiveEventDelegate] 设置直播事件代理对象后，在此回调中获取直播事件状态
  */
 - (void)zego_onLiveEvent:(ZegoLiveEvent)event info:(NSDictionary<NSString*, NSString*>*)info;

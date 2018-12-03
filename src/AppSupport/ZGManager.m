@@ -66,5 +66,9 @@ static ZegoLiveRoomApi *s_apiInstance = nil;
     s_apiInstance = nil;
 }
 
++ (unsigned int)appID {
+    return GetAppID();
+}
+
 @end
 

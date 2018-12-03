@@ -223,6 +223,8 @@
 /**
  设置外部渲染
  
+ @warning Deprecated，请使用 ZegoExternalVideoRender
+ 
  @param bEnable 是否外部渲染，true 是，false 不是。默认 false
  @discussion 必须在初始化 SDK 前调用。启用外部渲染后，需要设置外部渲染回调代理对象。SDK 提供给用户外部渲染的源数据格式为 BGRA32
  */
@@ -230,6 +232,8 @@
 
 /**
  设置外部渲染回调对象
+ 
+ @warning Deprecated，请使用 ZegoExternalVideoRender
  
  @param renderDelegate 遵循 ZegoLiveApiRenderDelegate 协议的代理对象
  @discussion 使用外部渲染功能，需要设置代理对象。未设置代理对象，或对象设置错误，可能导致无法正常收到相关回调

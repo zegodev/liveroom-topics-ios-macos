@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _topicList = @[kZGTopicMediaPlayer, kZGTopicMediaSideInfo];
+    _topicList = @[kZGTopicMediaPlayer, kZGTopicMediaSideInfo, kZGTopicSVC];
 }
 
 - (void)setTopicList:(NSArray<NSString *> *)topics {
@@ -63,6 +63,9 @@
     } else if ([topicName isEqualToString:kZGTopicMediaSideInfo]) {
         UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MediaSideInfo" bundle:[NSBundle mainBundle]];
         vc = [sb instantiateViewControllerWithIdentifier:@"ZGMediaSideInfoViewController_iOS"];
+    } else if ([topicName isEqualToString:kZGTopicSVC]) {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"SVC" bundle:nil];
+        vc = [sb instantiateInitialViewController];
     }
     
     if (vc) {

@@ -48,13 +48,32 @@
 
 @end
 
+/** 混流水印 */
+@interface ZegoMixStreamWatermark : NSObject
+/** 水印图片 */
+@property (nonatomic, copy) NSString *image;
+/** 混流画布左上角坐标的第一个值，即左上角坐标为 (left, top) */
+@property int left;
+/** 混流画布左上角坐标的第二个值 */
+@property int top;
+/** 混流画布左上角坐标的第一个值，即右下角坐标为 (right, bottom) */
+@property int right;
+/** 混流画布右下角坐标的第二个值 */
+@property int bottom;
+
+@end
+
 /** 混流配置 */
 @interface ZegoMixStreamConfig : NSObject
 
 /**  输出帧率 */
 @property int outputFps;
-/**  输出码率 */
+/**  输出码率控制模式，0 表示 CBR 恒定码率，1 表示 CRF 恒定质量，默认为 0 */
+@property int outputRateControlMode;
+/**  输出码率，输出码率控制模式设置为 CBR恒定码率时有效*/
 @property int outputBitrate;
+/**  输出质量，输出码率控制模式设置为 CRF恒定质量时有效，有效值范围 0-51，默认值是 23 */
+@property int outputQuality;
 /**  输出音频码率 */
 @property int outputAudioBitrate;
 /**  输出分辨率 */
@@ -77,6 +96,8 @@
 @property BOOL withSoundLevel;
 /** 扩展信息 **/
 @property int extra;
+/** 混流水印 **/
+@property (nonatomic, strong) ZegoMixStreamWatermark *watermark;
 @end
 
 @interface ZegoMixStreamOutputResult : NSObject

@@ -11,8 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString* kZGTopicMediaPlayer;
 extern NSString* kZGTopicMediaSideInfo;
+extern NSString* kZGTopicSVC;
 
 @interface ZGHelper : NSObject
+
+@property (class, copy ,nonatomic, readonly) NSString *userID;
 
 + (NSString *)getDeviceUUID;
 

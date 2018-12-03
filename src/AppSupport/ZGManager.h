@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (ZegoLiveRoomApi*)api;
 + (void)releaseApi;
 
++ (unsigned int)appID;
+
 @end
 
 NS_ASSUME_NONNULL_END

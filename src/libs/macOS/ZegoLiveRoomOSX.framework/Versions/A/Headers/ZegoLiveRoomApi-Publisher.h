@@ -530,8 +530,9 @@
 /**
  是否开启流量控制
  
- @param enable true 开启；false 关闭。默认开启流量控制，property 为 ZEGOAPI_TRAFFIC_FPS
+ @param enable true 开启；false 关闭。默认开启流量控制，property 为 ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_FPS
  @param properties 流量控制属性 (帧率，分辨率）可以多选, 参考ZegoAPITrafficControlProperty定义
+ @discussion enable设置为false时，properties参数会被忽略
  @discussion 在推流前调用，在纯 UDP 方案才可以调用此接口
  */
 - (void)enableTrafficControl:(bool)enable properties:(NSUInteger)properties;

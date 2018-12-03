@@ -342,12 +342,18 @@ typedef enum : NSUInteger {
 
 /** 流量控制属性 */
 typedef enum : NSUInteger {
-    /** 无*/
-    ZEGOAPI_TRAFFIC_NONE = 0,
-    /** 帧率*/
-    ZEGOAPI_TRAFFIC_FPS = 1,
-    /** 分辨率*/
-    ZEGOAPI_TRAFFIC_RESOLUTION = 1 << 1,
+    /**< 基本流量控制，只有码率控制，不带自适应帧率和分辨率 */
+    ZEGOAPI_TRAFFIC_CONTROL_BASIC = 0,
+    /**< 自适应帧率 */
+    ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_FPS = 1,
+    /** 自适应分辨率*/
+    ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_RESOLUTION = 1 << 1,
+    
+    /**< 废弃 */
+    ZEGOAPI_TRAFFIC_NONE = ZEGOAPI_TRAFFIC_CONTROL_BASIC,
+    ZEGOAPI_TRAFFIC_FPS = ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_FPS,
+    ZEGOAPI_TRAFFIC_RESOLUTION = ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_RESOLUTION,
+    
 } ZegoAPITrafficControlProperty;
 
 /** 音频设备模式 */

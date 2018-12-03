@@ -7,6 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3351F1E321991DA500C50E28 /* SVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3351F1E221991DA500C50E28 /* SVC.storyboard */; };
+		3351F1E621992EE800C50E28 /* ZGSVCRoomListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1E521992EE800C50E28 /* ZGSVCRoomListViewController.m */; };
+		3351F1E92199322900C50E28 /* ZGRoomInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1E82199322900C50E28 /* ZGRoomInfo.m */; };
+		3351F1EC219968E500C50E28 /* ZGSVCCreateRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1EB219968E500C50E28 /* ZGSVCCreateRoomViewController.m */; };
+		3351F1EF2199692600C50E28 /* ZGSVCAudienceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1EE2199692600C50E28 /* ZGSVCAudienceViewController.m */; };
+		3351F1F22199694E00C50E28 /* ZGSVCAnchorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1F12199694E00C50E28 /* ZGSVCAnchorViewController.m */; };
+		3351F1F521996EE200C50E28 /* ZGSVCDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1F421996EE200C50E28 /* ZGSVCDemo.m */; };
+		3351F1F8219971CD00C50E28 /* ZGSVCDemoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1F7219971CD00C50E28 /* ZGSVCDemoHelper.m */; };
+		3399326A219AB84700E502D2 /* ZGSVCRoomListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33993269219AB84700E502D2 /* ZGSVCRoomListViewController.m */; };
+		33993279219AC9B900E502D2 /* ZGSVCLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33993278219AC9B900E502D2 /* ZGSVCLiveViewController.m */; };
+		3399327A219ACA6400E502D2 /* ZGRoomInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1E82199322900C50E28 /* ZGRoomInfo.m */; };
+		3399327C219ACBAE00E502D2 /* SVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3399327B219ACBAE00E502D2 /* SVC.storyboard */; };
+		33F02386219AF92400D0C1D9 /* ZGSVCDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1F421996EE200C50E28 /* ZGSVCDemo.m */; };
 		A77AD6CA21534DEE004D0D75 /* sample_-50_tempo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A77AD6C921534DEE004D0D75 /* sample_-50_tempo.mp3 */; };
 		A77AD6CC21534F7A004D0D75 /* ad.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A77AD6CB21534F31004D0D75 /* ad.mp4 */; };
 		A77AD6CF215A2A73004D0D75 /* ZGVideoCaptureForMediaPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A77AD6CE215A2A73004D0D75 /* ZGVideoCaptureForMediaPlayer.mm */; };
@@ -80,7 +93,27 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		A75A21B8217F2E63001F361C /* ZGAppServiceConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGAppServiceConfig.h; sourceTree = "<group>"; };
+		3351F1DB2192D2F100C50E28 /* ZGAppServiceConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGAppServiceConfig.h; sourceTree = "<group>"; };
+		3351F1E221991DA500C50E28 /* SVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SVC.storyboard; sourceTree = "<group>"; };
+		3351F1E421992EE800C50E28 /* ZGSVCRoomListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSVCRoomListViewController.h; sourceTree = "<group>"; };
+		3351F1E521992EE800C50E28 /* ZGSVCRoomListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSVCRoomListViewController.m; sourceTree = "<group>"; };
+		3351F1E72199322900C50E28 /* ZGRoomInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGRoomInfo.h; sourceTree = "<group>"; };
+		3351F1E82199322900C50E28 /* ZGRoomInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGRoomInfo.m; sourceTree = "<group>"; };
+		3351F1EA219968E500C50E28 /* ZGSVCCreateRoomViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSVCCreateRoomViewController.h; sourceTree = "<group>"; };
+		3351F1EB219968E500C50E28 /* ZGSVCCreateRoomViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSVCCreateRoomViewController.m; sourceTree = "<group>"; };
+		3351F1ED2199692600C50E28 /* ZGSVCAudienceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSVCAudienceViewController.h; sourceTree = "<group>"; };
+		3351F1EE2199692600C50E28 /* ZGSVCAudienceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSVCAudienceViewController.m; sourceTree = "<group>"; };
+		3351F1F02199694E00C50E28 /* ZGSVCAnchorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSVCAnchorViewController.h; sourceTree = "<group>"; };
+		3351F1F12199694E00C50E28 /* ZGSVCAnchorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSVCAnchorViewController.m; sourceTree = "<group>"; };
+		3351F1F321996EE200C50E28 /* ZGSVCDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSVCDemo.h; sourceTree = "<group>"; };
+		3351F1F421996EE200C50E28 /* ZGSVCDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSVCDemo.m; sourceTree = "<group>"; };
+		3351F1F6219971CD00C50E28 /* ZGSVCDemoHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSVCDemoHelper.h; sourceTree = "<group>"; };
+		3351F1F7219971CD00C50E28 /* ZGSVCDemoHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSVCDemoHelper.m; sourceTree = "<group>"; };
+		33993268219AB84700E502D2 /* ZGSVCRoomListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSVCRoomListViewController.h; sourceTree = "<group>"; };
+		33993269219AB84700E502D2 /* ZGSVCRoomListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSVCRoomListViewController.m; sourceTree = "<group>"; };
+		33993277219AC9B900E502D2 /* ZGSVCLiveViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSVCLiveViewController.h; sourceTree = "<group>"; };
+		33993278219AC9B900E502D2 /* ZGSVCLiveViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSVCLiveViewController.m; sourceTree = "<group>"; };
+		3399327B219ACBAE00E502D2 /* SVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SVC.storyboard; sourceTree = "<group>"; };
 		A77AD6C921534DEE004D0D75 /* sample_-50_tempo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "sample_-50_tempo.mp3"; sourceTree = "<group>"; };
 		A77AD6CB21534F31004D0D75 /* ad.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = ad.mp4; sourceTree = "<group>"; };
 		A77AD6CD215A2A73004D0D75 /* ZGVideoCaptureForMediaPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGVideoCaptureForMediaPlayer.h; sourceTree = "<group>"; };
@@ -159,6 +192,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3351F1E021991D2800C50E28 /* SVC */ = {
+			isa = PBXGroup;
+			children = (
+				3351F1E72199322900C50E28 /* ZGRoomInfo.h */,
+				3351F1E82199322900C50E28 /* ZGRoomInfo.m */,
+				3351F1F321996EE200C50E28 /* ZGSVCDemo.h */,
+				3351F1F421996EE200C50E28 /* ZGSVCDemo.m */,
+				3351F1F6219971CD00C50E28 /* ZGSVCDemoHelper.h */,
+				3351F1F7219971CD00C50E28 /* ZGSVCDemoHelper.m */,
+			);
+			path = SVC;
+			sourceTree = "<group>";
+		};
+		3351F1E121991D8300C50E28 /* SVCUI */ = {
+			isa = PBXGroup;
+			children = (
+				3351F1E221991DA500C50E28 /* SVC.storyboard */,
+				3351F1E421992EE800C50E28 /* ZGSVCRoomListViewController.h */,
+				3351F1E521992EE800C50E28 /* ZGSVCRoomListViewController.m */,
+				3351F1EA219968E500C50E28 /* ZGSVCCreateRoomViewController.h */,
+				3351F1EB219968E500C50E28 /* ZGSVCCreateRoomViewController.m */,
+				3351F1F02199694E00C50E28 /* ZGSVCAnchorViewController.h */,
+				3351F1F12199694E00C50E28 /* ZGSVCAnchorViewController.m */,
+				3351F1ED2199692600C50E28 /* ZGSVCAudienceViewController.h */,
+				3351F1EE2199692600C50E28 /* ZGSVCAudienceViewController.m */,
+			);
+			path = SVCUI;
+			sourceTree = "<group>";
+		};
+		33993267219AB7EB00E502D2 /* SVC */ = {
+			isa = PBXGroup;
+			children = (
+				33993268219AB84700E502D2 /* ZGSVCRoomListViewController.h */,
+				33993269219AB84700E502D2 /* ZGSVCRoomListViewController.m */,
+				33993277219AC9B900E502D2 /* ZGSVCLiveViewController.h */,
+				33993278219AC9B900E502D2 /* ZGSVCLiveViewController.m */,
+				3399327B219ACBAE00E502D2 /* SVC.storyboard */,
+			);
+			path = SVC;
+			sourceTree = "<group>";
+		};
 		A77AD6C621534D9F004D0D75 /* Res */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +273,7 @@
 				A7CCA5E121515BBD00191B55 /* MainMenu.xib */,
 				A7CCA5ED21515D5D00191B55 /* ZGTopicsTableViewController.h */,
 				A7CCA5EE21515D5D00191B55 /* ZGTopicsTableViewController.m */,
+				33993267219AB7EB00E502D2 /* SVC */,
 				A7CCA6012151F7AB00191B55 /* MediaPlayerUI */,
 				A7F19FF321807B8A004EAE25 /* MediaSideInfoUI */,
 				A7CCA5F52151689300191B55 /* AudioAuxInput */,
@@ -250,6 +325,7 @@
 				A7CD8487215C8112006A23DB /* main.m */,
 				A7CD8498215C8878006A23DB /* ZGTopicsTableViewController.h */,
 				A7CD8499215C8878006A23DB /* ZGTopicsTableViewController.m */,
+				3351F1E121991D8300C50E28 /* SVCUI */,
 				A7CD849B215C9073006A23DB /* MediaPlayerUI */,
 				A7F1A00A2181AF47004EAE25 /* MediaSideInfoUI */,
 			);
@@ -261,6 +337,7 @@
 			children = (
 				A7CD848D215C8401006A23DB /* MediaPlayer */,
 				A7F19FF9218166E1004EAE25 /* MediaSideInfo */,
+				3351F1E021991D2800C50E28 /* SVC */,
 			);
 			path = Topics;
 			sourceTree = "<group>";
@@ -315,7 +392,7 @@
 				A7CCA6082151F8A400191B55 /* ZGManager.m */,
 				A77AD6D1215A3DBA004D0D75 /* ZGHelper.h */,
 				A7CD84B1215CC1CA006A23DB /* ZGHelper.m */,
-				A75A21B8217F2E63001F361C /* ZGAppServiceConfig.h */,
+				3351F1DB2192D2F100C50E28 /* ZGAppServiceConfig.h */,
 			);
 			path = AppSupport;
 			sourceTree = "<group>";
@@ -440,6 +517,7 @@
 				A77AD6CC21534F7A004D0D75 /* ad.mp4 in Resources */,
 				A77AD6CA21534DEE004D0D75 /* sample_-50_tempo.mp3 in Resources */,
 				A7CCA6062151F7C300191B55 /* ZGMediaPlayerViewController.xib in Resources */,
+				3399327C219ACBAE00E502D2 /* SVC.storyboard in Resources */,
 				A7CCA5E321515BBD00191B55 /* MainMenu.xib in Resources */,
 				A7CCA5FA2151689300191B55 /* ZGAudioAuxInputViewController.xib in Resources */,
 				A7F19FF821807BD9004EAE25 /* ZGMediaSideInfoViewController.xib in Resources */,
@@ -451,6 +529,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7CD84A7215C9A6B006A23DB /* ad.mp4 in Resources */,
+				3351F1E321991DA500C50E28 /* SVC.storyboard in Resources */,
 				A7F1A00C2181D202004EAE25 /* MediaSideInfo.storyboard in Resources */,
 				A7CD84A8215C9A6B006A23DB /* sample_-50_tempo.mp3 in Resources */,
 				A7CD8485215C8112006A23DB /* LaunchScreen.storyboard in Resources */,
@@ -470,10 +549,14 @@
 				A77AD6CF215A2A73004D0D75 /* ZGVideoCaptureForMediaPlayer.mm in Sources */,
 				A7CD84A6215C966C006A23DB /* ZGMediaPlayerDemoHelper.m in Sources */,
 				A7CCA5E621515BBD00191B55 /* main.m in Sources */,
+				3399326A219AB84700E502D2 /* ZGSVCRoomListViewController.m in Sources */,
 				A7CCA6052151F7C300191B55 /* ZGMediaPlayerViewController.mm in Sources */,
 				A7F1A0092181A2F3004EAE25 /* ZGMediaSideInfoDemoEnvirentmentHelper.m in Sources */,
 				A7F1A00521816733004EAE25 /* ZGMediaSideInfoDemo.m in Sources */,
+				3399327A219ACA6400E502D2 /* ZGRoomInfo.m in Sources */,
 				A7CCA5DE21515BBB00191B55 /* AppDelegate.m in Sources */,
+				33993279219AC9B900E502D2 /* ZGSVCLiveViewController.m in Sources */,
+				33F02386219AF92400D0C1D9 /* ZGSVCDemo.m in Sources */,
 				A7CCA5F92151689300191B55 /* ZGAudioAuxInputViewController.m in Sources */,
 				A7CD84B2215CC1CA006A23DB /* ZGHelper.m in Sources */,
 				A7F19FF721807BD9004EAE25 /* ZGMediaSideInfoViewController.m in Sources */,
@@ -488,15 +571,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3351F1F8219971CD00C50E28 /* ZGSVCDemoHelper.m in Sources */,
 				A7CD8488215C8112006A23DB /* main.m in Sources */,
+				3351F1E92199322900C50E28 /* ZGRoomInfo.m in Sources */,
 				A7CD849A215C8878006A23DB /* ZGTopicsTableViewController.m in Sources */,
 				A7CD84B5215CC516006A23DB /* ZGVideoCaptureForMediaPlayer.mm in Sources */,
+				3351F1E621992EE800C50E28 /* ZGSVCRoomListViewController.m in Sources */,
 				A7CD84B6215CC519006A23DB /* ZGMediaPlayerPublishingHelper.m in Sources */,
 				A7CD84A2215C9519006A23DB /* ZGMediaSourceTableViewController.m in Sources */,
 				A7CD84AB215CA905006A23DB /* ZGMediaPlayerViewController.mm in Sources */,
+				3351F1F521996EE200C50E28 /* ZGSVCDemo.m in Sources */,
 				A7CD847A215C8111006A23DB /* AppDelegate.m in Sources */,
 				A7F1A00421816733004EAE25 /* ZGMediaSideInfoDemo.m in Sources */,
+				3351F1EF2199692600C50E28 /* ZGSVCAudienceViewController.m in Sources */,
+				3351F1EC219968E500C50E28 /* ZGSVCCreateRoomViewController.m in Sources */,
 				A7CD84A5215C966C006A23DB /* ZGMediaPlayerDemoHelper.m in Sources */,
+				3351F1F22199694E00C50E28 /* ZGSVCAnchorViewController.m in Sources */,
 				A7F1A0082181A2F3004EAE25 /* ZGMediaSideInfoDemoEnvirentmentHelper.m in Sources */,
 				A7CD84B4215CC241006A23DB /* ZGHelper.m in Sources */,
 				A7CD84B3215CC23E006A23DB /* ZGManager.m in Sources */,
