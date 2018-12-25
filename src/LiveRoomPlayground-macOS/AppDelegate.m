@@ -11,6 +11,7 @@
 #import "./MediaPlayerUI/ZGMediaPlayerViewController.h"
 #import "./MediaSideInfoUI/ZGMediaSideInfoViewController.h"
 #import "./SVC/ZGSVCRoomListViewController.h"
+#import "./MediaRecord/ZegoMediaRecordViewController.h"
 #import "ZGManager.h"
 #import "ZGHelper.h"
 
@@ -33,9 +34,8 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
-    
     self.comps = [NSMutableDictionary dictionary];
-    self.topicList = @[kZGTopicMediaPlayer, kZGTopicMediaSideInfo, kZGTopicSVC];
+    self.topicList = @[kZGTopicMediaPlayer, kZGTopicMediaSideInfo, kZGTopicSVC, kZGTopicMediaRecord];
     self.topicsController.delegate = self;
     [self.topicsController setTopicList:self.topicList];
     
@@ -63,6 +63,8 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
         vc = [[ZGMediaSideInfoViewController alloc] initWithNibName:@"ZGMediaSideInfoViewController" bundle:nil];
     } else if ([topic isEqualToString:kZGTopicSVC]) {
         vc = [[NSStoryboard storyboardWithName:@"SVC" bundle:nil] instantiateInitialController];
+    } else if ([topic isEqualToString:kZGTopicMediaRecord]) {
+        vc = [[ZegoMediaRecordViewController alloc] initWithNibName:@"ZegoMediaRecordViewController" bundle:nil];
     }
     
     self.currentController = vc;

@@ -18,6 +18,7 @@ NSString* kZGUserIDKey = @"user_id";
 NSString* kZGTopicMediaPlayer = @"Media Player";
 NSString* kZGTopicMediaSideInfo = @"Media Side Info";
 NSString* kZGTopicSVC = @"ScalableVideoCoding";
+NSString* kZGTopicMediaRecord = @"Media Record";
 
 @interface ZGHelper ()
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -686,25 +686,25 @@
                     </menu>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="139" y="-109"/>
+            <point key="canvasLocation" x="119" y="-740"/>
         </menu>
         <window title="LiveRoomPlayground" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="480" height="360"/>
+            <rect key="contentRect" x="335" y="390" width="920" height="480"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                <rect key="frame" x="0.0" y="0.0" width="920" height="480"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8PE-fd-izI">
-                        <rect key="frame" x="0.0" y="0.0" width="200" height="360"/>
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="480"/>
                         <clipView key="contentView" id="jps-20-0Q6">
-                            <rect key="frame" x="1" y="1" width="198" height="358"/>
+                            <rect key="frame" x="1" y="1" width="198" height="478"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="TW3-M5-zhJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="198" height="358"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="198" height="478"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -758,17 +758,17 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="200" id="sDb-b1-K5Z"/>
                         </constraints>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="jvz-9Z-1VW">
+                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="jvz-9Z-1VW">
                             <rect key="frame" x="1" y="330" width="193" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="gCr-sg-51x">
+                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="gCr-sg-51x">
                             <rect key="frame" x="224" y="17" width="15" height="102"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="xUR-s4-mO9" userLabel="Container">
-                        <rect key="frame" x="200" y="0.0" width="280" height="360"/>
+                        <rect key="frame" x="200" y="0.0" width="720" height="480"/>
                     </customView>
                 </subviews>
                 <constraints>
@@ -781,6 +781,7 @@
                     <constraint firstItem="8PE-fd-izI" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="xos-Ub-1xV"/>
                 </constraints>
             </view>
+            <point key="canvasLocation" x="119" y="-124"/>
         </window>
     </objects>
 </document>

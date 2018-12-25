@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _topicList = @[kZGTopicMediaPlayer, kZGTopicMediaSideInfo, kZGTopicSVC];
+    _topicList = @[kZGTopicMediaPlayer, kZGTopicMediaSideInfo, kZGTopicSVC, kZGTopicMediaRecord];
 }
 
 - (void)setTopicList:(NSArray<NSString *> *)topics {
@@ -48,9 +48,7 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"%s, %@", __func__, indexPath);
-    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {    
     if (indexPath.row >= _topicList.count) return;
     
     NSString* topicName = _topicList[indexPath.row];
@@ -58,13 +56,16 @@
     UIViewController* vc = nil;
     
     if ([topicName isEqualToString:kZGTopicMediaPlayer]) {
-        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MediaPlayer" bundle:[NSBundle mainBundle]];
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MediaPlayer" bundle:nil];
         vc = [sb instantiateViewControllerWithIdentifier:@"ZGMediaSourceTableViewController"];
     } else if ([topicName isEqualToString:kZGTopicMediaSideInfo]) {
-        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MediaSideInfo" bundle:[NSBundle mainBundle]];
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MediaSideInfo" bundle:nil];
         vc = [sb instantiateViewControllerWithIdentifier:@"ZGMediaSideInfoViewController_iOS"];
     } else if ([topicName isEqualToString:kZGTopicSVC]) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"SVC" bundle:nil];
+        vc = [sb instantiateInitialViewController];
+    } else if ([topicName isEqualToString:kZGTopicMediaRecord]) {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"MediaRecord" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
     

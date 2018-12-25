@@ -8,7 +8,6 @@
 
 #import "ZGSVCDemo.h"
 #import "ZGHelper.h"
-#import "ZGSVCDemoHelper.h"
 #import "ZGRoomInfo.h"
 
 @interface ZGSVCDemo () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoLivePlayerDelegate>
@@ -48,12 +47,16 @@
     return instance;
 }
 
+- (void)dealloc {
+    [ZGManager releaseApi];
+}
+
 - (void)startPublish {
     NSLog(NSLocalizedString(@"startPublish", nil));
     
     self.role = ZEGO_ANCHOR;
     [self setupLiveRoom];
-    [self loginChatRoom];
+    [self loginLiveRoom];
 }
 
 - (void)stopPublish {
@@ -73,7 +76,7 @@
     
     self.role = ZEGO_AUDIENCE;
     [self setupLiveRoom];
-    [self loginChatRoom];
+    [self loginLiveRoom];
 }
 
 - (void)stopPlay {
@@ -162,14 +165,15 @@
 #pragma mark - Private
 
 - (void)setupLiveRoom {
-    [ZegoAVConfig presetConfigOf:ZegoAVConfigPreset_High];
+    ZegoAVConfig *config = [ZegoAVConfig presetConfigOf:ZegoAVConfigPreset_High];
     
+    [ZGManager.api setAVConfig:config];
     [ZGManager.api setRoomDelegate:self];
     [ZGManager.api setPlayerDelegate:self];
     [ZGManager.api setPublisherDelegate:self];
 }
 
-- (void)loginChatRoom {
+- (void)loginLiveRoom {
     NSLog(NSLocalizedString(@"开始登录房间", nil));
     
     __weak typeof(self)weakself = self;
@@ -199,7 +203,7 @@
     if (self.openSVC) {
         [ZGManager.api setLatencyMode:ZEGOAPI_LATENCY_MODE_LOW3];
         [ZGManager.api setVideoCodecId:VIDEO_CODEC_MULTILAYER ofChannel:ZEGOAPI_CHN_MAIN];
-        [ZGManager.api enableTrafficControl:true properties: (ZEGOAPI_TRAFFIC_CONTROL_BASIC | ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_FPS | ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_RESOLUTION)];
+        [ZGManager.api enableTrafficControl:true properties: (ZEGOAPI_TRAFFIC_NONE | ZEGOAPI_TRAFFIC_FPS | ZEGOAPI_TRAFFIC_RESOLUTION)];
     }
     
     self.streamID = [self genStreamID];
@@ -244,7 +248,7 @@
     if (self.openSVC) {
         [ZGManager.api setLatencyMode:ZEGOAPI_LATENCY_MODE_LOW3];
         [ZGManager.api setVideoCodecId:VIDEO_CODEC_MULTILAYER ofChannel:ZEGOAPI_CHN_MAIN];
-        [ZGManager.api enableTrafficControl:true properties: (ZEGOAPI_TRAFFIC_CONTROL_BASIC | ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_FPS | ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_RESOLUTION)];
+        [ZGManager.api enableTrafficControl:true properties: (ZEGOAPI_TRAFFIC_NONE | ZEGOAPI_TRAFFIC_FPS | ZEGOAPI_TRAFFIC_RESOLUTION)];
     }
     
     self.boardcastStreamID = [self genStreamID];
@@ -371,6 +375,10 @@
     }
 }
 
+- (NSString *)stringFromCGSize:(CGSize)size {
+    return [NSString stringWithFormat:@"{%f,%f}", size.width, size.height];
+}
+
 
 #pragma mark - ZegoRoomDelegate
 
@@ -421,6 +429,9 @@
     [self.delegate onPublishQualityUpdate:detail];
 }
 
+- (void)onPublishStateUpdate:(int)stateCode streamID:(NSString *)streamID streamInfo:(NSDictionary *)info {}
+
+
 
 #pragma mark - ZegoLivePlayerDelegate
 
@@ -444,9 +455,7 @@
     [self.delegate onVideoSizeChanged:videoSize];
 }
 
-- (NSString *)stringFromCGSize:(CGSize)size {
-    return [NSString stringWithFormat:@"{%f,%f}", size.width, size.height];
-}
+- (void)onPlayStateUpdate:(int)stateCode streamID:(NSString *)streamID {}
 
 #pragma mark - Accessor
 

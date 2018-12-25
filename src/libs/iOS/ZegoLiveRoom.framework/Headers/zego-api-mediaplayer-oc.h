@@ -5,8 +5,12 @@
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
+#define ZEGOView  UIView
+#define ZEGOImage UIImage
 #elif TARGET_OS_OSX
 #import <AppKit/AppKit.h>
+#define ZEGOView  NSView
+#define ZEGOImage NSImage
 #endif
 
 #import "zego-api-defines-oc.h"
@@ -92,6 +96,13 @@
  */
 - (void)onSeekComplete:(int)code when:(long)millisecond;
 
+/**
+ 截图
+ 
+ @param image
+ */
+- (void)onSnapshot:(ZEGOImage *)image;
+
 @end
 
 
@@ -126,6 +137,135 @@
 
 @end
 
+/**
+ 多实例播放器的回调接口
+ */
+@protocol ZegoMediaPlayerEventWithIndexDelegate <NSObject>
+
+@optional
+
+/**
+ 开始播放
+ 
+ @param index 播放器序号
+ */
+- (void)onPlayStart:(ZegoMediaPlayerIndex)index;
+
+/**
+ 暂停播放
+ 
+ @param index 播放器序号
+ */
+- (void)onPlayPause:(ZegoMediaPlayerIndex)index;
+
+/**
+ 恢复播放
+ 
+ @param index 播放器序号
+ */
+- (void)onPlayResume:(ZegoMediaPlayerIndex)index;
+
+/**
+ 播放错误
+ 
+ @param code
+ PLAY_ERROR_NOERROR = 0,
+ PLAY_ERROR_FILE =  -1，文件格式不支持,
+ PLAY_ERROR_PATH =  -2，路径不存在,
+ PLAY_ERROR_CODEC = -3, 文件无法解码
+ PLAY_ERROR_NO_SUPPORT_STREAM = -4,文件中没有可播放的音视频流
+ PLAY_ERROR_DEMUX = -5, 文件解析过程中出现错误
+ @param index 播放器序号
+ */
+- (void)onPlayError:(int)code playerIndex:(ZegoMediaPlayerIndex)index;
+
+/**
+ 开始播放视频
+ 
+ @param index 播放器序号
+ */
+- (void)onVideoBegin:(ZegoMediaPlayerIndex)index;
+
+
+/**
+ 开始播放音频
+ 
+ @param index 播放器序号
+ */
+- (void)onAudioBegin:(ZegoMediaPlayerIndex)index;
+
+
+/**
+ 播放结束
+ 
+ @param index 播放器序号
+ */
+- (void)onPlayEnd:(ZegoMediaPlayerIndex)index;
+
+/**
+ 用户停止播放的回调
+ 
+ @param index 播放器序号
+ */
+- (void)onPlayStop:(ZegoMediaPlayerIndex)index;
+
+/**
+ 网络音乐资源播放不畅，开始尝试缓存数据。
+ 
+ @param index 播放器序号
+ @warning 只有播放网络音乐资源才需要关注这个回调
+ */
+- (void)onBufferBegin:(ZegoMediaPlayerIndex)index;
+
+/**
+ 网络音乐资源可以顺畅播放。
+ 
+ @param index 播放器序号
+ @warning 只有播放网络音乐资源才需要关注这个回调
+ */
+- (void)onBufferEnd:(ZegoMediaPlayerIndex)index;
+
+/**
+ 快进到指定时刻
+ 
+ @param code >=0 成功，其它表示失败
+ @param millisecond 实际快进的进度，单位毫秒
+ @param index 播放器序号
+ */
+- (void)onSeekComplete:(int)code when:(long)millisecond playerIndex:(ZegoMediaPlayerIndex)index;
+
+/**
+ 截图
+ 
+ @param image
+ @param index 播放器序号
+ */
+- (void)onSnapshot:(ZEGOImage *)image playerIndex:(ZegoMediaPlayerIndex)index;
+
+@end
+
+
+@protocol ZegoMediaPlayerVideoPlayWithIndexDelegate <NSObject>
+
+
+/**
+ 多实例播放器的视频帧数据回调
+ */
+@optional
+
+/**
+ 视频帧数据回调
+ 
+ @param data 视频帧原始数据
+ @param size 视频帧原始数据大小
+ @param format 视频帧原始数据格式
+ @param index 播放器序号
+ @note 同步回调，请不要在回调中处理数据或做其他耗时操作
+ */
+- (void)onPlayVideoData:(const char *)data size:(int)size format:(struct ZegoMediaPlayerVideoDataFormat)format playerIndex:(ZegoMediaPlayerIndex)index;
+
+@end
+
 
 /**
  播放器
@@ -139,9 +279,18 @@
 
  @param type @see MediaPlayerType
  @return 播放器对象
+ @note sdk提供多个播放器实例，通过index可以指定获取的是哪个播放器实例，没有指定index时，取到的就是 ZegoMediaPlayerIndexIndexFirst 播放器
  */
 - (instancetype)initWithPlayerType:(MediaPlayerType)type;
 
+/**
+ 初始化
+ 
+ @param type @see MediaPlayerType
+ @param index sdk提供多个播放器实例，通过index可以指定获取的是哪个播放器实例 @see ZegoMediaPlayerIndex
+ @return 播放器对象
+ */
+- (instancetype)initWithPlayerType:(MediaPlayerType)type playerIndex:(ZegoMediaPlayerIndex)index;
 
 /**
  释放播放器
@@ -164,6 +313,23 @@
  @param format 需要返回的视频帧数据格式，@see ZegoMediaPlayerVideoPixelFormat
  */
 - (void)setVideoPlayDelegate:(id<ZegoMediaPlayerVideoPlayDelegate>)delegate format:(ZegoMediaPlayerVideoPixelFormat)format;
+
+/**
+ 设置播放器事件回调
+ 
+ @param delegate 回调
+ */
+- (void)setEventWithIndexDelegate:(id<ZegoMediaPlayerEventWithIndexDelegate>)delegate;
+
+
+/**
+ 设置视频帧数据回调
+ 
+ @param delegate 回调
+ @param format 需要返回的视频帧数据格式，@see ZegoMediaPlayerVideoPixelFormat
+ */
+- (void)setVideoPlayWithIndexDelegate:(id<ZegoMediaPlayerVideoPlayWithIndexDelegate>)delegate format:(ZegoMediaPlayerVideoPixelFormat)format;
+
 
 /**
  开始播放
@@ -257,11 +423,25 @@
 - (void)setPlayerType:(MediaPlayerType)type;
 
 /**
+ 获取当前播放视频的截图
+
+ @note 只有在调用 setView 设置了显示控件，以及播放状态的情况下，才能正常截图。
+ */
+- (void)takeSnapshot;
+
+/**
  获取音轨个数
  
  @return 音轨个数
  */
 - (long)getAudioStreamCount;
+
+/**
+ * 设置是否重复播放
+ * 
+ * @param enable true:重复播放，false：不重复播放
+ */
+- (void)enableRepeatMode:(BOOL)enable;
 
 @end
 

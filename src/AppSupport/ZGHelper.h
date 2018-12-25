@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString* kZGTopicMediaPlayer;
 extern NSString* kZGTopicMediaSideInfo;
 extern NSString* kZGTopicSVC;
+extern NSString* kZGTopicMediaRecord;
 
 @interface ZGHelper : NSObject
 

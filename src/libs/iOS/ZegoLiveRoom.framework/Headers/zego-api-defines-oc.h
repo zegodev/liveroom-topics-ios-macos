@@ -242,18 +242,18 @@ typedef enum : NSUInteger {
 @property int extra;
 @end
 
-/** 发布直播的模式 */
-enum ZegoAPIVideoEncoderRateControlStrategy
+/** 视频编码码率控制策略 */
+typedef enum
 {
     /** 恒定码率 */
     ZEGOAPI_RC_ABR = 0,
     /** 恒定码率 */
     ZEGOAPI_RC_CBR,
-    /** 恒定质量 */
+    /** 恒定质量,仅用于研究目的 */
     ZEGOAPI_RC_VBR,
     /** 恒定质量 */
     ZEGOAPI_RC_CRF,
-};
+} ZegoAPIVideoEncoderRateControlStrategy;
 
 /** 发布直播的模式 */
 enum ZegoAPIPublishFlag
@@ -456,4 +456,53 @@ typedef enum : NSUInteger
 
 @end
 
+/**
+ 转推CDN状态
+ */
+
+typedef enum : NSUInteger
+{
+    /**< 转推停止 */
+    ZEGOAPI_RELAY_STOP = 0,
+    /**< 正在转推 */
+    ZEGOAPI_RELAY_START = 1,
+    /**< 正在重试 */
+    ZEGOAPI_RELAY_RETRY = 2,
+} ZegoAPIStreamRelayCDNState;
+
+typedef enum : NSUInteger
+{
+    /**< 无 */
+    ZEGOAPI_RELAY_NONE = 0,                       
+    /**< 服务器错误 */
+    ZEGOAPI_RELAY_SERVER_ERROR = 8,
+    /**< 握手失败 */
+    ZEGOAPI_RELAY_HAND_SHAKE_FAILED = 9,
+    /**< 接入点错误 */
+    ZEGOAPI_RELAY_ACCESS_POINT_ERROR = 10,
+    /**< 创建流失败 */
+    ZEGOAPI_RELAY_CREATE_STREAM_FAILED = 11,
+    /**< BAD NAME */
+    ZEGOAPI_RELAY_BAD_NAME = 12,
+    /**< CDN服务器主动断开 */
+    ZEGOAPI_RELAY_CDN_SERVER_DISCONNECTED = 13,
+    /**< 主动断开 */
+    ZEGOAPI_RELAY_DISCONNECTED = 14,
+} ZegoAPIStreamRelayCDNDetail;
+
+/**
+ 转推CDN状态信息
+ */
+@interface ZegoAPIStreamRelayCDNInfo : NSObject
+
+/** 转推CDN的rtmp地址 */
+@property (copy) NSString *rtmpURL;
+/** 当前状态 */
+@property (assign) ZegoAPIStreamRelayCDNState state;
+/** 转推停止或转推重试时的详细原因 */
+@property (assign) ZegoAPIStreamRelayCDNDetail detail;
+/** 状态改变时的时间 */
+@property (assign) unsigned int stateTime;
+
+@end
 #endif /* zego_api_defines_oc_h */

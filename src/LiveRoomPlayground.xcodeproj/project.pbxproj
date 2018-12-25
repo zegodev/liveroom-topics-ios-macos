@@ -14,7 +14,16 @@
 		3351F1EF2199692600C50E28 /* ZGSVCAudienceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1EE2199692600C50E28 /* ZGSVCAudienceViewController.m */; };
 		3351F1F22199694E00C50E28 /* ZGSVCAnchorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1F12199694E00C50E28 /* ZGSVCAnchorViewController.m */; };
 		3351F1F521996EE200C50E28 /* ZGSVCDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1F421996EE200C50E28 /* ZGSVCDemo.m */; };
-		3351F1F8219971CD00C50E28 /* ZGSVCDemoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1F7219971CD00C50E28 /* ZGSVCDemoHelper.m */; };
+		338C6A9421C7499E0072C470 /* ZegoMediaRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338C6A9221C7499E0072C470 /* ZegoMediaRecordViewController.m */; };
+		338C6A9521C7499E0072C470 /* ZegoMediaRecordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338C6A9321C7499E0072C470 /* ZegoMediaRecordViewController.xib */; };
+		338C6A9921C74D080072C470 /* ZegoMediaRecordDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 338C6A9821C74D080072C470 /* ZegoMediaRecordDemo.m */; };
+		338C6A9C21C74E480072C470 /* ZegoMediaRecordConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 338C6A9B21C74E480072C470 /* ZegoMediaRecordConfig.m */; };
+		338C6AA621C893600072C470 /* ZGMediaRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338C6AA421C893600072C470 /* ZGMediaRecordViewController.m */; };
+		338C6AA721C893600072C470 /* ZGMediaRecordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338C6AA521C893600072C470 /* ZGMediaRecordViewController.xib */; };
+		338C6AAB21C8994F0072C470 /* ZGMediaRecordConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338C6AA921C8994F0072C470 /* ZGMediaRecordConfigViewController.m */; };
+		338C6AAE21C899BE0072C470 /* MediaRecord.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 338C6AAD21C899BE0072C470 /* MediaRecord.storyboard */; };
+		338C6AAF21C8A2980072C470 /* ZegoMediaRecordDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 338C6A9821C74D080072C470 /* ZegoMediaRecordDemo.m */; };
+		338C6AB021C8A29B0072C470 /* ZegoMediaRecordConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 338C6A9B21C74E480072C470 /* ZegoMediaRecordConfig.m */; };
 		3399326A219AB84700E502D2 /* ZGSVCRoomListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33993269219AB84700E502D2 /* ZGSVCRoomListViewController.m */; };
 		33993279219AC9B900E502D2 /* ZGSVCLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33993278219AC9B900E502D2 /* ZGSVCLiveViewController.m */; };
 		3399327A219ACA6400E502D2 /* ZGRoomInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3351F1E82199322900C50E28 /* ZGRoomInfo.m */; };
@@ -107,8 +116,20 @@
 		3351F1F12199694E00C50E28 /* ZGSVCAnchorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSVCAnchorViewController.m; sourceTree = "<group>"; };
 		3351F1F321996EE200C50E28 /* ZGSVCDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSVCDemo.h; sourceTree = "<group>"; };
 		3351F1F421996EE200C50E28 /* ZGSVCDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSVCDemo.m; sourceTree = "<group>"; };
-		3351F1F6219971CD00C50E28 /* ZGSVCDemoHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSVCDemoHelper.h; sourceTree = "<group>"; };
-		3351F1F7219971CD00C50E28 /* ZGSVCDemoHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSVCDemoHelper.m; sourceTree = "<group>"; };
+		338C6A9121C7499E0072C470 /* ZegoMediaRecordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZegoMediaRecordViewController.h; sourceTree = "<group>"; };
+		338C6A9221C7499E0072C470 /* ZegoMediaRecordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZegoMediaRecordViewController.m; sourceTree = "<group>"; };
+		338C6A9321C7499E0072C470 /* ZegoMediaRecordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ZegoMediaRecordViewController.xib; sourceTree = "<group>"; };
+		338C6A9721C74D080072C470 /* ZegoMediaRecordDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZegoMediaRecordDemo.h; sourceTree = "<group>"; };
+		338C6A9821C74D080072C470 /* ZegoMediaRecordDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZegoMediaRecordDemo.m; sourceTree = "<group>"; };
+		338C6A9A21C74E480072C470 /* ZegoMediaRecordConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZegoMediaRecordConfig.h; sourceTree = "<group>"; };
+		338C6A9B21C74E480072C470 /* ZegoMediaRecordConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZegoMediaRecordConfig.m; sourceTree = "<group>"; };
+		338C6A9D21C78AEA0072C470 /* LiveRoomPlayground-macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LiveRoomPlayground-macOS.entitlements"; sourceTree = "<group>"; };
+		338C6AA321C893600072C470 /* ZGMediaRecordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGMediaRecordViewController.h; sourceTree = "<group>"; };
+		338C6AA421C893600072C470 /* ZGMediaRecordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGMediaRecordViewController.m; sourceTree = "<group>"; };
+		338C6AA521C893600072C470 /* ZGMediaRecordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ZGMediaRecordViewController.xib; sourceTree = "<group>"; };
+		338C6AA821C8994F0072C470 /* ZGMediaRecordConfigViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGMediaRecordConfigViewController.h; sourceTree = "<group>"; };
+		338C6AA921C8994F0072C470 /* ZGMediaRecordConfigViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGMediaRecordConfigViewController.m; sourceTree = "<group>"; };
+		338C6AAD21C899BE0072C470 /* MediaRecord.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MediaRecord.storyboard; sourceTree = "<group>"; };
 		33993268219AB84700E502D2 /* ZGSVCRoomListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSVCRoomListViewController.h; sourceTree = "<group>"; };
 		33993269219AB84700E502D2 /* ZGSVCRoomListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSVCRoomListViewController.m; sourceTree = "<group>"; };
 		33993277219AC9B900E502D2 /* ZGSVCLiveViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSVCLiveViewController.h; sourceTree = "<group>"; };
@@ -199,8 +220,6 @@
 				3351F1E82199322900C50E28 /* ZGRoomInfo.m */,
 				3351F1F321996EE200C50E28 /* ZGSVCDemo.h */,
 				3351F1F421996EE200C50E28 /* ZGSVCDemo.m */,
-				3351F1F6219971CD00C50E28 /* ZGSVCDemoHelper.h */,
-				3351F1F7219971CD00C50E28 /* ZGSVCDemoHelper.m */,
 			);
 			path = SVC;
 			sourceTree = "<group>";
@@ -219,6 +238,40 @@
 				3351F1EE2199692600C50E28 /* ZGSVCAudienceViewController.m */,
 			);
 			path = SVCUI;
+			sourceTree = "<group>";
+		};
+		338C6A8C21C744610072C470 /* MediaRecord */ = {
+			isa = PBXGroup;
+			children = (
+				338C6A9721C74D080072C470 /* ZegoMediaRecordDemo.h */,
+				338C6A9821C74D080072C470 /* ZegoMediaRecordDemo.m */,
+				338C6A9A21C74E480072C470 /* ZegoMediaRecordConfig.h */,
+				338C6A9B21C74E480072C470 /* ZegoMediaRecordConfig.m */,
+			);
+			path = MediaRecord;
+			sourceTree = "<group>";
+		};
+		338C6A8D21C744970072C470 /* MediaRecordUI */ = {
+			isa = PBXGroup;
+			children = (
+				338C6AA321C893600072C470 /* ZGMediaRecordViewController.h */,
+				338C6AA421C893600072C470 /* ZGMediaRecordViewController.m */,
+				338C6AA521C893600072C470 /* ZGMediaRecordViewController.xib */,
+				338C6AA821C8994F0072C470 /* ZGMediaRecordConfigViewController.h */,
+				338C6AA921C8994F0072C470 /* ZGMediaRecordConfigViewController.m */,
+				338C6AAD21C899BE0072C470 /* MediaRecord.storyboard */,
+			);
+			path = MediaRecordUI;
+			sourceTree = "<group>";
+		};
+		338C6A8E21C749540072C470 /* MediaRecord */ = {
+			isa = PBXGroup;
+			children = (
+				338C6A9121C7499E0072C470 /* ZegoMediaRecordViewController.h */,
+				338C6A9221C7499E0072C470 /* ZegoMediaRecordViewController.m */,
+				338C6A9321C7499E0072C470 /* ZegoMediaRecordViewController.xib */,
+			);
+			path = MediaRecord;
 			sourceTree = "<group>";
 		};
 		33993267219AB7EB00E502D2 /* SVC */ = {
@@ -267,12 +320,14 @@
 		A7CCA5DB21515BBB00191B55 /* LiveRoomPlayground-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				338C6A9D21C78AEA0072C470 /* LiveRoomPlayground-macOS.entitlements */,
 				A7CCA5DC21515BBB00191B55 /* AppDelegate.h */,
 				A7CCA5DD21515BBB00191B55 /* AppDelegate.m */,
 				A7CCA5DF21515BBD00191B55 /* Assets.xcassets */,
 				A7CCA5E121515BBD00191B55 /* MainMenu.xib */,
 				A7CCA5ED21515D5D00191B55 /* ZGTopicsTableViewController.h */,
 				A7CCA5EE21515D5D00191B55 /* ZGTopicsTableViewController.m */,
+				338C6A8E21C749540072C470 /* MediaRecord */,
 				33993267219AB7EB00E502D2 /* SVC */,
 				A7CCA6012151F7AB00191B55 /* MediaPlayerUI */,
 				A7F19FF321807B8A004EAE25 /* MediaSideInfoUI */,
@@ -325,6 +380,7 @@
 				A7CD8487215C8112006A23DB /* main.m */,
 				A7CD8498215C8878006A23DB /* ZGTopicsTableViewController.h */,
 				A7CD8499215C8878006A23DB /* ZGTopicsTableViewController.m */,
+				338C6A8D21C744970072C470 /* MediaRecordUI */,
 				3351F1E121991D8300C50E28 /* SVCUI */,
 				A7CD849B215C9073006A23DB /* MediaPlayerUI */,
 				A7F1A00A2181AF47004EAE25 /* MediaSideInfoUI */,
@@ -338,6 +394,7 @@
 				A7CD848D215C8401006A23DB /* MediaPlayer */,
 				A7F19FF9218166E1004EAE25 /* MediaSideInfo */,
 				3351F1E021991D2800C50E28 /* SVC */,
+				338C6A8C21C744610072C470 /* MediaRecord */,
 			);
 			path = Topics;
 			sourceTree = "<group>";
@@ -480,12 +537,17 @@
 						CreatedOnToolsVersion = 10.0;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
 					A7CD8475215C8111006A23DB = {
 						CreatedOnToolsVersion = 10.0;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -514,6 +576,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7CCA5E021515BBD00191B55 /* Assets.xcassets in Resources */,
+				338C6A9521C7499E0072C470 /* ZegoMediaRecordViewController.xib in Resources */,
 				A77AD6CC21534F7A004D0D75 /* ad.mp4 in Resources */,
 				A77AD6CA21534DEE004D0D75 /* sample_-50_tempo.mp3 in Resources */,
 				A7CCA6062151F7C300191B55 /* ZGMediaPlayerViewController.xib in Resources */,
@@ -530,9 +593,11 @@
 			files = (
 				A7CD84A7215C9A6B006A23DB /* ad.mp4 in Resources */,
 				3351F1E321991DA500C50E28 /* SVC.storyboard in Resources */,
+				338C6AA721C893600072C470 /* ZGMediaRecordViewController.xib in Resources */,
 				A7F1A00C2181D202004EAE25 /* MediaSideInfo.storyboard in Resources */,
 				A7CD84A8215C9A6B006A23DB /* sample_-50_tempo.mp3 in Resources */,
 				A7CD8485215C8112006A23DB /* LaunchScreen.storyboard in Resources */,
+				338C6AAE21C899BE0072C470 /* MediaRecord.storyboard in Resources */,
 				A7CD8482215C8112006A23DB /* Assets.xcassets in Resources */,
 				A7CD849F215C94D3006A23DB /* MediaPlayer.storyboard in Resources */,
 				A7CD8480215C8111006A23DB /* Main.storyboard in Resources */,
@@ -551,12 +616,15 @@
 				A7CCA5E621515BBD00191B55 /* main.m in Sources */,
 				3399326A219AB84700E502D2 /* ZGSVCRoomListViewController.m in Sources */,
 				A7CCA6052151F7C300191B55 /* ZGMediaPlayerViewController.mm in Sources */,
+				338C6A9921C74D080072C470 /* ZegoMediaRecordDemo.m in Sources */,
 				A7F1A0092181A2F3004EAE25 /* ZGMediaSideInfoDemoEnvirentmentHelper.m in Sources */,
 				A7F1A00521816733004EAE25 /* ZGMediaSideInfoDemo.m in Sources */,
 				3399327A219ACA6400E502D2 /* ZGRoomInfo.m in Sources */,
+				338C6A9421C7499E0072C470 /* ZegoMediaRecordViewController.m in Sources */,
 				A7CCA5DE21515BBB00191B55 /* AppDelegate.m in Sources */,
 				33993279219AC9B900E502D2 /* ZGSVCLiveViewController.m in Sources */,
 				33F02386219AF92400D0C1D9 /* ZGSVCDemo.m in Sources */,
+				338C6A9C21C74E480072C470 /* ZegoMediaRecordConfig.m in Sources */,
 				A7CCA5F92151689300191B55 /* ZGAudioAuxInputViewController.m in Sources */,
 				A7CD84B2215CC1CA006A23DB /* ZGHelper.m in Sources */,
 				A7F19FF721807BD9004EAE25 /* ZGMediaSideInfoViewController.m in Sources */,
@@ -571,16 +639,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3351F1F8219971CD00C50E28 /* ZGSVCDemoHelper.m in Sources */,
 				A7CD8488215C8112006A23DB /* main.m in Sources */,
 				3351F1E92199322900C50E28 /* ZGRoomInfo.m in Sources */,
 				A7CD849A215C8878006A23DB /* ZGTopicsTableViewController.m in Sources */,
+				338C6AAF21C8A2980072C470 /* ZegoMediaRecordDemo.m in Sources */,
+				338C6AB021C8A29B0072C470 /* ZegoMediaRecordConfig.m in Sources */,
 				A7CD84B5215CC516006A23DB /* ZGVideoCaptureForMediaPlayer.mm in Sources */,
 				3351F1E621992EE800C50E28 /* ZGSVCRoomListViewController.m in Sources */,
+				338C6AAB21C8994F0072C470 /* ZGMediaRecordConfigViewController.m in Sources */,
 				A7CD84B6215CC519006A23DB /* ZGMediaPlayerPublishingHelper.m in Sources */,
 				A7CD84A2215C9519006A23DB /* ZGMediaSourceTableViewController.m in Sources */,
 				A7CD84AB215CA905006A23DB /* ZGMediaPlayerViewController.mm in Sources */,
 				3351F1F521996EE200C50E28 /* ZGSVCDemo.m in Sources */,
+				338C6AA621C893600072C470 /* ZGMediaRecordViewController.m in Sources */,
 				A7CD847A215C8111006A23DB /* AppDelegate.m in Sources */,
 				A7F1A00421816733004EAE25 /* ZGMediaSideInfoDemo.m in Sources */,
 				3351F1EF2199692600C50E28 /* ZGSVCAudienceViewController.m in Sources */,
@@ -740,6 +811,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "LiveRoomPlayground-macOS/LiveRoomPlayground-macOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 3WR2G89LR2;
@@ -761,6 +833,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "LiveRoomPlayground-macOS/LiveRoomPlayground-macOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 3WR2G89LR2;

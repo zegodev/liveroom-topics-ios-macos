@@ -68,7 +68,8 @@ typedef enum {
         [self.progressUpdateTimer invalidate];
         self.progressUpdateTimer = nil;
     }
-    [[ZGManager api] logoutRoom];
+    [ZGManager.api logoutRoom];
+    [ZGManager releaseApi];
 }
 
 - (void)setPlayerType:(MediaPlayerType)type {
