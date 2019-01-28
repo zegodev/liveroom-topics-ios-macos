@@ -119,7 +119,6 @@
  @param bOn true 打开，false 关闭。默认 true
  @return true 成功，false 失败
  @discussion 设置为关闭后，扬声器无声音，耳机仍有声音输出
- @discussion 在推流之前设置, 且 setAudioDeviceMode 设置为 ZEGOAPI_AUDIO_DEVICE_MODE_COMMUNICATION 时有效
  */
 - (bool)setBuiltInSpeakerOn:(bool)bOn;
 

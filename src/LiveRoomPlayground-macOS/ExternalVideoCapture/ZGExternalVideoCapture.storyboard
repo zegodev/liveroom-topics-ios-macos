@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="3J9-DV-nEh">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--External Video Capture View Controller-->
+        <scene sceneID="U3p-u8-bIj">
+            <objects>
+                <viewController id="3J9-DV-nEh" customClass="ZGExternalVideoCaptureViewController" sceneMemberID="viewController">
+                    <view key="view" id="8v1-WU-ANb">
+                        <rect key="frame" x="0.0" y="0.0" width="620" height="600"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="ozL-Za-6CM">
+                                <rect key="frame" x="20" y="100" width="270" height="480"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="480" id="N6c-dl-6oA"/>
+                                    <constraint firstAttribute="width" constant="270" id="S0F-Cg-4Tk"/>
+                                </constraints>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Mze-cI-BG9">
+                                <rect key="frame" x="330" y="100" width="270" height="480"/>
+                            </customView>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vJU-Rc-Q3l">
+                                <rect key="frame" x="18" y="37" width="129" height="25"/>
+                                <popUpButtonCell key="cell" type="push" title="None" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="b9u-Gg-FSz" id="TAF-GF-zFD">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="Gyb-au-CLM">
+                                        <items>
+                                            <menuItem title="None" state="on" id="b9u-Gg-FSz"/>
+                                            <menuItem title="ImageSource" id="I0Q-16-Q97"/>
+                                            <menuItem title="CameraSource" id="8HZ-nV-8LQ"/>
+                                            <menuItem title="WindowSource" id="we8-1A-a8e"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="onSourceTypeChange:" target="3J9-DV-nEh" id="bei-kj-uBx"/>
+                                </connections>
+                            </popUpButton>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Yc-Ok-F3N">
+                                <rect key="frame" x="511" y="33" width="95" height="32"/>
+                                <buttonCell key="cell" type="push" title="StartLive" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Jso-YF-BlP">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="onLive:" target="3J9-DV-nEh" id="ssA-eJ-Vy9"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Mze-cI-BG9" secondAttribute="trailing" constant="20" id="7OE-4e-UMR"/>
+                            <constraint firstItem="ozL-Za-6CM" firstAttribute="top" secondItem="8v1-WU-ANb" secondAttribute="top" constant="20" id="ExM-iy-UTf"/>
+                            <constraint firstItem="Mze-cI-BG9" firstAttribute="width" secondItem="ozL-Za-6CM" secondAttribute="width" id="F6M-sJ-39q"/>
+                            <constraint firstItem="Mze-cI-BG9" firstAttribute="height" secondItem="ozL-Za-6CM" secondAttribute="height" id="Fv3-8g-Wyp"/>
+                            <constraint firstAttribute="trailing" secondItem="2Yc-Ok-F3N" secondAttribute="trailing" constant="20" id="H8J-m2-ykR"/>
+                            <constraint firstAttribute="bottom" secondItem="vJU-Rc-Q3l" secondAttribute="bottom" constant="40" id="QHb-tX-4vD"/>
+                            <constraint firstItem="ozL-Za-6CM" firstAttribute="leading" secondItem="8v1-WU-ANb" secondAttribute="leading" constant="20" id="Ykz-4t-VIb"/>
+                            <constraint firstItem="vJU-Rc-Q3l" firstAttribute="leading" secondItem="8v1-WU-ANb" secondAttribute="leading" constant="20" id="aQs-GO-46B"/>
+                            <constraint firstAttribute="bottom" secondItem="2Yc-Ok-F3N" secondAttribute="bottom" constant="40" id="l8H-24-StS"/>
+                            <constraint firstItem="Mze-cI-BG9" firstAttribute="top" secondItem="8v1-WU-ANb" secondAttribute="top" constant="20" id="sod-EQ-3G2"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="liveBtn" destination="2Yc-Ok-F3N" id="u46-bU-1LC"/>
+                        <outlet property="mainVideoView" destination="ozL-Za-6CM" id="pSx-Vt-ID4"/>
+                        <outlet property="sourceTypeBtn" destination="vJU-Rc-Q3l" id="uqn-9E-v4d"/>
+                        <outlet property="subVideoView" destination="Mze-cI-BG9" id="cg6-B0-jKt"/>
+                    </connections>
+                </viewController>
+                <customObject id="bmD-OT-Yqq" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-53" y="267"/>
+        </scene>
+    </scenes>
+</document>

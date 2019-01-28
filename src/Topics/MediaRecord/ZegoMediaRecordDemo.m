@@ -47,7 +47,7 @@
         ZGView *view = [self.delegate getPlaybackView];
         [ZGManager.api setPreviewView:view];
     }
-    
+
     [ZGManager.api startPreview];
 }
 

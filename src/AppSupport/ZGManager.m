@@ -35,7 +35,6 @@ static ZegoLiveRoomApi *s_apiInstance = nil;
 @implementation ZGManager
 
 + (void)enableExternalVideoCapture:(id<ZegoVideoCaptureFactory>)factory videoRenderer:(id<ZegoLiveApiRenderDelegate>)renderer {
-    
     if (s_apiInstance) {
         [self releaseApi];
     }
@@ -51,7 +50,6 @@ static ZegoLiveRoomApi *s_apiInstance = nil;
 }
 
 + (ZegoLiveRoomApi*)api {
-    
     if (!s_apiInstance) {
         [ZegoLiveRoomApi setUserID:[ZGHelper getDeviceUUID] userName:[ZGHelper getDeviceUUID]];
         uint32_t appid = GetAppID();

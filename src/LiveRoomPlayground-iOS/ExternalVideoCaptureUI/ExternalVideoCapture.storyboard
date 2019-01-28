@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2lS-54-Wv7">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--External Video Capture View Controller-->
+        <scene sceneID="Nc0-NM-atn">
+            <objects>
+                <viewController id="2lS-54-Wv7" customClass="ZGExternalVideoCaptureViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="w5h-zr-uN7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z8K-Zz-9Sg">
+                                <rect key="frame" x="325" y="40" width="30" height="30"/>
+                                <state key="normal" title="Exit"/>
+                                <connections>
+                                    <action selector="onExit:" destination="2lS-54-Wv7" eventType="touchUpInside" id="Ywb-5N-aJi"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ldN-7L-IXI">
+                                <rect key="frame" x="243" y="40" width="62" height="30"/>
+                                <state key="normal" title="StartLive"/>
+                                <connections>
+                                    <action selector="onLive:" destination="2lS-54-Wv7" eventType="touchUpInside" id="Pl4-eg-v3B"/>
+                                </connections>
+                            </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="a35-m6-zf8">
+                                <rect key="frame" x="20" y="85" width="335" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="vb7-qA-2hD"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="None"/>
+                                    <segment title="Image"/>
+                                    <segment title="Camera"/>
+                                    <segment title="Screen"/>
+                                </segments>
+                                <connections>
+                                    <action selector="onSourceTypeChange:" destination="2lS-54-Wv7" eventType="valueChanged" id="WpA-GZ-dd1"/>
+                                </connections>
+                            </segmentedControl>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wae-MI-tl1">
+                                <rect key="frame" x="20" y="193.5" width="157.5" height="280"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="wae-MI-tl1" secondAttribute="height" multiplier="9:16" id="bSg-0C-Cg2"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y7X-VN-SYH">
+                                <rect key="frame" x="197.5" y="193.5" width="157.5" height="280"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Play" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Yg-fE-TTS">
+                                <rect key="frame" x="260.5" y="488.5" width="32" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PublishPreview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0hv-ax-R3v">
+                                <rect key="frame" x="40.5" y="488.5" width="117" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iOS需要在控制面板长按录制然后选择本App，就可以使用App进行录屏的推流(iOS11及以上支持)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F84-2O-dTe">
+                                <rect key="frame" x="20" y="586" width="335" height="61"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="y7X-VN-SYH" firstAttribute="leading" secondItem="wae-MI-tl1" secondAttribute="trailing" constant="20" id="89L-RW-hKS"/>
+                            <constraint firstItem="F84-2O-dTe" firstAttribute="leading" secondItem="peW-tm-eZ1" secondAttribute="leading" constant="20" id="8fn-NL-Xz5"/>
+                            <constraint firstItem="y7X-VN-SYH" firstAttribute="centerY" secondItem="w5h-zr-uN7" secondAttribute="centerY" id="C0b-Zs-Ccq"/>
+                            <constraint firstItem="0hv-ax-R3v" firstAttribute="centerX" secondItem="wae-MI-tl1" secondAttribute="centerX" id="JTT-WS-RPZ"/>
+                            <constraint firstItem="6Yg-fE-TTS" firstAttribute="top" secondItem="y7X-VN-SYH" secondAttribute="bottom" constant="15" id="JUG-mh-vFT"/>
+                            <constraint firstItem="peW-tm-eZ1" firstAttribute="bottom" secondItem="F84-2O-dTe" secondAttribute="bottom" constant="20" id="Jm7-DS-dWx"/>
+                            <constraint firstItem="peW-tm-eZ1" firstAttribute="trailing" secondItem="a35-m6-zf8" secondAttribute="trailing" constant="20" id="M2M-D9-Pqj"/>
+                            <constraint firstItem="0hv-ax-R3v" firstAttribute="top" secondItem="wae-MI-tl1" secondAttribute="bottom" constant="15" id="Ney-Wt-0Ce"/>
+                            <constraint firstItem="y7X-VN-SYH" firstAttribute="height" secondItem="wae-MI-tl1" secondAttribute="height" id="Opb-1i-haw"/>
+                            <constraint firstItem="Z8K-Zz-9Sg" firstAttribute="leading" secondItem="ldN-7L-IXI" secondAttribute="trailing" constant="20" id="PX9-hp-SiF"/>
+                            <constraint firstItem="peW-tm-eZ1" firstAttribute="trailing" secondItem="y7X-VN-SYH" secondAttribute="trailing" constant="20" id="QmS-RO-6vX"/>
+                            <constraint firstItem="a35-m6-zf8" firstAttribute="leading" secondItem="peW-tm-eZ1" secondAttribute="leading" constant="20" id="TOr-BJ-lwc"/>
+                            <constraint firstItem="ldN-7L-IXI" firstAttribute="top" secondItem="peW-tm-eZ1" secondAttribute="top" constant="20" id="UH2-m7-7hC"/>
+                            <constraint firstItem="Z8K-Zz-9Sg" firstAttribute="top" secondItem="peW-tm-eZ1" secondAttribute="top" constant="20" id="Wxw-7G-42X"/>
+                            <constraint firstItem="a35-m6-zf8" firstAttribute="top" secondItem="Z8K-Zz-9Sg" secondAttribute="bottom" constant="15" id="ape-hh-93Y"/>
+                            <constraint firstItem="wae-MI-tl1" firstAttribute="leading" secondItem="peW-tm-eZ1" secondAttribute="leading" constant="20" id="bGO-Bn-fnA"/>
+                            <constraint firstItem="peW-tm-eZ1" firstAttribute="trailing" secondItem="Z8K-Zz-9Sg" secondAttribute="trailing" constant="20" id="n6Z-rF-GAd"/>
+                            <constraint firstItem="y7X-VN-SYH" firstAttribute="centerY" secondItem="wae-MI-tl1" secondAttribute="centerY" id="rdt-wX-YLw"/>
+                            <constraint firstItem="6Yg-fE-TTS" firstAttribute="centerX" secondItem="y7X-VN-SYH" secondAttribute="centerX" id="wAO-fr-sMQ"/>
+                            <constraint firstItem="peW-tm-eZ1" firstAttribute="trailing" secondItem="F84-2O-dTe" secondAttribute="trailing" constant="20" id="wDQ-h0-a6s"/>
+                            <constraint firstItem="y7X-VN-SYH" firstAttribute="width" secondItem="wae-MI-tl1" secondAttribute="width" id="wOj-6A-Hg3"/>
+                            <constraint firstItem="wae-MI-tl1" firstAttribute="centerY" secondItem="w5h-zr-uN7" secondAttribute="centerY" id="yXd-fT-n0g"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="peW-tm-eZ1"/>
+                    </view>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="liveBtn" destination="ldN-7L-IXI" id="VTp-wU-FHn"/>
+                        <outlet property="mainVideoView" destination="wae-MI-tl1" id="8k6-59-qyE"/>
+                        <outlet property="sourceTypeSelector" destination="a35-m6-zf8" id="jXT-bV-GFF"/>
+                        <outlet property="subVideoView" destination="y7X-VN-SYH" id="wIa-g0-nwk"/>
+                        <outlet property="tipLabel" destination="F84-2O-dTe" id="7Ag-q5-MLz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ycr-mo-dN0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="88.799999999999997" y="182.15892053973016"/>
+        </scene>
+    </scenes>
+</document>

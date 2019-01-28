@@ -19,6 +19,7 @@ NSString* kZGTopicMediaPlayer = @"Media Player";
 NSString* kZGTopicMediaSideInfo = @"Media Side Info";
 NSString* kZGTopicSVC = @"ScalableVideoCoding";
 NSString* kZGTopicMediaRecord = @"Media Record";
+NSString* kZGTopicExternalVideoCapture = @"External Video Capture";
 
 @interface ZGHelper ()
 
@@ -31,7 +32,7 @@ static NSString *_userID = nil;
 @implementation ZGHelper
 
 + (NSUserDefaults *)myUserDefaults {
-    return [[NSUserDefaults alloc] initWithSuiteName:@"group.playground"];
+    return [[NSUserDefaults alloc] initWithSuiteName:@"group.liveRoomPlayground"];
 }
 
 + (NSString *)userID {

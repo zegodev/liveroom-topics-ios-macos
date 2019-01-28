@@ -470,26 +470,6 @@ typedef enum : NSUInteger
     ZEGOAPI_RELAY_RETRY = 2,
 } ZegoAPIStreamRelayCDNState;
 
-typedef enum : NSUInteger
-{
-    /**< 无 */
-    ZEGOAPI_RELAY_NONE = 0,                       
-    /**< 服务器错误 */
-    ZEGOAPI_RELAY_SERVER_ERROR = 8,
-    /**< 握手失败 */
-    ZEGOAPI_RELAY_HAND_SHAKE_FAILED = 9,
-    /**< 接入点错误 */
-    ZEGOAPI_RELAY_ACCESS_POINT_ERROR = 10,
-    /**< 创建流失败 */
-    ZEGOAPI_RELAY_CREATE_STREAM_FAILED = 11,
-    /**< BAD NAME */
-    ZEGOAPI_RELAY_BAD_NAME = 12,
-    /**< CDN服务器主动断开 */
-    ZEGOAPI_RELAY_CDN_SERVER_DISCONNECTED = 13,
-    /**< 主动断开 */
-    ZEGOAPI_RELAY_DISCONNECTED = 14,
-} ZegoAPIStreamRelayCDNDetail;
-
 /**
  转推CDN状态信息
  */
@@ -499,8 +479,6 @@ typedef enum : NSUInteger
 @property (copy) NSString *rtmpURL;
 /** 当前状态 */
 @property (assign) ZegoAPIStreamRelayCDNState state;
-/** 转推停止或转推重试时的详细原因 */
-@property (assign) ZegoAPIStreamRelayCDNDetail detail;
 /** 状态改变时的时间 */
 @property (assign) unsigned int stateTime;
 

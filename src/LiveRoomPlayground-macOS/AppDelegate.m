@@ -12,6 +12,7 @@
 #import "./MediaSideInfoUI/ZGMediaSideInfoViewController.h"
 #import "./SVC/ZGSVCRoomListViewController.h"
 #import "./MediaRecord/ZegoMediaRecordViewController.h"
+#import "./ExternalVideoCapture/ZGExternalVideoCaptureViewController.h"
 #import "ZGManager.h"
 #import "ZGHelper.h"
 
@@ -35,7 +36,7 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
     self.comps = [NSMutableDictionary dictionary];
-    self.topicList = @[kZGTopicMediaPlayer, kZGTopicMediaSideInfo, kZGTopicSVC, kZGTopicMediaRecord];
+    self.topicList = @[kZGTopicMediaPlayer, kZGTopicMediaSideInfo, kZGTopicSVC, kZGTopicMediaRecord, kZGTopicExternalVideoCapture];
     self.topicsController.delegate = self;
     [self.topicsController setTopicList:self.topicList];
     
@@ -65,6 +66,9 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
         vc = [[NSStoryboard storyboardWithName:@"SVC" bundle:nil] instantiateInitialController];
     } else if ([topic isEqualToString:kZGTopicMediaRecord]) {
         vc = [[ZegoMediaRecordViewController alloc] initWithNibName:@"ZegoMediaRecordViewController" bundle:nil];
+    } else if ([topic isEqualToString:kZGTopicExternalVideoCapture]) {
+        NSStoryboard *sb = [NSStoryboard storyboardWithName:@"ZGExternalVideoCapture" bundle:nil];
+        vc = [sb instantiateInitialController];
     }
     
     self.currentController = vc;

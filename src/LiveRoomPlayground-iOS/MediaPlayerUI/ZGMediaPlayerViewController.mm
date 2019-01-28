@@ -136,7 +136,7 @@
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return [NSString stringWithFormat:@"%ld", row];
+    return [NSString stringWithFormat:@"%ld", (long)row];
 }
 
 #pragma mark - UIPickerViewDelegate

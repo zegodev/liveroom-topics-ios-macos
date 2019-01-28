@@ -26,7 +26,7 @@
 		</data>
 		<key>Headers/ZegoLiveRoomApi-Player.h</key>
 		<data>
-		NDd3nkZcmkvKE799PrSQIwoju7M=
+		JFV0BnZ+UEBaoWfpMm9CmqDcAUY=
 		</data>
 		<key>Headers/ZegoLiveRoomApi-Publisher.h</key>
 		<data>
@@ -106,7 +106,7 @@
 		</data>
 		<key>Headers/zego-api-defines-oc.h</key>
 		<data>
-		GYnke9oypwK5RqUPBkhje3uyghE=
+		twptC6qrajeA7fG5PJFWyKNZENo=
 		</data>
 		<key>Headers/zego-api-external-audio-device-oc.h</key>
 		<data>
@@ -134,11 +134,11 @@
 		</data>
 		<key>Headers/zego-api-mediaplayer-defines-oc.h</key>
 		<data>
-		ckxCOUG4tK9K9M10cJNS3WvQJzc=
+		jAIYPUNhUZ1ftnGi6ZHZ4vOWOVo=
 		</data>
 		<key>Headers/zego-api-mediaplayer-oc.h</key>
 		<data>
-		R7kBewyMxHREmkuDYumdN2i57/U=
+		byLaUaEnjgCdghxB/wURT1JQZ8g=
 		</data>
 		<key>Headers/zego-api-mix-engine-playout-oc.h</key>
 		<data>
@@ -226,11 +226,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			NDd3nkZcmkvKE799PrSQIwoju7M=
+			JFV0BnZ+UEBaoWfpMm9CmqDcAUY=
 			</data>
 			<key>hash2</key>
 			<data>
-			4ixRoh+kV7tLP60mdjjeD1KYeu8blbMoHuQOZaUfv1k=
+			7iSMA4DXJ5OdylELjL29rQSof1DAzgKkd1COWzEWrDg=
 			</data>
 		</dict>
 		<key>Headers/ZegoLiveRoomApi-Publisher.h</key>
@@ -446,11 +446,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GYnke9oypwK5RqUPBkhje3uyghE=
+			twptC6qrajeA7fG5PJFWyKNZENo=
 			</data>
 			<key>hash2</key>
 			<data>
-			SHRoVa1vsiYAVAOhQxG18Eg2XG66G+KvvyrM+surkpI=
+			yQKuapbZW/TPQoCre3qJDht5whIsO0MYk7q+0djSVmA=
 			</data>
 		</dict>
 		<key>Headers/zego-api-external-audio-device-oc.h</key>
@@ -523,22 +523,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ckxCOUG4tK9K9M10cJNS3WvQJzc=
+			jAIYPUNhUZ1ftnGi6ZHZ4vOWOVo=
 			</data>
 			<key>hash2</key>
 			<data>
-			gG1KBnKhpCDzxJr/lFiiPhN21dvaZtKpBdCyxNfG4tI=
+			zI6JSGb77ojXcy6egu2iiq+Ps2vfPPMuEL/W2r0heB4=
 			</data>
 		</dict>
 		<key>Headers/zego-api-mediaplayer-oc.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			R7kBewyMxHREmkuDYumdN2i57/U=
+			byLaUaEnjgCdghxB/wURT1JQZ8g=
 			</data>
 			<key>hash2</key>
 			<data>
-			yMYPXSNi7mVc58wtVVqPAJoanec0HVXFuLN3ngTn7rM=
+			phXOhzAv1JcuhLcWUh0UNDYPTrY8ZDZ9R5sQdyLWDDQ=
 			</data>
 		</dict>
 		<key>Headers/zego-api-mix-engine-playout-oc.h</key>

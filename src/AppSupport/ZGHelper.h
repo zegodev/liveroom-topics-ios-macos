@@ -13,6 +13,7 @@ extern NSString* kZGTopicMediaPlayer;
 extern NSString* kZGTopicMediaSideInfo;
 extern NSString* kZGTopicSVC;
 extern NSString* kZGTopicMediaRecord;
+extern NSString* kZGTopicExternalVideoCapture;
 
 @interface ZGHelper : NSObject
 
