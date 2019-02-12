@@ -88,6 +88,8 @@
         CMTime time = CMTimeMake(value, (int32_t)fps);
         
         [self.receiver capturedData:pixel presentationTimeStamp:time];
+        
+        CVPixelBufferRelease(pixel);
     });
 }
 

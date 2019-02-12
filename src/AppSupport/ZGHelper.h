@@ -14,6 +14,7 @@ extern NSString* kZGTopicMediaSideInfo;
 extern NSString* kZGTopicSVC;
 extern NSString* kZGTopicMediaRecord;
 extern NSString* kZGTopicExternalVideoCapture;
+extern NSString* kZGTopicExternalVideoRender;
 
 @interface ZGHelper : NSObject
 

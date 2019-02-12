@@ -1,5 +1,6 @@
 build
 DerivedData
+ZGAppServiceConfig.h
 src/LiveRoomPlayground.xcodeproj/xcuserdata
 helper-scripts/__tmp_product__
 venv

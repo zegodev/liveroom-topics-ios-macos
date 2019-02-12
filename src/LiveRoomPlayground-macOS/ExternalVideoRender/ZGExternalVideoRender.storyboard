@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="GhR-8y-fuk">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--External Video Render View Controller-->
+        <scene sceneID="q19-oY-yPR">
+            <objects>
+                <viewController id="GhR-8y-fuk" customClass="ZGExternalVideoRenderViewController" sceneMemberID="viewController">
+                    <view key="view" id="mJ0-5n-HvL">
+                        <rect key="frame" x="0.0" y="0.0" width="620" height="600"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="mHW-Of-2te">
+                                <rect key="frame" x="20" y="100" width="270" height="480"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="480" id="6cb-qZ-GU3"/>
+                                    <constraint firstAttribute="width" constant="270" id="tZF-Uh-neJ"/>
+                                </constraints>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="AYh-Pg-Vja">
+                                <rect key="frame" x="330" y="100" width="270" height="480"/>
+                            </customView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kCM-vd-Gwf">
+                                <rect key="frame" x="511" y="33" width="95" height="32"/>
+                                <buttonCell key="cell" type="push" title="StartLive" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="az6-og-8Cg">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="onLive:" target="GhR-8y-fuk" id="0Qp-7g-QQ5"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="mHW-Of-2te" firstAttribute="top" secondItem="mJ0-5n-HvL" secondAttribute="top" constant="20" id="6Ez-oh-dxh"/>
+                            <constraint firstItem="AYh-Pg-Vja" firstAttribute="height" secondItem="mHW-Of-2te" secondAttribute="height" id="BHX-yU-aXI"/>
+                            <constraint firstAttribute="bottom" secondItem="kCM-vd-Gwf" secondAttribute="bottom" constant="40" id="Eec-WB-8gr"/>
+                            <constraint firstItem="mHW-Of-2te" firstAttribute="leading" secondItem="mJ0-5n-HvL" secondAttribute="leading" constant="20" id="IH1-Hz-Pfo"/>
+                            <constraint firstItem="AYh-Pg-Vja" firstAttribute="top" secondItem="mJ0-5n-HvL" secondAttribute="top" constant="20" id="KvE-RS-7Qc"/>
+                            <constraint firstItem="AYh-Pg-Vja" firstAttribute="width" secondItem="mHW-Of-2te" secondAttribute="width" id="MEt-eH-pvM"/>
+                            <constraint firstAttribute="trailing" secondItem="kCM-vd-Gwf" secondAttribute="trailing" constant="20" id="ZrR-jn-ZCV"/>
+                            <constraint firstAttribute="trailing" secondItem="AYh-Pg-Vja" secondAttribute="trailing" constant="20" id="izA-dh-bwh"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="liveBtn" destination="kCM-vd-Gwf" id="Cwb-ta-wVT"/>
+                        <outlet property="mainVideoView" destination="mHW-Of-2te" id="LO9-kj-JXS"/>
+                        <outlet property="subVideoView" destination="AYh-Pg-Vja" id="ewB-4u-B0Z"/>
+                    </connections>
+                </viewController>
+                <customObject id="lSY-Is-RrJ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="71" y="196"/>
+        </scene>
+    </scenes>
+</document>

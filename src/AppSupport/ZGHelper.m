@@ -20,6 +20,7 @@ NSString* kZGTopicMediaSideInfo = @"Media Side Info";
 NSString* kZGTopicSVC = @"ScalableVideoCoding";
 NSString* kZGTopicMediaRecord = @"Media Record";
 NSString* kZGTopicExternalVideoCapture = @"External Video Capture";
+NSString* kZGTopicExternalVideoRender = @"External Video Render";
 
 @interface ZGHelper ()
 

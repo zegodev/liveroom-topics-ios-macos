@@ -1,30 +1,29 @@
 //
-//  ZGExternalVideoCaptureViewController.m
-//  LiveRoomPlayground-macOS
+//  ZGExternalVideoRenderViewController.m
+//  LiveRoomPlayground
 //
-//  Created by Sky on 2019/1/25.
+//  Created by Sky on 2019/1/29.
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
-#import "ZGExternalVideoCaptureViewController.h"
-#import "ZGExternalVideoCaptureDemo.h"
+#import "ZGExternalVideoRenderViewController.h"
+#import "ZGExternalVideoRenderDemo.h"
 
-@interface ZGExternalVideoCaptureViewController () <ZGExternalVideoCaptureDemoProtocol>
+@interface ZGExternalVideoRenderViewController () <ZGExternalVideoRenderDemoProtocol>
 
 @property (weak) IBOutlet NSView *mainVideoView;
 @property (weak) IBOutlet NSView *subVideoView;
-@property (weak) IBOutlet NSPopUpButton *sourceTypeBtn;
 @property (weak) IBOutlet NSButton *liveBtn;
 
-@property (strong, nonatomic) ZGExternalVideoCaptureDemo *demo;
+@property (strong, nonatomic) ZGExternalVideoRenderDemo *demo;
 
 @end
 
-@implementation ZGExternalVideoCaptureViewController
+@implementation ZGExternalVideoRenderViewController
 
 - (void)viewWillAppear {
     [super viewWillAppear];
-    self.demo = [ZGExternalVideoCaptureDemo new];
+    self.demo = [ZGExternalVideoRenderDemo new];
     self.demo.delegate = self;
 }
 
@@ -42,10 +41,6 @@
         self.liveBtn.enabled = NO;
         [self.demo startLive];
     }
-}
-
-- (IBAction)onSourceTypeChange:(NSPopUpButton *)sender {
-    [self.demo setCaptureSourceType:sender.indexOfSelectedItem];
 }
 
 #pragma mark - ZGExternalVideoCaptureDemoProtocol

@@ -13,6 +13,7 @@
 
 @property (assign ,nonatomic) BOOL isLoginRoom;
 @property (assign ,nonatomic) BOOL isPublishing;
+@property (assign ,nonatomic) BOOL isPreview;
 @property (assign ,nonatomic) BOOL isPlaying;
 @property (copy, nonatomic) NSString *streamID;
 
@@ -45,6 +46,7 @@
 - (void)stop {
     [self stopPlay];
     [self stopPublish];
+    [self stopPreview];
     [ZGManager.api logoutRoom];
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -53,6 +55,7 @@
 }
 
 - (void)setCaptureSourceType:(ZGExternalVideoCaptureSourceType)sourceType {
+    NSLog(NSLocalizedString(@"setCaptureSourceType:%d", nil), sourceType);
     [self.manager setSourceType:sourceType];
 }
 
@@ -91,7 +94,9 @@
 }
 
 - (void)startPreview {
-    NSLog(NSLocalizedString(@"startPreview", nil));
+    if (self.isPreview) {
+        return;
+    }
     
     ZGView *view = [self.delegate getMainPlaybackView];
     
@@ -99,10 +104,21 @@
     //    [ZGManager.api setPreviewView:view];
     [ZGManager.api startPreview];
     [self.manager setPreviewView:view viewMode:ZegoVideoViewModeScaleAspectFill];
+    
+    self.isPreview = YES;
+    NSLog(NSLocalizedString(@"startPreview", nil));
 }
 
 - (void)stopPreview {
+    if (!self.isPreview) {
+        return;
+    }
+    
     [ZGManager.api stopPreview];
+    [ZGManager.api setPreviewView:nil];
+    
+    self.isPreview = NO;
+    NSLog(NSLocalizedString(@"stopPreview", nil));
 }
 
 - (void)startPublish {
@@ -125,8 +141,7 @@
     
     self.isPublishing = NO;
     self.streamID = nil;
-    [ZGManager.api stopPreview];
-    [ZGManager.api setPreviewView:nil];
+
     [ZGManager.api stopPublishing];
 }
 

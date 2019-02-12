@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _topicList = @[kZGTopicMediaPlayer, kZGTopicMediaSideInfo, kZGTopicSVC, kZGTopicMediaRecord, kZGTopicExternalVideoCapture];
+    _topicList = @[kZGTopicMediaPlayer, kZGTopicMediaSideInfo, kZGTopicSVC, kZGTopicMediaRecord, kZGTopicExternalVideoCapture, kZGTopicExternalVideoRender];
 }
 
 - (void)setTopicList:(NSArray<NSString *> *)topics {
@@ -69,6 +69,9 @@
         vc = [sb instantiateInitialViewController];
     } else if ([topicName isEqualToString:kZGTopicExternalVideoCapture]) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"ExternalVideoCapture" bundle:nil];
+        vc = [sb instantiateInitialViewController];
+    }else if ([topicName isEqualToString:kZGTopicExternalVideoRender]) {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"ExternalVideoRender" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
     

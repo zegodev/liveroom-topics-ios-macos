@@ -77,21 +77,27 @@ dispatch_queue_t _videoCaptureQueue;
 #pragma mark - ZegoVideoCaptureFactory
 
 - (nonnull id<ZegoVideoCaptureDevice>)zego_create:(nonnull NSString*)deviceId {
+    NSLog(NSLocalizedString(@"%s", nil), __func__);
     return self;
 }
 
 - (void)zego_destroy:(nonnull id<ZegoVideoCaptureDevice>)device {
+    NSLog(NSLocalizedString(@"%s", nil), __func__);
     [self zego_stopAndDeAllocate];
 }
 
 #pragma mark - ZegoVideoCaptureDevice
 
 - (void)zego_allocateAndStart:(nonnull id<ZegoVideoCaptureClientDelegate>)client {
+    NSLog(NSLocalizedString(@"%s", nil), __func__);
+    
     self.client = client;
     [self.client setFillMode:ZegoVideoFillModeCrop];
 }
 
 - (void)zego_stopAndDeAllocate {
+    NSLog(NSLocalizedString(@"%s", nil), __func__);
+    
     [self stopCapture];
     
     [self.client destroy];
@@ -99,12 +105,16 @@ dispatch_queue_t _videoCaptureQueue;
 }
 
 - (int)zego_startPreview {
+    NSLog(NSLocalizedString(@"%s", nil), __func__);
+    
     self.isPreview = YES;
     [self startCapture];
     return 0;
 }
 
 - (int)zego_stopPreview {
+    NSLog(NSLocalizedString(@"%s", nil), __func__);
+    
     self.isPreview = NO;
     if (self.isCapture) {
         [self stopCapture];
@@ -113,12 +123,16 @@ dispatch_queue_t _videoCaptureQueue;
 }
 
 - (int)zego_startCapture {
+    NSLog(NSLocalizedString(@"%s", nil), __func__);
+    
     self.isPublish = YES;
     [self startCapture];
     return 0;
 }
 
 - (int)zego_stopCapture {
+    NSLog(NSLocalizedString(@"%s", nil), __func__);
+    
     self.isPublish = NO;
     if (self.isCapture) {
         [self stopCapture];
@@ -129,6 +143,8 @@ dispatch_queue_t _videoCaptureQueue;
 #pragma mark - ZGExternalVideoCaptureDataReceiver
 
 - (void)capturedData:(CVImageBufferRef)image presentationTimeStamp:(CMTime)time {
+    NSLog(NSLocalizedString(@"%s", nil), __func__);
+    
     CVBufferRetain(image);
     
     dispatch_async(_videoCaptureQueue, ^{
