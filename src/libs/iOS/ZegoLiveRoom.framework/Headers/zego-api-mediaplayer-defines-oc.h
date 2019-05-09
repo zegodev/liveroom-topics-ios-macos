@@ -30,6 +30,12 @@ typedef NS_ENUM(NSInteger, ZegoMediaPlayerVideoPixelFormat) {
     ZegoMediaPlayerVideoPixelFormatABGR32   = 7,
 };
 
+typedef NS_ENUM(NSInteger, ZegoMediaPlayerIndex) {
+    ZegoMediaPlayerIndexFirst = 0,
+    ZegoMediaPlayerIndexSecond = 1,
+    ZegoMediaPlayerIndexThird = 2,
+};
+
 struct ZegoMediaPlayerVideoDataFormat
 {
     int width;

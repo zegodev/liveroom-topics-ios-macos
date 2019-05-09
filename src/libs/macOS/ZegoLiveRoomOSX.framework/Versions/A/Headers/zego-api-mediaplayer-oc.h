@@ -103,6 +103,11 @@
  */
 - (void)onSnapshot:(ZEGOImage *)image;
 
+/**
+ 预加载完成
+ */
+- (void)onLoadComplete;
+
 @end
 
 
@@ -242,6 +247,14 @@
  */
 - (void)onSnapshot:(ZEGOImage *)image playerIndex:(ZegoMediaPlayerIndex)index;
 
+/**
+ 预加载完成
+ 
+ @param index 播放器序号
+ @warning 调用 load 的回调
+ */
+- (void)onLoadComplete:(ZegoMediaPlayerIndex)index;
+
 @end
 
 
@@ -336,7 +349,6 @@
  
  @param path 媒体文件的路径
  @param repeat 是否重复播放
- @note 只有在引擎启动的情况下才会播放
  */
 - (void)start:(NSString *)path repeat:(BOOL)repeat;
 
@@ -380,6 +392,23 @@
  @return 当前播放进度，单位毫秒
  */
 - (long)getCurrentDuration;
+
+
+/**
+ 设置本地静默播放
+ 
+ @param mute 是否静默播放
+ @warning 如果设置 MediaPlayerTypeAux 模式,推出的流是有声音的
+ */
+- (void)muteLocal:(BOOL)mute;
+
+
+/**
+ 预加载资源
+ 
+ @param path 媒体文件的路径
+ */
+- (void)load:(NSString *)path;
 
 #if TARGET_OS_IPHONE
 

@@ -111,6 +111,22 @@ typedef enum : NSUInteger
 - (BOOL)startRecord:(ZegoAPIMediaRecordChannelIndex)channelIndex recordType:(ZegoAPIMediaRecordType)recordType storagePath:(NSString *)storagePath enableStatusUpdate:(BOOL)enable interval:(int)interval recordFormat:(ZegoAPIMediaRecordFormat)recordFormat;
 
 /**
+ 开始录制
+ 
+ @param channelIndex 录制通道
+ @param recordType 录制类型
+ @param storagePath 录制文件存储路径
+ @param enable  是否开启录制信息更新回调。YES: 开启，NO: 关闭。
+ @param interval 录制文件时状态回调的间隔，单位毫秒，有效范围：1000-10000
+ @param recordFromat 录制文件的文件格式
+ @param isFragment 录制文件是否分片，MP4格式才有效
+ @param return true 调用成功，false 调用失败
+ @discussion 必须在init sdk之后调用
+ @discussion 如果开启了录制信息更新回调，请实现{@link ZegoMediaRecordDelegage#onRecordStatusUpdateFromChannel:storagePath:duration:fileSize:}。
+ */
+- (BOOL)startRecord:(ZegoAPIMediaRecordChannelIndex)channelIndex recordType:(ZegoAPIMediaRecordType)recordType storagePath:(NSString *)storagePath enableStatusUpdate:(BOOL)enable interval:(int)interval recordFormat:(ZegoAPIMediaRecordFormat)recordFormat isFragment:(BOOL)isFragment;
+
+/**
  停止录制
  
  @param channelIndex 录制通道
