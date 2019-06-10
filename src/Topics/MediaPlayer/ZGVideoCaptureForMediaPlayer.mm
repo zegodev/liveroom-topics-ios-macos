@@ -131,7 +131,7 @@ typedef void (*CFTypeDeleter)(CFTypeRef cf);
         
         ZegoAVConfig* config = [ZegoAVConfig presetConfigOf:ZegoAVConfigPreset_High];
         config.videoEncodeResolution = CGSizeMake(width, height);
-        [[ZGManager api] setAVConfig:config];
+        [[ZGApiManager api] setAVConfig:config];
     }
     
     CVPixelBufferRef pixelBuffer;

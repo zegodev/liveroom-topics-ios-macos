@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "ZGManager.h"
+#import "ZGApiManager.h"
 #if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
 #import <ZegoLiveRoomOSX/zego-api-mediaplayer-oc.h>

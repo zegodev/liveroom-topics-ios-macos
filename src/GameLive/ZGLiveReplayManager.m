@@ -6,8 +6,9 @@
 //
 
 #import "ZGLiveReplayManager.h"
-#import "ZGManager.h"
+#import <ZegoLiveRoom/ZegoLiveRoomApi.h>
 #import "ZGHelper.h"
+#import "ZGKeyCenter.h"
 
 NSString *kZegoDemoAppTypeKey          = @"apptype";
 NSString *kZegoDemoAppIDKey            = @"appid";
@@ -23,6 +24,8 @@ static ZGLiveReplayManager *_avkitManager;
 @property (nonatomic, copy) NSString *streamID;
 
 @property (nonatomic, assign) CGSize videoSize;
+
+@property (strong, nonatomic) ZegoLiveRoomApi *api;
 
 @end
 
@@ -50,7 +53,9 @@ static ZGLiveReplayManager *_avkitManager;
 
 - (void)initZegoLiveApi {
     [ZegoLiveRoomApi prepareReplayLiveCapture];
-    [ZGManager api];
+    unsigned int appID = ZGKeyCenter.appID;
+    NSData *appSign = ZGKeyCenter.appSign;
+    self.api = [[ZegoLiveRoomApi alloc] initWithAppID:appID appSignature:appSign];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
         NSLog(@"[LiveRoomPlayground-GameLive] Received Memory Warning");
@@ -61,11 +66,11 @@ static ZGLiveReplayManager *_avkitManager;
 #pragma mark - Sample buffer
 
 - (void)handleVideoInputSampleBuffer:(CMSampleBufferRef)sampleBuffer {
-    [ZGManager.api handleVideoInputSampleBuffer:sampleBuffer];
+    [self.api handleVideoInputSampleBuffer:sampleBuffer];
 }
 
 - (void)handleAudioInputSampleBuffer:(CMSampleBufferRef)sampleBuffer withType:(RPSampleBufferType)sampleBufferType {
-    [ZGManager.api handleAudioInputSampleBuffer:sampleBuffer withType:sampleBufferType];
+    [self.api handleAudioInputSampleBuffer:sampleBuffer withType:sampleBufferType];
 }
 
 #pragma mark - Start and stop live
@@ -81,22 +86,21 @@ static ZGLiveReplayManager *_avkitManager;
     self.videoSize = videoSize;
     NSLog(@"[LiveRoomPlayground-GameLive] videoSize at start: %@", NSStringFromCGSize(videoSize));
     
-    [ZGManager.api setPublisherDelegate:self];
+    [self.api setPublisherDelegate:self];
     
     [self loginChatRoom];
 }
 
 - (void)stopLive {
-    [ZGManager.api stopPublishing];
-    [ZGManager.api logoutRoom];
-    [ZGManager releaseApi];
+    [self.api stopPublishing];
+    [self.api logoutRoom];
 }
 
 - (void)loginChatRoom {
     NSString *roomID = [self genRoomID];
     
     __weak typeof(self)weakself = self;
-    [ZGManager.api loginRoom:roomID role:ZEGO_ANCHOR withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
+    [self.api loginRoom:roomID role:ZEGO_ANCHOR withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
         __strong typeof(weakself)strongself = weakself;
         if (!strongself) {
             return;
@@ -112,14 +116,14 @@ static ZGLiveReplayManager *_avkitManager;
         NSLog(@"[LiveRoomPlayground-GameLive] login Room success %@", roomID);
         
         ZegoAVConfig *config = [ZegoAVConfig new];
-        config.videoEncodeResolution = strongself.videoSize;
+        config.videoEncodeResolution = self.videoSize;
         config.fps = 25;
         config.bitrate = 800000;
-        [ZGManager.api setAVConfig:config];
+        [self.api setAVConfig:config];
         
-        strongself.streamID = [strongself genStreamID];
+        self.streamID = [self genStreamID];
         
-        [ZGManager.api startPublishing:strongself.streamID title:strongself.liveTitle flag:ZEGOAPI_SINGLE_ANCHOR];
+        [self.api startPublishing:self.streamID title:self.liveTitle flag:ZEGOAPI_SINGLE_ANCHOR];
     }];
     
     NSLog(@"[LiveRoomPlayground-GameLive] login Room %@", roomID);

@@ -7,6 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import "ZegoLog.h"
+#import "ZegoTTYLogger.h"
+#import "ZegoDiskLogger.h"
+#import "ZegoRAMStoreLogger.h"
 
 @interface AppDelegate ()
 
@@ -16,10 +20,22 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [self configZegoLog];
     return YES;
 }
 
+- (void)configZegoLog {
+    ZegoTTYLogger *ttyLogger = [ZegoTTYLogger new];
+    ttyLogger.level = kZegoLogLevelDebug;
+    ZegoRAMStoreLogger *ramLogger = [ZegoRAMStoreLogger new];
+    ramLogger.level = kZegoLogLevelDebug;
+    ZegoDiskLogger *diskLogger = [ZegoDiskLogger new];
+    diskLogger.level = kZegoLogLevelDebug;
+    
+    [ZegoLog addLogger:ttyLogger];
+    [ZegoLog addLogger:ramLogger];
+    [ZegoLog addLogger:diskLogger];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

@@ -22,8 +22,8 @@
 
 @implementation ZGExternalVideoCaptureViewController
 
-- (void)viewWillAppear {
-    [super viewWillAppear];
+- (void)viewDidAppear {
+    [super viewDidAppear];
     self.demo = [ZGExternalVideoCaptureDemo new];
     self.demo.delegate = self;
 }

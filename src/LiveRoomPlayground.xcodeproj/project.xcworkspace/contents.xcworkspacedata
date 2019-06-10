@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:LiveRoomPlayground.xcodeproj">
+      location = "self:/Users/sky/liveroom-topics-ios-mac/LiveRoomPlayground/LiveRoomPlayGround.xcodeproj">
    </FileRef>
 </Workspace>

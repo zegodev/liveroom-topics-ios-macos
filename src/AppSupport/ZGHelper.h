@@ -9,6 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString* kZGTopicPublish;
+extern NSString* kZGTopicPlay;
 extern NSString* kZGTopicMediaPlayer;
 extern NSString* kZGTopicMediaSideInfo;
 extern NSString* kZGTopicSVC;

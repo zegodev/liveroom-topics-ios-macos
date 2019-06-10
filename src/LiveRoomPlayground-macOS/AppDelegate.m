@@ -14,7 +14,7 @@
 #import "./MediaRecord/ZegoMediaRecordViewController.h"
 #import "./ExternalVideoCapture/ZGExternalVideoCaptureViewController.h"
 #import "./ExternalVideoRender/ZGExternalVideoRenderViewController.h"
-#import "ZGManager.h"
+#import "ZGApiManager.h"
 #import "ZGHelper.h"
 
 @interface AppDelegate () <ZGTopicsTableViewControllerDelegate>
@@ -42,7 +42,7 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
     [self.topicsController setTopicList:self.topicList];
     
     // * init
-    (void)[ZGManager api];
+    (void)[ZGApiManager api];
 }
 
 

@@ -24,13 +24,13 @@
 @implementation ZGExternalVideoCaptureDemo
 
 - (void)dealloc {
-    [ZGManager releaseApi];
+    [ZGApiManager releaseApi];
     [ZegoExternalVideoCapture setVideoCaptureFactory:nil channelIndex:ZEGOAPI_CHN_MAIN];
 }
 
 - (instancetype)init {
     if (self = [super init]) {
-        [ZGManager releaseApi];
+        [ZGApiManager releaseApi];
         
         _manager = [ZGExternalVideoCaptureManager new];
         [ZegoExternalVideoCapture setVideoCaptureFactory:_manager channelIndex:ZEGOAPI_CHN_MAIN];
@@ -47,7 +47,7 @@
     [self stopPlay];
     [self stopPublish];
     [self stopPreview];
-    [ZGManager.api logoutRoom];
+    [ZGApiManager.api logoutRoom];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.delegate onLiveStateUpdate];
@@ -65,10 +65,10 @@
 - (void)setupLiveRoom {
     ZegoAVConfig *config = [ZegoAVConfig presetConfigOf:ZegoAVConfigPreset_High];
     
-    [ZGManager.api setAVConfig:config];
-    [ZGManager.api setRoomDelegate:self];
-    [ZGManager.api setPlayerDelegate:self];
-    [ZGManager.api setPublisherDelegate:self];
+    [ZGApiManager.api setAVConfig:config];
+    [ZGApiManager.api setRoomDelegate:self];
+    [ZGApiManager.api setPlayerDelegate:self];
+    [ZGApiManager.api setPublisherDelegate:self];
 }
 
 - (void)loginLiveRoom {
@@ -76,19 +76,20 @@
     
     NSString *roomID = [self genRoomID];
     
-    __weak typeof(self)weakself = self;
-    [ZGManager.api loginRoom:roomID role:ZEGO_ANCHOR withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
-        __strong typeof(weakself)strongself = weakself;
+    Weakify(self);
+    [ZGApiManager.api loginRoom:roomID role:ZEGO_ANCHOR withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
+        Strongify(self);
+        
         if (errorCode == 0) {
             NSLog(NSLocalizedString(@"登录房间成功. roomID: %@", nil), roomID);
-            strongself.isLoginRoom = YES;
-            [strongself startPreview];
-            [strongself startPublish];
+            self.isLoginRoom = YES;
+            [self startPreview];
+            [self startPublish];
         }
         else {
             NSLog(NSLocalizedString(@"登录房间失败. error: %d", nil), errorCode);
-            strongself.isLoginRoom = NO;
-            [strongself stop];
+            self.isLoginRoom = NO;
+            [self stop];
         }
     }];
 }
@@ -101,8 +102,8 @@
     ZGView *view = [self.delegate getMainPlaybackView];
     
     // 由于目前SDK启用外部视频采集时不会自动渲染到preivewView上，所以暂时在此使用manager代为处理
-    //    [ZGManager.api setPreviewView:view];
-    [ZGManager.api startPreview];
+    //    [ZGApiManager.api setPreviewView:view];
+    [ZGApiManager.api startPreview];
     [self.manager setPreviewView:view viewMode:ZegoVideoViewModeScaleAspectFill];
     
     self.isPreview = YES;
@@ -114,8 +115,8 @@
         return;
     }
     
-    [ZGManager.api stopPreview];
-    [ZGManager.api setPreviewView:nil];
+    [ZGApiManager.api stopPreview];
+    [ZGApiManager.api setPreviewView:nil];
     
     self.isPreview = NO;
     NSLog(NSLocalizedString(@"stopPreview", nil));
@@ -127,7 +128,7 @@
     }
     
     self.streamID = [self genStreamID];
-    [ZGManager.api startPublishing:self.streamID title:nil flag:ZEGO_SINGLE_ANCHOR];
+    [ZGApiManager.api startPublishing:self.streamID title:nil flag:ZEGO_SINGLE_ANCHOR];
     
     NSLog(NSLocalizedString(@"startPublish:%@", nil), self.streamID);
 }
@@ -142,7 +143,7 @@
     self.isPublishing = NO;
     self.streamID = nil;
 
-    [ZGManager.api stopPublishing];
+    [ZGApiManager.api stopPublishing];
 }
 
 - (void)startPlay {
@@ -153,8 +154,8 @@
     NSAssert(self.streamID, @"streamID invalid");
     NSLog(NSLocalizedString(@"startPlay", nil));
     
-    [ZGManager.api startPlayingStream:self.streamID inView:[self.delegate getSubPlaybackView]];
-    [ZGManager.api setViewMode:ZegoVideoViewModeScaleToFill ofStream:self.streamID];
+    [ZGApiManager.api startPlayingStream:self.streamID inView:[self.delegate getSubPlaybackView]];
+    [ZGApiManager.api setViewMode:ZegoVideoViewModeScaleToFill ofStream:self.streamID];
 }
 
 - (void)stopPlay {
@@ -164,7 +165,7 @@
     
     NSAssert(self.streamID, @"streamID invalid");
     NSLog(NSLocalizedString(@"stopPlay", nil));
-    [ZGManager.api stopPlayingStream:self.streamID];
+    [ZGApiManager.api stopPlayingStream:self.streamID];
     self.isPlaying = NO;
 }
 

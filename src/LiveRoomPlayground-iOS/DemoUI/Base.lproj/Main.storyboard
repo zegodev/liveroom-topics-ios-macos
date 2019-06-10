@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="IIx-N7-0ag">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--互动视频示例-->
+        <scene sceneID="Z29-21-4dP">
+            <objects>
+                <tableViewController id="TMV-WM-DQT" customClass="ZGTopicsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="zei-1D-ebo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="f2f-3l-0bX">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bgx-jw-rJX">
+                                    <rect key="frame" x="0.0" y="0.0" width="124.5" height="49"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" title="文档汇总"/>
+                                    <connections>
+                                        <action selector="onOpenDocWeb" destination="TMV-WM-DQT" eventType="touchUpInside" id="ZVG-bW-TCd"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XP6-7H-26a">
+                                    <rect key="frame" x="125.5" y="0.0" width="124" height="49"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" title="代码下载"/>
+                                    <connections>
+                                        <action selector="onOpenSourceCodeWeb" destination="TMV-WM-DQT" eventType="touchUpInside" id="JbT-Xr-SXI"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t7O-9e-Ipu">
+                                    <rect key="frame" x="250.5" y="0.0" width="124.5" height="49"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" title="常见问题"/>
+                                    <connections>
+                                        <action selector="onOpenQuestionWeb" destination="TMV-WM-DQT" eventType="touchUpInside" id="i6F-l4-ciY"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="XP6-7H-26a" secondAttribute="bottom" constant="1" id="0n2-7F-vCW"/>
+                                <constraint firstAttribute="bottom" secondItem="t7O-9e-Ipu" secondAttribute="bottom" constant="1" id="2yX-5f-jf3"/>
+                                <constraint firstItem="Bgx-jw-rJX" firstAttribute="top" secondItem="f2f-3l-0bX" secondAttribute="top" id="6dZ-Yv-oTq"/>
+                                <constraint firstAttribute="bottom" secondItem="Bgx-jw-rJX" secondAttribute="bottom" constant="1" id="7KH-WA-9L2"/>
+                                <constraint firstItem="XP6-7H-26a" firstAttribute="width" secondItem="Bgx-jw-rJX" secondAttribute="width" id="Jkt-pb-HdQ"/>
+                                <constraint firstItem="Bgx-jw-rJX" firstAttribute="leading" secondItem="f2f-3l-0bX" secondAttribute="leading" id="MaI-RE-dUJ"/>
+                                <constraint firstItem="XP6-7H-26a" firstAttribute="leading" secondItem="Bgx-jw-rJX" secondAttribute="trailing" constant="1" id="PXG-vV-f2F"/>
+                                <constraint firstItem="XP6-7H-26a" firstAttribute="top" secondItem="f2f-3l-0bX" secondAttribute="top" id="Ubi-6q-FGf"/>
+                                <constraint firstItem="t7O-9e-Ipu" firstAttribute="top" secondItem="f2f-3l-0bX" secondAttribute="top" id="h1B-rP-68T"/>
+                                <constraint firstItem="t7O-9e-Ipu" firstAttribute="width" secondItem="Bgx-jw-rJX" secondAttribute="width" id="nWl-uZ-bfT"/>
+                                <constraint firstAttribute="trailing" secondItem="t7O-9e-Ipu" secondAttribute="trailing" id="sUl-9R-fQE"/>
+                                <constraint firstItem="t7O-9e-Ipu" firstAttribute="leading" secondItem="XP6-7H-26a" secondAttribute="trailing" constant="1" id="v5p-If-FYq"/>
+                            </constraints>
+                        </view>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ZGTopicCell" id="9qM-Qu-SOj">
+                                <rect key="frame" x="0.0" y="78" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9qM-Qu-SOj" id="9TT-ft-MX0">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="TMV-WM-DQT" id="nMI-u4-EAC"/>
+                            <outlet property="delegate" destination="TMV-WM-DQT" id="CRt-18-zrQ"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="互动视频示例" id="vis-0E-uDL"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0VE-gd-5bd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1876" y="128.18590704647679"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Pn1-Kk-TpU">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="IIx-N7-0ag" customClass="ZGNavigationController" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Ic9-Ie-j9w">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="TMV-WM-DQT" kind="relationship" relationship="rootViewController" id="F88-id-O5g"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PxP-jO-gas" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="936.79999999999995" y="128.18590704647679"/>
+        </scene>
+    </scenes>
+</document>

@@ -8,7 +8,7 @@
 
 #import "ZGMediaPlayerViewController.h"
 #import "ZGMediaPlayerDemo.h"
-#import "ZGManager.h"
+#import "ZGApiManager.h"
 
 @interface ZGMediaPlayerViewController () <ZGMediaPlayerDemoDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
@@ -92,7 +92,7 @@
 - (IBAction)onMicSwitch:(id)sender {
     NSLog(@"%s", __func__);
     UISwitch* mic = (UISwitch*)sender;
-    [[ZGManager api] enableMic:mic.on];
+    [[ZGApiManager api] enableMic:mic.on];
 }
 
 - (IBAction)onPlayTypeSwitch:(id)sender {

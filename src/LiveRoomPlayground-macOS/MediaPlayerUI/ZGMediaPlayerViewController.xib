@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,6 +14,7 @@
                 <outlet property="playProgressTextField" destination="NdB-sL-sXR" id="emS-v2-Mi3"/>
                 <outlet property="publishingInfo" destination="wfc-RH-kIv" id="bsY-bi-0t9"/>
                 <outlet property="repeatCheck" destination="GDK-tC-dOS" id="P6O-LV-fei"/>
+                <outlet property="tableView" destination="2wG-ny-FMc" id="gi3-xM-Agm"/>
                 <outlet property="videoView" destination="zOg-Uc-7QP" id="IuT-j4-fHe"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
                 <outlet property="volumeSlider" destination="pEc-KH-aLu" id="vqv-yB-5FR"/>

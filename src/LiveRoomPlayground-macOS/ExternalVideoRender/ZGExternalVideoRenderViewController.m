@@ -21,8 +21,8 @@
 
 @implementation ZGExternalVideoRenderViewController
 
-- (void)viewWillAppear {
-    [super viewWillAppear];
+- (void)viewDidAppear {
+    [super viewDidAppear];
     self.demo = [ZGExternalVideoRenderDemo new];
     self.demo.delegate = self;
 }

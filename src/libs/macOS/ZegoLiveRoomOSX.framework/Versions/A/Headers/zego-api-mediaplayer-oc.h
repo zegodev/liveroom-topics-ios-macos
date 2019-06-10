@@ -108,6 +108,13 @@
  */
 - (void)onLoadComplete;
 
+/**
+ 播放进度回调
+ 
+ @param timestamp 当前播放进度，单位毫秒
+ */
+- (void)onProcessInterval:(long)timestamp;
+
 @end
 
 
@@ -254,6 +261,14 @@
  @warning 调用 load 的回调
  */
 - (void)onLoadComplete:(ZegoMediaPlayerIndex)index;
+
+/**
+ 播放进度回调
+ 
+ @param timestamp 当前播放进度，单位毫秒
+ @param index 播放器序号
+ */
+- (void)onProcessInterval:(long)timestamp playerIndex:(ZegoMediaPlayerIndex)index;
 
 @end
 
@@ -466,11 +481,21 @@
 - (long)getAudioStreamCount;
 
 /**
- * 设置是否重复播放
- * 
- * @param enable true:重复播放，false：不重复播放
+ 设置是否重复播放
+ 
+ @param enable YES:重复播放，NO：不重复播放
  */
 - (void)enableRepeatMode:(BOOL)enable;
+
+/**
+ 设置播放进度回调间隔。
+ 
+ @param interval 回调间隔，单位毫秒。有效值为大于等于 0。默认值为 0。
+ 
+ @note 设置 interval 大于 0 时，就会收到 OnPlaybackProgress 回调。interval = 0 时，停止回调。
+ @note 回调不会严格按照设定的回调间隔值返回，而是以处理音频帧或者视频帧的频率来判断是否需要回调。
+ */
+- (BOOL)setProcessInterval:(long)interval;
 
 @end
 

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ZGManager.h"
+#import "ZGApiManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

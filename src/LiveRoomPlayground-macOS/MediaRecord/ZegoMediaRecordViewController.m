@@ -27,17 +27,17 @@
 
 @implementation ZegoMediaRecordViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
+- (void)viewDidAppear {
+    [super viewDidAppear];
     self.demo = [[ZegoMediaRecordDemo alloc] init];
     [self.demo setDelegate:self];
     [self.demo startPreview];
 }
 
-- (void)viewDidDisappear {
-    [super viewDidDisappear];
+- (void)viewWillDisappear {
+    [super viewWillDisappear];
     [self.demo exit];
+    self.demo = nil;
 }
 
 - (IBAction)startRec:(id)sender {
@@ -71,7 +71,7 @@
 }
 
 - (IBAction)selectPath:(id)sender {
-    __weak typeof(self)weakself = self;
+    Weakify(self);
     
     NSSavePanel *panel = [NSSavePanel savePanel];
     [panel setNameFieldStringValue:@"ZGMediaRec"];

@@ -7,7 +7,7 @@
 //
 
 #import "ZGMediaSideInfoViewController_iOS.h"
-#import "ZGManager.h"
+#import "ZGApiManager.h"
 #import "ZGHelper.h"
 #import <ZegoLiveRoom/zego-api-media-side-info-oc.h>
 #import "ZGMediaSideInfoDemo.h"
@@ -72,7 +72,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [[ZGManager api] logoutRoom];
+    [[ZGApiManager api] logoutRoom];
 }
 
 /*

@@ -6,7 +6,7 @@
 //
 
 #import "ZGMediaPlayerPublishingHelper.h"
-#import "ZGManager.h"
+#import "ZGApiManager.h"
 #import "ZGHelper.h"
 
 @interface ZGMediaPlayerPublishingHelper () <ZegoRoomDelegate, ZegoLivePublisherDelegate> {
@@ -22,14 +22,14 @@
 }
 
 - (void)startPublishing {
-    [[ZGManager api] setPublisherDelegate:self];
+    [[ZGApiManager api] setPublisherDelegate:self];
         
     __weak ZGMediaPlayerPublishingHelper* weak_self = self;
-    [[ZGManager api] loginRoom:[ZGHelper getDeviceUUID] role:ZEGO_ANCHOR withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
+    [[ZGApiManager api] loginRoom:[ZGHelper getDeviceUUID] role:ZEGO_ANCHOR withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
         ZGMediaPlayerPublishingHelper* strong_self = weak_self;
         if (errorCode == 0) {
             [ZegoLiveRoomApi requireHardwareEncoder:true];
-            [[ZGManager api] startPublishing:[ZGHelper getDeviceUUID] title:[ZGHelper getDeviceUUID] flag:ZEGOAPI_SINGLE_ANCHOR];
+            [[ZGApiManager api] startPublishing:[ZGHelper getDeviceUUID] title:[ZGHelper getDeviceUUID] flag:ZEGOAPI_SINGLE_ANCHOR];
         } else {
             if (strong_self->observer_) {
                 strong_self->observer_(@"LOGIN FAILED!");

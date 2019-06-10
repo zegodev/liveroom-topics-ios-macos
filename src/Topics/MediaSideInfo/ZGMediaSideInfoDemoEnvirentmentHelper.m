@@ -26,22 +26,22 @@
         _recvMsgs = [NSMutableArray array];
         _streamID = [ZGHelper getDeviceUUID];
         
-        [ZGManager enableExternalVideoCapture:nil videoRenderer:nil];
-        [[ZGManager api] setRoomDelegate:self];
-        [[ZGManager api] setPublisherDelegate:self];
-        [[ZGManager api] setPlayerDelegate:self];
+        [ZGApiManager enableExternalVideoCapture:nil videoRenderer:nil];
+        [[ZGApiManager api] setRoomDelegate:self];
+        [[ZGApiManager api] setPublisherDelegate:self];
+        [[ZGApiManager api] setPlayerDelegate:self];
     }
     return self;
 }
 
 - (void)dealloc {
-    [[ZGManager api] setRoomDelegate:nil];
-    [[ZGManager api] setPublisherDelegate:nil];
-    [[ZGManager api] setPlayerDelegate:nil];
+    [[ZGApiManager api] setRoomDelegate:nil];
+    [[ZGApiManager api] setPublisherDelegate:nil];
+    [[ZGApiManager api] setPlayerDelegate:nil];
 }
 
 - (void)loginRoom {
-    bool result = [[ZGManager api] loginRoom:@"ZEGO_TOPIC_MEDIA_SIDE_INFO" role:ZEGO_ANCHOR withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
+    bool result = [[ZGApiManager api] loginRoom:@"ZEGO_TOPIC_MEDIA_SIDE_INFO" role:ZEGO_ANCHOR withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
         
         if (errorCode != 0) {
             self.status = kZGMediaSideTopicStatus_None;
@@ -61,14 +61,14 @@
 
     self.config = config;
     if (config.onlyAudioPublish) {
-        [[ZGManager api] enableCamera:false];
+        [[ZGApiManager api] enableCamera:false];
     } else {
-        [[ZGManager api] setPreviewView:self.previewView];
-        [[ZGManager api] enableCamera:true];
-        [[ZGManager api] startPreview];
+        [[ZGApiManager api] setPreviewView:self.previewView];
+        [[ZGApiManager api] enableCamera:true];
+        [[ZGApiManager api] startPreview];
     }
     
-    bool publishResult = [[ZGManager api] startPublishing:self.streamID title:@"MSI" flag:ZEGOAPI_JOIN_PUBLISH];
+    bool publishResult = [[ZGApiManager api] startPublishing:self.streamID title:@"MSI" flag:ZEGOAPI_JOIN_PUBLISH];
     if (publishResult) {
         self.status = kZGMediaSideTopicStatus_Starting_Publishing;
     } else {
@@ -86,7 +86,7 @@
     if (stateCode == 0) {
         assert(self.status == kZGMediaSideTopicStatus_Starting_Publishing);
         ZGView* v = self.config.onlyAudioPublish ? nil : self.playView;
-        bool result = [[ZGManager api] startPlayingStream:self.streamID inView:v];
+        bool result = [[ZGApiManager api] startPlayingStream:self.streamID inView:v];
         if (result) {
             self.status = kZGMediaSideTopicStatus_Starting_Playing;
         }
@@ -114,7 +114,7 @@
     [self.delegate onStateChanged:_status];
     if (_status == kZGMediaSideTopicStatus_None) {
         // * clear all status
-        [[ZGManager api] logoutRoom];
+        [[ZGApiManager api] logoutRoom];
     }
 }
 

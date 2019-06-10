@@ -6,7 +6,7 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
-#import "ZGManager.h"
+#import "ZGApiManager.h"
 #import "ZGExternalVideoCaptureManager.h"
 
 NS_ASSUME_NONNULL_BEGIN

@@ -7,7 +7,7 @@
 //
 
 #import "ZGMediaSideInfoViewController.h"
-#import "ZGManager.h"
+#import "ZGApiManager.h"
 #import "ZGHelper.h"
 #import <ZegoLiveRoomOSX/zego-api-media-side-info-oc.h>
 #import "ZGMediaSideInfoDemo.h"
@@ -48,8 +48,9 @@
 
 @implementation ZGMediaSideInfoViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewDidAppear {
+    [super viewDidAppear];
+    
     // Do view setup here.
     self.status = kZGMediaSideTopicStatus_None;
     
@@ -68,7 +69,10 @@
 }
 
 - (void)viewWillDisappear {
-    [[ZGManager api] logoutRoom];
+    [super viewWillDisappear];
+    self.demo = nil;
+    [ZGApiManager.api logoutRoom];
+    [ZGApiManager releaseApi];
 }
 
 - (IBAction)startPublishing:(id)sender {

@@ -17,7 +17,7 @@
                BlueprintIdentifier = "A7CCA5D821515BBB00191B55"
                BuildableName = "LiveRoomPlayground-macOS.app"
                BlueprintName = "LiveRoomPlayground-macOS"
-               ReferencedContainer = "container:LiveRoomPlayground.xcodeproj">
+               ReferencedContainer = "container:LiveRoomPlayGround.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
             BlueprintIdentifier = "A7CCA5D821515BBB00191B55"
             BuildableName = "LiveRoomPlayground-macOS.app"
             BlueprintName = "LiveRoomPlayground-macOS"
-            ReferencedContainer = "container:LiveRoomPlayground.xcodeproj">
+            ReferencedContainer = "container:LiveRoomPlayGround.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -58,7 +58,7 @@
             BlueprintIdentifier = "A7CCA5D821515BBB00191B55"
             BuildableName = "LiveRoomPlayground-macOS.app"
             BlueprintName = "LiveRoomPlayground-macOS"
-            ReferencedContainer = "container:LiveRoomPlayground.xcodeproj">
+            ReferencedContainer = "container:LiveRoomPlayGround.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -82,7 +82,7 @@
             BlueprintIdentifier = "A7CCA5D821515BBB00191B55"
             BuildableName = "LiveRoomPlayground-macOS.app"
             BlueprintName = "LiveRoomPlayground-macOS"
-            ReferencedContainer = "container:LiveRoomPlayground.xcodeproj">
+            ReferencedContainer = "container:LiveRoomPlayGround.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

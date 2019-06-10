@@ -23,13 +23,14 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        [ZGApiManager releaseApi];
         [self setupLiveRoom];
     }
     return self;
 }
 
 - (void)dealloc {
-    [ZGManager releaseApi];
+    [ZGApiManager releaseApi];
 }
 
 - (BOOL)setRecordConfig:(ZegoMediaRecordConfig *)config {
@@ -45,14 +46,14 @@
     
     if ([self.delegate respondsToSelector:@selector(getPlaybackView)]) {
         ZGView *view = [self.delegate getPlaybackView];
-        [ZGManager.api setPreviewView:view];
+        [ZGApiManager.api setPreviewView:view];
     }
 
-    [ZGManager.api startPreview];
+    [ZGApiManager.api startPreview];
 }
 
 - (void)stopPreview {
-    [ZGManager.api stopPreview];
+    [ZGApiManager.api stopPreview];
 }
 
 - (void)startPublish {
@@ -64,7 +65,7 @@
 - (void)stopPublish {
     NSLog(NSLocalizedString(@"stopPublish", nil));
     
-    [ZGManager.api stopPublishing];
+    [ZGApiManager.api stopPublishing];
     self.isPublishing = NO;
 }
 
@@ -101,7 +102,7 @@
         [self stopRecord];
     }
     [self stopPreview];
-    [ZGManager.api logoutRoom];
+    [ZGApiManager.api logoutRoom];
 }
 
 
@@ -114,9 +115,9 @@
     avConfig.videoEncodeResolution = resolution;
     avConfig.videoCaptureResolution = resolution;
 #endif
-    [ZGManager.api setAVConfig:avConfig];
-    [ZGManager.api setRoomDelegate:self];
-    [ZGManager.api setPublisherDelegate:self];
+    [ZGApiManager.api setAVConfig:avConfig];
+    [ZGApiManager.api setRoomDelegate:self];
+    [ZGApiManager.api setPublisherDelegate:self];
 }
 
 - (void)loginLiveRoom {
@@ -124,12 +125,14 @@
     
     NSString *roomID = ZGHelper.userID;
     
-    __weak typeof(self)weakself = self;
-    [ZGManager.api loginRoom:roomID role:ZEGO_ANCHOR withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
+    Weakify(self);
+    [ZGApiManager.api loginRoom:roomID role:ZEGO_ANCHOR withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
+        Strongify(self);
+        
         NSLog(@"%s, error: %d", __func__, errorCode);
         if (errorCode == 0) {
             NSLog(NSLocalizedString(@"登录房间成功.", nil));
-            [weakself doPublish];
+            [self doPublish];
         }
         else {
             NSLog(NSLocalizedString(@"登录房间失败. error: %d", nil), errorCode);
@@ -139,7 +142,7 @@
 
 - (void)doPublish {
     NSString *streamID = ZGHelper.userID;
-    bool res = [ZGManager.api startPublishing:streamID title:nil flag:ZEGO_JOIN_PUBLISH];
+    bool res = [ZGApiManager.api startPublishing:streamID title:nil flag:ZEGO_JOIN_PUBLISH];
     if (res) {
         NSLog(NSLocalizedString(@"🍏开始直播成功.", nil));
         self.isPublishing = YES;

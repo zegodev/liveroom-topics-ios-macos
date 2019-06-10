@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ZGManager.h"
+#import "ZGApiManager.h"
 #import "ZegoMediaRecordConfig.h"
 
 @protocol ZegoMediaRecordDemoProtocol <NSObject>

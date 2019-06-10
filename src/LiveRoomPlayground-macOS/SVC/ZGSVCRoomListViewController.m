@@ -9,7 +9,7 @@
 #import "ZGSVCRoomListViewController.h"
 #import "ZGSVCLiveViewController.h"
 #import "ZGRoomInfo.h"
-#import "ZGManager.h"
+#import "ZGApiManager.h"
 
 @interface ZGSVCRoomListViewController () <NSTableViewDelegate, NSTableViewDataSource>
 
@@ -33,7 +33,7 @@
 - (void)getLiveRooms {
     NSString *mainDomain = @"zego.im";
     
-    unsigned int appID = ZGManager.appID;
+    unsigned int appID = ZGApiManager.appID;
     NSString *baseUrl = [NSString stringWithFormat:@"https://liveroom%u-api.%@", appID, mainDomain];
     
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/demo/roomlist?appid=%u", baseUrl, appID]];
@@ -45,7 +45,7 @@
     configuration.timeoutIntervalForRequest = 10;
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-    __weak typeof(self)weakself = self;
+    Weakify(self);
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakself onRequestComplete:data resp:response err:error];

@@ -30,6 +30,8 @@
 @implementation ZGSVCDemo
 
 + (instancetype)demoWithRole:(ZegoRole)role openSVC:(BOOL)openSVC roomInfo:(ZGRoomInfo *)roomInfo {
+    [ZGApiManager releaseApi];
+    
     ZGSVCDemo *instance = [[ZGSVCDemo alloc] init];
     instance.role = role;
     instance.openSVC = openSVC;
@@ -48,7 +50,7 @@
 }
 
 - (void)dealloc {
-    [ZGManager releaseApi];
+    [ZGApiManager releaseApi];
 }
 
 - (void)startPublish {
@@ -64,9 +66,9 @@
     
     self.isPublishing = NO;
     self.streamID = nil;
-    [ZGManager.api stopPreview];
-    [ZGManager.api setPreviewView:nil];
-    [ZGManager.api stopPublishing];
+    [ZGApiManager.api stopPreview];
+    [ZGApiManager.api setPreviewView:nil];
+    [ZGApiManager.api stopPublishing];
     
     [self.delegate onPublishStateUpdate];
 }
@@ -83,15 +85,17 @@
     NSLog(NSLocalizedString(@"stopPlay", nil));
     
     for (ZegoStream *stream in self.streamList) {
-        [ZGManager.api stopPlayingStream:stream.streamID];
+        [ZGApiManager.api stopPlayingStream:stream.streamID];
     }
 }
 
 - (void)startBoardCast {
     self.isRequestBoardcast = YES;
     
-    __weak typeof(self)weakself = self;
-    BOOL res = [ZGManager.api requestJoinLive:^(int result, NSString *fromUserID, NSString *fromUserName) {
+    Weakify(self);
+    BOOL res = [ZGApiManager.api requestJoinLive:^(int result, NSString *fromUserID, NSString *fromUserName) {
+        Strongify(self);
+        
         if (result != 0) {
             NSLog(NSLocalizedString(@"主播同意了你的请求", nil));
             [self doBoardcast];
@@ -100,7 +104,7 @@
             NSLog(NSLocalizedString(@"主播拒绝请求连麦", nil));
         }
         
-        weakself.isRequestBoardcast = NO;
+        self.isRequestBoardcast = NO;
     }];
     
     NSLog(NSLocalizedString(@"startBoardCast %@", nil), res ? @"success":@"failed");
@@ -112,9 +116,9 @@
     self.isPublishing = NO;
     self.isBoardcasting = NO;
     self.boardcastStreamID = nil;
-    [ZGManager.api stopPreview];
-    [ZGManager.api setPreviewView:nil];
-    [ZGManager.api stopPublishing];
+    [ZGApiManager.api stopPreview];
+    [ZGApiManager.api setPreviewView:nil];
+    [ZGApiManager.api stopPublishing];
     
     [self.delegate onPublishStateUpdate];
     [self.delegate onBoardcastStateUpdate];
@@ -129,7 +133,7 @@
     }
     
     [self stopPlay];
-    [ZGManager.api logoutRoom];
+    [ZGApiManager.api logoutRoom];
     
     [self.delegate onPublishStateUpdate];
 }
@@ -137,25 +141,25 @@
 - (void)refreshPlaybackView {
     if (self.role == ZEGO_ANCHOR) {//主播
         if (self.isBoardcasting) {
-            [ZGManager.api updatePlayView:[self.delegate getSubPlaybackView] ofStream:self.boardcastStreamID];
+            [ZGApiManager.api updatePlayView:[self.delegate getSubPlaybackView] ofStream:self.boardcastStreamID];
         }
-        [ZGManager.api setPreviewView:[self.delegate getMainPlaybackView]];
+        [ZGApiManager.api setPreviewView:[self.delegate getMainPlaybackView]];
     }
     else {
         if (self.isBoardcasting && self.isPublishing) {//连麦者
             ZegoStream *mainStream = [self getStreamWithUserID:self.roomInfo.anchorID];
-            [ZGManager.api updatePlayView:[self.delegate getMainPlaybackView] ofStream:mainStream.streamID];
-            [ZGManager.api setPreviewView:[self.delegate getSubPlaybackView]];
+            [ZGApiManager.api updatePlayView:[self.delegate getMainPlaybackView] ofStream:mainStream.streamID];
+            [ZGApiManager.api setPreviewView:[self.delegate getSubPlaybackView]];
         }
         else {//观众
             ZegoStream *mainStream = [self getStreamWithUserID:self.roomInfo.anchorID];
             if (mainStream) {
-                [ZGManager.api updatePlayView:[self.delegate getMainPlaybackView] ofStream:mainStream.streamID];
+                [ZGApiManager.api updatePlayView:[self.delegate getMainPlaybackView] ofStream:mainStream.streamID];
             }
             if (self.streamList.count > 1) {
                 NSInteger mainIndex = [self.streamList indexOfObject:mainStream];
                 ZegoStream *subStream = self.streamList[mainIndex == 0 ? 1:0];
-                [ZGManager.api updatePlayView:[self.delegate getSubPlaybackView] ofStream:subStream.streamID];
+                [ZGApiManager.api updatePlayView:[self.delegate getSubPlaybackView] ofStream:subStream.streamID];
             }
         }
     }
@@ -167,26 +171,28 @@
 - (void)setupLiveRoom {
     ZegoAVConfig *config = [ZegoAVConfig presetConfigOf:ZegoAVConfigPreset_High];
     
-    [ZGManager.api setAVConfig:config];
-    [ZGManager.api setRoomDelegate:self];
-    [ZGManager.api setPlayerDelegate:self];
-    [ZGManager.api setPublisherDelegate:self];
+    [ZGApiManager.api setAVConfig:config];
+    [ZGApiManager.api setRoomDelegate:self];
+    [ZGApiManager.api setPlayerDelegate:self];
+    [ZGApiManager.api setPublisherDelegate:self];
 }
 
 - (void)loginLiveRoom {
     NSLog(NSLocalizedString(@"开始登录房间", nil));
     
-    __weak typeof(self)weakself = self;
-    [ZGManager.api loginRoom:self.roomInfo.roomID roomName:self.roomInfo.roomName role:self.role withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
+    Weakify(self);
+    [ZGApiManager.api loginRoom:self.roomInfo.roomID roomName:self.roomInfo.roomName role:self.role withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
+        Strongify(self);
+        
         NSLog(@"%s, error: %d", __func__, errorCode);
         if (errorCode == 0) {
             NSLog(NSLocalizedString(@"登录房间成功. roomID: %@", nil),self.roomInfo.roomID);
-            if (weakself.role == ZEGO_ANCHOR) {
-                [weakself doPublish];
+            if (self.role == ZEGO_ANCHOR) {
+                [self doPublish];
             }
             else {
-                weakself.streamList = streamList.mutableCopy;
-                [weakself doPlay];
+                self.streamList = streamList.mutableCopy;
+                [self doPlay];
             }
         }
         else {
@@ -196,18 +202,18 @@
 }
 
 - (void)doPublish {
-    [ZGManager.api setFrontCam:self.useFrontCam];
-    [ZGManager.api setPreviewView:[self.delegate getMainPlaybackView]];
-    [ZGManager.api startPreview];
+    [ZGApiManager.api setFrontCam:self.useFrontCam];
+    [ZGApiManager.api setPreviewView:[self.delegate getMainPlaybackView]];
+    [ZGApiManager.api startPreview];
     
     if (self.openSVC) {
-        [ZGManager.api setLatencyMode:ZEGOAPI_LATENCY_MODE_LOW3];
-        [ZGManager.api setVideoCodecId:VIDEO_CODEC_MULTILAYER ofChannel:ZEGOAPI_CHN_MAIN];
-        [ZGManager.api enableTrafficControl:true properties: (ZEGOAPI_TRAFFIC_NONE | ZEGOAPI_TRAFFIC_FPS | ZEGOAPI_TRAFFIC_RESOLUTION)];
+        [ZGApiManager.api setLatencyMode:ZEGOAPI_LATENCY_MODE_LOW3];
+        [ZGApiManager.api setVideoCodecId:VIDEO_CODEC_MULTILAYER ofChannel:ZEGOAPI_CHN_MAIN];
+        [ZGApiManager.api enableTrafficControl:true properties: (ZEGOAPI_TRAFFIC_NONE | ZEGOAPI_TRAFFIC_FPS | ZEGOAPI_TRAFFIC_RESOLUTION)];
     }
     
     self.streamID = [self genStreamID];
-    bool res = [ZGManager.api startPublishing:self.streamID title:nil flag:ZEGO_JOIN_PUBLISH];
+    bool res = [ZGApiManager.api startPublishing:self.streamID title:nil flag:ZEGO_JOIN_PUBLISH];
     if (res) {
         NSLog(NSLocalizedString(@"🍏开始直播成功，流ID:%@", nil), self.streamID);
         self.isPublishing = YES;
@@ -221,18 +227,18 @@
 - (void)doPlay {
     ZegoStream *mainStream = [self getStreamWithUserID:self.roomInfo.anchorID];
     if (mainStream) {
-        [ZGManager.api startPlayingStream:mainStream.streamID inView:[self.delegate getMainPlaybackView]];
+        [ZGApiManager.api startPlayingStream:mainStream.streamID inView:[self.delegate getMainPlaybackView]];
         if (self.openSVC) {
-            [ZGManager.api activateVideoPlayStream:mainStream.streamID active:true videoLayer:self.videoLayer];
+            [ZGApiManager.api activateVideoPlayStream:mainStream.streamID active:true videoLayer:self.videoLayer];
         }
     }
     
     if (self.streamList.count > 1) {
         NSInteger mainIndex = [self.streamList indexOfObject:mainStream];
         ZegoStream *subStream = self.streamList[mainIndex == 0 ? 1:0];
-        [ZGManager.api startPlayingStream:subStream.streamID inView:[self.delegate getSubPlaybackView]];
+        [ZGApiManager.api startPlayingStream:subStream.streamID inView:[self.delegate getSubPlaybackView]];
         if (self.openSVC) {
-            [ZGManager.api activateVideoPlayStream:subStream.streamID active:true videoLayer:self.videoLayer];
+            [ZGApiManager.api activateVideoPlayStream:subStream.streamID active:true videoLayer:self.videoLayer];
         }
         
         self.isBoardcasting = YES;
@@ -241,18 +247,18 @@
 }
 
 - (void)doBoardcast {
-    [ZGManager.api setFrontCam:self.useFrontCam];
-    [ZGManager.api setPreviewView:[self.delegate getSubPlaybackView]];
-    [ZGManager.api startPreview];
+    [ZGApiManager.api setFrontCam:self.useFrontCam];
+    [ZGApiManager.api setPreviewView:[self.delegate getSubPlaybackView]];
+    [ZGApiManager.api startPreview];
     
     if (self.openSVC) {
-        [ZGManager.api setLatencyMode:ZEGOAPI_LATENCY_MODE_LOW3];
-        [ZGManager.api setVideoCodecId:VIDEO_CODEC_MULTILAYER ofChannel:ZEGOAPI_CHN_MAIN];
-        [ZGManager.api enableTrafficControl:true properties: (ZEGOAPI_TRAFFIC_NONE | ZEGOAPI_TRAFFIC_FPS | ZEGOAPI_TRAFFIC_RESOLUTION)];
+        [ZGApiManager.api setLatencyMode:ZEGOAPI_LATENCY_MODE_LOW3];
+        [ZGApiManager.api setVideoCodecId:VIDEO_CODEC_MULTILAYER ofChannel:ZEGOAPI_CHN_MAIN];
+        [ZGApiManager.api enableTrafficControl:true properties: (ZEGOAPI_TRAFFIC_NONE | ZEGOAPI_TRAFFIC_FPS | ZEGOAPI_TRAFFIC_RESOLUTION)];
     }
     
     self.boardcastStreamID = [self genStreamID];
-    bool res = [ZGManager.api startPublishing:self.boardcastStreamID title:nil flag:ZEGO_JOIN_PUBLISH];
+    bool res = [ZGApiManager.api startPublishing:self.boardcastStreamID title:nil flag:ZEGO_JOIN_PUBLISH];
     if (res) {
         NSLog(NSLocalizedString(@"🍏连麦成功，流ID:%@", nil), self.boardcastStreamID);
         self.isPublishing = YES;
@@ -276,10 +282,10 @@
             continue;
         }
         
-        [ZGManager.api startPlayingStream:streamID inView:[self.delegate getSubPlaybackView]];
-        [ZGManager.api setViewMode:ZegoVideoViewModeScaleAspectFit ofStream:streamID];
+        [ZGApiManager.api startPlayingStream:streamID inView:[self.delegate getSubPlaybackView]];
+        [ZGApiManager.api setViewMode:ZegoVideoViewModeScaleAspectFit ofStream:streamID];
         if (self.openSVC) {
-            [ZGManager.api activateVideoPlayStream:streamID active:true videoLayer:self.videoLayer];
+            [ZGApiManager.api activateVideoPlayStream:streamID active:true videoLayer:self.videoLayer];
         }
         
         [self.streamList addObject:stream];
@@ -298,7 +304,7 @@
             continue;
         }
         
-        [ZGManager.api stopPlayingStream:streamID];
+        [ZGApiManager.api stopPlayingStream:streamID];
         
         [self removeStreamInfo:streamID];
         self.isBoardcasting = NO;
@@ -371,7 +377,7 @@
 
 - (void)updatePlayVideoStreamLayer {
     for (ZegoStream *stream in self.streamList) {
-        [ZGManager.api activateVideoPlayStream:stream.streamID active:true videoLayer:self.videoLayer];
+        [ZGApiManager.api activateVideoPlayStream:stream.streamID active:true videoLayer:self.videoLayer];
     }
 }
 
@@ -417,10 +423,10 @@
     NSLog(NSLocalizedString(@"收到连麦请求, userName: %@", nil), userName);
     
     if (self.isBoardcasting) {
-        [ZGManager.api respondJoinLiveReq:seq result:NO];
+        [ZGApiManager.api respondJoinLiveReq:seq result:NO];
     }
     else {
-        [ZGManager.api respondJoinLiveReq:seq result:YES];
+        [ZGApiManager.api respondJoinLiveReq:seq result:YES];
     }
 }
 
@@ -494,7 +500,7 @@
     }
     _useFrontCam = useFrontCam;
     if (self.isPublishing) {
-        [ZGManager.api setFrontCam:useFrontCam];
+        [ZGApiManager.api setFrontCam:useFrontCam];
     }
 }
 

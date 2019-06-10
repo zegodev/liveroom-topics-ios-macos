@@ -7,7 +7,7 @@
 //
 
 #import "ZGMediaPlayerViewController.h"
-#import "ZGManager.h"
+#import "ZGApiManager.h"
 #import "ZGMediaPlayerDemo.h"
 #import "ZGMediaPlayerDemoHelper.h"
 
@@ -17,6 +17,7 @@
 @property (weak) IBOutlet NSTextField *publishingInfo;
 
 @property (weak) IBOutlet NSView* videoView;
+@property (weak) IBOutlet NSTableView *tableView;
 
 @property (weak) IBOutlet NSSlider* playProgressSlider;
 @property (weak) IBOutlet NSTextField *playProgressTextField;
@@ -36,10 +37,12 @@
 
 @implementation ZGMediaPlayerViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewDidAppear {
+    [super viewDidAppear];
+    
     // Do view setup here.
     self.mediaList = [ZGMediaPlayerDemoHelper mediaList];
+    [self.tableView reloadData];
     
     self.demo = [ZGMediaPlayerDemo new];
     self.demo.delegate = self;
@@ -52,7 +55,8 @@
     [self.demo setVolume:volumn];
 }
 
-- (void)viewDidDisappear {
+- (void)viewWillDisappear {
+    [super viewWillDisappear];
     [self.demo stop];
     self.demo = nil;
 }
@@ -129,7 +133,7 @@
 }
 
 - (IBAction)onMicCheck:(id)sender {
-    [[ZGManager api] enableMic:[sender state] == NSControlStateValueOn];
+    [[ZGApiManager api] enableMic:[sender state] == NSControlStateValueOn];
 }
 
 - (IBAction)onPlayTypeChanged:(id)sender {

@@ -39,11 +39,12 @@ typedef enum {
 @implementation ZGMediaPlayerDemo
 
 - (instancetype)init {
-
     self = [super init];
     if (self) {
+        [ZGApiManager releaseApi];
+        
         self.videoCapture = [[ZGVideoCaptureForMediaPlayer alloc] init];
-        [ZGManager enableExternalVideoCapture:self.videoCapture videoRenderer:nil];
+        [ZGApiManager enableExternalVideoCapture:self.videoCapture videoRenderer:nil];
         
         self.player = [[ZegoMediaPlayer alloc] initWithPlayerType:MediaPlayerTypeAux];
         [self.player setDelegate:self];
@@ -68,8 +69,11 @@ typedef enum {
         [self.progressUpdateTimer invalidate];
         self.progressUpdateTimer = nil;
     }
-    [ZGManager.api logoutRoom];
-    [ZGManager releaseApi];
+    [self.player stop];
+    [self.player uninit];
+    [ZGApiManager.api logoutRoom];
+    [ZGApiManager releaseApi];
+    [ZegoExternalVideoCapture setVideoCaptureFactory:nil channelIndex:ZEGOAPI_CHN_MAIN];
 }
 
 - (void)setPlayerType:(MediaPlayerType)type {

@@ -17,19 +17,6 @@
 #define ZEGO_EXTERN     extern
 #endif
 
-
-/** 接口调用返回错误码 */
-typedef enum ZegoAPIErrorCode
-{
-    kZegoAPIErrorCodeOK = 0,    /**< 没有错误 */
-    kZegoAPIErrorCodeInvalidParameter = 1,  /** 调用输入参数错误 */
-    
-    // * 外部音频设备
-    kZegoAPIErrorCodeExternalAudioDeviceWasNotEnabled = 5101, /** 没有启用外部音频设备 */
-    kZegoAPIErrorCodeExternalAudioDeviceEngineError = 5102, /** 处理音频数据异常 */
-} ZegoAPIErrorCode;
-
-
 /** 流ID，值为 NSString */
 ZEGO_EXTERN NSString *const kZegoStreamIDKey;
 /** 混流ID，值为 NSString */
@@ -366,6 +353,10 @@ typedef struct
     int rtt;
     /** 丢包率(0~255) */
     int pktLostRate;
+    /** 端到端延迟 */
+    int peerToPeerDelay;
+    /** 端到端丢包率(0~255) */
+    int peerToPeerpktLostRate;
     /** 直播质量(0~3) */
     int quality;
     /** 语音延时(ms) */
@@ -487,6 +478,15 @@ typedef enum : NSUInteger
     ZEGOAPI_DEVICE_DELETE = 1,
 } ZegoAPIDeviceState;
 
+/** 设备状态 */
+typedef enum : NSUInteger
+{
+    /**< 设备已打开 */
+    ZEGOAPI_DEVICE_OPEN = 0,
+    /**< 设备已关闭 */
+    ZEGOAPI_DEVICE_CLOSE = 1,
+} ZegoAPIDeviceStatus;
+
 /** 音量类型 */
 typedef enum : NSUInteger
 {
@@ -515,6 +515,8 @@ typedef enum : NSUInteger
 @property (strong) NSArray<NSString*>* rtmpUrls;
 /** flv 地址 */
 @property (strong) NSArray<NSString*>* flvUrls;
+/** 连麦时是否切换服务器 */
+@property (assign) BOOL shouldSwitchServer;
 
 @end
 

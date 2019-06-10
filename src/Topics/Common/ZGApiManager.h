@@ -1,5 +1,5 @@
 //
-//  ZGManager.h
+//  ZGApiManager.h
 //  LiveRoomPlayground
 //
 //  Copyright © 2018年 Zego. All rights reserved.
@@ -26,14 +26,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZGManager : NSObject
+/**
+ Api初始化管理类
+ */
+@interface ZGApiManager : NSObject
+
+@property (class, strong, nonatomic, readonly) ZegoLiveRoomApi *api;
+
+@property (class, assign, nonatomic, readonly) unsigned int appID;
+@property (class, strong, nonatomic, readonly) NSData * appSign;
 
 + (void)enableExternalVideoCapture:(id<ZegoVideoCaptureFactory> _Nullable)factory videoRenderer:(id<ZegoLiveApiRenderDelegate> _Nullable)renderer;
 
-+ (ZegoLiveRoomApi*)api;
 + (void)releaseApi;
 
-+ (unsigned int)appID;
++ (void)initApiWithAppID:(unsigned int)appID appSign:(NSData *)appSign completionBlock:(nullable ZegoInitSDKCompletionBlock)blk;
 
 @end
 

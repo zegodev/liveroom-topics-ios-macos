@@ -6,7 +6,7 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
-#import "ZGManager.h"
+#import "ZGApiManager.h"
 
 @class ZGRoomInfo;
 

@@ -15,6 +15,8 @@
 
 NSString* kZGUserIDKey = @"user_id";
 
+NSString* kZGTopicPublish = @"推流";
+NSString* kZGTopicPlay = @"拉流";
 NSString* kZGTopicMediaPlayer = @"Media Player";
 NSString* kZGTopicMediaSideInfo = @"Media Side Info";
 NSString* kZGTopicSVC = @"ScalableVideoCoding";

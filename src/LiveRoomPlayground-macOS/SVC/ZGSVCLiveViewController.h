@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "ZGManager.h"
+#import "ZGApiManager.h"
 
 @class ZGRoomInfo;
 
