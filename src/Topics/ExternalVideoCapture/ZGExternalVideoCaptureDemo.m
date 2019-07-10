@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_ExternalVideoCapture
+
 #import "ZGExternalVideoCaptureDemo.h"
 #import "ZGHelper.h"
 
@@ -227,3 +229,5 @@
 
 
 @end
+
+#endif

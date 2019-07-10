@@ -9,15 +9,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString* kZGTopicPublish;
-extern NSString* kZGTopicPlay;
-extern NSString* kZGTopicMediaPlayer;
-extern NSString* kZGTopicMediaSideInfo;
-extern NSString* kZGTopicSVC;
-extern NSString* kZGTopicMediaRecord;
-extern NSString* kZGTopicExternalVideoCapture;
-extern NSString* kZGTopicExternalVideoRender;
-
 @interface ZGHelper : NSObject
 
 @property (class, copy ,nonatomic, readonly) NSString *userID;

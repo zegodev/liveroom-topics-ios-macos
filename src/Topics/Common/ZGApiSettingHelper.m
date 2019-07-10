@@ -132,8 +132,9 @@ static const BOOL ZGApiDefaultEnableHardwareDecode = NO;
 }
 
 - (CGSize)resolution {
-    NSString *value = [self savedValueForKey:NSStringFromSelector(@selector(resolution))];
-    return value ? CGSizeFromString(value):ZGApiDefaultResolution;
+    NSString *formatString = [self savedValueForKey:NSStringFromSelector(@selector(resolution))];
+    
+    return formatString ? [self sizeFromString:formatString]:ZGApiDefaultResolution;
 }
 
 - (BOOL)setResolutionValue:(CGSize)resolution {
@@ -141,10 +142,12 @@ static const BOOL ZGApiDefaultEnableHardwareDecode = NO;
     
     bool result = [ZGApiManager.api setAVConfig:config];
     
-    ZGLogInfo(@"设置推流采集、编码分辨率:%@",NSStringFromCGSize(resolution));
+    NSString *formatString = [self formatStringFromSize:resolution];
+
+    ZGLogInfo(@"设置推流采集、编码分辨率:width=%f,height=%f",resolution.width, resolution.height);
     
     if (result) {
-        [self saveValue:NSStringFromCGSize(resolution) forKey:NSStringFromSelector(@selector(resolution))];
+        [self saveValue:formatString forKey:NSStringFromSelector(@selector(resolution))];
         self.resolution = resolution;
         
         return YES;
@@ -393,6 +396,28 @@ static const BOOL ZGApiDefaultEnableHardwareDecode = NO;
     config.bitrate = bitrate;
     
     return config;
+}
+
+
+#pragma mark - Others
+
+- (CGSize)sizeFromString:(NSString *)formatString {
+    NSData *data = [formatString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    NSNumber *w = dic[@"width"];
+    NSNumber *h = dic[@"height"];
+    if (!w || !h) {
+        return ZGApiDefaultResolution;
+    }
+    return CGSizeMake(w.doubleValue, h.doubleValue);
+}
+
+- (NSString *)formatStringFromSize:(CGSize)size {
+    NSDictionary *dic = @{@"width":@(size.width),
+                          @"height":@(size.height)};
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+    
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
 @end

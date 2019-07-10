@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_ScalableVideoCoding
+
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -21,3 +23,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

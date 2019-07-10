@@ -6,6 +6,8 @@
 //  Copyright © 2018年 Zego. All rights reserved.
 //
 
+#ifdef _Module_MediaPlayer
+
 #import "ZGMediaPlayerDemoHelper.h"
 
 #if TARGET_OS_OSX
@@ -131,3 +133,5 @@ NSString* kZGMediaURLKey = @"url";
 }
 
 @end
+
+#endif

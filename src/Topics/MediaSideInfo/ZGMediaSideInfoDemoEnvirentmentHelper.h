@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_MediaSideInfo
+
 #import <Foundation/Foundation.h>
 #import "ZGApiManager.h"
 #import "ZGMediaSideInfoDemo.h"
@@ -56,3 +58,5 @@ typedef enum : NSUInteger {
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

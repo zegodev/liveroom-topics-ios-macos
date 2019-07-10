@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LNh-uk-ocM">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Video Talk Login View Controller-->
+        <scene sceneID="TFB-zD-Kar">
+            <objects>
+                <viewController storyboardIdentifier="ZGVideoTalkLoginViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="LNh-uk-ocM" customClass="ZGVideoTalkLoginViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yzC-k1-n6t">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="roomID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hzf-ae-8CJ">
+                                <rect key="frame" x="20.000000000000004" y="74" width="60.333333333333343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入 roomID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="92f-J0-oCf">
+                                <rect key="frame" x="20" y="105" width="335" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Vqn-gD-E2F"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="roomID 代表一个房间的标识，需保证房间 ID 信息的全局唯一，长度不超过 255 bytes 的可打印字符串。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7oK-nt-7Zm">
+                                <rect key="frame" x="20" y="160" width="335" height="61"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mYc-Ct-MLA">
+                                <rect key="frame" x="40" y="251" width="295" height="30"/>
+                                <color key="backgroundColor" red="0.36460450552426282" green="0.39655775453828379" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Jxm-g3-fTA"/>
+                                </constraints>
+                                <state key="normal" title="登录房间"/>
+                                <connections>
+                                    <action selector="onTryEnterRoom:" destination="LNh-uk-ocM" eventType="touchUpInside" id="xsh-zx-Ouz"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="7oK-nt-7Zm" firstAttribute="top" secondItem="92f-J0-oCf" secondAttribute="bottom" constant="25" id="7zY-lq-0B8"/>
+                            <constraint firstItem="12B-xT-tCF" firstAttribute="trailing" secondItem="mYc-Ct-MLA" secondAttribute="trailing" constant="40" id="9Gq-Nh-w20"/>
+                            <constraint firstItem="hzf-ae-8CJ" firstAttribute="leading" secondItem="12B-xT-tCF" secondAttribute="leading" constant="20" id="AV6-Gh-1xp"/>
+                            <constraint firstItem="mYc-Ct-MLA" firstAttribute="leading" secondItem="12B-xT-tCF" secondAttribute="leading" constant="40" id="BTb-OH-pv8"/>
+                            <constraint firstItem="92f-J0-oCf" firstAttribute="leading" secondItem="12B-xT-tCF" secondAttribute="leading" constant="20" id="E9l-FP-X6C"/>
+                            <constraint firstItem="92f-J0-oCf" firstAttribute="top" secondItem="hzf-ae-8CJ" secondAttribute="bottom" constant="10" id="K3x-Lg-YZx"/>
+                            <constraint firstItem="12B-xT-tCF" firstAttribute="trailing" secondItem="7oK-nt-7Zm" secondAttribute="trailing" constant="20" id="SVq-fE-Dcr"/>
+                            <constraint firstItem="7oK-nt-7Zm" firstAttribute="leading" secondItem="12B-xT-tCF" secondAttribute="leading" constant="20" id="Ub3-nf-0u8"/>
+                            <constraint firstItem="mYc-Ct-MLA" firstAttribute="top" secondItem="7oK-nt-7Zm" secondAttribute="bottom" constant="30" id="oDK-tu-YYT"/>
+                            <constraint firstItem="12B-xT-tCF" firstAttribute="trailing" secondItem="92f-J0-oCf" secondAttribute="trailing" constant="20" id="qcY-YN-RTO"/>
+                            <constraint firstItem="hzf-ae-8CJ" firstAttribute="top" secondItem="12B-xT-tCF" secondAttribute="top" constant="30" id="uWK-p9-iEl"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="12B-xT-tCF"/>
+                    </view>
+                    <connections>
+                        <outlet property="roomIDTxf" destination="92f-J0-oCf" id="pNO-F0-UOY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eh1-rR-edB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1084" y="-132.26600985221674"/>
+        </scene>
+        <!--Video Talk View Controller-->
+        <scene sceneID="6o8-fP-uEs">
+            <objects>
+                <viewController storyboardIdentifier="ZGVideoTalkViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KRn-gV-p9E" customClass="ZGVideoTalkViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="j7H-WY-oFC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oI9-8S-mkH">
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                                <subviews>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="snm-iL-sdM">
+                                        <rect key="frame" x="60" y="699" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="onToggleCameraSwitch:" destination="KRn-gV-p9E" eventType="valueChanged" id="9uN-va-7Pm"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="摄像头" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6E-ac-cQ3">
+                                        <rect key="frame" x="8" y="704" width="52" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t3G-MT-J0m">
+                                        <rect key="frame" x="181" y="699" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="onToggleMicSwitch:" destination="KRn-gV-p9E" eventType="valueChanged" id="USd-dW-eSI"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="麦克风" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFN-kn-opd">
+                                        <rect key="frame" x="129" y="704" width="52" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="t6E-ac-cQ3" firstAttribute="leading" secondItem="oI9-8S-mkH" secondAttribute="leading" constant="8" id="8ni-m4-ru9"/>
+                                    <constraint firstAttribute="bottom" secondItem="snm-iL-sdM" secondAttribute="bottom" constant="4" id="AeV-se-51l"/>
+                                    <constraint firstItem="t3G-MT-J0m" firstAttribute="leading" secondItem="cFN-kn-opd" secondAttribute="trailing" id="BPv-l8-b0x"/>
+                                    <constraint firstAttribute="bottom" secondItem="t3G-MT-J0m" secondAttribute="bottom" constant="4" id="dZO-5L-C3l"/>
+                                    <constraint firstItem="t3G-MT-J0m" firstAttribute="centerY" secondItem="cFN-kn-opd" secondAttribute="centerY" id="nyv-yt-aLm"/>
+                                    <constraint firstItem="snm-iL-sdM" firstAttribute="leading" secondItem="t6E-ac-cQ3" secondAttribute="trailing" id="pbU-U6-Cex"/>
+                                    <constraint firstItem="snm-iL-sdM" firstAttribute="centerY" secondItem="t6E-ac-cQ3" secondAttribute="centerY" id="qEA-uQ-5z1"/>
+                                    <constraint firstItem="cFN-kn-opd" firstAttribute="leading" secondItem="snm-iL-sdM" secondAttribute="trailing" constant="20" id="wcS-UW-31D"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="jak-ay-Anz" firstAttribute="trailing" secondItem="oI9-8S-mkH" secondAttribute="trailing" id="IdI-DK-YFW"/>
+                            <constraint firstItem="oI9-8S-mkH" firstAttribute="leading" secondItem="jak-ay-Anz" secondAttribute="leading" id="M5r-Wd-K3l"/>
+                            <constraint firstItem="oI9-8S-mkH" firstAttribute="top" secondItem="jak-ay-Anz" secondAttribute="top" id="OcB-V9-BFm"/>
+                            <constraint firstItem="jak-ay-Anz" firstAttribute="bottom" secondItem="oI9-8S-mkH" secondAttribute="bottom" id="rx4-Wk-Fhf"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="jak-ay-Anz"/>
+                    </view>
+                    <connections>
+                        <outlet property="cameraSwitch" destination="snm-iL-sdM" id="QX8-Pq-ahi"/>
+                        <outlet property="micSwitch" destination="t3G-MT-J0m" id="tzF-Vc-wtl"/>
+                        <outlet property="talkUserContainerView" destination="oI9-8S-mkH" id="u0t-0r-GRP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mYU-ql-dxx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-149.59999999999999" y="-140.39408866995075"/>
+        </scene>
+    </scenes>
+</document>

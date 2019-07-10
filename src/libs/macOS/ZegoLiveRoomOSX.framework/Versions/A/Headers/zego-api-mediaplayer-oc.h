@@ -112,6 +112,7 @@
  播放进度回调
  
  @param timestamp 当前播放进度，单位毫秒
+ @note 同步回调，请不要在回调中处理数据或做其他耗时操作
  */
 - (void)onProcessInterval:(long)timestamp;
 
@@ -267,6 +268,7 @@
  
  @param timestamp 当前播放进度，单位毫秒
  @param index 播放器序号
+ @note 同步回调，请不要在回调中处理数据或做其他耗时操作
  */
 - (void)onProcessInterval:(long)timestamp playerIndex:(ZegoMediaPlayerIndex)index;
 

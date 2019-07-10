@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_Play
+
 #import "ZGPlayDemo.h"
 #import "ZGLoginRoomDemo.h"
 
@@ -177,3 +179,4 @@
 
 @end
 
+#endif

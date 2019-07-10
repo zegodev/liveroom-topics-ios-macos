@@ -9,13 +9,46 @@
 #import "ZGTopicsTableViewController.h"
 
 @implementation ZGTopicsTableViewController {
-    NSArray<NSString*>* _topicList;
+    NSArray<NSArray<NSString*>*>* _topicList;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _topicList = @[kZGTopicPublish, kZGTopicPlay, kZGTopicMediaPlayer, kZGTopicMediaSideInfo, kZGTopicSVC, kZGTopicMediaRecord, kZGTopicExternalVideoCapture, kZGTopicExternalVideoRender];
+    NSMutableArray *basicTopicList = [NSMutableArray array];
+    NSMutableArray *commonTopicList = [NSMutableArray array];
+    NSMutableArray *advancedTopicList = [NSMutableArray array];
+    NSArray *topicList = @[basicTopicList, commonTopicList, advancedTopicList];
+    
+#ifdef _Module_Publish
+    [basicTopicList addObject:_Module_Publish];
+#endif
+#ifdef _Module_Play
+    [basicTopicList addObject:_Module_Play];
+#endif
+#ifdef _Module_VideoTalk
+    [commonTopicList addObject:_Module_VideoTalk];
+#endif
+#ifdef _Module_MediaPlayer
+    [advancedTopicList addObject:_Module_MediaPlayer];
+#endif
+#ifdef _Module_MediaSideInfo
+    [advancedTopicList addObject:_Module_MediaSideInfo];
+#endif
+#ifdef _Module_ScalableVideoCoding
+    [advancedTopicList addObject:_Module_ScalableVideoCoding];
+#endif
+#ifdef _Module_MediaRecord
+    [advancedTopicList addObject:_Module_MediaRecord];
+#endif
+#ifdef _Module_ExternalVideoCapture
+    [advancedTopicList addObject:_Module_ExternalVideoCapture];
+#endif
+#ifdef _Module_ExternalVideoRender
+    [advancedTopicList addObject:_Module_ExternalVideoRender];
+#endif
+    
+    _topicList = topicList;
 }
 
 - (IBAction)onOpenDocWeb {
@@ -34,21 +67,16 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return _topicList.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {//基础
-        return 2;
-    }
-    else {
-        return _topicList.count - 2;
-    }
+    return _topicList[section].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ZGTopicCell"];
-    NSString* topicName = indexPath.section == 0 ? _topicList[indexPath.row]:_topicList[indexPath.row+2];
+    NSString* topicName = _topicList[indexPath.section][indexPath.row];
     [cell.textLabel setText:topicName];
     return cell;
 }
@@ -58,13 +86,15 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         return @"基础模块";
+    } else if (section == 1) {
+        return @"常用模块";
     }
     
     return @"进阶模块";
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {    
-    if (indexPath.row >= _topicList.count){
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section >= _topicList.count || indexPath.row >= _topicList[indexPath.section].count){
         return;
     }
     
@@ -72,38 +102,68 @@
     
     UIViewController* vc = nil;
     
-    if ([topicName isEqualToString:kZGTopicPublish]) {
+    #ifdef _Module_Publish
+    if ([topicName isEqualToString:_Module_Publish]) {
         UIStoryboard* sb = [UIStoryboard storyboardWithName:@"Publish" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
-    else if ([topicName isEqualToString:kZGTopicPlay]) {
+    #endif
+    
+    #ifdef _Module_Play
+    if ([topicName isEqualToString:_Module_Play]) {
         UIStoryboard* sb = [UIStoryboard storyboardWithName:@"Play" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
-    else if ([topicName isEqualToString:kZGTopicMediaPlayer]) {
+    #endif
+    
+    #ifdef _Module_VideoTalk
+    if ([topicName isEqualToString:_Module_VideoTalk]) {
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"VideoTalk" bundle:nil];
+        vc = [sb instantiateInitialViewController];
+    }
+    #endif
+    
+    #ifdef _Module_MediaPlayer
+    if ([topicName isEqualToString:_Module_MediaPlayer]) {
         UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MediaPlayer" bundle:nil];
         vc = [sb instantiateViewControllerWithIdentifier:@"ZGMediaSourceTableViewController"];
     }
-    else if ([topicName isEqualToString:kZGTopicMediaSideInfo]) {
+    #endif
+    
+    #ifdef _Module_MediaSideInfo
+    if ([topicName isEqualToString:_Module_MediaSideInfo]) {
         UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MediaSideInfo" bundle:nil];
         vc = [sb instantiateViewControllerWithIdentifier:@"ZGMediaSideInfoViewController_iOS"];
     }
-    else if ([topicName isEqualToString:kZGTopicSVC]) {
+    #endif
+    
+    #ifdef _Module_ScalableVideoCoding
+    if ([topicName isEqualToString:_Module_ScalableVideoCoding]) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"SVC" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
-    else if ([topicName isEqualToString:kZGTopicMediaRecord]) {
+    #endif
+    
+    #ifdef _Module_MediaRecord
+    if ([topicName isEqualToString:_Module_MediaRecord]) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"MediaRecord" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
-    else if ([topicName isEqualToString:kZGTopicExternalVideoCapture]) {
+    #endif
+    
+    #ifdef _Module_ExternalVideoCapture
+    if ([topicName isEqualToString:_Module_ExternalVideoCapture]) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"ExternalVideoCapture" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
-    else if ([topicName isEqualToString:kZGTopicExternalVideoRender]) {
+    #endif
+    
+    #ifdef _Module_ExternalVideoRender
+    if ([topicName isEqualToString:_Module_ExternalVideoRender]) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"ExternalVideoRender" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
+    #endif
     
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];
@@ -113,7 +173,7 @@
 
 #pragma mark - Access
 
-- (void)setTopicList:(NSArray<NSString *> *)topics {
+- (void)setTopicList:(NSArray<NSArray<NSString*>*>*)topics {
     _topicList = topics;
     [self.tableView reloadData];
 }

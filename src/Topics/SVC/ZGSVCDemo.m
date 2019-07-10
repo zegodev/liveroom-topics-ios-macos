@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_ScalableVideoCoding
+
 #import "ZGSVCDemo.h"
 #import "ZGHelper.h"
 #import "ZGRoomInfo.h"
@@ -525,3 +527,5 @@
 }
 
 @end
+
+#endif

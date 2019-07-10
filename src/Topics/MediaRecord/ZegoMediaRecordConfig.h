@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_MediaRecord
+
 #import <Foundation/Foundation.h>
 #if TARGET_OS_OSX
 #import <ZegoLiveRoomOSX/zego-api-media-recorder-oc.h>
@@ -27,3 +29,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

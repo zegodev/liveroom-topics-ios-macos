@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_ScalableVideoCoding
+
 #import "ZGSVCLiveViewController.h"
 #import "ZGSVCDemo.h"
 #import "ZGRoomInfo.h"
@@ -161,5 +163,6 @@
     }
 }
 
-
 @end
+
+#endif

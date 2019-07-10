@@ -6,6 +6,8 @@
 //  Copyright © 2018年 Zego. All rights reserved.
 //
 
+#ifdef _Module_MediaPlayer
+
 #import "ZGMediaPlayerViewController.h"
 #import "ZGApiManager.h"
 #import "ZGMediaPlayerDemo.h"
@@ -167,3 +169,5 @@
 }
 
 @end
+
+#endif

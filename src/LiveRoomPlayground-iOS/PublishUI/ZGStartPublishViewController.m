@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_Publish
+
 #import "ZGStartPublishViewController.h"
 #import "ZGLoginRoomDemo.h"
 #import "ZGPublishDemo.h"
@@ -198,3 +200,5 @@ static NSString *ZGPublishStreamIDKey = @"ZGPublishStreamIDKey";
 }
 
 @end
+
+#endif

@@ -23,7 +23,7 @@
 @property (weak) IBOutlet ZGTopicsTableViewController *topicsController;
 @property (weak) IBOutlet NSView *contentContainer;
 
-@property (strong) NSArray<NSString *> *topicList;
+@property (strong) NSArray<NSString*> *topicList;
 
 @property (strong) NSViewController* currentController;
 @property (strong) NSMutableDictionary<NSString*, NSViewController*> *comps;
@@ -37,7 +37,35 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
     self.comps = [NSMutableDictionary dictionary];
-    self.topicList = @[kZGTopicMediaPlayer, kZGTopicMediaSideInfo, kZGTopicSVC, kZGTopicMediaRecord, kZGTopicExternalVideoCapture, kZGTopicExternalVideoRender];
+    
+    NSMutableArray *topicList = [NSMutableArray array];
+    
+//#ifdef _Module_Publish
+//    [topicList addObject:_Module_Publish];
+//#endif
+//#ifdef _Module_Play
+//    [topicList addObject:_Module_Play];
+//#endif
+#ifdef _Module_MediaPlayer
+    [topicList addObject:_Module_MediaPlayer];
+#endif
+#ifdef _Module_MediaSideInfo
+    [topicList addObject:_Module_MediaSideInfo];
+#endif
+#ifdef _Module_ScalableVideoCoding
+    [topicList addObject:_Module_ScalableVideoCoding];
+#endif
+#ifdef _Module_MediaRecord
+    [topicList addObject:_Module_MediaRecord];
+#endif
+#ifdef _Module_ExternalVideoCapture
+    [topicList addObject:_Module_ExternalVideoCapture];
+#endif
+#ifdef _Module_ExternalVideoRender
+    [topicList addObject:_Module_ExternalVideoRender];
+#endif
+    self.topicList = topicList;
+    
     self.topicsController.delegate = self;
     [self.topicsController setTopicList:self.topicList];
     
@@ -59,22 +87,44 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
     
     NSViewController* vc = nil;
 
-    if ([topic isEqualToString:kZGTopicMediaPlayer]) { // show media player page
+#ifdef _Module_MediaPlayer
+    if ([topic isEqualToString:_Module_MediaPlayer]) { // show media player page
         vc = [[ZGMediaPlayerViewController alloc] initWithNibName:@"ZGMediaPlayerViewController" bundle:nil];
-    } else if ([topic isEqualToString:kZGTopicMediaSideInfo]) {
+    }
+#endif
+    
+#ifdef _Module_MediaSideInfo
+    if ([topic isEqualToString:_Module_MediaSideInfo]) {
         vc = [[ZGMediaSideInfoViewController alloc] initWithNibName:@"ZGMediaSideInfoViewController" bundle:nil];
-    } else if ([topic isEqualToString:kZGTopicSVC]) {
+    }
+#endif
+    
+#ifdef _Module_ScalableVideoCoding
+    if ([topic isEqualToString:_Module_ScalableVideoCoding]) {
         vc = [[NSStoryboard storyboardWithName:@"SVC" bundle:nil] instantiateInitialController];
-    } else if ([topic isEqualToString:kZGTopicMediaRecord]) {
+    };
+#endif
+    
+#ifdef _Module_MediaRecord
+    if ([topic isEqualToString:_Module_MediaRecord]) {
         vc = [[ZegoMediaRecordViewController alloc] initWithNibName:@"ZegoMediaRecordViewController" bundle:nil];
-    } else if ([topic isEqualToString:kZGTopicExternalVideoCapture]) {
+    };
+#endif
+    
+#ifdef _Module_ExternalVideoCapture
+    if ([topic isEqualToString:_Module_ExternalVideoCapture]) {
         NSStoryboard *sb = [NSStoryboard storyboardWithName:@"ZGExternalVideoCapture" bundle:nil];
         vc = [sb instantiateInitialController];
-    } else if ([topic isEqualToString:kZGTopicExternalVideoRender]) {
+    };
+#endif
+    
+#ifdef _Module_ExternalVideoRender
+    if ([topic isEqualToString:_Module_ExternalVideoRender]) {
         NSStoryboard *sb = [NSStoryboard storyboardWithName:@"ZGExternalVideoRender" bundle:nil];
         vc = [sb instantiateInitialController];
-    }
-    
+    };
+#endif
+
     self.currentController = vc;
     [self.comps setObject:vc forKey:topic];
 

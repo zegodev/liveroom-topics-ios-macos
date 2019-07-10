@@ -6,9 +6,11 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_Play
+
 #import "ZGPlaySDKInitViewController.h"
 #import "UIView+PopView.h"
-#import "ZGLoginRoomViewController.h"
+#import "ZGPlayLoginRoomViewController.h"
 #import "ZGApiSettingHelper.h"
 
 @interface ZGPlaySDKInitViewController () <UIScrollViewDelegate>
@@ -85,7 +87,7 @@ static NSString *mapString = @"0123456789abcdef";
 }
 
 - (void)initSDK {
-    unsigned int appID = self.appIDTxf.text.intValue;
+    unsigned int appID = (unsigned int)self.appIDTxf.text.longLongValue;
     NSString *appSignStr = self.appSignTextView.text;
     NSData *appSign = [self convertSignStringToSign:appSignStr];
     
@@ -189,8 +191,10 @@ static NSString *mapString = @"0123456789abcdef";
 
 - (void)jumpToLoginRoom {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Play" bundle:nil];
-    ZGLoginRoomViewController *vc = [sb instantiateViewControllerWithIdentifier:@"ZGPlayLoginRoomViewController"];
+    ZGPlayLoginRoomViewController *vc = [sb instantiateViewControllerWithIdentifier:@"ZGPlayLoginRoomViewController"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
+
+#endif

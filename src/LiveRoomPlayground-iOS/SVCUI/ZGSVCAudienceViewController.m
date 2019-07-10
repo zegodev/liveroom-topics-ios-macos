@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_ScalableVideoCoding
+
 #import "ZGSVCAudienceViewController.h"
 #import "ZGRoomInfo.h"
 #import "ZGSVCDemo.h"
@@ -148,3 +150,5 @@
 
 
 @end
+
+#endif

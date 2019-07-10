@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_ScalableVideoCoding
+
 #import "ZGSVCRoomListViewController.h"
 #import "ZGRoomInfo.h"
 #import "ZGApiManager.h"
@@ -164,3 +166,5 @@
 }
 
 @end
+
+#endif

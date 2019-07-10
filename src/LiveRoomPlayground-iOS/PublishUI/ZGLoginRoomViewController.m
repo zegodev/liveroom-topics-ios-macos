@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_Publish
+
 #import "ZGLoginRoomViewController.h"
 #import "ZGLoginRoomDemo.h"
 #import "ZGStartPublishViewController.h"
@@ -74,3 +76,5 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
 
 
 @end
+
+#endif

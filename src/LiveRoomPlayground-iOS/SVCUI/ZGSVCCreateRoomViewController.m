@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_ScalableVideoCoding
+
 #import "ZGSVCCreateRoomViewController.h"
 #import "ZGSVCAnchorViewController.h"
 
@@ -34,3 +36,5 @@
 }
 
 @end
+
+#endif

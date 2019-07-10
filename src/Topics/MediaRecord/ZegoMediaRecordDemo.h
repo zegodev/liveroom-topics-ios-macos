@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_MediaRecord
+
 #import <Foundation/Foundation.h>
 #import "ZGApiManager.h"
 #import "ZegoMediaRecordConfig.h"
@@ -43,3 +45,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

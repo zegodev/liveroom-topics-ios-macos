@@ -15,7 +15,7 @@
     NSLog(@"%s", __func__);
 }
 
-- (void)setTopicList:(NSArray<NSString *> *)topics {
+- (void)setTopicList:(NSArray<NSString*>*)topics {
     _topicList = topics;
     [[self tableView] reloadData];
 }

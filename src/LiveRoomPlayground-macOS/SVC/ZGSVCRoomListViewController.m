@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_ScalableVideoCoding
+
 #import "ZGSVCRoomListViewController.h"
 #import "ZGSVCLiveViewController.h"
 #import "ZGRoomInfo.h"
@@ -48,7 +50,8 @@
     Weakify(self);
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakself onRequestComplete:data resp:response err:error];
+            Strongify(self);
+            [self onRequestComplete:data resp:response err:error];
         });
     }];
     
@@ -181,3 +184,5 @@
 }
 
 @end
+
+#endif

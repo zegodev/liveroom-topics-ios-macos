@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#if TARGET_OS_OSX
+#import <ZegoLiveRoomOSX/ZegoLiveRoomApi.h>
+#elif TARGET_OS_IOS
 #import <ZegoLiveRoom/ZegoLiveRoom.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

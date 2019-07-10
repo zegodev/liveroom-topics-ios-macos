@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_Publish
+
 #import <Foundation/Foundation.h>
 #import <ZegoLiveRoom/ZegoLiveRoom.h>
 #import <ZegoLiveRoom/zego-api-defines-oc.h>
@@ -51,3 +53,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

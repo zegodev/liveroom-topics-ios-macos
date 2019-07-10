@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_ExternalVideoRender
+
 #import <Foundation/Foundation.h>
 #import "ZGExternalVideoRenderDemo.h"
 
@@ -19,3 +21,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

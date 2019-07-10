@@ -38,11 +38,6 @@ NSUInteger ZegoDiskLggerBufferSize = 100;
         self.formatter = [ZegoDiskLogFormatter new];
         const char *label = "zglog.diskLogger";
         self.logQueue = dispatch_queue_create(label, NULL);
-        
-        [NSNotificationCenter.defaultCenter addObserver:self
-                                               selector:@selector(onReceiveApplicationWillTerminateNotification)
-                                                   name:@"UIApplicationWillTerminateNotification"
-                                                 object:nil];
     }
     return self;
 }
@@ -95,10 +90,6 @@ NSUInteger ZegoDiskLggerBufferSize = 100;
     }
     
     [self.msgBuffer removeAllObjects];
-}
-
-- (void)onReceiveApplicationWillTerminateNotification {
-    [self flush];
 }
 
 - (NSString *)defaultStoragePath {

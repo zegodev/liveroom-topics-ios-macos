@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_ScalableVideoCoding
+
 #import "ZGSVCAnchorViewController.h"
 #import "ZGSVCDemo.h"
 #import "ZGHelper.h"
@@ -150,3 +152,5 @@
 }
 
 @end
+
+#endif

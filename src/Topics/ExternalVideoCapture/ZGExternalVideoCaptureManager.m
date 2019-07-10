@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_ExternalVideoCapture
+
 #import "ZGExternalVideoCaptureManager.h"
 #import "ZGExternalVideoCaptureCameraSource.h"
 #import "ZGExternamVideoCaptureImageSource.h"
@@ -176,3 +178,5 @@ dispatch_queue_t _videoCaptureQueue;
 }
 
 @end
+
+#endif

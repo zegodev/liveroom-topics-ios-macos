@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_Publish
+
 #import "ZGPublishDemo.h"
 #import "ZGLoginRoomDemo.h"
 
@@ -202,3 +204,5 @@
 }
 
 @end
+
+#endif

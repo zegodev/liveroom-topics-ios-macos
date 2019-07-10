@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_MediaRecord
+
 #import "ZegoMediaRecordViewController.h"
 #import "ZegoMediaRecordDemo.h"
 
@@ -80,14 +82,12 @@
     [panel setAllowsOtherFileTypes:NO];
     [panel setCanCreateDirectories:YES];
     [panel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result){
-        __strong typeof(weakself)strongself = weakself;
-        if (!strongself) {
-            return;
-        }
+        Strongify(self);
+        
         if (result == NSModalResponseOK) {
             NSString *path = panel.URL.path;
-            strongself.path = path;
-            strongself.pathLabel.stringValue = path;
+            self.path = path;
+            self.pathLabel.stringValue = path;
         }
     }];
 }
@@ -156,3 +156,5 @@
 }
 
 @end
+
+#endif

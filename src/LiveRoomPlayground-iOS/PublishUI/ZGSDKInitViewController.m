@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_Publish
+
 #import "ZGSDKInitViewController.h"
 #import "UIView+PopView.h"
 #import "ZGLoginRoomViewController.h"
@@ -85,7 +87,7 @@ static NSString *mapString = @"0123456789abcdef";
 }
 
 - (void)initSDK {
-    unsigned int appID = self.appIDTxf.text.intValue;
+    unsigned int appID = (unsigned int)self.appIDTxf.text.longLongValue;
     NSString *appSignStr = self.appSignTextView.text;
     NSData *appSign = [self convertSignStringToSign:appSignStr];
     
@@ -197,3 +199,5 @@ static NSString *mapString = @"0123456789abcdef";
 }
 
 @end
+
+#endif

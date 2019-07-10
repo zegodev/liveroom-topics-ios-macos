@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_ExternalVideoCapture
+
 #import "ZGExternamVideoCaptureImageSource.h"
 #if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
@@ -215,3 +217,5 @@
 }
 
 @end
+
+#endif

@@ -1,59 +1,73 @@
 //
 //  ZGExternalVideoCapturePreviewHelper.m
-//  LiveRoomPlayground-iOS
+//  ZegoLiveRoomWrapper
 //
-//  Created by Sky on 2019/1/23.
-//  Copyright © 2019 Zego. All rights reserved.
+//  Created by Sky on 2019/6/12.
+//  Copyright © 2019 zego. All rights reserved.
 //
 
+#ifdef _Module_ExternalVideoCapture
+
 #import "ZGExternalVideoCapturePreviewHelper.h"
+#import "ZegoMTKRenderView.h"
 
 @implementation ZGExternalVideoCapturePreviewHelper
 
-+ (void)showCaptureData:(CVImageBufferRef)image inView:(ZGView *)view viewMode:(ZegoVideoViewMode)viewMode {
-    CGImageRef cgImage = [self getCGImageFromCVImageBuffer:image inView:view viewMode:viewMode];
-    CGImageRetain(cgImage);
++ (void)showCaptureData:(CVImageBufferRef)image inView:(ZEGOView *)view viewMode:(ZegoVideoViewMode)viewMode {
+    CVBufferRetain(image);
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        view.layer.contents = CFBridgingRelease(cgImage);
-        CGImageRelease(cgImage);
+        ZegoMTKRenderView *renderView = [self getRenderViewFromView:view];
         
-        CALayerContentsGravity contentViewMode = nil;
-        switch (viewMode) {
-            case ZegoVideoViewModeScaleToFill:{
-                contentViewMode = kCAGravityResize;
-                break;
-            }
-            case ZegoVideoViewModeScaleAspectFit:{
-                contentViewMode = kCAGravityResizeAspect;
-                break;
-            }
-            case ZegoVideoViewModeScaleAspectFill:{
-                contentViewMode = kCAGravityResizeAspectFill;
-                break;
-            }
+        if (!renderView) {
+            [self createSubRenderViewInView:view];
         }
-        view.layer.contentsGravity = contentViewMode;
+        
+        [renderView renderImage:image viewMode:viewMode];
+        
+        CVBufferRelease(image);
     });
-    
 }
 
-+ (void)removeCaptureDataInView:(ZGView *)view {
++ (ZegoMTKRenderView *)getRenderViewFromView:(ZEGOView *)view {
+    for (ZEGOView *subview in view.subviews) {
+        if ([subview isKindOfClass:ZegoMTKRenderView.class]) {
+            return (ZegoMTKRenderView *)subview;
+        }
+    }
+    
+    return nil;
+}
+
++ (ZegoMTKRenderView *)createSubRenderViewInView:(ZEGOView *)view {
+    ZegoMTKRenderView *renderView = [[ZegoMTKRenderView alloc] initWithFrame:view.bounds];
+    
+#if TARGET_OS_OSX
+    [view addSubview:renderView positioned:NSWindowBelow relativeTo:nil];
+#elif TARGET_OS_IOS
+    [view insertSubview:renderView atIndex:0];
+#endif
+    
+    NSLayoutConstraint *left = [NSLayoutConstraint constraintWithItem:renderView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
+    
+    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:renderView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+    
+    NSLayoutConstraint *width = [NSLayoutConstraint constraintWithItem:renderView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+    
+    NSLayoutConstraint *height = [NSLayoutConstraint constraintWithItem:renderView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
+    
+    [view addConstraints:@[left, top, width, height]];
+    
+    return renderView;
+}
+
++ (void)removeCaptureDataInView:(ZEGOView *)view {
     dispatch_async(dispatch_get_main_queue(), ^{
-        view.layer.contents = nil;
+        ZegoMTKRenderView *renderView = [self getRenderViewFromView:view];
+        [renderView removeFromSuperview];
     });
-}
-
-+ (CGImageRef)getCGImageFromCVImageBuffer:(CVImageBufferRef)imageBuffer inView:(ZGView *)view viewMode:(ZegoVideoViewMode)viewMode {
-    CVPixelBufferLockBaseAddress(imageBuffer, kCVPixelBufferLock_ReadOnly);
-    
-    CIImage *ciImage = [CIImage imageWithCVPixelBuffer:imageBuffer];
-    CIContext *temporaryContext = [CIContext contextWithOptions:nil];
-    CGImageRef videoImage = [temporaryContext createCGImage:ciImage fromRect:CGRectMake(0, 0, CVPixelBufferGetWidth(imageBuffer), CVPixelBufferGetHeight(imageBuffer))];
-    
-    CVPixelBufferUnlockBaseAddress(imageBuffer, kCVPixelBufferLock_ReadOnly);
-    
-    return videoImage;
 }
 
 @end
+
+#endif

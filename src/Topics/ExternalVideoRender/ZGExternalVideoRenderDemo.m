@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_ExternalVideoRender
+
 #import "ZGExternalVideoRenderDemo.h"
 #import "ZGHelper.h"
 #import "ZGExternalVideoRenderHelper.h"
@@ -403,3 +405,5 @@
 
 
 @end
+
+#endif

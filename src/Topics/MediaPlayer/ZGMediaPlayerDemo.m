@@ -5,6 +5,8 @@
 //  Copyright © 2018年 Zego. All rights reserved.
 //
 
+#ifdef _Module_MediaPlayer
+
 #import "ZGMediaPlayerDemo.h"
 #import "ZGVideoCaptureForMediaPlayer.h"
 
@@ -280,3 +282,5 @@ typedef enum {
 }
 
 @end
+
+#endif

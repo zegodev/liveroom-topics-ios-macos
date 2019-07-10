@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_Publish
+
 #import "ZGPublishSettingsViewController.h"
 #import "ZGApiSettingHelper.h"
 
@@ -240,3 +242,5 @@
 
 
 @end
+
+#endif

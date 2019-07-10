@@ -7,7 +7,11 @@
 //
 
 #import "ZegoLog.h"
+#if TARGET_OS_OSX
+#import <Cocoa/Cocoa.h>
+#elif TARGET_OS_IOS
 #import <UIKit/UIKit.h>
+#endif
 #import <pthread.h>
 #import <dispatch/dispatch.h>
 #import "ZegoDefaultLogFormatter.h"
@@ -25,9 +29,15 @@ dispatch_semaphore_t _queueSemaphore;
     _loggers = [NSMutableArray array];
     _queueSemaphore = dispatch_semaphore_create(ZEGO_LOG_MAX_QUEUE_SIZE);
     
+    NSString *notiName;
+#if TARGET_OS_OSX
+    notiName = NSApplicationWillTerminateNotification;
+#elif TARGET_OS_IOS
+    notiName = UIApplicationWillTerminateNotification;
+#endif
     [NSNotificationCenter.defaultCenter addObserver:self
                                            selector:@selector(onApplicationWillTerminate)
-                                               name:UIApplicationWillTerminateNotification
+                                               name:notiName
                                              object:nil];
 }
 

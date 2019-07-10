@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_MediaSideInfo
+
 #import "ZGMediaSideInfoDemo.h"
 
 @interface ZGMediaSideInfoDemo () <ZegoMediaSideDelegate>
@@ -114,3 +116,5 @@
 @implementation ZGMediaSideInfoDemoConfig
 
 @end
+
+#endif

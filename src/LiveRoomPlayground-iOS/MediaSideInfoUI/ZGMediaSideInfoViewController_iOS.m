@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_MediaSideInfo
+
 #import "ZGMediaSideInfoViewController_iOS.h"
 #import "ZGApiManager.h"
 #import "ZGHelper.h"
@@ -208,5 +210,6 @@
     return cell;
 }
 
-
 @end
+
+#endif

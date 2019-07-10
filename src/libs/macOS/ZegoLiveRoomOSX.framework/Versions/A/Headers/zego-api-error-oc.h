@@ -29,17 +29,12 @@ typedef enum : NSUInteger {
 
  kNetworkNotConnectError        = 11000101,
  kNetworkDnsResolveError        = 11000404,
- kNetworkDetectTcpError         = 11001001,
- kNetworkDetectTcpConcectError  = 11001002,
 
  kEngineCreateError             = 12101001,
  kEngineStatusError             = 12101002,
  kEngineStartError              = 12101003,
  kDeniedMaxRetryError           = 12101004,
  kDeniedDisableSwitchLineError  = 12101005,
-    
- kExternalAudioDeviceWasNotEnabledError  = 12101101,
- kExternalAudioDeviceEngineError         = 12101102,
 
  kEngineNoPlayDataError         = 12102001,
  kEngineNoPublishDataError      = 12102002,

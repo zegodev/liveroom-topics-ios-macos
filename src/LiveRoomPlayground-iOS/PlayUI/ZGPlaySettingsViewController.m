@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_Play
+
 #import "ZGPlaySettingsViewController.h"
 #import "ZGApiSettingHelper.h"
 
@@ -129,3 +131,5 @@
 }
 
 @end
+
+#endif

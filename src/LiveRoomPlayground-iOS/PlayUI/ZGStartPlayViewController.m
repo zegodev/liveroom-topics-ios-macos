@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_Play
+
 #import "ZGStartPlayViewController.h"
 #import "ZGLoginRoomDemo.h"
 #import "ZGPlayDemo.h"
@@ -201,3 +203,5 @@ static NSString *ZGPlayStreamIDKey = @"ZGPlayStreamIDKey";
 }
 
 @end
+
+#endif

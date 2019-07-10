@@ -5,6 +5,8 @@
 //  Copyright © 2018年 Zego. All rights reserved.
 //
 
+#ifdef _Module_MediaPlayer
+
 #import "ZGVideoCaptureForMediaPlayer.h"
 #import <sys/time.h>
 #import <memory>
@@ -151,3 +153,5 @@ typedef void (*CFTypeDeleter)(CFTypeRef cf);
 }
 
 @end
+
+#endif

@@ -9,6 +9,9 @@
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 
+#import "ZegoDefine.h"
+#import "ModuleCompileDefine.h"
+
 #import "ZegoLog.h"
 #import "ZGHelper.h"
 #import "ZGURLDefine.h"
@@ -17,22 +20,5 @@
 #import "NSObject+Binding.h"
 #import "NSObject+Persistence.h"
 #import "UIApplication+JumpWeb.h"
-
-
-
-#define Weakify( x ) \
-_Pragma("clang diagnostic push") \
-_Pragma("clang diagnostic ignored \"-Wshadow\"") \
-__weak __typeof__(x) __weak_##x##__ = x; \
-_Pragma("clang diagnostic pop")
-
-#define Strongify( x ) \
-_Pragma("clang diagnostic push") \
-_Pragma("clang diagnostic ignored \"-Wshadow\"") \
-__strong __typeof__(x) x = __weak_##x##__; \
-_Pragma("clang diagnostic pop") \
-if (!self) {return;}
-
-
 
 #endif /* PrefixHeader_pch */

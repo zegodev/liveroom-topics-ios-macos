@@ -6,6 +6,8 @@
 //  Copyright © 2018 Zego. All rights reserved.
 //
 
+#ifdef _Module_MediaRecord
+
 #import "ZGMediaRecordConfigViewController.h"
 #import "ZGMediaRecordViewController.h"
 
@@ -33,3 +35,5 @@
 }
 
 @end
+
+#endif
