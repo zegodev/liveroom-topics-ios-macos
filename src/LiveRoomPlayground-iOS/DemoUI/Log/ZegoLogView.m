@@ -27,6 +27,8 @@
 
 @property (copy, nonatomic) NSString *dstLogFilePath;
 
+@property (assign, nonatomic) BOOL isDragingList;//当查看日志时就不滚动到底部
+
 @end
 
 static ZegoLogView *view = nil;
@@ -143,6 +145,10 @@ static ZegoLogView *view = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
         
+        if (self.isDragingList) {
+            return;
+        }
+        
         if (self.logger.logs.count > 0) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.logger.logs.count-1 inSection:0];
             [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
@@ -195,6 +201,20 @@ static ZegoLogView *view = nil;
             [[UIPasteboard generalPasteboard] setString:logString];
         }
     }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.isDragingList = YES;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) {
+        self.isDragingList = NO;
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    self.isDragingList = NO;
 }
 
 @end

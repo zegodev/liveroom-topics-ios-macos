@@ -121,6 +121,7 @@ typedef enum : NSUInteger {
  kRoomTimeoutError              = 60001004,
  kRoomHbTimeoutError            = 60001005,
  kRoomStartConnectError         = 60001006,
+ kRoomReconnectFailError        = 60001007,
  kRoomInvalidSocketError        = 60002001,
  kRoomInvalidRspError           = 60003001,
  kRoomDecodeSignError           = 62001001,

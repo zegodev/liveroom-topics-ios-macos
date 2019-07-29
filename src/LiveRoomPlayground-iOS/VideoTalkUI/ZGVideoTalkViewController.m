@@ -6,11 +6,13 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_VideoTalk
+
 #import "ZGVideoTalkViewController.h"
 #import "ZGVideoTalkDemo.h"
 
-const NSInteger ZGVideoTalkStreamViewColumnPerRow = 3;  // stream 视图每行的显示个数
-const CGFloat ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
+NSInteger const ZGVideoTalkStreamViewColumnPerRow = 3;  // stream 视图每行的显示个数
+CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
 
 
 @interface ZGVideoTalkUserVideoViewObject : NSObject
@@ -25,7 +27,7 @@ const CGFloat ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
 @end
 
 
-@interface ZGVideoTalkViewController () <ZGVideoTalkDemoDelegate>
+@interface ZGVideoTalkViewController () <ZGVideoTalkDemoDataSource, ZGVideoTalkDemoDelegate>
 
 @property (weak, nonatomic) IBOutlet UISwitch *cameraSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *micSwitch;
@@ -35,6 +37,9 @@ const CGFloat ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
 // 参与视频通话用户的视频视图
 @property (nonatomic, strong) NSMutableArray<ZGVideoTalkUserVideoViewObject *> *joinUserVideoViewObjs;
 
+@property (nonatomic, copy) NSString *joinTalkUserID;
+@property (nonatomic, copy) NSString *joinTalkStreamID;
+
 @end
 
 @implementation ZGVideoTalkViewController
@@ -43,32 +48,20 @@ const CGFloat ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
     [super viewDidLoad];
     
 #if DEBUG
-    NSAssert(self.videoTalkDemo != nil, @"必须设置 videoTalkDemo 属性。");
+    NSAssert(self.roomID != nil, @"必须设置 roomID");
+    NSAssert(self.videoTalkDemo != nil, @"必须设置 videoTalkDemo");
 #endif
     
-    [self.videoTalkDemo setDelegate:self];
-    
+    // 获取到 userID 和 userName
+    self.joinTalkUserID = [NSString stringWithFormat:@"u-%ld", (long)[NSDate date].timeIntervalSince1970];
+    self.joinTalkStreamID = [NSString stringWithFormat:@"s-%@", self.joinTalkUserID];
     self.joinUserVideoViewObjs = [NSMutableArray<ZGVideoTalkUserVideoViewObject *> array];
     
+    [self.videoTalkDemo setDataSource:self];
+    [self.videoTalkDemo setDelegate:self];
+    
     [self setupUI];
-    
-    
-    // 添加本人通话视图
-    ZGVideoTalkUserVideoViewObject *localUserVVObj = [self addLocalUserVideoViewObject];
-    [self reArrangeJoinUserVideoViews];
-    // 设置本人通话视频的渲染视图
-    [self.videoTalkDemo setLocalUserVideoPreviewView:localUserVVObj.videoView];
-    
-    // 添加已存在的其他用户视频
-    NSArray<NSString *> *remoteUserIDs = [self.videoTalkDemo.remoteUserIDList copy];
-    [self addRemoteJoinUsers:remoteUserIDs];
-}
-
-- (void)setupUI {
-    self.cameraSwitch.on = self.videoTalkDemo.enableCamera;
-    self.micSwitch.on = self.videoTalkDemo.enableMic;
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(closePage:)];
-    [self invalidatePublishStateDisplay];
+    [self joinVideoTalkRoom];
 }
 
 - (IBAction)onToggleCameraSwitch:(UISwitch *)sender {
@@ -82,6 +75,40 @@ const CGFloat ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
 
 #pragma mark - private methods
 
+- (void)setupUI {
+    self.cameraSwitch.on = self.videoTalkDemo.enableCamera;
+    self.micSwitch.on = self.videoTalkDemo.enableMic;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(closePage:)];
+    [self invalidateJoinTalkStateDisplay];
+}
+
+- (void)joinVideoTalkRoom {
+    [ZegoHudManager showNetworkLoading];
+    Weakify(self);
+    BOOL result = [self.videoTalkDemo joinTalkRoom:self.roomID userID:self.joinTalkUserID callback:^(int errorCode, NSArray<NSString *> *joinTalkUserIDs) {
+        [ZegoHudManager hideNetworkLoading];
+        
+        Strongify(self);
+        if (errorCode != 0) {
+            [ZegoHudManager showMessage:@"加入视频通话失败"];
+            return;
+        }
+        
+        // 刷新数据源
+        if (joinTalkUserIDs.count > 0) {
+            for (NSString *userID in joinTalkUserIDs) {
+                [self addRemoteUserVideoViewObjectIfNeedWithUserID:userID];
+            }
+            [self rearrangeJoinUserVideoViews];
+        }
+    }];
+    
+    if (!result) {
+        [ZegoHudManager hideNetworkLoading];
+        [ZegoHudManager showMessage:@"参数不合法或已经登录房间"];
+    }
+}
+
 /**
  添加自己的推流视图 object
  */
@@ -89,11 +116,42 @@ const CGFloat ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
     UIView *view = [UIView new];
     ZGVideoTalkUserVideoViewObject *localVVObj = [ZGVideoTalkUserVideoViewObject new];
     localVVObj.isLocalUser = YES;
-    localVVObj.userID = self.videoTalkDemo.localUserID;
+    localVVObj.userID = self.joinTalkUserID;
     localVVObj.videoView = view;
     
     [self.joinUserVideoViewObjs addObject:localVVObj];
     return localVVObj;
+}
+
+- (ZGVideoTalkUserVideoViewObject *)getLocalUserVideoViewObject {
+    ZGVideoTalkUserVideoViewObject *localUserObj = nil;
+    for (ZGVideoTalkUserVideoViewObject *obj in self.joinUserVideoViewObjs) {
+        if ([obj.userID isEqualToString:self.joinTalkUserID]) {
+            localUserObj = obj;
+            break;
+        }
+    }
+    return localUserObj;
+}
+
+- (void)addRemoteUserVideoViewObjectIfNeedWithUserID:(NSString *)userID {
+    if ([self getUserVideoViewObjectWithUserID:userID]) {
+        return;
+    }
+    
+    ZGVideoTalkUserVideoViewObject *vvObj = [ZGVideoTalkUserVideoViewObject new];
+    vvObj.isLocalUser = NO;
+    vvObj.userID = userID;
+    vvObj.videoView = [UIView new];
+    [self.joinUserVideoViewObjs addObject:vvObj];
+}
+
+- (void)removeUserVideoViewObjectWithUserID:(NSString *)userID {
+    ZGVideoTalkUserVideoViewObject *obj = [self getUserVideoViewObjectWithUserID:userID];
+    if (obj) {
+        [self.joinUserVideoViewObjs removeObject:obj];
+        [obj.videoView removeFromSuperview];
+    }
 }
 
 - (void)closePage:(id)sender {
@@ -101,7 +159,7 @@ const CGFloat ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
 }
 
 - (void)exitRoomWithRequestLeave:(BOOL)requestLeave {
-    [self removeJoinUsers:[self getAllJoinUserIDs]];
+    [self.videoTalkDemo setDataSource:nil];
     [self.videoTalkDemo setDelegate:nil];
     if (requestLeave) {
         [self.videoTalkDemo leaveTalkRoom];
@@ -109,14 +167,23 @@ const CGFloat ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)invalidatePublishStateDisplay {
-    self.navigationItem.title = self.videoTalkDemo.onPublishLocalStream?@"推流中":@"未推流";
+- (void)invalidateJoinTalkStateDisplay {
+    ZGVideoTalkJoinRoomState joinRoomState = self.videoTalkDemo.joinRoomState;
+    NSString *stateTitle = nil;
+    if (joinRoomState == ZGVideoTalkJoinRoomStateJoined) {
+        stateTitle = @"推流中（已加入通话）";
+    } else if (joinRoomState == ZGVideoTalkJoinRoomStateNotJoin) {
+        stateTitle = @"未推流（未加入通话）";
+    } else if (joinRoomState == ZGVideoTalkJoinRoomStateOnRequestJoin) {
+        stateTitle = @"请求加入通话中";
+    }
+    self.navigationItem.title = stateTitle;
 }
 
 /**
  重排用户视频视图列表
  */
-- (void)reArrangeJoinUserVideoViews {
+- (void)rearrangeJoinUserVideoViews {
     // 重排参与者流视图
     for (ZGVideoTalkUserVideoViewObject *obj in self.joinUserVideoViewObjs) {
         if (obj.videoView != nil) {
@@ -148,57 +215,7 @@ const CGFloat ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
     }
 }
 
-- (void)addRemoteJoinUsers:(NSArray<NSString *> *)userIDs {
-    if (userIDs == nil) return;
-    
-    BOOL needArrangeViews = NO;
-    NSArray<NSString*> *currentJoinUserIds = [[self.joinUserVideoViewObjs copy] valueForKeyPath:@"userID"];
-    for (NSString *userID in userIDs) {
-        // 不存在相同的 user
-        NSInteger existIdx = [currentJoinUserIds indexOfObject:userID];
-        if (existIdx == NSNotFound) {
-            needArrangeViews = YES;
-            ZGVideoTalkUserVideoViewObject *vvObj = [ZGVideoTalkUserVideoViewObject new];
-            vvObj.isLocalUser = NO;
-            vvObj.userID = userID;
-            vvObj.videoView = [UIView new];
-            
-            [self.joinUserVideoViewObjs addObject:vvObj];
-            // 开始拉流
-            [self.videoTalkDemo startPlayRemoteUserVideo:userID inView:vvObj.videoView];
-        }
-    }
-    
-    if (needArrangeViews) {
-        [self reArrangeJoinUserVideoViews];
-    }
-}
-
-- (void)removeJoinUsers:(NSArray<NSString *> *)userIDs {
-    if (userIDs == nil) {
-        return;
-    }
-    
-    BOOL needArrangeViews = NO;
-    for (NSString *userID in userIDs) {
-        // 删除已有相同的 stream
-        // 暂停拉流
-        ZGVideoTalkUserVideoViewObject *existObj = [self findJoinUserVideoViewInListWithUserId:userID];
-        if (existObj) {
-            needArrangeViews = YES;
-            [self.joinUserVideoViewObjs removeObject:existObj];
-            
-            [self.videoTalkDemo stopPlayRemoteUserVideo:existObj.userID];
-            [existObj.videoView removeFromSuperview];
-        }
-    }
-    
-    if (needArrangeViews) {
-        [self reArrangeJoinUserVideoViews];
-    }
-}
-
-- (ZGVideoTalkUserVideoViewObject *)findJoinUserVideoViewInListWithUserId:(NSString *)userID {
+- (ZGVideoTalkUserVideoViewObject *)getUserVideoViewObjectWithUserID:(NSString *)userID {
     __block ZGVideoTalkUserVideoViewObject *existObj = nil;
     [self.joinUserVideoViewObjs enumerateObjectsUsingBlock:^(ZGVideoTalkUserVideoViewObject * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj.userID isEqualToString:userID]) {
@@ -222,38 +239,91 @@ const CGFloat ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
     [self presentViewController:alertVC animated:YES completion:nil];
 }
 
+#pragma mark - ZGVideoTalkDemoDataSource
+
+- (NSString *)localUserJoinTalkStreamID:(ZGVideoTalkDemo *)demo {
+    return self.joinTalkStreamID;
+}
+
+- (UIView *)localUserPreviewView:(ZGVideoTalkDemo *)demo {
+    return [self getLocalUserVideoViewObject].videoView;
+}
+
+- (UIView *)videoTalkDemo:(ZGVideoTalkDemo *)demo playViewForRemoteUserWithID:(NSString *)userID {
+    return [self getUserVideoViewObjectWithUserID:userID].videoView;
+}
+
 #pragma mark - ZGVideoTalkDemoDelegate
 
 - (void)videoTalkDemo:(ZGVideoTalkDemo *)demo kickOutTalkRoom:(NSString *)roomID {
+    if (![roomID isEqualToString:self.roomID]) {
+        return;
+    }
     [self handleOutTalkRoomWithAlertMessage:@"被踢出房间，或者相同 userID 在别出登录"];
 }
 
 - (void)videoTalkDemo:(ZGVideoTalkDemo *)demo disConnectTalkRoom:(NSString *)roomID {
+    if (![roomID isEqualToString:self.roomID]) {
+        return;
+    }
     [self handleOutTalkRoomWithAlertMessage:@"您已断开和房间的连接"];
 }
 
-- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo roomLoginStateUpdated:(ZGVideoTalkDemoRoomLoginState)state
+- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo
+localUserJoinRoomStateUpdated:(ZGVideoTalkJoinRoomState)state
                roomID:(NSString *)roomID {
-    // 业务处理房间登录状态的变化
+    if (![roomID isEqualToString:self.roomID]) {
+        return;
+    }
+    
+    if (state == ZGVideoTalkJoinRoomStateJoined) {
+        // 添加本地画预览视图，准备好数据源
+        if (![self getLocalUserVideoViewObject]) {
+            // 添加本人通话视图
+            [self addLocalUserVideoViewObject];
+            [self rearrangeJoinUserVideoViews];
+        }
+    } else if (state == ZGVideoTalkJoinRoomStateNotJoin) {
+        [self removeUserVideoViewObjectWithUserID:self.joinTalkUserID];
+        [self rearrangeJoinUserVideoViews];
+    }
+    [self invalidateJoinTalkStateDisplay];
 }
 
-- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo didJoinTalkRoom:(NSString *)talkRoomID
-          withUserIDs:(NSArray<NSString *> *)userIDs {
-    [self addRemoteJoinUsers:userIDs];
+- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo
+remoteUserDidJoinTalkInRoom:(NSString *)talkRoomID
+              userIDs:(NSArray<NSString *> *)userIDs {
+    if (![talkRoomID isEqualToString:self.roomID] || userIDs.count == 0) {
+        return;
+    }
+    
+    // 刷新数据源
+    for (NSString *userID in userIDs) {
+        [self addRemoteUserVideoViewObjectIfNeedWithUserID:userID];
+    }
+    [self rearrangeJoinUserVideoViews];
 }
 
-- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo didLeaveTalkRoom:(NSString *)talkRoomID
-          withUserIDs:(NSArray<NSString *> *)userIDs {
-    [self removeJoinUsers:userIDs];
+- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo
+remoteUserDidLeaveTalkInRoom:(NSString *)talkRoomID
+              userIDs:(NSArray<NSString *> *)userIDs {
+    if (![talkRoomID isEqualToString:self.roomID] || userIDs.count == 0) {
+        return;
+    }
+    
+    // 刷新数据源
+    for (NSString *userID in userIDs) {
+        [self removeUserVideoViewObjectWithUserID:userID];
+    }
+    [self rearrangeJoinUserVideoViews];
 }
 
-- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo localUserOnPublishVideoUpdated:(BOOL)onPublishVideo {
-    [self invalidatePublishStateDisplay];
-}
-
-- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo remoteUserVideoStateUpdate:(int)stateCode
-           withUserID:(NSString *)userID {
+- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo
+remoteUserVideoStateUpdate:(int)stateCode
+               userID:(NSString *)userID {
     // 业务处理远端通话用户视频播放状态的变化
 }
 
 @end
+
+#endif

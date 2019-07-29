@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_VideoTalk
+
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -14,8 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZGVideoTalkViewController : UIViewController
 
+@property (nonatomic, copy) NSString *roomID;
+
 @property (nonatomic, strong) ZGVideoTalkDemo *videoTalkDemo;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

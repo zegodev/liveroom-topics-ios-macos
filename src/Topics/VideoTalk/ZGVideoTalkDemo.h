@@ -15,19 +15,50 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- 示例房间登录状态
+ 视频通话加入房间状态
 
- - ZGVideoTalkDemoRoomLoginStateNotLogin: 还未登录
- - ZGVideoTalkDemoRoomLoginStateOnRequestLogin: 请求登录中
- - ZGVideoTalkDemoRoomLoginStateHasLogin: 已登录
+ - ZGVideoTalkJoinRoomStateNotJoin: 还未加入
+ - ZGVideoTalkJoinRoomStateOnRequestJoin: 请求加入中
+ - ZGVideoTalkJoinRoomStateJoined: 已加入
  */
-typedef NS_ENUM(NSUInteger, ZGVideoTalkDemoRoomLoginState) {
-    ZGVideoTalkDemoRoomLoginStateNotLogin,
-    ZGVideoTalkDemoRoomLoginStateOnRequestLogin,
-    ZGVideoTalkDemoRoomLoginStateHasLogin
+typedef NS_ENUM(NSUInteger, ZGVideoTalkJoinRoomState) {
+    ZGVideoTalkJoinRoomStateNotJoin,
+    ZGVideoTalkJoinRoomStateOnRequestJoin,
+    ZGVideoTalkJoinRoomStateJoined
 };
 
 @class ZGVideoTalkDemo;
+
+@protocol ZGVideoTalkDemoDataSource <NSObject>
+
+@required
+
+/**
+ 获取本地用户加入视频通话的推流 ID
+
+ @param demo ZGVideoTalkDemo 实例
+ @return 推流 ID
+ */
+- (NSString *)localUserJoinTalkStreamID:(ZGVideoTalkDemo *)demo;
+/**
+ 获取本地用户视频通话的预览视图
+
+ @param demo ZGVideoTalkDemo 实例
+ @return 预览视图
+ */
+- (UIView *)localUserPreviewView:(ZGVideoTalkDemo *)demo;
+
+/**
+ 获取远端用户的视频通话播放视图
+
+ @param demo ZGVideoTalkDemo 实例
+ @param userID 远端用户 UserID
+ @return 播放视图
+ */
+- (UIView *)videoTalkDemo:(ZGVideoTalkDemo *)demo playViewForRemoteUserWithID:(NSString *)userID;
+
+@end
+
 @protocol ZGVideoTalkDemoDelegate <NSObject>
 
 /**
@@ -47,53 +78,49 @@ typedef NS_ENUM(NSUInteger, ZGVideoTalkDemoRoomLoginState) {
 - (void)videoTalkDemo:(ZGVideoTalkDemo *)demo disConnectTalkRoom:(NSString *)roomID;
 
 /**
- 本地用户房间登录状态变化事件。
-
+ 本地用户加入房间状态变化事件。
+ 
  @param demo ZGVideoTalkDemo 实例
- @param state 登录状态
+ @param state 加入房间的状态
  @param roomID 通话房间 ID
  */
-- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo roomLoginStateUpdated:(ZGVideoTalkDemoRoomLoginState)state
+- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo
+localUserJoinRoomStateUpdated:(ZGVideoTalkJoinRoomState)state
                roomID:(NSString *)roomID;
 
 /**
- 用户进入通话房间事件。
+ 远端用户加入通话事件。
  
  @param demo ZGVideoTalkDemo 实例
  @param talkRoomID 通话房间 ID
  @param userIDs 用户 id 列表
  */
-- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo didJoinTalkRoom:(NSString *)talkRoomID
-          withUserIDs:(NSArray<NSString *> *)userIDs;
+- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo
+remoteUserDidJoinTalkInRoom:(NSString *)talkRoomID
+              userIDs:(NSArray<NSString *> *)userIDs;
 
 /**
- 用户离开通话房间事件。
+ 远端用户离开通话事件。
 
  @param demo ZGVideoTalkDemo 实例
  @param talkRoomID 通话房间 ID
  @param userIDs 用户 id 列表
  */
-- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo didLeaveTalkRoom:(NSString *)talkRoomID
-          withUserIDs:(NSArray<NSString *> *)userIDs;
+- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo
+remoteUserDidLeaveTalkInRoom:(NSString *)talkRoomID
+              userIDs:(NSArray<NSString *> *)userIDs;
 
-
-/**
- 本地视频通话用户视频推送状态变化事件。
- 
- @param demo ZGVideoTalkDemo 实例
- @param onPublishVideo 是否在推送
- */
-- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo localUserOnPublishVideoUpdated:(BOOL)onPublishVideo;
 
 /**
  远端视频通话用户视频状态变化事件。
 
  @param demo ZGVideoTalkDemo 实例
- @param stateCode 状态码。stateCode > 0 表示发生错误。发生错误后，用户可实现自己的逻辑，如显示错误信息和暂停状态，然后显示播放按钮实现重新播放
+ @param stateCode 状态码。stateCode != 0 表示发生错误。发生错误后，用户可实现自己的逻辑。
  @param userID 用户 ID
  */
-- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo remoteUserVideoStateUpdate:(int)stateCode
-           withUserID:(NSString *)userID;
+- (void)videoTalkDemo:(ZGVideoTalkDemo *)demo
+remoteUserVideoStateUpdate:(int)stateCode
+           userID:(NSString *)userID;
 
 @end
 
@@ -118,13 +145,10 @@ typedef NS_ENUM(NSUInteger, ZGVideoTalkDemoRoomLoginState) {
 @property (nonatomic, readonly) BOOL enableMic;
 
 // 房间登录状态
-@property (nonatomic, readonly) ZGVideoTalkDemoRoomLoginState roomLoginState;
+@property (nonatomic, readonly) ZGVideoTalkJoinRoomState joinRoomState;
 
 // 登录的房间 id
 @property (nonatomic, readonly) NSString *talkRoomID;
-
-// 本地用户是否在推流
-@property (nonatomic, readonly) BOOL onPublishLocalStream;
 
 // 本地用户通话的推流 ID
 @property (nonatomic, readonly) NSString *localStreamID;
@@ -135,6 +159,8 @@ typedef NS_ENUM(NSUInteger, ZGVideoTalkDemoRoomLoginState) {
 // 参与通话的远程用户 ID 列表
 @property (nonatomic, readonly) NSArray<NSString *> *remoteUserIDList;
 
+// dataSource
+@property (nonatomic, weak) id<ZGVideoTalkDemoDataSource> dataSource;
 // 代理
 @property (nonatomic, weak) id<ZGVideoTalkDemoDelegate> delegate;
 
@@ -171,14 +197,12 @@ typedef NS_ENUM(NSUInteger, ZGVideoTalkDemoRoomLoginState) {
 
  @param talkRoomID 通话房间 ID。根据业务取系统唯一值
  @param userID 用户 ID。根据业务取系统惟一值，最好有意义
- @param streamID 通话的推流 ID。为了防止串流，最好每次使用一个不重复的流
- @param callback 回调。errorCode 为 0 表示加入成功
+ @param callback 回调。errorCode 为 0 表示加入成功，joinTalkUserIDs：房间内已加入到通话的用户 ID 列表
  @return 请求是否发送成功
  */
 - (BOOL)joinTalkRoom:(NSString *)talkRoomID
               userID:(NSString *)userID
-            streamID:(NSString *)streamID
-            callback:(void(^)(int errorCode))callback;
+            callback:(void(^)(int errorCode, NSArray<NSString *> *joinTalkUserIDs))callback;
 
 /**
  离开视频聊天房间。初始化回调的 errorCode == 0 时设置才有效。
@@ -186,29 +210,6 @@ typedef NS_ENUM(NSUInteger, ZGVideoTalkDemoRoomLoginState) {
  @return 是否成功
  */
 - (BOOL)leaveTalkRoom;
-
-/**
- 设置本人通话视频的渲染视图。
- 初始化回调的 errorCode == 0 时设置才有效。
-
- @param previewView 预览视图
- */
-- (void)setLocalUserVideoPreviewView:(UIView *)previewView;
-
-/**
- 播放远端用户视频。初始化回调的 errorCode == 0 时设置才有效。
-
- @param userID 用户 ID
- @param playView 远端用户通话视频渲染视图
- */
-- (void)startPlayRemoteUserVideo:(NSString *)userID inView:(UIView *)playView;
-
-/**
- 停止播放远端用户视频
-
- @param userID 用户 ID
- */
-- (void)stopPlayRemoteUserVideo:(NSString *)userID;
 
 @end
 

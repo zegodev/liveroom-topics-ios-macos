@@ -159,6 +159,7 @@ dispatch_semaphore_t _queueSemaphore;
     if (self = [super init]) {
         _level = kZegoLogLevelVerbose;
         _formatter = [ZegoDefaultLogFormatter new];
+        
         [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMemoryWarning) name:@"UIApplicationDidReceiveMemoryWarningNotification" object:nil];
     }
     return self;

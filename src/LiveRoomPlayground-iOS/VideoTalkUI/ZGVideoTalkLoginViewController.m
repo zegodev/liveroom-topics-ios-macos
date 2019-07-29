@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_VideoTalk
+
 #import "ZGVideoTalkLoginViewController.h"
 #import "ZGVideoTalkDemo.h"
 #import "ZGVideoTalkViewController.h"
@@ -18,9 +20,6 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
 @property (nonatomic, weak) IBOutlet UITextField *roomIDTxf;
 
 @property (nonatomic, strong) ZGVideoTalkDemo *videoTalkDemo;
-
-@property (nonatomic, copy) NSString *userID;
-@property (nonatomic, copy) NSString *userName;
 
 @end
 
@@ -36,10 +35,6 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
     [super viewDidLoad];
     
     [self setupUI];
-    
-    // 获取到 userID 和 userName
-    self.userID = [NSString stringWithFormat:@"u_%ld", (long)[NSDate date].timeIntervalSince1970];
-    self.userName = self.userID;
     
     // step1: 设置 ZegoLiveRoomApi 上下文
     [self setupZegoLiveRoomApiDefault];
@@ -73,30 +68,9 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
 }
 
 - (IBAction)onTryEnterRoom:(id)sender {
-    // 尝试进入房间
     NSString *roomID = self.roomIDTxf.text;
-    NSString *streamID = [NSString stringWithFormat:@"VideoTalkDemo_s_%@", self.userID];
-    
-    [ZegoHudManager showNetworkLoading];
-    Weakify(self);
-    BOOL result = [self.videoTalkDemo joinTalkRoom:roomID userID:self.userID streamID:streamID callback:^(int errorCode) {
-        [ZegoHudManager hideNetworkLoading];
-        
-        Strongify(self);
-        BOOL success = errorCode == 0;
-        if (!success) {
-            [ZegoHudManager showMessage:@"登录房间失败"];
-            return;
-        }
-        
-        [self saveValue:roomID forKey:ZGLoginRoomIDKey];
-        [self joinVideoTalk];
-    }];
-    
-    if (!result) {
-        [ZegoHudManager hideNetworkLoading];
-        [ZegoHudManager showMessage:@"参数不合法或已经登录房间"];
-    }
+    [self saveValue:roomID forKey:ZGLoginRoomIDKey];
+    [self gotoVideoTalkRoomWithID:roomID];
 }
 
 #pragma mark - private methods
@@ -118,10 +92,11 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
 }
 
 
-- (void)joinVideoTalk {
+- (void)gotoVideoTalkRoomWithID:(NSString *)roomID {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"VideoTalk" bundle:nil];
     
     ZGVideoTalkViewController *vc = [sb instantiateViewControllerWithIdentifier:NSStringFromClass([ZGVideoTalkViewController class])];
+    vc.roomID = roomID;
     vc.videoTalkDemo = self.videoTalkDemo;
     
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -129,3 +104,5 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
 }
 
 @end
+
+#endif

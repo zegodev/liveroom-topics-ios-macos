@@ -29,6 +29,9 @@
 #ifdef _Module_VideoTalk
     [commonTopicList addObject:_Module_VideoTalk];
 #endif
+#ifdef _Module_JoinLive
+    [commonTopicList addObject:_Module_JoinLive];
+#endif
 #ifdef _Module_MediaPlayer
     [advancedTopicList addObject:_Module_MediaPlayer];
 #endif
@@ -122,6 +125,13 @@
         vc = [sb instantiateInitialViewController];
     }
     #endif
+    
+#ifdef _Module_JoinLive
+    if ([topicName isEqualToString:_Module_JoinLive]) {
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"JoinLive" bundle:nil];
+        vc = [sb instantiateInitialViewController];
+    }
+#endif
     
     #ifdef _Module_MediaPlayer
     if ([topicName isEqualToString:_Module_MediaPlayer]) {

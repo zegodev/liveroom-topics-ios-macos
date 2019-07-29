@@ -96,6 +96,16 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
 + (void)setLogSize:(unsigned int)size;
 
 /**
+ 设置SDK日志存储目录及大小
+ 
+ @param logDir 日志文件存储路径，如果为空，则存储到默认路径
+ @param size 日志大小，单位为字节。取值范围[5*1024*1024, 100*1024*1024]
+ @param subFolder 日志存储子文件夹，当为空时，不创建子文件夹。该文件夹是 logDir 的子目录。
+ @discussion 在初始化 SDK 之前调用有效
+ */
++ (void)setLogDir:(NSString *)logDir size:(unsigned int)size subFolder:(NSString *)subFolder;
+
+/**
  初始化 SDK
  
  @param appID  Zego 派发的数字 ID, 开发者的唯一标识
@@ -567,8 +577,8 @@ typedef enum : NSUInteger {
 /**
  设备事件回调
  
- @param deviceName 设备名，取值 "audio_device", "camera", "hw_encoder", "sw_encoder"
- @param errorCode 错误码。设备无错误不会回调，目前没有权限的错误码为-3，其他错误情况的错误码均为-1
+ @param deviceName 设备类型名称。返回值 kZegoDeviceCameraName 或 kZegoDeviceMicrophoneName
+ @param errorCode 错误码。 返回值参考 ZegoAPIDeviceErrorCode 定义
  @discussion 调用 [ZegoLiveRoomApi -setDeviceEventDelegate] 设置设备事件代理对象后，在此回调中获取设备状态或错误
  */
 - (void)zego_onDevice:(NSString *)deviceName error:(int)errorCode;

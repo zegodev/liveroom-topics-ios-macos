@@ -126,7 +126,7 @@
                 newTextureH = drawSize.height;
                 newTextureW = textureSize.width * drawSize.height / textureSize.height;
                 newOrigenY = 0;
-                newOrigenX = (drawSize.height - newTextureW) / 2;
+                newOrigenX = (drawSize.width - newTextureW) / 2;
             }
             
             viewport = (MTLViewport){newOrigenX, newOrigenY, newTextureW, newTextureH, -1, 1};
@@ -139,13 +139,13 @@
                 newTextureH = drawSize.height;
                 newTextureW = textureSize.width * drawSize.height / textureSize.height;
                 newOrigenY = 0;
-                newOrigenX = (newTextureW - drawSize.height) / 2;
+                newOrigenX = (drawSize.width - newTextureW) / 2;
             }
             else {
                 newTextureW = drawSize.width;
                 newTextureH = textureSize.height * drawSize.width / textureSize.width;
                 newOrigenX = 0;
-                newOrigenY = (newTextureH - drawSize.height) / 2;
+                newOrigenY = (drawSize.height - newTextureH) / 2;
             }
             
             viewport = (MTLViewport){newOrigenX, newOrigenY, newTextureW, newTextureH, -1, 1};

@@ -53,6 +53,9 @@ static ZGLiveReplayManager *_avkitManager;
 
 - (void)initZegoLiveApi {
     [ZegoLiveRoomApi prepareReplayLiveCapture];
+    
+    [ZegoLiveRoomApi setUserID:ZGHelper.userID userName:ZGHelper.userID];
+    
     unsigned int appID = ZGKeyCenter.appID;
     NSData *appSign = ZGKeyCenter.appSign;
     self.api = [[ZegoLiveRoomApi alloc] initWithAppID:appID appSignature:appSign];
