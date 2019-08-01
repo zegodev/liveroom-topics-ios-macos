@@ -83,60 +83,69 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nnu-rB-vxs">
+                                <rect key="frame" x="0.0" y="44" width="375" height="687"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oI9-8S-mkH">
-                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                                <rect key="frame" x="0.0" y="731" width="375" height="47"/>
                                 <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="摄像头" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6E-ac-cQ3">
+                                        <rect key="frame" x="8" y="13" width="52" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="snm-iL-sdM">
-                                        <rect key="frame" x="60" y="699" width="51" height="31"/>
+                                        <rect key="frame" x="60" y="8" width="51" height="31"/>
                                         <connections>
                                             <action selector="onToggleCameraSwitch:" destination="KRn-gV-p9E" eventType="valueChanged" id="9uN-va-7Pm"/>
                                         </connections>
                                     </switch>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="摄像头" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6E-ac-cQ3">
-                                        <rect key="frame" x="8" y="704" width="52" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="麦克风" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFN-kn-opd">
+                                        <rect key="frame" x="129" y="13" width="52" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t3G-MT-J0m">
-                                        <rect key="frame" x="181" y="699" width="51" height="31"/>
+                                        <rect key="frame" x="181" y="8" width="51" height="31"/>
                                         <connections>
                                             <action selector="onToggleMicSwitch:" destination="KRn-gV-p9E" eventType="valueChanged" id="USd-dW-eSI"/>
                                         </connections>
                                     </switch>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="麦克风" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFN-kn-opd">
-                                        <rect key="frame" x="129" y="704" width="52" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="snm-iL-sdM" secondAttribute="bottom" constant="8" id="0Ks-TL-ueO"/>
+                                    <constraint firstItem="t3G-MT-J0m" firstAttribute="centerY" secondItem="oI9-8S-mkH" secondAttribute="centerY" id="1y4-I2-wNs"/>
                                     <constraint firstItem="t6E-ac-cQ3" firstAttribute="leading" secondItem="oI9-8S-mkH" secondAttribute="leading" constant="8" id="8ni-m4-ru9"/>
-                                    <constraint firstAttribute="bottom" secondItem="snm-iL-sdM" secondAttribute="bottom" constant="4" id="AeV-se-51l"/>
+                                    <constraint firstAttribute="bottom" secondItem="snm-iL-sdM" secondAttribute="bottom" constant="8" id="AeV-se-51l"/>
                                     <constraint firstItem="t3G-MT-J0m" firstAttribute="leading" secondItem="cFN-kn-opd" secondAttribute="trailing" id="BPv-l8-b0x"/>
-                                    <constraint firstAttribute="bottom" secondItem="t3G-MT-J0m" secondAttribute="bottom" constant="4" id="dZO-5L-C3l"/>
-                                    <constraint firstItem="t3G-MT-J0m" firstAttribute="centerY" secondItem="cFN-kn-opd" secondAttribute="centerY" id="nyv-yt-aLm"/>
+                                    <constraint firstItem="snm-iL-sdM" firstAttribute="centerY" secondItem="oI9-8S-mkH" secondAttribute="centerY" id="XfU-KK-2jT"/>
+                                    <constraint firstItem="t6E-ac-cQ3" firstAttribute="centerY" secondItem="oI9-8S-mkH" secondAttribute="centerY" id="ivI-Nl-DU0"/>
+                                    <constraint firstItem="cFN-kn-opd" firstAttribute="centerY" secondItem="oI9-8S-mkH" secondAttribute="centerY" id="mKR-md-Xz7"/>
                                     <constraint firstItem="snm-iL-sdM" firstAttribute="leading" secondItem="t6E-ac-cQ3" secondAttribute="trailing" id="pbU-U6-Cex"/>
-                                    <constraint firstItem="snm-iL-sdM" firstAttribute="centerY" secondItem="t6E-ac-cQ3" secondAttribute="centerY" id="qEA-uQ-5z1"/>
                                     <constraint firstItem="cFN-kn-opd" firstAttribute="leading" secondItem="snm-iL-sdM" secondAttribute="trailing" constant="20" id="wcS-UW-31D"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="nnu-rB-vxs" firstAttribute="top" secondItem="jak-ay-Anz" secondAttribute="top" id="2NQ-HM-k4h"/>
                             <constraint firstItem="jak-ay-Anz" firstAttribute="trailing" secondItem="oI9-8S-mkH" secondAttribute="trailing" id="IdI-DK-YFW"/>
                             <constraint firstItem="oI9-8S-mkH" firstAttribute="leading" secondItem="jak-ay-Anz" secondAttribute="leading" id="M5r-Wd-K3l"/>
-                            <constraint firstItem="oI9-8S-mkH" firstAttribute="top" secondItem="jak-ay-Anz" secondAttribute="top" id="OcB-V9-BFm"/>
+                            <constraint firstItem="oI9-8S-mkH" firstAttribute="top" secondItem="nnu-rB-vxs" secondAttribute="bottom" id="cWr-1t-hoj"/>
+                            <constraint firstItem="nnu-rB-vxs" firstAttribute="trailing" secondItem="jak-ay-Anz" secondAttribute="trailing" id="mfQ-Iy-Cmm"/>
                             <constraint firstItem="jak-ay-Anz" firstAttribute="bottom" secondItem="oI9-8S-mkH" secondAttribute="bottom" id="rx4-Wk-Fhf"/>
+                            <constraint firstItem="nnu-rB-vxs" firstAttribute="leading" secondItem="jak-ay-Anz" secondAttribute="leading" id="uSA-UE-QYK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jak-ay-Anz"/>
                     </view>
                     <connections>
                         <outlet property="cameraSwitch" destination="snm-iL-sdM" id="QX8-Pq-ahi"/>
                         <outlet property="micSwitch" destination="t3G-MT-J0m" id="tzF-Vc-wtl"/>
-                        <outlet property="talkUserContainerView" destination="oI9-8S-mkH" id="u0t-0r-GRP"/>
+                        <outlet property="talkUserContainerView" destination="nnu-rB-vxs" id="d08-B8-waG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mYU-ql-dxx" userLabel="First Responder" sceneMemberID="firstResponder"/>

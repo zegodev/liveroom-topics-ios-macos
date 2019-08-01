@@ -94,8 +94,7 @@
     if ([self.zegoApi enableCamera:enableCamera]) {
         ZGLogInfo(@"enableCamera:%@", boolStr);
         _enableCamera = enableCamera;
-    }
-    else {
+    } else {
         ZGLogWarn(@"Failed enableCamera to %@", boolStr);
     }
 }
@@ -241,26 +240,6 @@
     }
 }
 
-
-- (void)startPlayRemoteUserVideo:(NSString *)userID inView:(UIView *)playView {
-    if (userID.length == 0) {
-        ZGLogWarn(@"userID 不能为空！");
-        return;
-    }
-    
-    if (![self checkApiInitialized]) {
-        return;
-    }
-    
-    if (playView) {
-        // 若当前流列表存在目标用户的通话流，则更新视频播放视图
-        ZegoStream *existStream = [self getTalkStreamInCurrentListWithUserID:userID];
-        if (existStream) {
-            [self.zegoApi startPlayingStream:existStream.streamID inView:playView];
-        }
-    }
-}
-
 - (void)internalStartPlayRemoteUserTalkWithUserID:(NSString *)userID {
     UIView *playView = [self.dataSource videoTalkDemo:self playViewForRemoteUserWithID:userID];
     if (playView == nil) {
@@ -274,13 +253,6 @@
         if (existStream) {
             [self.zegoApi startPlayingStream:existStream.streamID inView:playView];
         }
-    }
-}
-
-- (void)internalStopPlayRemoteUserTalkWithUserID:(NSString *)userID {
-    ZegoStream *existStream = [self getTalkStreamInCurrentListWithUserID:userID];
-    if (existStream) {
-        [self.zegoApi stopPlayingStream:existStream.streamID];
     }
 }
 
@@ -324,6 +296,8 @@
             [self.remoteUserStreams removeObject:existObj];
             [rmStreams addObject:existObj];
         }
+        // 停止拉流
+        [self.zegoApi stopPlayingStream:streamID];
     }
     
     // 修改 joinTalkUserIDList
@@ -336,11 +310,6 @@
         // 调用代理
         if ([self.delegate respondsToSelector:@selector(videoTalkDemo:remoteUserDidLeaveTalkInRoom:userIDs:)]) {
             [self.delegate videoTalkDemo:self remoteUserDidLeaveTalkInRoom:roomID userIDs:rmUserIDs];
-        }
-        
-        // 停止通话
-        for (NSString *userID in rmUserIDs) {
-            [self internalStopPlayRemoteUserTalkWithUserID:userID];
         }
     }
 }

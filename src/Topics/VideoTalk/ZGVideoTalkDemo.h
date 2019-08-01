@@ -130,7 +130,7 @@ remoteUserVideoStateUpdate:(int)stateCode
  它的基本使用流程为：
  1.使用 initWithAppID 初始化，初始化成功后，后续的其他方法才能有效使用。
  2.使用 joinTalkRoom 加入通话房间，使用 leaveTalkRoom 退出通话
- 3.通过代理的 didJoinTalkRoom, didLeaveTalkRoom 方法获取远端用户的加入和离开通知，在界面上做相应 UI 的处理，以及调用 VM 的 startPlayRemoteUserVideo 进行远端用户通话视频的播放, stopPlayRemoteUserVideo 进行停止
+ 3.通过代理的 didJoinTalkRoom, didLeaveTalkRoom 方法获取远端用户的加入和离开通知，在界面上做相应 UI 的处理，如增加和删除视频通话视图的数据源。
  
  @discussion 简化SDK视频通话一系列接口，用户可以参考该类实现构建自己的业务。
  @note 开发者可参考该类的代码, 理解视频通话涉及的 SDK 接口

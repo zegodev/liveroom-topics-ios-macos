@@ -129,7 +129,7 @@ typedef NS_ENUM(NSUInteger, ZGJoinLiveDemoJoinRoomState) {
  它的基本使用流程为：
  1.使用 initWithAppID 初始化，初始化成功后，后续的其他方法才能有效使用。
  2.使用 joinLiveRoom 进入直播房间，使用 leaveLiveRoom 退出直播房间
- 3.通过代理的 demo:remoteUserOnLiveUpdated:withUserIDs: 方法获取远端用户的加入和退出连麦的通知，在界面上做相应 UI 的处理，以及调用 VM 的 playRemoteUserLive: 进行远端用户直播的播放, stopRemoteUserLive: 进行播放停止
+ 3.通过代理的 demo:remoteUserOnLiveUpdated:withUserIDs: 方法获取远端用户的加入和退出连麦的通知，在界面上做相应 UI 的处理，如增加和删除直播视图数九眼，以及调用 VM 的 playRemoteUserLive: 进行远端用户直播的播放, stopRemoteUserLive: 停止播放
  
  @discussion 简化 SDK 对于直播连麦业务的一系列接口，用户可以参考该类实现构建自己的业务。
  @note 开发者可参考该类的代码, 理解直播连麦涉及的 SDK 接口

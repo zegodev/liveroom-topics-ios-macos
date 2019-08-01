@@ -5,6 +5,7 @@
 #define _Module_Play @"拉流"
 #define _Module_VideoTalk @"视频通话"
 #define _Module_JoinLive @"直播连麦"
+#define _Module_MixStream @"混流"
 #define _Module_MediaPlayer @"Media Player"
 #define _Module_MediaSideInfo @"Media Side Info"
 #define _Module_ScalableVideoCoding @"Scalable Video Coding"

@@ -233,7 +233,7 @@
     }
     ZegoStream *stream = [self getStreamInCurrentListWithUserID:remoteUserID];
     if (stream) {
-        [self.zegoApi stopPlayingStream:stream.streamID];
+        [self internalStopPlayStreamWithID:stream.streamID];
     }
 }
 
@@ -252,6 +252,10 @@
 
 - (void)internalStopLocalUserLivePreview {
     [self.zegoApi stopPreview];
+}
+
+- (void)internalStopPlayStreamWithID:(NSString *)streamID {
+    [self.zegoApi stopPlayingStream:streamID];
 }
 
 - (ZegoStream *)getStreamInCurrentListWithUserID:(NSString *)userID {
@@ -299,6 +303,7 @@
         // 删除已有相同的 stream
         if (existObj) {
             [self.remoteUserStreams removeObject:existObj];
+            [self internalStopPlayStreamWithID:stream.streamID];
         }
     }
     
