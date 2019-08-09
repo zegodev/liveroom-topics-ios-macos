@@ -6,6 +6,8 @@
 //  Copyright © 2019 zego. All rights reserved.
 //
 
+#if !TARGET_OS_SIMULATOR
+
 #ifdef _Module_ExternalVideoCapture
 
 #import <MetalKit/MetalKit.h>
@@ -24,5 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
 
 #endif

@@ -53,6 +53,9 @@
 #ifdef _Module_ExternalVideoRender
     [advancedTopicList addObject:_Module_ExternalVideoRender];
 #endif
+#ifdef _Module_ExternalVideoFilter
+    [advancedTopicList addObject:_Module_ExternalVideoFilter];
+#endif
     
     _topicList = topicList;
 }
@@ -181,6 +184,13 @@
     #ifdef _Module_ExternalVideoRender
     if ([topicName isEqualToString:_Module_ExternalVideoRender]) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"ExternalVideoRender" bundle:nil];
+        vc = [sb instantiateInitialViewController];
+    }
+    #endif
+    
+    #ifdef _Module_ExternalVideoFilter
+    if ([topicName isEqualToString:_Module_ExternalVideoFilter]) {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"ExternalVideoFilter" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
     #endif

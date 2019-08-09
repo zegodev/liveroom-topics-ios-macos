@@ -94,7 +94,7 @@ static NSString *mapString = @"0123456789abcdef";
     [ZegoHudManager showNetworkLoading];
     
     Weakify(self);
-    [ZGApiManager initApiWithAppID:appID appSign:appSign completionBlock:^(int errorCode) {
+    BOOL initRes = [ZGApiManager initApiWithAppID:appID appSign:appSign completionBlock:^(int errorCode) {
         [ZegoHudManager hideNetworkLoading];
         
         Strongify(self);
@@ -108,6 +108,10 @@ static NSString *mapString = @"0123456789abcdef";
         
         [self jumpToLoginRoom];
     }];
+    if (!initRes) {
+        [ZegoHudManager hideNetworkLoading];
+        [ZegoHudManager showMessage:@"SDK 初始化失败，请检查网络连接或参数是否有效"];
+    }
 }
 
 - (NSData *)convertSignStringToSign:(NSString *)signString {

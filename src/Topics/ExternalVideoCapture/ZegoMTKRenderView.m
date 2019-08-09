@@ -6,6 +6,8 @@
 //  Copyright © 2019 zego. All rights reserved.
 //
 
+#if !TARGET_OS_SIMULATOR
+
 #ifdef _Module_ExternalVideoCapture
 
 #import "ZegoMTKRenderView.h"
@@ -185,5 +187,7 @@
 }
 
 @end
+
+#endif
 
 #endif

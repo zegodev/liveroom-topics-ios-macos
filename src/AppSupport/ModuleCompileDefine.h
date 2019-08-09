@@ -12,6 +12,6 @@
 #define _Module_MediaRecord @"Media Record"
 #define _Module_ExternalVideoCapture @"External Video Capture"
 #define _Module_ExternalVideoRender @"External Video Render"
-
+#define _Module_ExternalVideoFilter @"自定义前处理(FaceUnity)"
 
 #endif

@@ -49,7 +49,7 @@ static ZegoLiveRoomApi *s_apiInstance = nil;
     s_apiInstance = nil;
 }
 
-+ (void)initApiWithAppID:(unsigned int)appID appSign:(NSData *)appSign completionBlock:(nullable ZegoInitSDKCompletionBlock)blk {
++ (BOOL)initApiWithAppID:(unsigned int)appID appSign:(NSData *)appSign completionBlock:(nullable ZegoInitSDKCompletionBlock)blk {
     if (s_apiInstance) {
         ZGLogInfo(@"初始化SDK，但已存在SDK实例");
         [self releaseApi];
@@ -83,6 +83,7 @@ static ZegoLiveRoomApi *s_apiInstance = nil;
     }];
     
     ZGLogInfo(@"初始化SDK，AppID:%u,AppSign:%@", appID, appSign);
+    return s_apiInstance != nil;
 }
 
 + (unsigned int)appID {

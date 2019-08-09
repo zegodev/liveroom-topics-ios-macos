@@ -6,6 +6,8 @@
 //  Copyright © 2019 zego. All rights reserved.
 //
 
+#if !TARGET_OS_SIMULATOR
+
 #ifdef _Module_ExternalVideoCapture
 
 #import "ZGExternalVideoCapturePreviewHelper.h"
@@ -69,5 +71,7 @@
 }
 
 @end
+
+#endif
 
 #endif

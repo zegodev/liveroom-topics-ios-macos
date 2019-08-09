@@ -13,6 +13,7 @@
 #import "ZGExternamVideoCaptureImageSource.h"
 #import "ZGExternalVideoCaptureScreenSource.h"
 #import "ZGExternalVideoCapturePreviewHelper.h"
+#import "ZGExternalVideoRenderHelper.h"
 
 dispatch_queue_t _videoCaptureQueue;
 
@@ -64,12 +65,28 @@ dispatch_queue_t _videoCaptureQueue;
 
 - (void)stopCapture {
     [self.source stop];
+    
+    // 解决 Simulator 不支持 Metal 的问题，真机环境使用 Metal 渲染，模拟器环境从 CVImageBufferRef 拷贝 CGImage
+#if !TARGET_OS_SIMULATOR
     [ZGExternalVideoCapturePreviewHelper removeCaptureDataInView:self.previewView];
+#endif
+    
+#if TARGET_OS_SIMULATOR
+    [ZGExternalVideoRenderHelper removeRenderDataInView:self.previewView];
+#endif
 }
 
 - (void)setPreviewView:(ZGView *)view viewMode:(ZegoVideoViewMode)viewMode {
     if (self.previewView && self.previewView != view) {
+        
+        // 解决 Simulator 不支持 Metal 的问题，真机环境使用 Metal 渲染，模拟器环境从 CVImageBufferRef 拷贝 CGImage
+#if !TARGET_OS_SIMULATOR
         [ZGExternalVideoCapturePreviewHelper removeCaptureDataInView:self.previewView];
+#endif
+        
+#if TARGET_OS_SIMULATOR
+        [ZGExternalVideoRenderHelper removeRenderDataInView:self.previewView];
+#endif
     }
     
     self.previewView = view;
@@ -151,7 +168,14 @@ dispatch_queue_t _videoCaptureQueue;
     
     dispatch_async(_videoCaptureQueue, ^{
         if (self.isPreview && self.previewView) {
+            // 解决 Simulator 不支持 Metal 的问题，真机环境使用 Metal 渲染，模拟器环境从 CVImageBufferRef 拷贝 CGImage
+#if !TARGET_OS_SIMULATOR
             [ZGExternalVideoCapturePreviewHelper showCaptureData:image inView:self.previewView viewMode:self.viewMode];
+#endif
+            
+#if TARGET_OS_SIMULATOR
+            [ZGExternalVideoRenderHelper showRenderData:image inView:self.previewView viewMode:self.viewMode];
+#endif
         }
         
         [self.client onIncomingCapturedData:image withPresentationTimeStamp:time];

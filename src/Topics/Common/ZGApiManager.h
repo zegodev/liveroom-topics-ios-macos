@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)releaseApi;
 
-+ (void)initApiWithAppID:(unsigned int)appID appSign:(NSData *)appSign completionBlock:(nullable ZegoInitSDKCompletionBlock)blk;
++ (BOOL)initApiWithAppID:(unsigned int)appID appSign:(NSData *)appSign completionBlock:(nullable ZegoInitSDKCompletionBlock)blk;
 
 @end
 
