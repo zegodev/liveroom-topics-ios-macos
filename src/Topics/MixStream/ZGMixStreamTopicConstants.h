@@ -23,9 +23,9 @@ extern NSInteger const ZGMixStreamTopicLiveViewDisplayColumnPerRow;
 extern CGFloat const ZGMixStreamTopicLiveViewSpacing;
 
 // 流的额外信息 key
-extern NSString const* ZGMixStreamTopicStreamExtraInfoKey_FirstAnchor;
-extern NSString const* ZGMixStreamTopicStreamExtraInfoKey_MixStreamID;
-extern NSString const* ZGMixStreamTopicStreamExtraInfoKey_Hls;
-extern NSString const* ZGMixStreamTopicStreamExtraInfoKey_Rtmp;
+extern NSString* const ZGMixStreamTopicStreamExtraInfoKey_FirstAnchor;
+extern NSString* const ZGMixStreamTopicStreamExtraInfoKey_MixStreamID;
+extern NSString* const ZGMixStreamTopicStreamExtraInfoKey_Hls;
+extern NSString* const ZGMixStreamTopicStreamExtraInfoKey_Rtmp;
 
 NS_ASSUME_NONNULL_END

@@ -13,8 +13,8 @@
 #import "ZGMixStreamAnchorLiveViewController.h"
 #import "ZGMixStreamConfigViewController.h"
 
-NSString const* ZGMixStreamConfirmStreamIDKey = @"kZGMixStreamConfirmStreamID";
-NSString const* ZGMixStreamConfirmMixStreamIDKey = @"kZGMixStreamConfirmMixStreamID";
+NSString* const ZGMixStreamConfirmStreamIDKey = @"kZGMixStreamConfirmStreamID";
+NSString* const ZGMixStreamConfirmMixStreamIDKey = @"kZGMixStreamConfirmMixStreamID";
 
 @interface ZGMixStreamConfirmViewController ()
 

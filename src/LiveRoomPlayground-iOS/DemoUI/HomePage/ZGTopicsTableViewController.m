@@ -7,6 +7,7 @@
 //
 
 #import "ZGTopicsTableViewController.h"
+#import "ZGAppGlobalConfigViewController.h"
 
 @implementation ZGTopicsTableViewController {
     NSArray<NSArray<NSString*>*>* _topicList;
@@ -14,6 +15,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIBarButtonItem *goGlobalConfigItem = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStylePlain target:self action:@selector(goGlobalConfigPage:)];
+    self.navigationItem.rightBarButtonItem = goGlobalConfigItem;
     
     NSMutableArray *basicTopicList = [NSMutableArray array];
     NSMutableArray *commonTopicList = [NSMutableArray array];
@@ -72,6 +76,11 @@
     [UIApplication jumpToWeb:ZGOpenQuestionURL];
 }
 
+- (void)goGlobalConfigPage:(id)sender {
+    ZGAppGlobalConfigViewController *vc = [ZGAppGlobalConfigViewController instanceFromStoryboard];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 #pragma mark - UITableViewDataSource
 
@@ -113,14 +122,14 @@
     
     #ifdef _Module_Publish
     if ([topicName isEqualToString:_Module_Publish]) {
-        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"Publish" bundle:nil];
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"PublishStream" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
     #endif
     
     #ifdef _Module_Play
     if ([topicName isEqualToString:_Module_Play]) {
-        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"Play" bundle:nil];
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"PlayStream" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
     #endif

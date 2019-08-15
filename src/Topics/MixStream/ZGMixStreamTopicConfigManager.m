@@ -10,7 +10,7 @@
 #import "ZGUserDefaults.h"
 #import "ZGJsonHelper.h"
 
-NSString const* ZGMixStreamTopicConfigKey = @"kZGMixStreamTopicConfig";
+NSString* const ZGMixStreamTopicConfigKey = @"kZGMixStreamTopicConfig";
 
 @interface ZGMixStreamTopicConfigManager ()
 

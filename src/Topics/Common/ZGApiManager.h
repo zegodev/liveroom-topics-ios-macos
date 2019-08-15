@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ZGAppGlobalConfigManager.h"
 
 #if TARGET_OS_OSX
 #import <ZegoLiveRoomOSX/ZegoLiveRoomApi.h>
@@ -31,15 +32,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface ZGApiManager : NSObject
 
-@property (class, strong, nonatomic, readonly) ZegoLiveRoomApi *api;
 
-@property (class, assign, nonatomic, readonly) unsigned int appID;
-@property (class, strong, nonatomic, readonly) NSData * appSign;
+/**
+ 获取 ZegoLiveRoomApi 单例。如果该单例不存在，则会使用 ZGAppGlobalConfigManager 的默认配置初始化。
+ */
+@property (class, strong, nonatomic, readonly) ZegoLiveRoomApi *api;
 
 + (void)enableExternalVideoCapture:(id<ZegoVideoCaptureFactory> _Nullable)factory videoRenderer:(id<ZegoLiveApiRenderDelegate> _Nullable)renderer;
 
 + (void)releaseApi;
 
+/**
+ 初始化 ZegoLiveRoomApi 单例。该方法会重置 ZegoLiveRoomApi 单例。
+
+ @param appID 给定的 appID
+ @param appSign 给定的 appSign
+ @param blk 回调
+ @return 是否初始化成功
+ */
 + (BOOL)initApiWithAppID:(unsigned int)appID appSign:(NSData *)appSign completionBlock:(nullable ZegoInitSDKCompletionBlock)blk;
 
 @end

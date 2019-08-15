@@ -14,7 +14,7 @@
 #import "ZGMixStreamDemo.h"
 #import "ZGMixStreamConfirmViewController.h"
 
-NSString const* ZGMixStreamCreateRoomIDKey = @"kZGMixStreamCreateRoomID";
+NSString* const ZGMixStreamCreateRoomIDKey = @"kZGMixStreamCreateRoomID";
 
 @interface ZGMixStreamCreateRoomViewController ()
 

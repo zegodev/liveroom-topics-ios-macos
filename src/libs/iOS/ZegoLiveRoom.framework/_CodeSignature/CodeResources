@@ -128,6 +128,10 @@
 		<data>
 		P7x6u2v2e2PQj38qyyM8bnZwAdY=
 		</data>
+		<key>Headers/zego-api-frequency-spectrum-oc.h</key>
+		<data>
+		th0K6bKLvCsGB2q7buby0OLpD2A=
+		</data>
 		<key>Headers/zego-api-media-recorder-oc.h</key>
 		<data>
 		ec9k8R3RTARTin8YPb/2lD6p3+U=
@@ -510,6 +514,17 @@
 			<key>hash2</key>
 			<data>
 			MgJ7EiWQNp8RyiQ6w/iBg1e+ZwryuifmIwaA5oy429Y=
+			</data>
+		</dict>
+		<key>Headers/zego-api-frequency-spectrum-oc.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			th0K6bKLvCsGB2q7buby0OLpD2A=
+			</data>
+			<key>hash2</key>
+			<data>
+			KoqzUeJ0YNsYAJ9HM2BcDAn6Qe6kyZmZQGP21UHXz50=
 			</data>
 		</dict>
 		<key>Headers/zego-api-media-recorder-oc.h</key>

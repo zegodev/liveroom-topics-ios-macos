@@ -11,6 +11,7 @@
 #import "ZGSVCRoomListViewController.h"
 #import "ZGSVCLiveViewController.h"
 #import "ZGRoomInfo.h"
+#import "ZGKeyCenter.h"
 #import "ZGApiManager.h"
 
 @interface ZGSVCRoomListViewController () <NSTableViewDelegate, NSTableViewDataSource>
@@ -35,7 +36,7 @@
 - (void)getLiveRooms {
     NSString *mainDomain = @"zego.im";
     
-    unsigned int appID = ZGApiManager.appID;
+    unsigned int appID = ZGKeyCenter.appID;
     NSString *baseUrl = [NSString stringWithFormat:@"https://liveroom%u-api.%@", appID, mainDomain];
     
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/demo/roomlist?appid=%u", baseUrl, appID]];

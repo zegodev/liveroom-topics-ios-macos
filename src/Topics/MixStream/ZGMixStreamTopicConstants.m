@@ -16,7 +16,7 @@ NSInteger const ZGMixStreamTopicLiveViewDisplayColumnPerRow = 3;
 
 CGFloat const ZGMixStreamTopicLiveViewSpacing = 8.f;
 
-NSString const* ZGMixStreamTopicStreamExtraInfoKey_FirstAnchor = @"first";
-NSString const* ZGMixStreamTopicStreamExtraInfoKey_MixStreamID = @"mixStreamID";
-NSString const* ZGMixStreamTopicStreamExtraInfoKey_Hls = @"Hls";
-NSString const* ZGMixStreamTopicStreamExtraInfoKey_Rtmp = @"rtmp";
+NSString* const ZGMixStreamTopicStreamExtraInfoKey_FirstAnchor = @"first";
+NSString* const ZGMixStreamTopicStreamExtraInfoKey_MixStreamID = @"mixStreamID";
+NSString* const ZGMixStreamTopicStreamExtraInfoKey_Hls = @"Hls";
+NSString* const ZGMixStreamTopicStreamExtraInfoKey_Rtmp = @"rtmp";

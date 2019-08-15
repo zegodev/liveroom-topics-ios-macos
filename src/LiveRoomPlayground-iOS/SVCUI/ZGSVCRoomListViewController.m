@@ -11,6 +11,7 @@
 #import "ZGSVCRoomListViewController.h"
 #import "ZGRoomInfo.h"
 #import "ZGApiManager.h"
+#import "ZGAppGlobalConfigManager.h"
 #import "ZGSVCAudienceViewController.h"
 
 @interface ZGSVCRoomListViewController ()
@@ -41,7 +42,7 @@
     
     NSString *mainDomain = @"zego.im";
     
-    unsigned int appID = ZGApiManager.appID;
+    unsigned int appID = (unsigned int)[[ZGAppGlobalConfigManager sharedInstance] globalConfig].appID;
     NSString *baseUrl = [NSString stringWithFormat:@"https://liveroom%u-api.%@", appID, mainDomain];
     
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/demo/roomlist?appid=%u", baseUrl, appID]];
