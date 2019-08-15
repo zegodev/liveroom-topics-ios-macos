@@ -13,9 +13,10 @@
 #import "ZGExternalVideoFilterLoginViewController.h"
 #import "ZGExternalVideoFilterViewController.h"
 #import "ZGExternalVideoFilterPlayViewController.h"
-#import "ZGKeyCenter.h"
 #import "ZGLoginRoomDemo.h"
 #import "FUManager.h"
+#import "ZGAppGlobalConfigManager.h"
+#import "ZGAppSignHelper.h"
 
 // 检查一下是否有 FaceUnity 的鉴权
 #import "authpack.h"
@@ -84,7 +85,8 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
     [ZegoHudManager showNetworkLoading];
     Weakify(self);
     
-    [ZGApiManager initApiWithAppID:ZGKeyCenter.appID appSign:ZGKeyCenter.appSign completionBlock:^(int errorCode) {
+    ZGAppGlobalConfig *appConfig = [[ZGAppGlobalConfigManager sharedInstance] globalConfig];
+    [ZGApiManager initApiWithAppID:appConfig.appID appSign:[ZGAppSignHelper convertAppSignFromString:appConfig.appSign] completionBlock:^(int errorCode) {
         [ZegoHudManager hideNetworkLoading];
         
         Strongify(self);

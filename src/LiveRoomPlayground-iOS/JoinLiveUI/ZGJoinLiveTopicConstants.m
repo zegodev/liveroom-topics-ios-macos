@@ -12,6 +12,4 @@
 
 NSString *const ZGJoinLiveTopicRoomPrefix = @"JoinLiveRoom-";
 
-bool const ZGJoinLiveTopicIsUseTestEnv = YES;
-
 #endif

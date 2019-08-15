@@ -11,7 +11,8 @@
 #import "ZGVideoTalkLoginViewController.h"
 #import "ZGVideoTalkDemo.h"
 #import "ZGVideoTalkViewController.h"
-#import "ZGKeyCenter.h"
+#import "ZGAppGlobalConfigManager.h"
+#import "ZGAppSignHelper.h"
 
 static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
 
@@ -36,13 +37,15 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
     
     [self setupUI];
     
+    ZGAppGlobalConfig *appConfig = [[ZGAppGlobalConfigManager sharedInstance] globalConfig];
+    
     // step1: 设置 ZegoLiveRoomApi 上下文
-    [self setupZegoLiveRoomApiDefault];
+    [self setupZegoLiveRoomApiDefault:appConfig];
     
     // step2: 初始化 ZGVideoTalkDemo
     [ZegoHudManager showNetworkLoading];
     Weakify(self);
-    self.videoTalkDemo = [[ZGVideoTalkDemo alloc] initWithAppID:ZGKeyCenter.appID appSign:ZGKeyCenter.appSign completionBlock:^(ZGVideoTalkDemo *demo, int errorCode) {
+    self.videoTalkDemo = [[ZGVideoTalkDemo alloc] initWithAppID:appConfig.appID appSign:[ZGAppSignHelper convertAppSignFromString:appConfig.appSign] completionBlock:^(ZGVideoTalkDemo *demo, int errorCode) {
         [ZegoHudManager hideNetworkLoading];
         // 初始化结果回调，errorCode == 0 表示成功
         NSLog(@"初始化结果, errorCode: %d", errorCode);
@@ -84,8 +87,8 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
 /**
  设置该模块的 ZegoLiveRoomApi 默认上下文
  */
-- (void)setupZegoLiveRoomApiDefault {
-    [ZegoLiveRoomApi setUseTestEnv:YES];
+- (void)setupZegoLiveRoomApiDefault:(ZGAppGlobalConfig *)appConfig {
+    [ZegoLiveRoomApi setUseTestEnv:(appConfig.environment == ZGAppEnvironmentTest)];
     [ZegoLiveRoomApi enableExternalRender:NO];
     [ZegoLiveRoomApi setVideoFilterFactory:nil];
     [ZegoLiveRoomApi setVideoCaptureFactory:nil];

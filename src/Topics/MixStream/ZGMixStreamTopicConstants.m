@@ -10,8 +10,6 @@
 
 NSString *const ZGMixStreamTopicRoomPrefix = @"MixStreamRoom-";
 
-BOOL const ZGMixStreamTopicIsUseTestEnv = YES;
-
 NSInteger const ZGMixStreamTopicLiveViewDisplayColumnPerRow = 3;
 
 CGFloat const ZGMixStreamTopicLiveViewSpacing = 8.f;

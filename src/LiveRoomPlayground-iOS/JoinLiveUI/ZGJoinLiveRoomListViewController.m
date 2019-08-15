@@ -12,10 +12,11 @@
 #import "ZGJoinLiveCreateRoomViewController.h"
 #import "ZGJoinLiveViewController.h"
 #import "ZGRoomInfo.h"
-#import "ZGKeyCenter.h"
 #import "ZGRoomHelper.h"
 #import "ZGJoinLiveTopicConstants.h"
 #import "ZGJoinLiveDemo.h"
+#import "ZGAppGlobalConfigManager.h"
+#import "ZGAppSignHelper.h"
 
 @interface ZGJoinLiveRoomListViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -28,6 +29,7 @@
 @property (nonatomic, copy) NSString *zgUserID;
 @property (nonatomic, copy) NSString *zgUserName;
 @property (nonatomic) ZGJoinLiveDemo *joinLiveDemo;
+@property (nonatomic) ZGAppGlobalConfig *appConfig;
 
 @end
 
@@ -44,8 +46,10 @@
     
     [self setupUI];
     
+    self.appConfig = [[ZGAppGlobalConfigManager sharedInstance] globalConfig];
+    
     // 设置该模块的 ZegoLiveRoomApi 默认设置
-    [self setupZegoLiveRoomApiDefault];
+    [self setupZegoLiveRoomApiDefault:self.appConfig];
     
     // 获取到 userID 和 userName
     self.zgUserID = [NSString stringWithFormat:@"u_%ld", (long)[NSDate date].timeIntervalSince1970];
@@ -54,7 +58,7 @@
     // 初始化
     [ZegoHudManager showNetworkLoading];
     Weakify(self);
-    self.joinLiveDemo = [[ZGJoinLiveDemo alloc] initWithAppID:ZGKeyCenter.appID appSign:ZGKeyCenter.appSign completionBlock:^(ZGJoinLiveDemo * _Nonnull demo, int errorCode) {
+    self.joinLiveDemo = [[ZGJoinLiveDemo alloc] initWithAppID:self.appConfig.appID appSign:[ZGAppSignHelper convertAppSignFromString:self.appConfig.appSign] completionBlock:^(ZGJoinLiveDemo * _Nonnull demo, int errorCode) {
         [ZegoHudManager hideNetworkLoading];
         
         // 初始化结果回调，errorCode == 0 表示成功
@@ -108,7 +112,7 @@
     
     [self updateOnRefreshingRoomList:YES];
     Weakify(self);
-    [ZGRoomHelper queryRoomListWithAppID:ZGKeyCenter.appID isTestEnv:ZGJoinLiveTopicIsUseTestEnv completion:^(NSArray<ZGRoomInfo *> * _Nonnull roomList, NSError * _Nonnull error) {
+    [ZGRoomHelper queryRoomListWithAppID:self.appConfig.appID isTestEnv:(self.appConfig.environment == ZGAppEnvironmentTest) completion:^(NSArray<ZGRoomInfo *> * _Nonnull roomList, NSError * _Nonnull error) {
         Strongify(self);
         
         if (error) {
@@ -162,8 +166,8 @@
 /**
  设置该模块的 ZegoLiveRoomApi 默认设置
  */
-- (void)setupZegoLiveRoomApiDefault {
-    [ZegoLiveRoomApi setUseTestEnv:ZGJoinLiveTopicIsUseTestEnv];
+- (void)setupZegoLiveRoomApiDefault:(ZGAppGlobalConfig *)appConfig {
+    [ZegoLiveRoomApi setUseTestEnv:(appConfig.environment == ZGAppEnvironmentTest)];
     [ZegoLiveRoomApi enableExternalRender:NO];
     [ZegoLiveRoomApi setVideoFilterFactory:nil];
     [ZegoLiveRoomApi setVideoCaptureFactory:nil];

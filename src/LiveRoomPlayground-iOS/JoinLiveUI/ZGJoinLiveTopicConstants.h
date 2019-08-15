@@ -15,9 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 // 连麦专题的房间前缀
 extern NSString *const ZGJoinLiveTopicRoomPrefix;
 
-// 连麦专题模块是否使用测试环境
-extern bool const ZGJoinLiveTopicIsUseTestEnv;
-
 NS_ASSUME_NONNULL_END
 
 #endif

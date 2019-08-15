@@ -13,9 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 // 混流专题的房间前缀，用于过滤其他专题的房间
 extern NSString *const ZGMixStreamTopicRoomPrefix;
 
-// 混流专题模块是否使用测试环境
-extern BOOL const ZGMixStreamTopicIsUseTestEnv;
-
 // 直播视图每行显示播放视图数目
 extern NSInteger const ZGMixStreamTopicLiveViewDisplayColumnPerRow;
 
