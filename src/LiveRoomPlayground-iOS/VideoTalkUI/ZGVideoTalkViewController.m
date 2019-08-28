@@ -10,6 +10,7 @@
 
 #import "ZGVideoTalkViewController.h"
 #import "ZGVideoTalkDemo.h"
+#import "ZGUserIDHelper.h"
 
 NSInteger const ZGVideoTalkStreamViewColumnPerRow = 3;  // stream 视图每行的显示个数
 CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
@@ -31,6 +32,7 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
 
 @property (weak, nonatomic) IBOutlet UISwitch *cameraSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *micSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *enableAudioModuleSwitch;
 
 @property (nonatomic, weak) IBOutlet UIView *talkUserContainerView;
 
@@ -53,7 +55,7 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
 #endif
     
     // 获取到 userID 和 userName
-    self.joinTalkUserID = [NSString stringWithFormat:@"u-%ld", (long)[NSDate date].timeIntervalSince1970];
+    self.joinTalkUserID = ZGUserIDHelper.userID;
     self.joinTalkStreamID = [NSString stringWithFormat:@"s-%@", self.joinTalkUserID];
     self.joinUserVideoViewObjs = [NSMutableArray<ZGVideoTalkUserVideoViewObject *> array];
     
@@ -72,6 +74,9 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;       // stream 视图间距
     [self.videoTalkDemo setEnableMic:[sender isOn]];
 }
 
+- (IBAction)onToggleEnableAudioModuleSwitch:(UISwitch *)sender {
+    [self.videoTalkDemo setEnableAudioModule:[sender isOn]];
+}
 
 #pragma mark - private methods
 

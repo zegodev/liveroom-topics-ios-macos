@@ -1,5 +1,5 @@
 //
-//  ZGExternalVideoFilterViewController.h
+//  ZGExternalVideoFilterLoginViewController.h
 //  LiveRoomPlayground-iOS
 //
 //  Created by Paaatrick on 2019/7/19.

@@ -31,18 +31,23 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedInstance;
 
 /**
- 获取保存的配置
-
- @return 保存的配置
+ 默认配置
+ 
+ @return 返回默认配置
  */
-- (ZGMixStreamTopicConfig *)loadConfig;
++ (ZGMixStreamTopicConfig *)defaultConfig;
 
 /**
  更新配置
 
  @param config 新配置
  */
-- (void)updateConfig:(ZGMixStreamTopicConfig *)config;
+- (void)setConfig:(ZGMixStreamTopicConfig *)config;
+
+/**
+ 获取保存的配置。如果不存在保存的设置或获取失败时，则返回默认值。
+ */
+- (ZGMixStreamTopicConfig *)config;
 
 /**
  添加配置更新事件处理器。弱引用实现

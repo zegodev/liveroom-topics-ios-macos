@@ -10,12 +10,12 @@
 #import "./ZGTopicsTableViewController.h"
 #import "./MediaPlayerUI/ZGMediaPlayerViewController.h"
 #import "./MediaSideInfoUI/ZGMediaSideInfoViewController.h"
-#import "./SVC/ZGSVCRoomListViewController.h"
+#import "./SVC/ZGSVCViewController.h"
 #import "./MediaRecord/ZegoMediaRecordViewController.h"
 #import "./ExternalVideoCapture/ZGExternalVideoCaptureViewController.h"
 #import "./ExternalVideoRender/ZGExternalVideoRenderViewController.h"
 #import "ZGApiManager.h"
-#import "ZGHelper.h"
+#import "ZGUserIDHelper.h"
 
 @interface AppDelegate () <ZGTopicsTableViewControllerDelegate>
 
@@ -63,6 +63,9 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 #endif
 #ifdef _Module_ExternalVideoRender
     [topicList addObject:_Module_ExternalVideoRender];
+#endif
+#ifdef _Module_ExternalVideoFilter
+    [topicList addObject:_Module_ExternalVideoFilter];
 #endif
     self.topicList = topicList;
     
@@ -121,6 +124,13 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 #ifdef _Module_ExternalVideoRender
     if ([topic isEqualToString:_Module_ExternalVideoRender]) {
         NSStoryboard *sb = [NSStoryboard storyboardWithName:@"ZGExternalVideoRender" bundle:nil];
+        vc = [sb instantiateInitialController];
+    };
+#endif
+    
+#ifdef _Module_ExternalVideoFilter
+    if ([topic isEqualToString:_Module_ExternalVideoFilter]) {
+        NSStoryboard *sb = [NSStoryboard storyboardWithName:@"ZGExternalVideoFilter" bundle:nil];
         vc = [sb instantiateInitialController];
     };
 #endif

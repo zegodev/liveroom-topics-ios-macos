@@ -81,7 +81,7 @@
     self.shapeView.mDelegate = self ;
     
 //    self.faceCollection.type = FUFaceCollectionTypeCommon;
-    self.faceCollection.mDelegate = self;
+//    self.faceCollection.mDelegate = self;
     
     self.skinView.type = FUBeautyViewTypeSkin;
     self.skinView.mDelegate = self;

@@ -95,7 +95,7 @@
                                 <constraint firstItem="NJS-Ye-epO" firstAttribute="height" secondItem="iTa-oW-hFz" secondAttribute="height" multiplier="40:54" id="jyD-Hj-9xB"/>
                             </constraints>
                         </view>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="pGX-zE-MLF" customClass="FUMakeupSlider">
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="pGX-zE-MLF" customClass="FUMakeupSlider">
                             <rect key="frame" x="54" y="7" width="351" height="31"/>
                             <color key="minimumTrackTintColor" red="0.12156862745098039" green="0.69803921568627447" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>

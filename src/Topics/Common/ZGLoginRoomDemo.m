@@ -47,7 +47,7 @@
     
     //设置用户及用户名接口需要在 LoginRoom 之前调用
     //必须保证 UserID 的唯一性。可与App业务后台账号进行关联，UserID 还能便于 ZEGO 技术支持帮忙查找定位线上问题，请定义一个有意义的 UserID。
-    NSString *userID = ZGHelper.userID;
+    NSString *userID = ZGUserIDHelper.userID;
     [ZegoLiveRoomApi setUserID:userID userName:userID];
     ZGLogInfo(@"设置UserID:%@,UserName:%@",userID, userID);
     

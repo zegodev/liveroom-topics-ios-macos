@@ -29,7 +29,7 @@
 As the name suggests, this is the most efficient interface  on Android. */
 #define FU_FORMAT_ANDROID_DUAL_MODE 7
 typedef struct{
-	int camera_id;//<which camera should we use, 0 for front, 1 for back
+	int camera_id;// which camera should we use, 0 for front, 1 for back
 }TCameraDesc;
 /*\brief Indicate that the `tex` member is an EXTERNAL_OES texture */
 #define FU_ADM_FLAG_EXTERNAL_OES_TEXTURE 1
@@ -45,17 +45,17 @@ typedef struct{
 #define FU_ADM_FALG_RGBA_BUFFER 128
 
 typedef struct{
-	void* p_NV21;//<the NV21 buffer
-	int tex;//<the texture
+	void* p_NV21;// the NV21 buffer
+	int tex;// the texture
 	int flags;
 }TAndroidDualMode;
 /*\brief An I/O format where `ptr` points to a TNV12Buffer struct, which describes a YpCbCr8BiPlanar buffer. It matches the YUV camera formats on iOS. */
 #define FU_FORMAT_NV12_BUFFER 8
 typedef struct{
-	void* p_Y;//<the Y plane base address
-	void* p_CbCr;//<the CbCr plane base address
-	int stride_Y;//<the Y plane bytes-per-row
-	int stride_CbCr;//<the CbCr plane bytes-per-row
+	void* p_Y;// the Y plane base address
+	void* p_CbCr;// the CbCr plane base address
+	int stride_Y;// the Y plane bytes-per-row
+	int stride_CbCr;// the CbCr plane bytes-per-row
 }TNV12Buffer;
 /*\brief An internal input format for efficient iOS CVPixelBuffer handling where `ptr` points to a TIOSDualInput structure*/
 #define FU_FORMAT_INTERNAL_IOS_DUAL_INPUT 9
@@ -63,39 +63,39 @@ typedef struct{
 #define FU_IDM_FORMAT_NV12 1
 typedef struct{
 	//members to be specified in the BGRA mode
-	void* p_BGRA;//<the BGRA plane base address
+	void* p_BGRA;// the BGRA plane base address
 	//members to be specified in the NV12 mode
-	void* p_Y;//<the Y plane base address
-	void* p_CbCr;//<the CbCr plane base address
+	void* p_Y;// the Y plane base address
+	void* p_CbCr;// the CbCr plane base address
 	//members to be specified in the BGRA mode
-	int stride_BGRA;//<the BGRA plane bytes-per-row
+	int stride_BGRA;// the BGRA plane bytes-per-row
 	//members to be specified in the NV12 mode
-	int stride_Y;//<the Y plane bytes-per-row
-	int stride_CbCr;//<the CbCr plane bytes-per-row
+	int stride_Y;// the Y plane bytes-per-row
+	int stride_CbCr;// the CbCr plane bytes-per-row
 	//commom member
-	int tex_handle;//<the GPU-side input, which has to be an RGBA texture
+	int tex_handle;// the GPU-side input, which has to be an RGBA texture
 	/////////////////
-	int format;//<FU_IDM_FORMAT_BGRA or FU_IDM_FORMAT_NV12
+	int format;// FU_IDM_FORMAT_BGRA or FU_IDM_FORMAT_NV12
 }TIOSDualInput;
 /*\brief An internal output format for efficient iOS CVPixelBuffer handling where `ptr` points to a TIOSFBO structure*/
 typedef struct{
 	//we will reuse the FBO internally as an intermediate render target, so we need to know the texture
 	//we expect a depth buffer to be bound to the FBO
-	int fbo;//<the FBO to render onto
-	int tex;//<the texture bound to that FBO
+	int fbo;// the FBO to render onto
+	int tex;// the texture bound to that FBO
 }TSPECFBO;
 #define FU_FORMAT_GL_SPECIFIED_FRAMEBUFFER 10
 ////////////
 /**\brief take a user-defined param and a a width / height pair and return a pointer to receive the image output*/
 typedef void*(*PFRECEIVE_RESULT)(void* param,int w,int h);
 typedef struct{
-	unsigned char orientation;//<the target orientation and flags
-	unsigned char version;//<version==0 for orientation only, set version to 1 if you want to read back anything
+	unsigned char orientation;// the target orientation and flags
+	unsigned char version;// version==0 for orientation only, set version to 1 if you want to read back anything
 	unsigned short __padding;
 	//version==1 members
-	int image_output_mode;//<FU_FORMAT_BGRA_BUFFER, FU_FORMAT_RGBA_TEXTURE, FU_FORMAT_NV21_BUFFER, or FU_FORMAT_GL_CURRENT_FRAMEBUFFER for nothing at all
-	PFRECEIVE_RESULT fcallback;//<the callback for receiving the image
-	void* param;//<the user-defined param for the callback
+	int image_output_mode;// FU_FORMAT_BGRA_BUFFER, FU_FORMAT_RGBA_TEXTURE, FU_FORMAT_NV21_BUFFER, or FU_FORMAT_GL_CURRENT_FRAMEBUFFER for nothing at all
+	PFRECEIVE_RESULT fcallback;// the callback for receiving the image
+	void* param;// the user-defined param for the callback
 }TGLRenderingDesc;
 
 #define FU_FORMAT_AVATAR_INFO 12
@@ -149,16 +149,16 @@ FUNAMA_API int fuSetupLocal(float* v3data, int sz_v3data,float* ardata,void* aut
 /**
 \brief if nama is inited return 1,else return 0.
 */
-FUNAMA_API int fuGetNamaInited();
+FUNAMA_API int fuGetNamaInited(void);
 /**
 \brief Call this function when the GLES context has been lost and recreated.
 	That isn't a normal thing, so this function could leak resources on each call.
 */
-FUNAMA_API void fuOnDeviceLost();
+FUNAMA_API void fuOnDeviceLost(void);
 /**
 \brief Call this function to reset the face tracker on camera switches
 */
-FUNAMA_API void fuOnCameraChange();
+FUNAMA_API void fuOnCameraChange(void);
 /**
 \brief Create an accessory item from a binary package, you can discard the data after the call.
 	This function MUST be called in the same GLES context / thread as fuRenderItems.
@@ -177,11 +177,11 @@ FUNAMA_API void fuDestroyItem(int item);
 \brief Destroy all accessory items ever created.
 	This function MUST be called in the same GLES context / thread as the original fuCreateItemFromPackage.
 */
-FUNAMA_API void fuDestroyAllItems();
+FUNAMA_API void fuDestroyAllItems(void);
 /**
 \brief Destroy all internal data, resources, threads, etc.
 */
-FUNAMA_API void fuDestroyLibData();
+FUNAMA_API void fuDestroyLibData(void);
 
 /**
 \brief Render a list of items on top of a GLES texture or a memory buffer.
@@ -191,7 +191,7 @@ FUNAMA_API void fuDestroyLibData();
 	If img is non-NULL, it will be overwritten by the rendered image when fuRenderItems returns
 \param w specifies the image width
 \param h specifies the image height
-\param frameid specifies the current frame id. 
+\param frame_id specifies the current frame id.
 	To get animated effects, please increase frame_id by 1 whenever you call this.
 \param p_items points to the list of items
 \param n_items is the number of items
@@ -209,7 +209,7 @@ FUNAMA_API int fuRenderItems(int texid,int* img,int w,int h,int frame_id, int* p
 \param in_ptr points to the input image, which is either a GLuint texture handle or a memory buffer
 \param w specifies the image width
 \param h specifies the image height
-\param frameid specifies the current frame id. 
+\param frame_id specifies the current frame id.
 	To get animated effects, please increase frame_id by 1 whenever you call this.
 \param p_items points to the list of items
 \param n_items is the number of items
@@ -231,7 +231,7 @@ FUNAMA_API int fuRenderItemsEx(
 \param in_ptr points to the input image, which is either a GLuint texture handle or a memory buffer
 \param w specifies the image width
 \param h specifies the image height
-\param frameid specifies the current frame id. 
+\param frame_id specifies the current frame id.
 	To get animated effects, please increase frame_id by 1 whenever you call this.
 \param p_items points to the list of items
 \param n_items is the number of items
@@ -246,17 +246,11 @@ FUNAMA_API int fuBeautifyImage(
 \brief Generalized interface for tracking face.
 	Disable item rendering and image beautifying.
 	This function needs a GLES 2.0+ context.
-\param out_format is the output format
-\param out_ptr receives the rendering result, which is either a GLuint texture handle or a memory buffer
 	Note that in the texture cases, we will overwrite *out_ptr with a texture we generate.
 \param in_format is the input format
 \param in_ptr points to the input image, which is either a GLuint texture handle or a memory buffer
 \param w specifies the image width
 \param h specifies the image height
-\param frameid specifies the current frame id. 
-	To get animated effects, please increase frame_id by 1 whenever you call this.
-\param p_items points to the list of items
-\param n_items is the number of items
 \return a GLuint texture handle containing the rendering result if out_format isn't FU_FORMAT_GL_CURRENT_FRAMEBUFFER
 */
 FUNAMA_API int fuTrackFace(int in_format,void* in_ptr,int w,int h);
@@ -273,12 +267,12 @@ FUNAMA_API int fuTrackFaceWithTongue(int in_format,void* in_ptr,int w,int h);
 \param in_ptr points to the input image, which is either a GLuint texture handle or a memory buffer
 \param w specifies the image width
 \param h specifies the image height
-\param frameid specifies the current frame id. 
+\param frame_id specifies the current frame id.
 	To get animated effects, please increase frame_id by 1 whenever you call this.
 \param p_items points to the list of items
 \param n_items is the number of items
 \param func_flag flags indicate all changable functionalities of render interface
-\param p_masks indicates a list of masks for each item, bitwisely work on certain face
+\param p_item_masks indicates a list of masks for each item, bitwisely work on certain face
 \return a GLuint texture handle containing the rendering result if out_format isn't FU_FORMAT_GL_CURRENT_FRAMEBUFFER
 */
 FUNAMA_API int fuRenderItemsEx2(
@@ -344,9 +338,6 @@ FUNAMA_API int fuCreateTexForItem(int item, char* name, void* value, int width,i
 \brief delete the texture in item,only can be used to delete texutre create by fuCreateTexForItem
 \param item specifies the item
 \param name is the parameter name
-\param value rgba buffer
-\param width image width
-\param height image height
 \return zero for failure, non-zero for success
 */
 FUNAMA_API int fuDeleteTexForItem(int item, char* name);
@@ -383,7 +374,7 @@ FUNAMA_API int fuItemGetParamu8v(int item,char* name,char* buf,int sz);
 \brief Get the face tracking status
 \return The number of valid faces currently being tracked
 */
-FUNAMA_API int fuIsTracking();
+FUNAMA_API int fuIsTracking(void);
 /**
 \brief Set the default orientation for face detection. The correct orientation would make the initial detection much faster.
 \param rmode is the default orientation to be set to, one of 0..3 should work.
@@ -477,7 +468,7 @@ FUNAMA_API int fuUnbindAllItems(int item_src);
 \brief Get SDK version string
 \return SDK version string in const char*
 */
-FUNAMA_API const char* fuGetVersion();
+FUNAMA_API const char* fuGetVersion(void);
 
 /**
 \brief Get system error, which causes system shutting down
@@ -531,7 +522,7 @@ FUNAMA_API const char* fuGetVersion();
 #define NAMA_ERROR_CERTIFICATE_EXPIRED 		20
 #define NAMA_ERROR_INVALID_CERTIFICATE 		21
 #define NAMA_ERROR_PARSE_SYSTEM_DATA_FAILURE 22
-FUNAMA_API const int fuGetSystemError();
+FUNAMA_API const int fuGetSystemError(void);
 
 /**
 \brief Interpret system error code
@@ -586,9 +577,9 @@ FUNAMA_API int fuLoadExtendedARData(void* data,int sz);
 /**
 \warning: deprecated API
 \brief Load facial animation model data, to enable expression optimization
-\param data - the pointer to facial animation model data 'anim_model.bundle', 
+\param dat - the pointer to facial animation model data 'anim_model.bundle',
 	which is along beside lib files in SDK package
-\param sz - the data size, we use plain int to avoid cross-language compilation issues
+\param dat_sz - the data size, we use plain int to avoid cross-language compilation issues
 \return zero for failure, one for success
 */
 FUNAMA_API int fuLoadAnimModel(void* dat, int dat_sz);
@@ -596,9 +587,9 @@ FUNAMA_API int fuLoadAnimModelSrc(void* dat, int dat_sz);
 
 /**
 \brief Load Tongue Detector data, to support tongue animation.
-\param data - the pointer to tongue model data 'tongue.bundle', 
+\param dat - the pointer to tongue model data 'tongue.bundle',
 	which is along beside lib files in SDK package
-\param sz - the data size, we use plain int to avoid cross-language compilation issues
+\param dat_sz - the data size, we use plain int to avoid cross-language compilation issues
 \return zero for failure, one for success
 */
 FUNAMA_API int fuLoadTongueModel(void* dat, int dat_sz);
@@ -636,11 +627,10 @@ FUNAMA_API int fuSetASYNCTrackFace(int enable);
 \brief Clear Physics World
 \return 0 means physics disabled and no need to clear,1 means cleared successfully
 */
-FUNAMA_API int fuClearPhysics();
+FUNAMA_API int fuClearPhysics(void);
 
 /**
 \brief Set a face detector parameter.
-\param detector is the detector context, currently it is allowed to set to NULL, i.e., globally set all contexts.
 \param name is the parameter name, it can be:
 	"use_new_cnn_detection": 1 if the new cnn-based detection method is used, 0 else
 	"other_face_detection_frame_step": if one face already exists, then we detect other faces not each frame, but with a step,default 10 frames
@@ -657,7 +647,7 @@ FUNAMA_API int fuClearPhysics();
 		"size_max": maximal face supported on 640x480 image, default is a large value
 		"min_neighbors": algorithm internal, default 3.f
 		"min_required_variance": algorithm internal, default 15.f
-\param value points to the new parameter value, e.g., 
+\param pvalue points to the new parameter value, e.g.,
 	float scaling_factor=1.2f;
 	dde_facedet_set(ctx, "scaling_factor", &scaling_factor);
 	float size_min=100.f;
@@ -688,7 +678,7 @@ FUNAMA_API void fuSetQualityTradeoff(float quality);
 /**
 \brief Turn off the camera
 */
-FUNAMA_API void fuTurnOffCamera();
+FUNAMA_API void fuTurnOffCamera(void);
 /**
 \brief Generalized interface for rendering a list of items.
 	This function needs a GLES 2.0+ context.
@@ -699,7 +689,7 @@ FUNAMA_API void fuTurnOffCamera();
 \param in_ptr points to the input image, which is either a GLuint texture handle or a memory buffer
 \param w specifies the image width
 \param h specifies the image height
-\param frameid specifies the current frame id. 
+\param frame_id specifies the current frame id.
 	To get animated effects, please increase frame_id by 1 whenever you call this.
 \param p_items points to the list of items
 \param n_items is the number of items
@@ -716,7 +706,7 @@ FUNAMA_API int fuRenderItemsMasked(
 */
 FUNAMA_API void fuGetCameraImageSize(int* pret);
 
-FUNAMA_API int fuHasFace();
+FUNAMA_API int fuHasFace(void);
 
 #ifdef __cplusplus
 }

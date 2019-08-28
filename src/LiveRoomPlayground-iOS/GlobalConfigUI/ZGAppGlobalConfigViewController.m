@@ -10,6 +10,7 @@
 #import "ZGAppGlobalConfigManager.h"
 #import "ZGAppSignHelper.h"
 #import <ZegoLiveRoom/ZegoLiveRoomApi.h>
+#import "ZGWebRTCUrlInputVC.h"
 
 @interface ZGAppGlobalConfigViewController ()
 
@@ -93,6 +94,20 @@
     self.appIDTxf.text = @(configInfo.appID).stringValue;
     self.appSignTxv.text = configInfo.appSign;
     self.environmentSegCtrl.selectedSegmentIndex = configInfo.environment == ZGAppEnvironmentTest?0:1;
+}
+
+- (void)openWebRTCURLTestPage {
+    ZGWebRTCUrlInputVC *vc = [ZGWebRTCUrlInputVC instanceFromStoryboard];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 2) {
+        if (indexPath.row == 0) {
+            [self openWebRTCURLTestPage];
+        }
+    }
 }
 
 @end

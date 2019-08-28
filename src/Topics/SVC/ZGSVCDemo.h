@@ -1,59 +1,57 @@
 //
-//  ZGSVCDemo.h
+//  ZegoSVCDemo.h
 //  LiveRoomPlayground-iOS
 //
-//  Created by Sky on 2018/11/12.
-//  Copyright © 2018 Zego. All rights reserved.
+//  Created by Paaatrick on 2019/8/14.
+//  Copyright © 2019 Zego. All rights reserved.
 //
 
 #ifdef _Module_ScalableVideoCoding
 
-#import "ZGApiManager.h"
-
-@class ZGRoomInfo;
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+typedef NS_ENUM(NSUInteger, StreamLayerType) {
+    StreamLayerTypeAuto = 0,
+    StreamLayerTypeBase = 1,
+    StreamLayerTypeExtend = 2,
+};
+
 @protocol ZGSVCDemoProtocol <NSObject>
 
-- (ZGView *)getMainPlaybackView;
-- (ZGView *)getSubPlaybackView;
-- (void)onPublishStateUpdate;
-- (void)onBoardcastStateUpdate;
-- (void)onPublishQualityUpdate:(NSString *)state;
-- (void)onPlayQualityUpdate:(NSString *)state;
-- (void)onVideoSizeChanged:(NSString *)state;
+- (ZGView *)getPlaybackView;
+
+@optional
+
+- (void)onSVCPublishQualityUpdate:(NSString *)state;
+- (void)onSVCPlayQualityUpdate:(NSString *)state;
+- (void)onSVCVideoSizeChanged:(NSString *)state;
 
 @end
 
-
 @interface ZGSVCDemo : NSObject
-
-@property (assign ,nonatomic) BOOL useFrontCam;
-@property (assign ,nonatomic) VideoStreamLayer videoLayer;
-
-@property (assign ,nonatomic, readonly) BOOL openSVC;
-@property (strong ,nonatomic, readonly) ZGRoomInfo *roomInfo;
-@property (assign ,nonatomic, readonly) BOOL isPublishing;
-@property (assign ,nonatomic, readonly) BOOL isBoardcasting;
-@property (assign ,nonatomic, readonly) BOOL isRequestBoardcast;
 
 @property (nonatomic, weak) id <ZGSVCDemoProtocol>delegate;
 
-+ (instancetype)demoWithRole:(ZegoRole)role openSVC:(BOOL)openSVC roomInfo:(ZGRoomInfo *)roomInfo;
+// 拉流的视频分层模式
+@property (nonatomic, assign) StreamLayerType streamLayerType;
 
+// 是否开启分层编码
+@property (nonatomic, assign) BOOL openSVC;
+
+- (instancetype)initWithRoomID:(NSString *)roomID streamID:(NSString *)streamID isAnchor:(BOOL)isAnchor;
+
+- (void)loginRoom;
+- (void)logoutRoom;
+- (void)startPreview;
+- (void)stopPreview;
 - (void)startPublish;
 - (void)stopPublish;
-
 - (void)startPlay;
 - (void)stopPlay;
-
-- (void)startBoardCast;
-- (void)stopBoardCast;
-
-- (void)exit;
-
-- (void)refreshPlaybackView;
+- (void)switchPlayStreamVideoLayer;
 
 @end
 

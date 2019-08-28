@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3WY-um-443">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Room Mesage InitVC-->
+        <scene sceneID="uOt-3Q-EyI">
+            <objects>
+                <viewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="3WY-um-443" customClass="ZGRoomMesageInitVC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XUl-CB-IVf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RoomID：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2wa-JP-j47">
+                                <rect key="frame" x="20" y="64" width="78" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入roomID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UPu-sc-FmC">
+                                <rect key="frame" x="20" y="93" width="374" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W3r-YV-UFI">
+                                <rect key="frame" x="119.5" y="143" width="175" height="30"/>
+                                <color key="backgroundColor" red="0.36460450550000001" green="0.39655775450000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="175" id="Ooa-he-kOs"/>
+                                    <constraint firstAttribute="height" constant="30" id="b3t-ij-gwC"/>
+                                </constraints>
+                                <state key="normal" title="登录房间"/>
+                                <connections>
+                                    <action selector="loginRoomButnClick:" destination="3WY-um-443" eventType="touchUpInside" id="ZpO-0L-Sb6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n6A-VB-yd0">
+                                <rect key="frame" x="127" y="181" width="160" height="30"/>
+                                <state key="normal" title="《常用功能-房间消息》"/>
+                                <connections>
+                                    <action selector="goTopicLink:" destination="3WY-um-443" eventType="touchUpInside" id="W1m-tr-hur"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="n6A-VB-yd0" firstAttribute="top" secondItem="W3r-YV-UFI" secondAttribute="bottom" constant="8" id="KxZ-xY-Y8P"/>
+                            <constraint firstItem="W3r-YV-UFI" firstAttribute="top" secondItem="UPu-sc-FmC" secondAttribute="bottom" constant="20" id="MCs-zj-U2u"/>
+                            <constraint firstItem="n6A-VB-yd0" firstAttribute="centerX" secondItem="XUl-CB-IVf" secondAttribute="centerX" id="TTI-U7-a3J"/>
+                            <constraint firstItem="ODi-3W-xam" firstAttribute="trailing" secondItem="UPu-sc-FmC" secondAttribute="trailing" constant="20" id="Ucw-Kb-tkz"/>
+                            <constraint firstItem="UPu-sc-FmC" firstAttribute="leading" secondItem="ODi-3W-xam" secondAttribute="leading" constant="20" id="aIx-uH-9dQ"/>
+                            <constraint firstItem="W3r-YV-UFI" firstAttribute="centerX" secondItem="XUl-CB-IVf" secondAttribute="centerX" id="abF-HQ-bxY"/>
+                            <constraint firstItem="2wa-JP-j47" firstAttribute="top" secondItem="ODi-3W-xam" secondAttribute="top" constant="20" id="iSO-tp-zc2"/>
+                            <constraint firstItem="UPu-sc-FmC" firstAttribute="top" secondItem="2wa-JP-j47" secondAttribute="bottom" constant="8" id="ocY-uh-rDI"/>
+                            <constraint firstItem="2wa-JP-j47" firstAttribute="leading" secondItem="ODi-3W-xam" secondAttribute="leading" constant="20" id="rT6-vx-azd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ODi-3W-xam"/>
+                    </view>
+                    <connections>
+                        <outlet property="roomIDTxf" destination="UPu-sc-FmC" id="6hx-5H-LJi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g0s-Dd-AQe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1122" y="-157"/>
+        </scene>
+        <!--Room Message InteractVC-->
+        <scene sceneID="zHn-bt-lSt">
+            <objects>
+                <viewController storyboardIdentifier="ZGRoomMessageInteractVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="84d-Ab-Zes" customClass="ZGRoomMessageInteractVC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Qpm-Ho-uOG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wgy-r5-iRd">
+                                <rect key="frame" x="0.0" y="44" width="414" height="488"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Uoc-5e-Y6S">
+                                <rect key="frame" x="0.0" y="532" width="414" height="330"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="79H-zT-7gx">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="房间消息[RoomMessage]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XVp-iN-Dx9">
+                                                <rect key="frame" x="24" y="10" width="195" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="针对房间发送广播消息，消息内容不超过 512 字节。可实现点赞主播、评论、送礼物时的消息广播" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pcB-6E-fHR">
+                                                <rect key="frame" x="10" y="40.5" width="394" height="51.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dEs-e9-Glt">
+                                                <rect key="frame" x="356" y="6" width="46" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                <state key="normal" title="发消息"/>
+                                                <connections>
+                                                    <action selector="sendRoomMessageButnClick:" destination="84d-Ab-Zes" eventType="touchUpInside" id="JRf-el-0XQ"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bmh-AZ-yoM">
+                                                <rect key="frame" x="5" y="12" width="14" height="14"/>
+                                                <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="14" id="Ba5-gl-ukk"/>
+                                                    <constraint firstAttribute="height" constant="14" id="W2o-xs-9uQ"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="DcX-Qi-VDc"/>
+                                            <constraint firstItem="bmh-AZ-yoM" firstAttribute="leading" secondItem="79H-zT-7gx" secondAttribute="leading" constant="5" id="HnN-gA-t4w"/>
+                                            <constraint firstItem="XVp-iN-Dx9" firstAttribute="leading" secondItem="bmh-AZ-yoM" secondAttribute="trailing" constant="5" id="K9h-kI-ZaU"/>
+                                            <constraint firstItem="pcB-6E-fHR" firstAttribute="top" secondItem="XVp-iN-Dx9" secondAttribute="bottom" constant="10" id="OdX-vO-SWc"/>
+                                            <constraint firstAttribute="trailing" secondItem="dEs-e9-Glt" secondAttribute="trailing" constant="12" id="W1q-Ak-FAC"/>
+                                            <constraint firstItem="bmh-AZ-yoM" firstAttribute="top" secondItem="79H-zT-7gx" secondAttribute="top" constant="12" id="WPv-fm-JA4"/>
+                                            <constraint firstItem="dEs-e9-Glt" firstAttribute="top" secondItem="79H-zT-7gx" secondAttribute="top" constant="6" id="WuC-cO-a1X"/>
+                                            <constraint firstAttribute="bottom" secondItem="pcB-6E-fHR" secondAttribute="bottom" constant="8" id="YGD-Gd-H30"/>
+                                            <constraint firstItem="XVp-iN-Dx9" firstAttribute="top" secondItem="79H-zT-7gx" secondAttribute="top" constant="10" id="b1E-rF-NDR"/>
+                                            <constraint firstAttribute="trailing" secondItem="pcB-6E-fHR" secondAttribute="trailing" constant="10" id="x7C-VO-n9U"/>
+                                            <constraint firstItem="pcB-6E-fHR" firstAttribute="leading" secondItem="79H-zT-7gx" secondAttribute="leading" constant="10" id="y8u-78-gLo"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0vX-JW-YU5">
+                                        <rect key="frame" x="0.0" y="100" width="414" height="1"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="y73-c6-TGV"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XYh-mm-XAA">
+                                        <rect key="frame" x="0.0" y="101" width="414" height="100"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="大房间消息[BigRoomMessage]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nad-ec-Ks6">
+                                                <rect key="frame" x="24" y="10" width="236.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="针对房间发送广播消息，消息内容不超过 512 字节。适用于高并发的场景，部分消息会有一定延迟" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vZJ-oG-5KU">
+                                                <rect key="frame" x="10" y="40.5" width="394" height="51.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pQ6-fr-XSv">
+                                                <rect key="frame" x="356" y="6" width="46" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                <state key="normal" title="发消息"/>
+                                                <connections>
+                                                    <action selector="sendBigRoomMessageButnClick:" destination="84d-Ab-Zes" eventType="touchUpInside" id="h6s-Zc-kj4"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K99-s6-gmf">
+                                                <rect key="frame" x="5" y="12" width="14" height="14"/>
+                                                <color key="backgroundColor" red="1" green="0.2527923882" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="14" id="g8J-RZ-RGd"/>
+                                                    <constraint firstAttribute="width" constant="14" id="jN6-MU-Kk4"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="pQ6-fr-XSv" firstAttribute="top" secondItem="XYh-mm-XAA" secondAttribute="top" constant="6" id="3vF-nT-c9B"/>
+                                            <constraint firstAttribute="trailing" secondItem="pQ6-fr-XSv" secondAttribute="trailing" constant="12" id="BQ4-kc-y1F"/>
+                                            <constraint firstItem="Nad-ec-Ks6" firstAttribute="leading" secondItem="K99-s6-gmf" secondAttribute="trailing" constant="5" id="FtH-AU-YAx"/>
+                                            <constraint firstItem="K99-s6-gmf" firstAttribute="top" secondItem="XYh-mm-XAA" secondAttribute="top" constant="12" id="O8j-q9-rdy"/>
+                                            <constraint firstAttribute="trailing" secondItem="vZJ-oG-5KU" secondAttribute="trailing" constant="10" id="Olp-It-1kz"/>
+                                            <constraint firstItem="Nad-ec-Ks6" firstAttribute="top" secondItem="XYh-mm-XAA" secondAttribute="top" constant="10" id="TF1-0u-XiF"/>
+                                            <constraint firstItem="vZJ-oG-5KU" firstAttribute="top" secondItem="Nad-ec-Ks6" secondAttribute="bottom" constant="10" id="aTX-sc-NqU"/>
+                                            <constraint firstItem="vZJ-oG-5KU" firstAttribute="leading" secondItem="XYh-mm-XAA" secondAttribute="leading" constant="10" id="apa-7M-Yjp"/>
+                                            <constraint firstItem="K99-s6-gmf" firstAttribute="leading" secondItem="XYh-mm-XAA" secondAttribute="leading" constant="5" id="c3E-kH-rFk"/>
+                                            <constraint firstAttribute="height" constant="100" id="cR4-f5-6lJ"/>
+                                            <constraint firstAttribute="bottom" secondItem="vZJ-oG-5KU" secondAttribute="bottom" constant="8" id="ifR-1x-wwf"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d6O-YZ-cyf">
+                                        <rect key="frame" x="0.0" y="201" width="414" height="1"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="X2p-my-X3R"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gXH-5Y-0Yi">
+                                        <rect key="frame" x="0.0" y="202" width="414" height="128"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="指定用户消息[CustomCommand]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jcx-Q3-dpV">
+                                                <rect key="frame" x="24" y="10" width="254.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="可以指定房间内用户发送消息，消息内容不超过 1024 字节" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hf1-w7-zzD">
+                                                <rect key="frame" x="10" y="40.5" width="324" height="79.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Inw-8g-avP">
+                                                <rect key="frame" x="358" y="6" width="46" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                <state key="normal" title="发消息"/>
+                                                <connections>
+                                                    <action selector="sendCustomCommandButnClick:" destination="84d-Ab-Zes" eventType="touchUpInside" id="6x9-1T-uLI"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aLQ-qH-krI">
+                                                <rect key="frame" x="5" y="12" width="14" height="14"/>
+                                                <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="14" id="cIr-g3-b7a"/>
+                                                    <constraint firstAttribute="height" constant="14" id="zTQ-X4-guD"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rws-Hd-cKa">
+                                                <rect key="frame" x="342" y="44" width="62" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                <state key="normal" title="指定用户"/>
+                                                <connections>
+                                                    <action selector="chooseCustomCommandUserButnClick:" destination="84d-Ab-Zes" eventType="touchUpInside" id="NCg-Ny-spy"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3人" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bYb-mG-qAC">
+                                                <rect key="frame" x="381" y="76" width="23" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="Jcx-Q3-dpV" firstAttribute="leading" secondItem="aLQ-qH-krI" secondAttribute="trailing" constant="5" id="2Wt-WA-FFI"/>
+                                            <constraint firstItem="Jcx-Q3-dpV" firstAttribute="top" secondItem="gXH-5Y-0Yi" secondAttribute="top" constant="10" id="4SO-57-dS6"/>
+                                            <constraint firstAttribute="trailing" secondItem="bYb-mG-qAC" secondAttribute="trailing" constant="10" id="7ZX-8f-wSy"/>
+                                            <constraint firstAttribute="bottom" secondItem="hf1-w7-zzD" secondAttribute="bottom" constant="8" id="Anh-Bv-O5Y"/>
+                                            <constraint firstItem="hf1-w7-zzD" firstAttribute="top" secondItem="Jcx-Q3-dpV" secondAttribute="bottom" constant="10" id="EnI-SB-GRT"/>
+                                            <constraint firstItem="Rws-Hd-cKa" firstAttribute="top" secondItem="Inw-8g-avP" secondAttribute="bottom" constant="8" id="NdS-mF-EAk"/>
+                                            <constraint firstAttribute="height" constant="128" id="Oqb-ku-M5K"/>
+                                            <constraint firstItem="aLQ-qH-krI" firstAttribute="top" secondItem="gXH-5Y-0Yi" secondAttribute="top" constant="12" id="PH9-3h-Kfo"/>
+                                            <constraint firstAttribute="trailing" secondItem="Rws-Hd-cKa" secondAttribute="trailing" constant="10" id="Qxa-Wy-zim"/>
+                                            <constraint firstItem="hf1-w7-zzD" firstAttribute="leading" secondItem="gXH-5Y-0Yi" secondAttribute="leading" constant="10" id="TSq-Ij-P10"/>
+                                            <constraint firstItem="bYb-mG-qAC" firstAttribute="top" secondItem="Rws-Hd-cKa" secondAttribute="bottom" constant="2" id="afL-oM-AyS"/>
+                                            <constraint firstAttribute="trailing" secondItem="hf1-w7-zzD" secondAttribute="trailing" constant="80" id="e4v-QH-lTI"/>
+                                            <constraint firstItem="aLQ-qH-krI" firstAttribute="leading" secondItem="gXH-5Y-0Yi" secondAttribute="leading" constant="5" id="i49-Ku-Z22"/>
+                                            <constraint firstAttribute="trailing" secondItem="Inw-8g-avP" secondAttribute="trailing" constant="10" id="lAO-DB-Xy1"/>
+                                            <constraint firstItem="Inw-8g-avP" firstAttribute="top" secondItem="gXH-5Y-0Yi" secondAttribute="top" constant="6" id="u6K-Qt-SNW"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="wgy-r5-iRd" firstAttribute="trailing" secondItem="ngV-yM-W5n" secondAttribute="trailing" id="Cfj-D2-khZ"/>
+                            <constraint firstItem="ngV-yM-W5n" firstAttribute="bottom" secondItem="Uoc-5e-Y6S" secondAttribute="bottom" id="Csv-gA-I5q"/>
+                            <constraint firstItem="Uoc-5e-Y6S" firstAttribute="top" secondItem="wgy-r5-iRd" secondAttribute="bottom" id="OgS-SE-FOZ"/>
+                            <constraint firstAttribute="trailing" secondItem="Uoc-5e-Y6S" secondAttribute="trailing" id="bWC-q0-vpF"/>
+                            <constraint firstItem="wgy-r5-iRd" firstAttribute="top" secondItem="ngV-yM-W5n" secondAttribute="top" id="dkp-0v-og3"/>
+                            <constraint firstItem="Uoc-5e-Y6S" firstAttribute="leading" secondItem="ngV-yM-W5n" secondAttribute="leading" id="rkH-Vj-duP"/>
+                            <constraint firstItem="wgy-r5-iRd" firstAttribute="leading" secondItem="ngV-yM-W5n" secondAttribute="leading" id="zWl-7X-wgX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ngV-yM-W5n"/>
+                    </view>
+                    <connections>
+                        <outlet property="choosedCustomCommandUserTipLabel" destination="bYb-mG-qAC" id="QaQ-XQ-cuB"/>
+                        <outlet property="messageTableView" destination="wgy-r5-iRd" id="azt-H4-8Ow"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6vX-vY-aYo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-304.34782608695656" y="-157.36607142857142"/>
+        </scene>
+    </scenes>
+</document>

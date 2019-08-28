@@ -12,6 +12,7 @@
 #import "ZGAppGlobalConfigManager.h"
 #import "ZGPlayTopicConfigManager.h"
 #import "ZGAppSignHelper.h"
+#import "ZGUserIDHelper.h"
 #import "ZGTopicCommonDefines.h"
 #import "ZGPlayTopicSettingVC.h"
 #import <ZegoLiveRoom/ZegoLiveRoomApi.h>
@@ -149,7 +150,7 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
     
     // 获取 userID，userName 并设置到 SDK 中。必须在 loginRoom 之前设置，否则会出现登录不进行回调的问题
     // 这里演示简单将时间戳作为 userID，将 userID 和 userName 设置成一样。实际使用中可以根据需要，设置成业务相关的 userID
-    NSString *userID = [NSString stringWithFormat:@"u-%ld", (long)[NSDate date].timeIntervalSince1970];
+    NSString *userID = ZGUserIDHelper.userID;
     [ZegoLiveRoomApi setUserID:userID userName:userID];
     
     
@@ -326,15 +327,25 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
 #pragma mark - ZegoRoomDelegate
 
 - (void)onKickOut:(int)reason roomID:(NSString *)roomID {
-    NSLog(@"在别处登录，被踢出房间");
-    [self appendProcessTipAndMakeVisible:@"在别处登录，被踢出房间"];
+    NSLog(@"onKickOut, reason:%d", reason);
+    [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"被踢出房间, reason:%d", reason]];
     [self internalStopPlayLive];
 }
 
 - (void)onDisconnect:(int)errorCode roomID:(NSString *)roomID {
-    NSLog(@"已断开和房间的连接");
-    [self appendProcessTipAndMakeVisible:@"已断开和房间的连接"];
+    NSLog(@"onDisconnect, errorCode:%d", errorCode);
+    [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"已断开和房间的连接, errorCode:%d", errorCode]];
     [self internalStopPlayLive];
+}
+
+- (void)onReconnect:(int)errorCode roomID:(NSString *)roomID {
+    NSLog(@"onReconnect, errorCode:%d", errorCode);
+    [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"重连, errorCode:%d", errorCode]];
+}
+
+- (void)onTempBroken:(int)errorCode roomID:(NSString *)roomID {
+    NSLog(@"onTempBroken, errorCode:%d", errorCode);
+    [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"暂时断开, errorCode:%d", errorCode]];
 }
 
 - (void)onStreamUpdated:(int)type streams:(NSArray<ZegoStream*> *)streamList roomID:(NSString *)roomID {
@@ -372,6 +383,22 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
     [text appendFormat:@"码率:%.2f kb/s \n", quality.kbps];
     [text appendFormat:@"分辨率:%dx%d", quality.width, quality.height];
     self.playLiveQualityLabel.text = [text copy];
+}
+
+/**
+ 远端摄像头状态通知
+ */
+- (void)onRemoteCameraStatusUpdate:(int)status ofStream:(NSString *)streamID {
+    NSLog(@"onRemoteCameraStatusUpdate, status:%d", status);
+    [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"远端摄像头状态, status:%d", status]];
+}
+
+/**
+ 远端麦克风状态通知
+ */
+- (void)onRemoteMicStatusUpdate:(int)status ofStream:(NSString *)streamID {
+    NSLog(@"onRemoteMicStatusUpdate, status:%d", status);
+    [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"远端mic状态, status:%d", status]];
 }
 
 #pragma mark - ZGPlayTopicConfigChangedHandler

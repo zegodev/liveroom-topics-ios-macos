@@ -144,6 +144,8 @@ remoteUserVideoStateUpdate:(int)stateCode
 // 是否启用麦克风
 @property (nonatomic, readonly) BOOL enableMic;
 
+@property (nonatomic, readonly) BOOL enableAudioModule;
+
 // 房间登录状态
 @property (nonatomic, readonly) ZGVideoTalkJoinRoomState joinRoomState;
 
@@ -191,6 +193,13 @@ remoteUserVideoStateUpdate:(int)stateCode
  @param enableCamera 是否开启
  */
 - (void)setEnableCamera:(BOOL)enableCamera;
+
+/**
+ 启用或暂停音频模块
+
+ @param enableAudioModule 是否开启，否则暂停
+ */
+- (void)setEnableAudioModule:(BOOL)enableAudioModule;
 
 /**
  加入视频聊天。初始化回调的 errorCode == 0 时设置才有效。

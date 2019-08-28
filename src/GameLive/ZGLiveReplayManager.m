@@ -7,7 +7,7 @@
 
 #import "ZGLiveReplayManager.h"
 #import <ZegoLiveRoom/ZegoLiveRoomApi.h>
-#import "ZGHelper.h"
+#import "ZGUserIDHelper.h"
 #import "ZGKeyCenter.h"
 
 NSString *kZegoDemoAppTypeKey          = @"apptype";
@@ -54,7 +54,9 @@ static ZGLiveReplayManager *_avkitManager;
 - (void)initZegoLiveApi {
     [ZegoLiveRoomApi prepareReplayLiveCapture];
     
-    [ZegoLiveRoomApi setUserID:ZGHelper.userID userName:ZGHelper.userID];
+    [ZegoLiveRoomApi requireHardwareDecoder:YES];
+    [ZegoLiveRoomApi requireHardwareEncoder:YES];
+    [ZegoLiveRoomApi setUserID:ZGUserIDHelper.userID userName:ZGUserIDHelper.userID];
     
     unsigned int appID = ZGKeyCenter.appID;
     NSData *appSign = ZGKeyCenter.appSign;
@@ -80,7 +82,7 @@ static ZGLiveReplayManager *_avkitManager;
 
 - (void)startLiveWithTitle:(NSString *)liveTitle videoSize:(CGSize)videoSize {
     if (liveTitle.length == 0) {
-        self.liveTitle = [NSString stringWithFormat:@"#evc-ios-replay-%@", ZGHelper.userID];
+        self.liveTitle = [NSString stringWithFormat:@"#evc-ios-replay-%@", ZGUserIDHelper.userID];
     }
     else {
         self.liveTitle = liveTitle;
@@ -149,12 +151,12 @@ static ZGLiveReplayManager *_avkitManager;
 
 - (NSString *)genRoomID {
     unsigned long currentTime = (unsigned long)[[NSDate date] timeIntervalSince1970];
-    return [NSString stringWithFormat:@"#evc-ios-replay-%@-%lu", ZGHelper.userID, currentTime];
+    return [NSString stringWithFormat:@"#evc-ios-replay-%@-%lu", ZGUserIDHelper.userID, currentTime];
 }
 
 - (NSString *)genStreamID {
     unsigned long currentTime = (unsigned long)[[NSDate date] timeIntervalSince1970];
-    return [NSString stringWithFormat:@"s-%@-%lu", ZGHelper.userID, currentTime];
+    return [NSString stringWithFormat:@"s-%@-%lu", ZGUserIDHelper.userID, currentTime];
 }
 
 

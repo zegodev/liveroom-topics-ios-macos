@@ -10,7 +10,7 @@
 
 #import "ZGMediaSideInfoViewController.h"
 #import "ZGApiManager.h"
-#import "ZGHelper.h"
+#import "ZGUserIDHelper.h"
 #import <ZegoLiveRoomOSX/zego-api-media-side-info-oc.h>
 #import "ZGMediaSideInfoDemo.h"
 #import "ZGMediaSideInfoDemoEnvirentmentHelper.h"

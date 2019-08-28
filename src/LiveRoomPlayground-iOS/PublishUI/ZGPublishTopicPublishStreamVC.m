@@ -13,6 +13,7 @@
 #import "ZGAppSignHelper.h"
 #import "ZegoHudManager.h"
 #import "ZGTopicCommonDefines.h"
+#import "ZGUserIDHelper.h"
 #import "ZGPublishTopicConfigManager.h"
 #import "ZGPublishTopicSettingVC.h"
 #import <ZegoLiveRoom/ZegoLiveRoomApi.h>
@@ -35,6 +36,9 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
 @property (nonatomic) ZegoVideoViewMode previewViewMode;
 @property (nonatomic) BOOL enableHardwareEncode;
 @property (nonatomic) ZegoVideoMirrorMode videoMirrorMode;
+@property (nonatomic) BOOL enableMic;
+@property (nonatomic) BOOL enableCamera;
+@property (nonatomic) BOOL openAudioModule;
 
 @property (nonatomic) ZegoLiveRoomApi *zegoApi;
 @property (nonatomic) ZGTopicLoginRoomState loginRoomState;
@@ -78,6 +82,24 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
     [self stopLive];
 }
 
+- (IBAction)enableMicValueChanged:(UISwitch*)sender {
+    self.enableMic = sender.isOn;
+    [self.zegoApi enableMic:self.enableMic];
+}
+
+- (IBAction)enableCameraValueChanged:(UISwitch*)sender {
+    self.enableCamera = sender.isOn;
+    [self.zegoApi enableCamera:self.enableCamera];
+}
+
+- (IBAction)openAudioModuleValueChanged:(UISwitch*)sender {
+    self.openAudioModule = sender.isOn;
+    if (self.openAudioModule) {
+        [self.zegoApi resumeModule:ZEGOAPI_MODULE_AUDIO];
+    } else {
+        [self.zegoApi pauseModule:ZEGOAPI_MODULE_AUDIO];
+    }
+}
 
 #pragma mark - private methods
 
@@ -116,6 +138,10 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
     self.enableHardwareEncode = [ZGPublishTopicConfigManager sharedInstance].isEnableHardwareEncode;
     
     self.videoMirrorMode = [ZGPublishTopicConfigManager sharedInstance].isPreviewMinnor ? ZegoVideoMirrorModePreviewMirrorPublishNoMirror : ZegoVideoMirrorModePreviewCaptureBothNoMirror;
+    
+    self.enableMic = YES;
+    self.enableCamera = YES;
+    self.openAudioModule = YES;
 }
 
 - (void)initializeZegoApi {
@@ -138,6 +164,15 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
         [self.zegoApi setPreviewViewMode:self.previewViewMode];
         [ZegoLiveRoomApi requireHardwareEncoder:self.enableHardwareEncode];
         [self.zegoApi setVideoMirrorMode:self.videoMirrorMode];
+        
+        [self.zegoApi enableMic:self.enableMic];
+        [self.zegoApi enableCamera:self.enableCamera];
+        if (self.openAudioModule) {
+            [self.zegoApi resumeModule:ZEGOAPI_MODULE_AUDIO];
+        } else {
+            [self.zegoApi pauseModule:ZEGOAPI_MODULE_AUDIO];
+        }
+        
         
         // 开始预览
         [self startPreview];
@@ -174,7 +209,7 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
     
     // 获取 userID，userName 并设置到 SDK 中。必须在 loginRoom 之前设置，否则会出现登录不进行回调的问题
     // 这里演示简单将时间戳作为 userID，将 userID 和 userName 设置成一样。实际使用中可以根据需要，设置成业务相关的 userID
-    NSString *userID = [NSString stringWithFormat:@"u-%ld", (long)[NSDate date].timeIntervalSince1970];
+    NSString *userID = ZGUserIDHelper.userID;
     [ZegoLiveRoomApi setUserID:userID userName:userID];
     
     
@@ -324,15 +359,25 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
 #pragma mark - ZegoRoomDelegate
 
 - (void)onKickOut:(int)reason roomID:(NSString *)roomID {
-    NSLog(@"在别处登录，被踢出房间");
-    [self appendProcessTipAndMakeVisible:@"在别处登录，被踢出房间"];
+    NSLog(@"onKickOut, reason:%d", reason);
+    [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"被踢出房间, reason:%d", reason]];
     [self internalStopLive];
 }
 
 - (void)onDisconnect:(int)errorCode roomID:(NSString *)roomID {
-    NSLog(@"已断开和房间的连接");
-    [self appendProcessTipAndMakeVisible:@"已断开和房间的连接"];
+    NSLog(@"onDisconnect, errorCode:%d", errorCode);
+    [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"已断开和房间的连接, errorCode:%d", errorCode]];
     [self internalStopLive];
+}
+
+- (void)onReconnect:(int)errorCode roomID:(NSString *)roomID {
+    NSLog(@"onReconnect, errorCode:%d", errorCode);
+    [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"重连, errorCode:%d", errorCode]];
+}
+
+- (void)onTempBroken:(int)errorCode roomID:(NSString *)roomID {
+    NSLog(@"onTempBroken, errorCode:%d", errorCode);
+    [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"暂时断开, errorCode:%d", errorCode]];
 }
 
 #pragma mark - ZegoLivePublisherDelegate

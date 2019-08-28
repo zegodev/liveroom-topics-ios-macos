@@ -12,6 +12,8 @@
 #import "ZGApiManager.h"
 #import "ZegoMediaRecordConfig.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol ZegoMediaRecordDemoProtocol <NSObject>
 
 @optional
@@ -21,8 +23,6 @@
 - (void)onRecordStatusUpdateFromChannel:(ZegoAPIMediaRecordChannelIndex)index storagePath:(NSString *)path duration:(unsigned int)duration fileSize:(unsigned int)size;
 
 @end
-
-NS_ASSUME_NONNULL_BEGIN
 
 @interface ZegoMediaRecordDemo : NSObject
 

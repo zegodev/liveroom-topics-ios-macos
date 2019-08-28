@@ -19,6 +19,11 @@
 
 @implementation ZGMediaSideInfoDemo
 
+- (instancetype)init
+{
+    return [self initWithConfig:[ZGMediaSideInfoDemoConfig new]];
+}
+
 - (instancetype)initWithConfig:(ZGMediaSideInfoDemoConfig *)config {
     self = [super init];
     if (self) {

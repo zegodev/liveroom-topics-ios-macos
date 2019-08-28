@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NsS-lP-bcj">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--WebRTC Url InputVC-->
+        <scene sceneID="5Z0-34-gKe">
+            <objects>
+                <viewController storyboardIdentifier="ZGWebRTCUrlInputVC" id="NsS-lP-bcj" customClass="ZGWebRTCUrlInputVC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="N43-qg-eoG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="lSP-WE-iMw">
+                                <rect key="frame" x="20" y="93" width="374" height="100"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="l4T-zl-LHq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="输入URL：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TbU-43-d21">
+                                <rect key="frame" x="20" y="64" width="85" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V4a-tl-igG">
+                                <rect key="frame" x="137" y="213" width="140" height="32"/>
+                                <color key="backgroundColor" red="0.36460450550000001" green="0.39655775450000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="140" id="Iga-ZI-tFc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="UIWebView打开"/>
+                                <connections>
+                                    <action selector="openURLByUIWebView:" destination="NsS-lP-bcj" eventType="touchUpInside" id="hvQ-ru-Q4p"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lca-C2-gcx">
+                                <rect key="frame" x="137" y="253" width="140" height="32"/>
+                                <color key="backgroundColor" red="0.36460450550000001" green="0.39655775450000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="140" id="L8k-0a-HxL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="WKWebView打开"/>
+                                <connections>
+                                    <action selector="openURLByWKWebView:" destination="NsS-lP-bcj" eventType="touchUpInside" id="j4N-0H-Xnl"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="TbU-43-d21" firstAttribute="top" secondItem="P3F-ha-Mu9" secondAttribute="top" constant="20" id="0eT-bz-sb9"/>
+                            <constraint firstItem="Lca-C2-gcx" firstAttribute="centerX" secondItem="N43-qg-eoG" secondAttribute="centerX" id="4cQ-EA-hgJ"/>
+                            <constraint firstItem="V4a-tl-igG" firstAttribute="centerX" secondItem="N43-qg-eoG" secondAttribute="centerX" id="7UF-4Y-hlA"/>
+                            <constraint firstItem="P3F-ha-Mu9" firstAttribute="trailing" secondItem="lSP-WE-iMw" secondAttribute="trailing" constant="20" id="TB5-fb-UzP"/>
+                            <constraint firstItem="TbU-43-d21" firstAttribute="leading" secondItem="P3F-ha-Mu9" secondAttribute="leading" constant="20" id="ffl-jb-h7b"/>
+                            <constraint firstItem="lSP-WE-iMw" firstAttribute="top" secondItem="TbU-43-d21" secondAttribute="bottom" constant="8" id="hcm-c6-q39"/>
+                            <constraint firstItem="V4a-tl-igG" firstAttribute="top" secondItem="lSP-WE-iMw" secondAttribute="bottom" constant="20" id="oEw-cC-7dh"/>
+                            <constraint firstItem="Lca-C2-gcx" firstAttribute="top" secondItem="V4a-tl-igG" secondAttribute="bottom" constant="8" id="uCx-z1-yEr"/>
+                            <constraint firstItem="lSP-WE-iMw" firstAttribute="leading" secondItem="P3F-ha-Mu9" secondAttribute="leading" constant="20" id="w3c-wT-I9i"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="P3F-ha-Mu9"/>
+                    </view>
+                    <connections>
+                        <outlet property="UIWebViewOpenButn" destination="V4a-tl-igG" id="uBo-tk-F4q"/>
+                        <outlet property="WKWebViewOpenButn" destination="Lca-C2-gcx" id="wLY-xl-crN"/>
+                        <outlet property="inputUrlTextView" destination="lSP-WE-iMw" id="iIq-BY-7ye"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n56-FT-5O1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="10.144927536231885" y="77.008928571428569"/>
+        </scene>
+    </scenes>
+</document>

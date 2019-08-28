@@ -371,10 +371,7 @@
     }
     
     // 根据界面的混流配置填充以下参数
-    ZGMixStreamTopicConfig *myConfig = [[ZGMixStreamTopicConfigManager sharedInstance] loadConfig];
-    if (myConfig == nil) {
-        myConfig = [ZGMixStreamTopicConfig configWithDefault];
-    }
+    ZGMixStreamTopicConfig *myConfig = [[ZGMixStreamTopicConfigManager sharedInstance] config];
     
     ZegoMixStreamConfig *mixConfig = [[ZegoMixStreamConfig alloc] init];
     mixConfig.outputFps = (int)myConfig.outputFps;

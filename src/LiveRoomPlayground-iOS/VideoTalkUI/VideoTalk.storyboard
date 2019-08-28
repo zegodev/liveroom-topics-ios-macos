@@ -91,27 +91,39 @@
                                 <rect key="frame" x="0.0" y="731" width="375" height="47"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="摄像头" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6E-ac-cQ3">
-                                        <rect key="frame" x="8" y="13" width="52" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <rect key="frame" x="8" y="15" width="43" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="snm-iL-sdM">
-                                        <rect key="frame" x="60" y="8" width="51" height="31"/>
+                                        <rect key="frame" x="51" y="8" width="51" height="31"/>
                                         <connections>
                                             <action selector="onToggleCameraSwitch:" destination="KRn-gV-p9E" eventType="valueChanged" id="9uN-va-7Pm"/>
                                         </connections>
                                     </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="麦克风" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFN-kn-opd">
-                                        <rect key="frame" x="129" y="13" width="52" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <rect key="frame" x="110" y="15" width="43" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t3G-MT-J0m">
-                                        <rect key="frame" x="181" y="8" width="51" height="31"/>
+                                        <rect key="frame" x="153" y="8" width="51" height="31"/>
                                         <connections>
                                             <action selector="onToggleMicSwitch:" destination="KRn-gV-p9E" eventType="valueChanged" id="USd-dW-eSI"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="音频模块" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6i6-Xd-8YZ">
+                                        <rect key="frame" x="212" y="15" width="57.333333333333314" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ufa-3w-FFi">
+                                        <rect key="frame" x="269.33333333333331" y="8" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="onToggleEnableAudioModuleSwitch:" destination="KRn-gV-p9E" eventType="valueChanged" id="ruh-WP-Ow1"/>
                                         </connections>
                                     </switch>
                                 </subviews>
@@ -119,14 +131,18 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="snm-iL-sdM" secondAttribute="bottom" constant="8" id="0Ks-TL-ueO"/>
                                     <constraint firstItem="t3G-MT-J0m" firstAttribute="centerY" secondItem="oI9-8S-mkH" secondAttribute="centerY" id="1y4-I2-wNs"/>
+                                    <constraint firstItem="ufa-3w-FFi" firstAttribute="leading" secondItem="6i6-Xd-8YZ" secondAttribute="trailing" id="2BD-x1-41q"/>
                                     <constraint firstItem="t6E-ac-cQ3" firstAttribute="leading" secondItem="oI9-8S-mkH" secondAttribute="leading" constant="8" id="8ni-m4-ru9"/>
                                     <constraint firstAttribute="bottom" secondItem="snm-iL-sdM" secondAttribute="bottom" constant="8" id="AeV-se-51l"/>
                                     <constraint firstItem="t3G-MT-J0m" firstAttribute="leading" secondItem="cFN-kn-opd" secondAttribute="trailing" id="BPv-l8-b0x"/>
                                     <constraint firstItem="snm-iL-sdM" firstAttribute="centerY" secondItem="oI9-8S-mkH" secondAttribute="centerY" id="XfU-KK-2jT"/>
+                                    <constraint firstItem="6i6-Xd-8YZ" firstAttribute="leading" secondItem="t3G-MT-J0m" secondAttribute="trailing" constant="10" id="Zwu-tp-55b"/>
                                     <constraint firstItem="t6E-ac-cQ3" firstAttribute="centerY" secondItem="oI9-8S-mkH" secondAttribute="centerY" id="ivI-Nl-DU0"/>
+                                    <constraint firstItem="6i6-Xd-8YZ" firstAttribute="centerY" secondItem="oI9-8S-mkH" secondAttribute="centerY" id="mBb-Dr-TND"/>
                                     <constraint firstItem="cFN-kn-opd" firstAttribute="centerY" secondItem="oI9-8S-mkH" secondAttribute="centerY" id="mKR-md-Xz7"/>
+                                    <constraint firstItem="ufa-3w-FFi" firstAttribute="centerY" secondItem="oI9-8S-mkH" secondAttribute="centerY" id="pGd-TY-7gP"/>
                                     <constraint firstItem="snm-iL-sdM" firstAttribute="leading" secondItem="t6E-ac-cQ3" secondAttribute="trailing" id="pbU-U6-Cex"/>
-                                    <constraint firstItem="cFN-kn-opd" firstAttribute="leading" secondItem="snm-iL-sdM" secondAttribute="trailing" constant="20" id="wcS-UW-31D"/>
+                                    <constraint firstItem="cFN-kn-opd" firstAttribute="leading" secondItem="snm-iL-sdM" secondAttribute="trailing" constant="10" id="wcS-UW-31D"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -144,6 +160,7 @@
                     </view>
                     <connections>
                         <outlet property="cameraSwitch" destination="snm-iL-sdM" id="QX8-Pq-ahi"/>
+                        <outlet property="enableAudioModuleSwitch" destination="ufa-3w-FFi" id="jCx-eB-eUd"/>
                         <outlet property="micSwitch" destination="t3G-MT-J0m" id="tzF-Vc-wtl"/>
                         <outlet property="talkUserContainerView" destination="nnu-rB-vxs" id="d08-B8-waG"/>
                     </connections>

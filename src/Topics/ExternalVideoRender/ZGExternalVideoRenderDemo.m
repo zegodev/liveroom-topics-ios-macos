@@ -9,7 +9,7 @@
 #ifdef _Module_ExternalVideoRender
 
 #import "ZGExternalVideoRenderDemo.h"
-#import "ZGHelper.h"
+#import "ZGUserIDHelper.h"
 #import "ZGExternalVideoRenderHelper.h"
 #if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
@@ -395,12 +395,12 @@
 
 - (NSString *)genRoomID {
     unsigned long currentTime = (unsigned long)[[NSDate date] timeIntervalSince1970];
-    return [NSString stringWithFormat:@"#evc-%@-%lu", ZGHelper.userID, currentTime];
+    return [NSString stringWithFormat:@"#evc-%@-%lu", ZGUserIDHelper.userID, currentTime];
 }
 
 - (NSString *)genStreamID {
     unsigned long currentTime = (unsigned long)[[NSDate date] timeIntervalSince1970];
-    return [NSString stringWithFormat:@"s-%@-%lu", ZGHelper.userID, currentTime];
+    return [NSString stringWithFormat:@"s-%@-%lu", ZGUserIDHelper.userID, currentTime];
 }
 
 

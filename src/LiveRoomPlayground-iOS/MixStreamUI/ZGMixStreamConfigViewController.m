@@ -40,10 +40,7 @@
     self.navigationItem.title = @"混流配置";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存修改" style:UIBarButtonItemStylePlain target:self action:@selector(saveMixStreamConfig:)];
     
-    ZGMixStreamTopicConfig *config = [[ZGMixStreamTopicConfigManager sharedInstance] loadConfig];
-    if (!config) {
-        config = [ZGMixStreamTopicConfig configWithDefault];
-    }
+    ZGMixStreamTopicConfig *config = [[ZGMixStreamTopicConfigManager sharedInstance] config];
     
     self.outputResolutionWidthTxf.text = @(config.outputResolutionWidth).stringValue;
     self.outputResolutionHeightTxf.text = @(config.outputResolutionHeight).stringValue;
@@ -54,27 +51,15 @@
 }
 
 - (void)saveMixStreamConfig:(id)sender {
-    ZGMixStreamTopicConfig *config = [ZGMixStreamTopicConfig new];
+    ZGMixStreamTopicConfig *config = [[ZGMixStreamTopicConfigManager sharedInstance] config];
    
     config.outputResolutionWidth = self.outputResolutionWidthTxf.text.integerValue;
-    config.isSet_outputResolutionWidth = YES;
-    
     config.outputResolutionHeight = self.outputResolutionHeightTxf.text.integerValue;
-    config.isSet_outputResolutionHeight = YES;
-    
     config.outputFps = self.outputFpsTxf.text.integerValue;
-    config.isSet_outputFps = YES;
-    
     config.outputBitrate = self.outputBitrateTxf.text.integerValue;
-    config.isSet_outputBitrate = YES;
-    
     config.channels = self.twoChannelSwitch.isOn?2:1;
-    config.isSet_channels = YES;
-    
     config.withSoundLevel = self.soundLevelSwitch.isOn;
-    config.isSet_withSoundLevel = YES;
-    
-    [[ZGMixStreamTopicConfigManager sharedInstance] updateConfig:config];
+    [[ZGMixStreamTopicConfigManager sharedInstance] setConfig:config];
     
     [ZegoHudManager showMessage:@"已保存修改"];
 }

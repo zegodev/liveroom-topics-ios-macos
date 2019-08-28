@@ -13,7 +13,7 @@
 #import "ModuleCompileDefine.h"
 
 #import "ZegoLog.h"
-#import "ZGHelper.h"
+#import "ZGUserIDHelper.h"
 #import "ZGURLDefine.h"
 #import "ZGApiManager.h"
 #import "ZegoHudManager.h"

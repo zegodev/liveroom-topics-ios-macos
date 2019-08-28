@@ -10,7 +10,11 @@
 
 #import "ZGVideoFilterI420Demo.h"
 #import "ZGImageUtils.h"
+#if TARGET_OS_OSX
+#import "FUManager-mac.h"
+#elif TARGET_OS_IOS
 #import "FUManager.h"
+#endif
 
 @interface ZGVideoFilterI420Demo()
 
@@ -119,7 +123,7 @@
         int imageHeight = (int)CVPixelBufferGetHeight(pixel_buffer);
         int imageStride = (int)CVPixelBufferGetBytesPerRowOfPlane(pixel_buffer, 0);
         
-        CVPixelBufferRef dst = [buffer_pool_ dequeueInputBuffer:imageWidth height:imageHeight stride:imageStride];
+        CVPixelBufferRef dst = [self->buffer_pool_ dequeueInputBuffer:imageWidth height:imageHeight stride:imageStride];
         
         if (!dst) {
             return;
@@ -130,7 +134,7 @@
         
         if ([ZGImageUtils copyPixelBufferFrom:output to:dst]) {
             // * 把从 buffer pool 中得到的 CVPixelBuffer 实例传进来
-            [buffer_pool_ queueInputBuffer:dst timestamp:timestamp_100n];
+            [self->buffer_pool_ queueInputBuffer:dst timestamp:timestamp_100n];
         }
         
         self.pendingCount = self.pendingCount - 1;

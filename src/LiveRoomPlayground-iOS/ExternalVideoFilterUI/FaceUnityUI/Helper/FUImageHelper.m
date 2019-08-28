@@ -72,7 +72,7 @@
     
     CGContextRelease(context);
     
-    completionHandler((size_t)bufferLength +8,newBitmap);
+    completionHandler((int)bufferLength + 8,newBitmap);
 }
 
 + (CGContextRef) newBitmapRGBA8ContextFromImage:(CGImageRef) image {

@@ -9,7 +9,8 @@
 #ifdef _Module_MediaRecord
 
 #import "ZegoMediaRecordDemo.h"
-#import "ZGHelper.h"
+#import "ZGUserIDHelper.h"
+#import "ZGUserIDHelper.h"
 
 @interface ZegoMediaRecordDemo () <ZegoRoomDelegate,ZegoLivePublisherDelegate,ZegoMediaRecordDelegage>
 
@@ -125,7 +126,7 @@
 - (void)loginLiveRoom {
     NSLog(NSLocalizedString(@"开始登录房间", nil));
     
-    NSString *roomID = ZGHelper.userID;
+    NSString *roomID = ZGUserIDHelper.userID;
     
     Weakify(self);
     [ZGApiManager.api loginRoom:roomID role:ZEGO_ANCHOR withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
@@ -143,7 +144,7 @@
 }
 
 - (void)doPublish {
-    NSString *streamID = ZGHelper.userID;
+    NSString *streamID = ZGUserIDHelper.userID;
     bool res = [ZGApiManager.api startPublishing:streamID title:nil flag:ZEGO_JOIN_PUBLISH];
     if (res) {
         NSLog(NSLocalizedString(@"🍏开始直播成功.", nil));

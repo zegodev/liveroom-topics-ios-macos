@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSUserDefaults *)standardUserDefaults NS_UNAVAILABLE;
 
-- (instancetype)initWithSuiteName:(NSString *)suitename NS_UNAVAILABLE;
+- (instancetype)initWithSuiteName:(nullable NSString *)suitename NS_UNAVAILABLE;
 
 - (instancetype)init;
 

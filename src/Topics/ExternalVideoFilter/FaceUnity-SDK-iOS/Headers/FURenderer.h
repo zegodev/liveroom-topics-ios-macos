@@ -521,4 +521,9 @@ typedef enum {
  释放nama资源
  */
 +(void)namaLibDestroy;
+
+#pragma mark - FURenderer+header
+- (void)setUpCurrentContext;
+- (void)setBackCurrentContext;
+
 @end

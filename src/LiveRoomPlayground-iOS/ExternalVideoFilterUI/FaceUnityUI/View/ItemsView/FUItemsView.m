@@ -149,7 +149,7 @@
 
 - (void)stopAnimation {
     dispatch_async(dispatch_get_main_queue(), ^{
-        loading = NO ;
+        self->loading = NO ;
         [self.collection reloadData];
         self.collection.userInteractionEnabled = YES ;
     });

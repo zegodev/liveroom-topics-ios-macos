@@ -9,7 +9,11 @@
 #ifdef _Module_ExternalVideoFilter
 
 #import "ZGVideoFilterSyncDemo.h"
+#if TARGET_OS_OSX
+#import "FUManager-mac.h"
+#elif TARGET_OS_IOS
 #import "FUManager.h"
+#endif
 
 @implementation ZGVideoFilterSyncDemo {
     id<ZegoVideoFilterClient> client_;

@@ -36,8 +36,14 @@
 #ifdef _Module_JoinLive
     [commonTopicList addObject:_Module_JoinLive];
 #endif
+#ifdef _Module_RoomMessage
+    [commonTopicList addObject:_Module_RoomMessage];
+#endif
 #ifdef _Module_MixStream
     [advancedTopicList addObject:_Module_MixStream];
+#endif
+#ifdef _Module_AudioAux
+    [advancedTopicList addObject:_Module_AudioAux];
 #endif
 #ifdef _Module_MediaPlayer
     [advancedTopicList addObject:_Module_MediaPlayer];
@@ -147,6 +153,13 @@
         vc = [sb instantiateInitialViewController];
     }
 #endif
+    
+#ifdef _Module_RoomMessage
+    if ([topicName isEqualToString:_Module_RoomMessage]) {
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"RoomMessage" bundle:nil];
+        vc = [sb instantiateInitialViewController];
+    }
+#endif
 
 #ifdef _Module_MixStream
     if ([topicName isEqualToString:_Module_MixStream]) {
@@ -155,17 +168,24 @@
     }
 #endif
     
+#ifdef _Module_AudioAux
+    if ([topicName isEqualToString:_Module_AudioAux]) {
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"AudioAux" bundle:nil];
+        vc = [sb instantiateInitialViewController];
+    }
+#endif
+    
     #ifdef _Module_MediaPlayer
     if ([topicName isEqualToString:_Module_MediaPlayer]) {
-        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MediaPlayer" bundle:nil];
-        vc = [sb instantiateViewControllerWithIdentifier:@"ZGMediaSourceTableViewController"];
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"NewMediaPlayer" bundle:nil];
+        vc = [sb instantiateInitialViewController];
     }
     #endif
     
     #ifdef _Module_MediaSideInfo
     if ([topicName isEqualToString:_Module_MediaSideInfo]) {
         UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MediaSideInfo" bundle:nil];
-        vc = [sb instantiateViewControllerWithIdentifier:@"ZGMediaSideInfoViewController_iOS"];
+        vc = [sb instantiateInitialViewController];
     }
     #endif
     
@@ -185,7 +205,7 @@
     
     #ifdef _Module_ExternalVideoCapture
     if ([topicName isEqualToString:_Module_ExternalVideoCapture]) {
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"ExternalVideoCapture" bundle:nil];
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"VideoExternalCapture" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
     #endif

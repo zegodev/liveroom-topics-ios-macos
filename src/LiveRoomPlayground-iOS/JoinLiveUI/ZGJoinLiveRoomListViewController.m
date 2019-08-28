@@ -17,6 +17,7 @@
 #import "ZGJoinLiveDemo.h"
 #import "ZGAppGlobalConfigManager.h"
 #import "ZGAppSignHelper.h"
+#import "ZGUserIDHelper.h"
 
 @interface ZGJoinLiveRoomListViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -52,7 +53,7 @@
     [self setupZegoLiveRoomApiDefault:self.appConfig];
     
     // 获取到 userID 和 userName
-    self.zgUserID = [NSString stringWithFormat:@"u_%ld", (long)[NSDate date].timeIntervalSince1970];
+    self.zgUserID = ZGUserIDHelper.userID;
     self.zgUserName = self.zgUserID;
     
     // 初始化

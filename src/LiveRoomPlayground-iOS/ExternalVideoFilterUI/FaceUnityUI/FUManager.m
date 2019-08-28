@@ -14,7 +14,7 @@
 #import <CoreMotion/CoreMotion.h>
 //#import "FUMusicPlayer.h"
 #import "FUImageHelper.h"
-#import "FURenderer+header.h"
+//#import "FURenderer+header.h"
 
 
 
@@ -148,8 +148,8 @@ static FUManager *shareManager = nil;
          NSLog(@"strat Nama destroy all items ~");
         [FURenderer destroyAllItems];
         /**销毁道具后，为保证被销毁的句柄不再被使用，需要将int数组中的元素都设为0*/
-        for (int i = 0; i < sizeof(items) / sizeof(int); i++) {
-            items[i] = 0;
+        for (int i = 0; i < sizeof(self->items) / sizeof(int); i++) {
+            self->items[i] = 0;
         }
         /**销毁道具后，清除context缓存*/
         [FURenderer OnDeviceLost];
@@ -164,10 +164,10 @@ static FUManager *shareManager = nil;
 {
     dispatch_async(asyncLoadQueue, ^{
         /**后销毁老道具句柄*/
-        if (items[type] != 0) {
+        if (self->items[type] != 0) {
             NSLog(@"faceunity: destroy item");
-            [FURenderer destroyItem:items[type]];
-            items[type] = 0;
+            [FURenderer destroyItem:self->items[type]];
+            self->items[type] = 0;
         }
     });
 }
@@ -185,13 +185,13 @@ static FUManager *shareManager = nil;
         int itemHandle = [FURenderer itemWithContentsOfFile:path];
         
         /**销毁老的道具句柄*/
-        if (items[FUNamaHandleTypeFxaa] != 0) {
+        if (self->items[FUNamaHandleTypeFxaa] != 0) {
             NSLog(@"faceunity: destroy old item");
-            [FURenderer destroyItem:items[FUNamaHandleTypeFxaa]];
+            [FURenderer destroyItem:self->items[FUNamaHandleTypeFxaa]];
         }
         
         /**将刚刚创建的句柄存放在items[FUNamaHandleTypeFxaa]中*/
-        items[FUNamaHandleTypeFxaa] = itemHandle;
+        self->items[FUNamaHandleTypeFxaa] = itemHandle;
     });
 }
 
@@ -209,13 +209,13 @@ static FUManager *shareManager = nil;
 - (void)loadGesture
 {
     dispatch_async(asyncLoadQueue, ^{
-        if (items[FUNamaHandleTypeGesture] != 0) {
+        if (self->items[FUNamaHandleTypeGesture] != 0) {
             NSLog(@"faceunity: destroy gesture");
-            [FURenderer destroyItem:items[FUNamaHandleTypeGesture]];
-            items[FUNamaHandleTypeGesture] = 0;
+            [FURenderer destroyItem:self->items[FUNamaHandleTypeGesture]];
+            self->items[FUNamaHandleTypeGesture] = 0;
         }
         NSString *path = [[NSBundle mainBundle] pathForResource:@"heart_v2.bundle" ofType:nil];
-        items[FUNamaHandleTypeGesture] = [FURenderer itemWithContentsOfFile:path];
+        self->items[FUNamaHandleTypeGesture] = [FURenderer itemWithContentsOfFile:path];
     });
 }
 
@@ -255,9 +255,9 @@ static FUManager *shareManager = nil;
 /**加载美颜道具*/
 - (void)loadFilter{
     dispatch_async(asyncLoadQueue, ^{
-        if (items[FUNamaHandleTypeBeauty] == 0) {
+        if (self->items[FUNamaHandleTypeBeauty] == 0) {
             NSString *path = [[NSBundle mainBundle] pathForResource:@"face_beautification.bundle" ofType:nil];
-            items[FUNamaHandleTypeBeauty] = [FURenderer itemWithContentsOfFile:path];
+            self->items[FUNamaHandleTypeBeauty] = [FURenderer itemWithContentsOfFile:path];
         }
     });
 }
@@ -336,7 +336,7 @@ static FUManager *shareManager = nil;
     dispatch_async(asyncLoadQueue, ^{
         self.selectedItem = itemName ;
         
-        int destoryItem = items[FUNamaHandleTypeItem];
+        int destoryItem = self->items[FUNamaHandleTypeItem];
         
         if (itemName != nil && ![itemName isEqual: @"noitem"]) {
             /**先创建道具句柄*/
@@ -371,11 +371,11 @@ static FUManager *shareManager = nil;
                  [FURenderer itemSetParam:itemHandle withName:@"handOffY" value:@(-100)];
             }
             /**将刚刚创建的句柄存放在items[FUNamaHandleTypeItem]中*/
-            items[FUNamaHandleTypeItem] = itemHandle;
+            self->items[FUNamaHandleTypeItem] = itemHandle;
             
         }else{
             /**为避免道具句柄被销毁会后仍被使用导致程序出错，这里需要将存放道具句柄的items[FUNamaHandleTypeItem]设为0*/
-            items[FUNamaHandleTypeItem] = 0;
+            self->items[FUNamaHandleTypeItem] = 0;
         }
         NSLog(@"faceunity: load item");
         
@@ -393,28 +393,28 @@ static FUManager *shareManager = nil;
 
 - (void)loadMakeupBundleWithName:(NSString *)name{
     dispatch_async(makeupQueue, ^{
-        if (items[FUNamaHandleTypeMakeup] != 0) {
+        if (self->items[FUNamaHandleTypeMakeup] != 0) {
             NSLog(@"faceunity: destroy item");
-            [FURenderer destroyItem:items[FUNamaHandleTypeMakeup]];
-            items[FUNamaHandleTypeMakeup] = 0;
+            [FURenderer destroyItem:self->items[FUNamaHandleTypeMakeup]];
+            self->items[FUNamaHandleTypeMakeup] = 0;
         }
         NSString *filePath = [[NSBundle mainBundle] pathForResource:name ofType:@"bundle"];
-        items[FUNamaHandleTypeMakeup] = [FURenderer itemWithContentsOfFile:filePath];
-        fuItemSetParamd(items[FUNamaHandleTypeMakeup], "makeup_lip_mask", 1.0);//使用优化的口红效果
-        fuItemSetParamd(items[FUNamaHandleTypeMakeup], "makeup_intensity_lip", 0);
+        self->items[FUNamaHandleTypeMakeup] = [FURenderer itemWithContentsOfFile:filePath];
+        fuItemSetParamd(self->items[FUNamaHandleTypeMakeup], "makeup_lip_mask", 1.0);//使用优化的口红效果
+        fuItemSetParamd(self->items[FUNamaHandleTypeMakeup], "makeup_intensity_lip", 0);
     });
 }
 
 /* 点位模式 */
 -(void)loadMakeupType:(NSString *)itemName{
     dispatch_async(makeupQueue, ^{
-        if (items[FUNamaHandleTypeMakeupType] != 0) {
+        if (self->items[FUNamaHandleTypeMakeupType] != 0) {
             NSLog(@"faceunity: destroy item");
-            [FURenderer destroyItem:items[FUNamaHandleTypeMakeupType]];
-            items[FUNamaHandleTypeMakeupType] = 0;
+            [FURenderer destroyItem:self->items[FUNamaHandleTypeMakeupType]];
+            self->items[FUNamaHandleTypeMakeupType] = 0;
         }
         NSString *filePath = [[NSBundle mainBundle] pathForResource:itemName ofType:@"bundle"];
-        items[FUNamaHandleTypeMakeupType] = [FURenderer itemWithContentsOfFile:filePath];
+        self->items[FUNamaHandleTypeMakeupType] = [FURenderer itemWithContentsOfFile:filePath];
     });
 }
 /*
@@ -435,7 +435,7 @@ static FUManager *shareManager = nil;
 //            NSLog(@"美妆图片为空");
             return;
         }
-        if (items[FUNamaHandleTypeMakeup]) {
+        if (self->items[FUNamaHandleTypeMakeup]) {
             [[FUManager shareManager] setMakeupItemIntensity:1 param:@"is_makeup_on"];
             int photoWidth = (int)CGImageGetWidth(image.CGImage);
             int photoHeight = (int)CGImageGetHeight(image.CGImage);
@@ -443,9 +443,9 @@ static FUManager *shareManager = nil;
             unsigned char *imageData = [FUImageHelper getRGBAWithImage:image];
             
             // [[FURenderer shareRenderer] setUpCurrentContext];
-            fuItemSetParamd(items[FUNamaHandleTypeMakeup], "reverse_alpha", 1.0);
+            fuItemSetParamd(self->items[FUNamaHandleTypeMakeup], "reverse_alpha", 1.0);
             
-            fuCreateTexForItem(items[FUNamaHandleTypeMakeup], (char *)[paramStr UTF8String], imageData, photoWidth, photoHeight);
+            fuCreateTexForItem(self->items[FUNamaHandleTypeMakeup], (char *)[paramStr UTF8String], imageData, photoWidth, photoHeight);
             // [[FURenderer shareRenderer] setBackCurrentContext];
             free(imageData);
         }else{
@@ -473,8 +473,8 @@ static FUManager *shareManager = nil;
         return;
     }
     dispatch_async(makeupQueue, ^{
-        if (items[FUNamaHandleTypeMakeup]) {
-            int res = fuItemSetParamd(items[FUNamaHandleTypeMakeup], (char *)[paramStr UTF8String], value);
+        if (self->items[FUNamaHandleTypeMakeup]) {
+            int res = fuItemSetParamd(self->items[FUNamaHandleTypeMakeup], (char *)[paramStr UTF8String], value);
             if (!res) NSLog(@"美妆设置失败---Parma（%@）---value(%lf)",paramStr,value);
             
         }else{
@@ -495,7 +495,7 @@ static FUManager *shareManager = nil;
         for (int i =0; i < length; i ++) {
             value[i] = [valueArr[i] doubleValue];
         }
-        [FURenderer itemSetParamdv:items[FUNamaHandleTypeMakeup] withName:sdkStr value:value length:length];
+        [FURenderer itemSetParamdv:self->items[FUNamaHandleTypeMakeup] withName:sdkStr value:value length:length];
         free(value);
     });
 }
@@ -505,12 +505,12 @@ static FUManager *shareManager = nil;
 /**设置美发参数**/
 - (void)setHairColor:(int)colorIndex {
     dispatch_async(asyncLoadQueue, ^{
-        [FURenderer itemSetParam:items[FUNamaHandleTypeItem] withName:@"Index" value:@(colorIndex)]; // 发色
+        [FURenderer itemSetParam:self->items[FUNamaHandleTypeItem] withName:@"Index" value:@(colorIndex)]; // 发色
     });
 }
 - (void)setHairStrength:(float)strength {
     dispatch_async(asyncLoadQueue, ^{
-        [FURenderer itemSetParam:items[FUNamaHandleTypeItem] withName:@"Strength" value: @(strength)]; // 发色
+        [FURenderer itemSetParam:self->items[FUNamaHandleTypeItem] withName:@"Strength" value: @(strength)]; // 发色
     });
 }
 
@@ -569,7 +569,7 @@ static FUManager *shareManager = nil;
     float rotation[4] = {0,0,0,1};
     float rotation_mode[1] = {0};
     float pupil_pos[2] = {0};
-    int is_valid = 0;
+//    int is_valid = 0;
     
     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
     void *bytes = (void *)CVPixelBufferGetBaseAddress(pixelBuffer);
@@ -704,18 +704,18 @@ static FUManager *shareManager = nil;
     dispatch_async(asyncLoadQueue, ^{
         
         if (itemName != nil && ![itemName isEqual: @"noitem"]) {
-            if (items[FUNamaHandleTypeComic] == 0) {
+            if (self->items[FUNamaHandleTypeComic] == 0) {
                 NSString *path = [[NSBundle mainBundle] pathForResource:@"fuzzytoonfilter.bundle" ofType:nil];
                 int itemHandle = [FURenderer itemWithContentsOfFile:path];
                 self.currentBoudleName = @"fuzzytoonfilter";
-                items[FUNamaHandleTypeComic] = itemHandle;
+                self->items[FUNamaHandleTypeComic] = itemHandle;
             }
-            [FURenderer itemSetParam:items[FUNamaHandleTypeComic] withName:@"style" value:@(style)];
+            [FURenderer itemSetParam:self->items[FUNamaHandleTypeComic] withName:@"style" value:@(style)];
         }else{
-            if (items[FUNamaHandleTypeComic] != 0){
-                [FURenderer destroyItem:items[FUNamaHandleTypeComic]];
+            if (self->items[FUNamaHandleTypeComic] != 0){
+                [FURenderer destroyItem:self->items[FUNamaHandleTypeComic]];
             }
-            items[FUNamaHandleTypeComic] = 0;
+            self->items[FUNamaHandleTypeComic] = 0;
             self.currentBoudleName = @"";
         }
     });
@@ -780,9 +780,9 @@ static FUManager *shareManager = nil;
 #pragma  mark -  捏脸
 -(void)loadAvatarBundel{
     dispatch_async(asyncLoadQueue, ^{
-        if (items[FUNamaHandleTypeAvtarHead] == 0) {
+        if (self->items[FUNamaHandleTypeAvtarHead] == 0) {
             NSString *filePath = [[NSBundle mainBundle] pathForResource:@"avatar_male" ofType:@"bundle"];
-            items[FUNamaHandleTypeAvtarHead] = [FURenderer itemWithContentsOfFile:filePath];
+            self->items[FUNamaHandleTypeAvtarHead] = [FURenderer itemWithContentsOfFile:filePath];
         }
     });
 }
@@ -806,39 +806,39 @@ static FUManager *shareManager = nil;
 -(void)enterAvatar{
     dispatch_async(asyncLoadQueue, ^{
 //        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"setLazyBundle" value:@(1)];
-        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"enter_facepup" value:@(1)];
+        [FURenderer itemSetParam:self->items[FUNamaHandleTypeAvtarHead] withName:@"enter_facepup" value:@(1)];
     });
 }
 
 -(void)lazyAvatar{
     dispatch_async(asyncLoadQueue, ^{
-        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"setLazyBundle" value:@(1)];
+        [FURenderer itemSetParam:self->items[FUNamaHandleTypeAvtarHead] withName:@"setLazyBundle" value:@(1)];
       //  [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"enter_facepup" value:@(1)];
     });
 }
 -(void)recomputeAvatar{
  
     dispatch_async(asyncLoadQueue, ^{
-        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"need_recompute_facepup" value:@(1)];
+        [FURenderer itemSetParam:self->items[FUNamaHandleTypeAvtarHead] withName:@"need_recompute_facepup" value:@(1)];
     });
 }
 
 -(void)clearAvatar{
     dispatch_async(asyncLoadQueue, ^{
-        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"clear_facepup" value:@(1)];
+        [FURenderer itemSetParam:self->items[FUNamaHandleTypeAvtarHead] withName:@"clear_facepup" value:@(1)];
     });
 }
 
 -(void)quitAvatar{
     dispatch_async(asyncLoadQueue, ^{
-        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"quit_facepup" value:@(1)];
+        [FURenderer itemSetParam:self->items[FUNamaHandleTypeAvtarHead] withName:@"quit_facepup" value:@(1)];
     });
 }
 
 -(void)setAvatarParam:(NSString *)paramStr value:(float )value{
     dispatch_async(asyncLoadQueue, ^{
         NSString *str = [NSString stringWithFormat:@"{\"name\":\"facepup\",\"param\":\"%@\"}",paramStr];
-        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:str value:@(value)];
+        [FURenderer itemSetParam:self->items[FUNamaHandleTypeAvtarHead] withName:str value:@(value)];
         NSLog(@"--------%@----------%lf",str,value);
     });
 }
@@ -849,7 +849,7 @@ static FUManager *shareManager = nil;
     }
     dispatch_async(asyncLoadQueue, ^{
         double rgb[3] = {r,g,b};
-        [FURenderer itemSetParamdv:items[FUNamaHandleTypeAvtarHead] withName:paramStr value:rgb length:3];
+        [FURenderer itemSetParamdv:self->items[FUNamaHandleTypeAvtarHead] withName:paramStr value:rgb length:3];
     });
 }
     
@@ -864,7 +864,7 @@ static FUManager *shareManager = nil;
         //double rgb[3] = {scaleValue,0,0};
        // [FURenderer itemSetParamdv:items[FUNamaHandleTypeAvtarHead] withName:@"localTranslate" value:rgb length:3];
         
-        fuItemSetParamd(items[FUNamaHandleTypeAvtarHead],"absoluteScale",scaleValue);
+        fuItemSetParamd(self->items[FUNamaHandleTypeAvtarHead],"absoluteScale",scaleValue);
 //        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"scale_delta" value:@(scaleValue)];
     });
 }
@@ -873,7 +873,7 @@ static FUManager *shareManager = nil;
 -(void)setAvatarItemTranslateX:(int)x y:(int)y z:(int)z{
     dispatch_async(asyncLoadQueue, ^{
         double translate[3] = {x,y,z};
-        [FURenderer itemSetParamdv:items[FUNamaHandleTypeAvtarHead] withName:@"localTranslate" value:translate length:3];
+        [FURenderer itemSetParamdv:self->items[FUNamaHandleTypeAvtarHead] withName:@"localTranslate" value:translate length:3];
     });
 }
 
@@ -897,11 +897,11 @@ static FUManager *shareManager = nil;
         [FURenderer itemSetParam:itemHandle withName:@"isFlipTrack" value:@(1)];
         [FURenderer itemSetParam:itemHandle withName:@"isFlipLight" value:@(1)];
         
-        if (items[FUNamaHandleTypeAvtarHiar] != 0) {
+        if (self->items[FUNamaHandleTypeAvtarHiar] != 0) {
             NSLog(@"faceunity: destroy old item");
-            [FURenderer destroyItem:items[FUNamaHandleTypeAvtarHiar]];
+            [FURenderer destroyItem:self->items[FUNamaHandleTypeAvtarHiar]];
         }
-        items[FUNamaHandleTypeAvtarHiar] = itemHandle;
+        self->items[FUNamaHandleTypeAvtarHiar] = itemHandle;
     });
 }
 
@@ -911,15 +911,15 @@ static FUManager *shareManager = nil;
     }
     dispatch_async(asyncLoadQueue, ^{
         double rgb[4] = {r,g,b,i};
-        [FURenderer itemSetParamdv:items[FUNamaHandleTypeAvtarHiar] withName:paramStr value:rgb length:4];
+        [FURenderer itemSetParamdv:self->items[FUNamaHandleTypeAvtarHiar] withName:paramStr value:rgb length:4];
     });
 }
     
 -(void)loadBgAvatar{
     dispatch_async(asyncLoadQueue, ^{
-        if (items[FUNamaHandleTypeAvtarbg] == 0) {
+        if (self->items[FUNamaHandleTypeAvtarbg] == 0) {
             NSString *filePath = [[NSBundle mainBundle] pathForResource:@"avatar_bg" ofType:@"bundle"];
-            items[FUNamaHandleTypeAvtarbg] = [FURenderer itemWithContentsOfFile:filePath];
+            self->items[FUNamaHandleTypeAvtarbg] = [FURenderer itemWithContentsOfFile:filePath];
         }
     });
 }

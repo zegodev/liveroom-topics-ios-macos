@@ -14,6 +14,7 @@
 
 @property (nonatomic, assign) BOOL enableCamera;
 @property (nonatomic, assign) BOOL enableMic;
+@property (nonatomic, assign) BOOL enableAudioModule;
 @property (nonatomic, assign) BOOL apiInitialized;
 @property (nonatomic, assign) ZGVideoTalkJoinRoomState joinRoomState;
 @property (nonatomic, copy) NSString *talkRoomID;
@@ -96,6 +97,21 @@
         _enableCamera = enableCamera;
     } else {
         ZGLogWarn(@"Failed enableCamera to %@", boolStr);
+    }
+}
+
+- (void)setEnableAudioModule:(BOOL)enableAudioModule {
+    if (![self checkApiInitialized]) {
+        return;
+    }
+    
+    _enableAudioModule = enableAudioModule;
+    if (enableAudioModule) {
+        [self.zegoApi resumeModule:ZEGOAPI_MODULE_AUDIO];
+        ZGLogInfo(@"resume audio Module");
+    } else {
+        [self.zegoApi pauseModule:ZEGOAPI_MODULE_AUDIO];
+        ZGLogInfo(@"pause audio Module");
     }
 }
 
@@ -408,10 +424,11 @@
 - (void)onPublishQualityUpdate:(NSString *)streamID quality:(ZegoApiPublishQuality)quality {
     //推流质量更新, 回调频率默认3秒一次
     //可通过 -setPublishQualityMonitorCycle: 修改回调频率
-   ZGLogDebug(@"推流质量更新，streamID:%@,cfps:%d,kbps:%d,acapFps:%d,akbps:%d,rtt:%d,pktLostRate:%d,quality:%d",
+  /* ZGLogDebug(@"推流质量更新，streamID:%@,cfps:%d,kbps:%d,acapFps:%d,akbps:%d,rtt:%d,pktLostRate:%d,quality:%d",
              streamID,(int)quality.cfps,(int)quality.kbps,
              (int)quality.acapFps,(int)quality.akbps,
              quality.rtt,quality.pktLostRate,quality.quality);
+   */
 }
 
 #pragma mark - ZegoLivePlayerDelegate
@@ -435,10 +452,26 @@
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality {
     //拉流质量更新, 回调频率默认3秒一次
     //可通过 -setPlayQualityMonitorCycle: 修改回调频率
-    ZGLogDebug(@"拉流质量更新，streamID:%@,vrndFps:%d,kbps:%d,arndFps:%d,akbps:%d,rtt:%d,pktLostRate:%d,quality:%d",
+
+   /* ZGLogDebug(@"拉流质量更新，streamID:%@,vrndFps:%d,kbps:%d,arndFps:%d,akbps:%d,rtt:%d,pktLostRate:%d,quality:%d",
                streamID,(int)quality.vrndFps,(int)quality.kbps,
                (int)quality.arndFps,(int)quality.akbps,
                quality.rtt,quality.pktLostRate,quality.quality);
+    */
+}
+
+/**
+ 远端摄像头状态通知
+ */
+- (void)onRemoteCameraStatusUpdate:(int)status ofStream:(NSString *)streamID {
+    ZGLogInfo(@"远端摄像头状态变化, status:%d", status);
+}
+
+/**
+ 远端麦克风状态通知
+ */
+- (void)onRemoteMicStatusUpdate:(int)status ofStream:(NSString *)streamID {
+     ZGLogInfo(@"远端mic状态变化, status:%d", status);
 }
 
 @end

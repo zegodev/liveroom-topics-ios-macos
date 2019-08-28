@@ -13,7 +13,7 @@
 #import "ModuleCompileDefine.h"
 
 #import "ZegoLog.h"
-#import "ZGHelper.h"
+#import "ZGUserIDHelper.h"
 #import "ZGApiManager.h"
 #import "NSObject+Binding.h"
 #import "NSObject+Persistence.h"

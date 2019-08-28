@@ -78,7 +78,11 @@
     CFDictionarySetValue(attrs, kCVPixelBufferPixelFormatTypeKey, cfPixelFormat);
     CFDictionarySetValue(attrs, kCVPixelBufferWidthKey, cfWidth);
     CFDictionarySetValue(attrs, kCVPixelBufferHeightKey, cfHeight);
+#if TARGET_OS_IOS
     CFDictionarySetValue(attrs, kCVPixelBufferOpenGLESCompatibilityKey, kCFBooleanTrue);
+#elif TARGET_OS_OSX
+    CFDictionarySetValue(attrs, kCVPixelBufferOpenGLCompatibilityKey, kCFBooleanTrue);
+#endif
     
     CVReturn ret = CVPixelBufferPoolCreate(kCFAllocatorDefault, nil, attrs, pool);
     
@@ -145,6 +149,7 @@
     return ret;
 }
 
+#if TARGET_OS_IOS
 + (UIImage *)imageFromString:(NSString *)string attributes:(NSDictionary *)attributes {
     NSAttributedString *attributeString = [[NSAttributedString alloc] initWithString:string attributes:attributes];
     CGRect rect = [attributeString boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
@@ -157,6 +162,7 @@
     
     return image;
 }
+#endif
 
 + (CIImage *)overlayImage:(CIImage *)backgroundImage image:(CIImage *)image size:(CGSize)size {
     CIFilter *filter = [CIFilter filterWithName:@"CISourceOverCompositing"];

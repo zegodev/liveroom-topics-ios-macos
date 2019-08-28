@@ -12,16 +12,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol ZGExternalVideoFilterDemoProtocol <NSObject>
 
-/**
- 外部滤镜入口示例类
- 
- @note 管理外部滤镜工厂对象的初始化与手动销毁
- */
+- (ZGView *)getPlaybackView;
+
+@optional
+
+- (void)onExternalVideoFilterPublishStateUpdate:(NSString *)state;
+- (void)onExternalVideoFilterPublishQualityUpdate:(NSString *)state;
+
+- (void)onExternalVideoFilterPlayStateUpdate:(NSString *)state;
+- (void)onExternalVideoFilterPlayQualityUpdate:(NSString *)state;
+
+@end
+
+
 @interface ZGExternalVideoFilterDemo : NSObject
 
-+ (instancetype)shared;
-
+@property (nonatomic, weak) id <ZGExternalVideoFilterDemoProtocol>delegate;
 
 /**
  初始化外部滤镜工厂对象
@@ -31,11 +39,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)initFilterFactoryType:(ZegoVideoBufferType)type;
 
-
-/**
- 释放外部滤镜工厂对象
- */
-- (void)releaseFilterFactory;
+- (void)initSDKWithRoomID:(NSString *)roomID streamID:(NSString *)streamID isAnchor:(BOOL)isAnchor;
+- (void)loginRoom;
+- (void)logoutRoom;
+- (void)startPreview;
+- (void)stopPreview;
+- (void)startPublish;
+- (void)stopPublish;
+- (void)startPlay;
+- (void)stopPlay;
+- (void)enablePreviewMirror:(BOOL)enable;
 
 @end
 

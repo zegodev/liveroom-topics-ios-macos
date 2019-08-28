@@ -55,6 +55,7 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
             // 成功后，调用其他方法才有效
             [demo setEnableMic:YES];
             [demo setEnableCamera:YES];
+            [demo setEnableAudioModule:YES];
             return;
         }
         

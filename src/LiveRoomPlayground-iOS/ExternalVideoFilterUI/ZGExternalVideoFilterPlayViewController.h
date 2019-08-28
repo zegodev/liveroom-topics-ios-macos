@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ZGExternalVideoFilterPlayViewController : UIViewController
 
 @property (nonatomic, copy) NSString *roomID;
+@property (nonatomic, copy) NSString *streamID;
 
 @end
 

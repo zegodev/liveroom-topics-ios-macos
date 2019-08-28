@@ -667,7 +667,7 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
     if (isHidden) {
         if (_lineBottomConstraint.constant == 0) {
             [UIView animateWithDuration:0.25 animations:^{
-                _lineBottomConstraint.constant = -240;
+                self->_lineBottomConstraint.constant = -240;
                 [self layoutIfNeeded];
             }];
         }
@@ -675,7 +675,7 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
         if (_lineBottomConstraint.constant < 0) {
             [self setNeedsLayout];
             [UIView animateWithDuration:0.25 animations:^{
-                _lineBottomConstraint.constant = 0;
+                self->_lineBottomConstraint.constant = 0;
                 [self layoutIfNeeded];
             }];
         }

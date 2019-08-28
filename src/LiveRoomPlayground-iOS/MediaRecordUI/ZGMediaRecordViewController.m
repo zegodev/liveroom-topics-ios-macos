@@ -6,6 +6,8 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_MediaRecord
+
 #import "ZGMediaRecordViewController.h"
 #import "ZegoMediaRecordDemo.h"
 #import <AVKit/AVKit.h>
@@ -144,3 +146,5 @@
 
 
 @end
+
+#endif

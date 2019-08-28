@@ -33,7 +33,7 @@ static ZegoLiveRoomApi *s_apiInstance = nil;
         ZGAppGlobalConfig *config = [[ZGAppGlobalConfigManager sharedInstance] globalConfig];
         [self initApiWithAppID:config.appID appSign:[ZGAppSignHelper convertAppSignFromString:config.appSign] completionBlock:nil];
         
-        NSString *userID = ZGHelper.userID;
+        NSString *userID = ZGUserIDHelper.userID;
         [ZegoLiveRoomApi setUserID:userID userName:userID];
     }
     

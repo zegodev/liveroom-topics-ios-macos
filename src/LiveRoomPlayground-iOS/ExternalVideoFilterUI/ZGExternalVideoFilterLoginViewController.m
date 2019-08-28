@@ -1,5 +1,5 @@
 //
-//  ZGExternalVideoFilterViewController.m
+//  ZGExternalVideoFilterLoginViewController.m
 //  LiveRoomPlayground-iOS
 //
 //  Created by Paaatrick on 2019/7/19.
@@ -8,24 +8,20 @@
 
 #ifdef _Module_ExternalVideoFilter
 
-#import "ZGExternalVideoFilterDemo.h"
-#import "ZGVideoFilterFactoryDemo.h"
 #import "ZGExternalVideoFilterLoginViewController.h"
-#import "ZGExternalVideoFilterViewController.h"
+#import "ZGExternalVideoFilterPublishViewController.h"
 #import "ZGExternalVideoFilterPlayViewController.h"
-#import "ZGLoginRoomDemo.h"
-#import "FUManager.h"
-#import "ZGAppGlobalConfigManager.h"
-#import "ZGAppSignHelper.h"
 
 // 检查一下是否有 FaceUnity 的鉴权
 #import "authpack.h"
 
-static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
+static NSString *ZGExternalVideoFilterRoomID = @"ZGExternalVideoFilterRoomID";
+static NSString *ZGExternalVideoFilterStreamID = @"ZGExternalVideoFilterStreamID";
 
 @interface ZGExternalVideoFilterLoginViewController () <UIPickerViewDelegate, UIPickerViewDataSource>
 
-@property (weak, nonatomic) IBOutlet UITextField *roomIDTxf;
+@property (weak, nonatomic) IBOutlet UITextField *roomIDTextField;
+@property (weak, nonatomic) IBOutlet UITextField *streamIDTextField;
 @property (weak, nonatomic) IBOutlet UIPickerView *typePickerView;
 @property (weak, nonatomic) IBOutlet UIButton *jumpToPublishButton;
 @property (weak, nonatomic) IBOutlet UIButton *jumpToPlayButton;
@@ -40,10 +36,10 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
 
 @implementation ZGExternalVideoFilterLoginViewController
 
-#pragma mark - Life Circle
-
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.roomIDTextField.text = [self savedValueForKey:ZGExternalVideoFilterRoomID];
+    self.streamIDTextField.text = [self savedValueForKey:ZGExternalVideoFilterStreamID];
     
     // 检查一下是否有 FaceUnity 的鉴权
     [self checkFaceUnityAuthPack];
@@ -52,140 +48,51 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
     self.filterBufferTypeList = @[@"AsyncPixelBufferType", @"AsyncI420PixelBufferType", @"SyncPixelBufferType"];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    // 切换 BufferType 需要重建外部滤镜工厂
-    [ZGExternalVideoFilterDemo.shared releaseFilterFactory];
-}
-
-- (void)dealloc {
-    // 释放外部滤镜工厂
-    [ZGExternalVideoFilterDemo.shared releaseFilterFactory];
-    
-    // 释放 FaceUnity SDK
-    [FUManager releaseManager];
-    
-    // 释放 ZegoLiveRoom SDK
-    [ZGApiManager releaseApi];
-}
-
-#pragma mark - setup
-
 - (void)setupUI {
-    NSString *roomID = [self savedValueForKey:ZGLoginRoomIDKey];
-    self.roomIDTxf.text = roomID;
-    
     self.typePickerView.delegate = self;
     self.typePickerView.dataSource = self;
     [self pickerView:self.typePickerView didSelectRow:0 inComponent:0];
 }
 
-- (void)initSDK {
-    [ZegoHudManager showNetworkLoading];
-    Weakify(self);
-    
-    ZGAppGlobalConfig *appConfig = [[ZGAppGlobalConfigManager sharedInstance] globalConfig];
-    [ZGApiManager initApiWithAppID:appConfig.appID appSign:[ZGAppSignHelper convertAppSignFromString:appConfig.appSign] completionBlock:^(int errorCode) {
-        [ZegoHudManager hideNetworkLoading];
+#pragma mark - Actions
+
+- (IBAction)jumpToExternalVideoFilterPublish:(id)sender {
+    if (self.roomIDTextField.text.length > 0 && self.streamIDTextField.text.length > 0) {
+        [self saveValue:self.roomIDTextField.text forKey:ZGExternalVideoFilterRoomID];
+        [self saveValue:self.streamIDTextField.text forKey:ZGExternalVideoFilterStreamID];
         
-        Strongify(self);
-        
-        BOOL success = errorCode == 0;
-        
-        if (!success) {
-            [ZegoHudManager showMessage:@"SDK 初始化失败\n请检查网络或参数是否有效"];
-            return;
-        }
-    }];
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"ExternalVideoFilter" bundle:nil];
+        ZGExternalVideoFilterPublishViewController *vc = [sb instantiateViewControllerWithIdentifier:@"ZGExternalVideoFilterPublishViewController"];
+        vc.roomID = self.roomIDTextField.text;
+        vc.streamID = self.streamIDTextField.text;
+        vc.selectedFilterBufferType = self.selectedFilterBufferType;
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        [ZegoHudManager showMessage:@"未填房间ID或流ID"];
+    }
 }
 
-#pragma mark - Actions
+- (IBAction)jumpToExternalVideoFilterPlay:(id)sender {
+    if (self.roomIDTextField.text.length > 0 && self.streamIDTextField.text.length > 0) {
+        [self saveValue:self.roomIDTextField.text forKey:ZGExternalVideoFilterRoomID];
+        [self saveValue:self.streamIDTextField.text forKey:ZGExternalVideoFilterStreamID];
+        
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"ExternalVideoFilter" bundle:nil];
+        ZGExternalVideoFilterPlayViewController *vc = [sb instantiateViewControllerWithIdentifier:@"ZGExternalVideoFilterPlayViewController"];
+        vc.roomID = self.roomIDTextField.text;
+        vc.streamID = self.streamIDTextField.text;
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        [ZegoHudManager showMessage:@"未填房间ID或流ID"];
+    }
+}
+
+- (IBAction)jumpToExternalVideoFilterTopicLink:(UIButton *)sender {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://doc.zego.im/CN/273.html"]];
+}
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
-}
-
-- (IBAction)onTryEnterPublishRoom:(id)sender {
-    
-    // 先加载外部滤镜工厂
-    [ZGExternalVideoFilterDemo.shared initFilterFactoryType:self.selectedFilterBufferType];
-    
-    // 加载外部滤镜工厂后，再初始化 ZegoLiveRoom SDK
-    [self initSDK];
-    
-    // 尝试进入房间
-    NSString *roomID = self.roomIDTxf.text;
-    
-    [ZegoHudManager showNetworkLoading];
-    Weakify(self);
-    BOOL result = [ZGLoginRoomDemo.shared loginRoom:roomID role:ZEGO_ANCHOR completion:^(int errorCode, NSArray<ZegoStream *> *streamList) {
-        
-        [ZegoHudManager hideNetworkLoading];
-        
-        Strongify(self);
-        BOOL success = errorCode == 0;
-        if (!success) {
-            [ZegoHudManager showMessage:@"登录房间失败"];
-            return;
-        }
-        
-        [self saveValue:roomID forKey:ZGLoginRoomIDKey];
-        [self jumpToStartPublish];
-    }];
-    
-    if (!result) {
-        [ZegoHudManager hideNetworkLoading];
-        [ZegoHudManager showMessage:@"参数不合法或已经登录房间"];
-    }
-}
-
-
-- (void)jumpToStartPublish {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"ExternalVideoFilter" bundle:nil];
-    ZGExternalVideoFilterViewController *vc = [sb instantiateViewControllerWithIdentifier:@"ZGExternalVideoFilterViewController"];
-    vc.roomID = [self savedValueForKey:ZGLoginRoomIDKey];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-
-- (IBAction)onTryEnterPlayRoom:(id)sender {
-    
-    // 初始化 ZegoLiveRoom SDK
-    [self initSDK];
-    
-    // 尝试进入房间
-    NSString *roomID = self.roomIDTxf.text;
-    
-    [ZegoHudManager showNetworkLoading];
-    Weakify(self);
-    BOOL result = [ZGLoginRoomDemo.shared loginRoom:roomID role:ZEGO_ANCHOR completion:^(int errorCode, NSArray<ZegoStream *> *streamList) {
-        
-        [ZegoHudManager hideNetworkLoading];
-        
-        Strongify(self);
-        BOOL success = errorCode == 0;
-        if (!success) {
-            [ZegoHudManager showMessage:@"登录房间失败"];
-            return;
-        }
-        
-        [self saveValue:roomID forKey:ZGLoginRoomIDKey];
-        [self jumpToStartPlay];
-    }];
-    
-    if (!result) {
-        [ZegoHudManager hideNetworkLoading];
-        [ZegoHudManager showMessage:@"参数不合法或已经登录房间"];
-    }
-    
-}
-
-- (void)jumpToStartPlay {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"ExternalVideoFilter" bundle:nil];
-    ZGExternalVideoFilterPlayViewController *vc = [sb instantiateViewControllerWithIdentifier:@"ZGExternalVideoFilterPlayViewController"];
-    vc.roomID = [self savedValueForKey:ZGLoginRoomIDKey];
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Private Method

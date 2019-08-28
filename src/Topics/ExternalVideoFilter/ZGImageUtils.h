@@ -53,8 +53,9 @@
  */
 + (bool)copyPixelBufferFrom:(CVPixelBufferRef)src to:(CVPixelBufferRef)dst;
 
-
+#if TARGET_OS_IOS
 + (UIImage *)imageFromString:(NSString *)string attributes:(NSDictionary *)attributes;
+#endif
 + (CIImage *)overlayImage:(CIImage *)backgroundImage image:(CIImage *)image size:(CGSize)size;
 + (CVPixelBufferRef)pixelBufferFromCGImage:(CGImageRef)image;
 + (CGImageRef)createCGImageFromCVPixelBuffer:(CVPixelBufferRef)pixels;

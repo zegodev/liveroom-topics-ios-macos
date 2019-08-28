@@ -9,7 +9,7 @@
 #ifdef _Module_MediaSideInfo
 
 #import "ZGMediaSideInfoDemoEnvirentmentHelper.h"
-#import "ZGHelper.h"
+#import "ZGUserIDHelper.h"
 
 @interface ZGMediaSideInfoDemoEnvirentmentHelper () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoLivePlayerDelegate>
 
@@ -26,7 +26,7 @@
     if (self) {
         _sentMsgs = [NSMutableArray array];
         _recvMsgs = [NSMutableArray array];
-        _streamID = [ZGHelper getDeviceUUID];
+        _streamID = [ZGUserIDHelper getDeviceUUID];
         
         [ZGApiManager enableExternalVideoCapture:nil videoRenderer:nil];
         [[ZGApiManager api] setRoomDelegate:self];
