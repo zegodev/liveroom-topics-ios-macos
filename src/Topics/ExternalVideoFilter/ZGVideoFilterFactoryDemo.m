@@ -13,6 +13,7 @@
 #import "ZGVideoFilterAsyncDemo.h"
 #import "ZGVideoFilterSyncDemo.h"
 #import "ZGVideoFilterI420Demo.h"
+#import "ZGVideoFilterNV12Demo.h"
 
 
 @implementation ZGVideoFilterFactoryDemo {
@@ -24,7 +25,7 @@
 // 创建外部滤镜实例
 - (id<ZegoVideoFilter>)zego_create {
     if (g_filter_ == nil) {
-        // 此处的 bufferType 对应三种滤镜类型，以创建不同的外部滤镜实例
+        // 此处的 bufferType 对应四种滤镜类型，以创建不同的外部滤镜实例
         switch (self.bufferType) {
             case ZegoVideoBufferTypeAsyncPixelBuffer:
                 g_filter_ = [[ZGVideoFilterAsyncDemo alloc] init];
@@ -36,6 +37,10 @@
                 
             case ZegoVideoBufferTypeAsyncI420PixelBuffer:
                 g_filter_ = [[ZGVideoFilterI420Demo alloc] init];
+                break;
+                
+            case ZegoVideoBufferTypeAsyncNV12PixelBuffer:
+                g_filter_ = [[ZGVideoFilterNV12Demo alloc] init];
                 break;
             
             default:

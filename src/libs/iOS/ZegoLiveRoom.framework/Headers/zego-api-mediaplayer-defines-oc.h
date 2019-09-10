@@ -24,6 +24,9 @@ typedef NS_ENUM(NSInteger, MediaPlayerType) {
 
 typedef NS_ENUM(NSInteger, ZegoMediaPlayerVideoPixelFormat) {
     ZegoMediaPlayerVideoPixelFormatUnknown  = 0,
+    ZegoMediaPlayerVideoPixelFormatI420     = 1,
+    ZegoMediaPlayerVideoPixelFormatNV12     = 2,
+    ZegoMediaPlayerVideoPixelFormatNV21     = 3,
     ZegoMediaPlayerVideoPixelFormatBGRA32   = 4,
     ZegoMediaPlayerVideoPixelFormatRGBA32   = 5,
     ZegoMediaPlayerVideoPixelFormatARGB32   = 6,

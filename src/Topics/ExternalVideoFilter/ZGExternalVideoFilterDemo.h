@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  初始化外部滤镜工厂对象
  
- @param type 视频缓冲区类型（Async, Sync, I420）
+ @param type 视频缓冲区类型（Async, Sync, I420, NV12）
  @discussion 创建外部滤镜工厂对象后，先释放 ZegoLiveRoomSDK 确保 setVideoFilterFactory:channelIndex: 的调用在 initSDK 前
  */
 - (void)initFilterFactoryType:(ZegoVideoBufferType)type;

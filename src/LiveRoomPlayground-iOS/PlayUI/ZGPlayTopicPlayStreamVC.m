@@ -127,6 +127,9 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
         Strongify(self);
         [ZegoHudManager hideNetworkLoading];
         [self appendProcessTipAndMakeVisible:errorCode == 0?@"初始化完成":[NSString stringWithFormat:@"初始化失败，errorCode:%d",errorCode]];
+        if(errorCode != 0) {
+            ZGLogWarn(@"初始化失败，errorCode:%d",errorCode);
+        }
     }];
     if (!self.zegoApi) {
         [ZegoHudManager hideNetworkLoading];
@@ -169,6 +172,7 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
         [ZegoHudManager hideNetworkLoading];
         
         if (errorCode != 0) {
+            ZGLogWarn(@"登录房间失败，errorCode:%d",errorCode);
             [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"登录房间失败,errorCode:%d", errorCode]];
             self.loginRoomState = ZGTopicLoginRoomStateNotLogin;
             [self invalidatePlayLiveStateUILayout];
@@ -327,23 +331,27 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
 #pragma mark - ZegoRoomDelegate
 
 - (void)onKickOut:(int)reason roomID:(NSString *)roomID {
+    ZGLogWarn(@"onKickOut，reason:%d", reason);
     NSLog(@"onKickOut, reason:%d", reason);
     [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"被踢出房间, reason:%d", reason]];
     [self internalStopPlayLive];
 }
 
 - (void)onDisconnect:(int)errorCode roomID:(NSString *)roomID {
+    ZGLogWarn(@"onDisconnect, errorCode:%d", errorCode);
     NSLog(@"onDisconnect, errorCode:%d", errorCode);
     [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"已断开和房间的连接, errorCode:%d", errorCode]];
     [self internalStopPlayLive];
 }
 
 - (void)onReconnect:(int)errorCode roomID:(NSString *)roomID {
+    ZGLogWarn(@"onReconnect, errorCode:%d", errorCode);
     NSLog(@"onReconnect, errorCode:%d", errorCode);
     [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"重连, errorCode:%d", errorCode]];
 }
 
 - (void)onTempBroken:(int)errorCode roomID:(NSString *)roomID {
+    ZGLogWarn(@"onTempBroken, errorCode:%d", errorCode);
     NSLog(@"onTempBroken, errorCode:%d", errorCode);
     [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"暂时断开, errorCode:%d", errorCode]];
 }
@@ -358,6 +366,7 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
         currentStreamID &&
         [streamIDs containsObject:currentStreamID]) {
         NSLog(@"收到当前拉流删除通知");
+        ZGLogInfo(@"收到当前拉流删除通知");
         [self appendProcessTipAndMakeVisible:@"收到当前拉流删除通知"];
         [self internalStopPlayLive];
     }
@@ -370,8 +379,10 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
     if ([streamID isEqualToString:self.currentStreamID] &&
         self.isPlayingLive) {
         if (stateCode == 0) {
+            ZGLogWarn(@"拉流成功");
             [self appendProcessTipAndMakeVisible:@"拉流成功"];
         } else {
+            ZGLogWarn(@"拉流失败，stateCode:%d", stateCode);
             [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"拉流失败，stateCode:%d", stateCode]];
         }
     }

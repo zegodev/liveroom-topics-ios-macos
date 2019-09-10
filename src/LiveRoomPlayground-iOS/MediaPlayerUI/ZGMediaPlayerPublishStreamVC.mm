@@ -15,9 +15,6 @@
 #import <ZegoLiveRoom/zego-api-mediaplayer-oc.h>
 
 @interface ZGMediaPlayerPublishStreamVC () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoMediaPlayerEventDelegate, ZegoMediaPlayerVideoPlayDelegate>
-{
-    dispatch_queue_t _handlePlayVideoDataQueue;
-}
 
 @property (weak, nonatomic) IBOutlet UIView *mediaRenderView;
 @property (weak, nonatomic) IBOutlet UIButton *playButn;
@@ -58,12 +55,11 @@
     [_mediaPlayer uninit];
     [_zegoApi stopPublishing];
     [_zegoApi logoutRoom];
+    [ZegoLiveRoomApi setVideoCaptureFactory:nil];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    _handlePlayVideoDataQueue = dispatch_queue_create("com.doudong.ZGMediaPlayerPublishStreamVC.handlePlayVideoDataQueue", DISPATCH_QUEUE_SERIAL);
     
     // 初始化默认设置值
     self.playVolume = 80;
@@ -190,9 +186,11 @@
     self.mediaPlayer = [[ZegoMediaPlayer alloc] initWithPlayerType:self.audioMixEnabled?MediaPlayerTypeAux:MediaPlayerTypePlayer];
     [self.mediaPlayer setProcessInterval:500];
     [self.mediaPlayer setDelegate:self];
-    // 回调数据类型为 BGRA
-    [self.mediaPlayer setVideoPlayDelegate:self format:ZegoMediaPlayerVideoPixelFormatBGRA32];
-
+    
+    // 由于 CVPixelBuffer 的限制，现在只支持将 BGRA，i420，NV12 格式转为 CVPixelBuffer
+    [self.mediaPlayer setVideoPlayDelegate:self format:ZegoMediaPlayerVideoPixelFormatNV12];
+    [self.mediaPlayer requireHWDecoder];
+    
     [self.mediaPlayer setView:self.mediaRenderView];
     [self.mediaPlayer setVolume:self.playVolume];
     [self.mediaPlayer setAudioStream:self.selectedAudioTrackIndexToPublish];
@@ -235,18 +233,35 @@
     }
 }
 
+- (void)postMediaPlayerVideoFrameData:(CVImageBufferRef)buffer presentationTimeStamp:(CMTime)timestamp format:(struct ZegoMediaPlayerVideoDataFormat)format {
+    
+    // 设置推流的 videoEncodeResolution
+    CGSize currentEncodeResolution = self.currentVideoEncodeResolution;
+    if (currentEncodeResolution.width != format.width || currentEncodeResolution.height != format.height) {
+        currentEncodeResolution.width = format.width;
+        currentEncodeResolution.height = format.height;
+        self.currentVideoEncodeResolution = currentEncodeResolution;
+        
+        ZegoAVConfig* config = [[ZegoAVConfig alloc] init];
+        config.videoEncodeResolution = currentEncodeResolution;
+        [self->_zegoApi setAVConfig:config];
+    }
+    
+    [self->_externalVideoCaptureFactory postCapturedData:buffer withPresentationTimeStamp:timestamp];
+}
+
 #pragma mark - ZegoRoomDelegate
 
 - (void)onKickOut:(int)reason roomID:(NSString *)roomID {
-    NSLog(@"%s, reason:%d", __func__, reason);
+    ZGLogWarn(@"%s, reason:%d", __func__, reason);
 }
 
 - (void)onDisconnect:(int)errorCode roomID:(NSString *)roomID {
-    NSLog(@"%s, errorCode:%d", __func__, errorCode);
+    ZGLogWarn(@"%s, errorCode:%d", __func__, errorCode);
 }
 
 - (void)onReconnect:(int)errorCode roomID:(NSString *)roomID {
-    NSLog(@"%s, errorCode:%d", __func__, errorCode);
+    ZGLogWarn(@"%s, errorCode:%d", __func__, errorCode);
 }
 
 #pragma mark - ZegoLivePublisherDelegate
@@ -257,6 +272,10 @@
     } else {
         ZGLogWarn(@"推流失败。stateCode:%d", stateCode);
     }
+}
+
+- (void)onPublishQualityUpdate:(NSString *)streamID quality:(ZegoApiPublishQuality)quality {
+    NSLog(@"推流质量。fps:%f,vencFps:%f,videoBitrate:%f, quanlity:%d, width:%d, height:%d", quality.fps, quality.vencFps, quality.kbps, quality.quality, quality.width, quality.height);
 }
 
 #pragma mark - ZegoMediaPlayerEventDelegate
@@ -381,28 +400,21 @@
  @note 同步回调，请不要在回调中处理数据或做其他耗时操作
  */
 - (void)onPlayVideoData:(const char *)data size:(int)size format:(struct ZegoMediaPlayerVideoDataFormat)format {
+    // 注意：不要在另外的线程处理 data，因为 data 可能会被释放
     Weakify(self);
-    dispatch_async(_handlePlayVideoDataQueue, ^{
+    [self.playerVideoHandler convertRGBCategoryDataToPixelBufferWithVideoData:data size:size format:format completion:^(ZGMediaPlayerVideoDataToPixelBufferConverter * _Nonnull converter, CVPixelBufferRef  _Nonnull buffer, CMTime timestamp) {
         Strongify(self);
-        
-        // 设置推流的 videoEncodeResolution
-        CGSize currentEncodeResolution = self.currentVideoEncodeResolution;
-        if (currentEncodeResolution.width != format.width || currentEncodeResolution.height != format.height) {
-            currentEncodeResolution.width = format.width;
-            currentEncodeResolution.height = format.height;
-            self.currentVideoEncodeResolution = currentEncodeResolution;
-            
-            ZegoAVConfig* config = [[ZegoAVConfig alloc] init];
-            config.videoEncodeResolution = currentEncodeResolution;
-            [self->_zegoApi setAVConfig:config];
-        }
-        
-        Weakify(self);
-        [self.playerVideoHandler convertToPixelBufferWithVideoData:data size:size format:format completion:^(ZGMediaPlayerVideoDataToPixelBufferConverter * _Nonnull converter, CVPixelBufferRef  _Nonnull buffer, CMTime timestamp) {
-            Strongify(self);
-            [self->_externalVideoCaptureFactory postCapturedData:buffer withPresentationTimeStamp:timestamp];
-        }];
-    });
+        [self postMediaPlayerVideoFrameData:buffer presentationTimeStamp:timestamp format:format];
+    }];
+}
+
+- (void)onPlayVideoData2:(const char **)data size:(int *)size format:(struct ZegoMediaPlayerVideoDataFormat)format {
+    // 注意：不要在另外的线程处理 data，因为 data 可能会被释放
+    Weakify(self);
+    [self.playerVideoHandler convertYUVCategoryDataToPixelBufferWithVideoData:data size:size format:format completion:^(ZGMediaPlayerVideoDataToPixelBufferConverter * _Nonnull converter, CVPixelBufferRef  _Nonnull buffer, CMTime timestamp) {
+        Strongify(self);
+        [self postMediaPlayerVideoFrameData:buffer presentationTimeStamp:timestamp format:format];
+    }];
 }
 
 @end

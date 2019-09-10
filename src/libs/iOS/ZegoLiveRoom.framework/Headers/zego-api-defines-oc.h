@@ -92,12 +92,14 @@ typedef enum {
     CAPTURE_ROTATE_270  = 270
 } CAPTURE_ROTATE;
 
-/** 分层编码 */
+/** 视频编解码器. */
 typedef enum {
-    /** 不支持分层编码 */
+    /** 默认编码, 不支持分层编码 */
     VIDEO_CODEC_DEFAULT = 0,
     /** 分层编码 要达到和VIDEO_CODEC_DEFAULT相同的编码质量，建议码率和VIDEO_CODEC_DEFAULT相比增加20%左右 */
-    VIDEO_CODEC_MULTILAYER = 1
+    VIDEO_CODEC_MULTILAYER = 1,
+    /** VP8编码 */
+    VIDEO_CODEC_VP8 = 2,
 } ZegoVideoCodecAvc;
 
 /** 视频分层类型 */
@@ -514,22 +516,22 @@ enum ZegoAPIAudioRecordMask
 {
     /** 关闭音频录制 */
     ZEGOAPI_AUDIO_RECORD_NONE      = 0x0,
-    /** 打开采集录制 */
+    /** 打开采集录制，即录制推流端音频 */
     ZEGOAPI_AUDIO_RECORD_CAP       = 0x01,
-    /** 打开渲染录制 */
+    /** 打开渲染录制，即录制拉流端音频 */
     ZEGOAPI_AUDIO_RECORD_RENDER    = 0x02,
-    /** 打开采集和渲染混音结果录制 */
+    /** 打开采集和渲染混音结果录制，即录制推流、拉流端混音音频 */
     ZEGOAPI_AUDIO_RECORD_MIX       = 0x04
 };
 
 /** 音频录制配置信息 */
 typedef struct
 {
-    /** 启用音频源选择，参考 ZegoAVAPIAudioRecordMask */
+    /** 启用音频源选择，详细请参考 ZegoAVAPIAudioRecordMask */
     unsigned int mask;
-    /** 采样率 8000, 16000, 22050, 24000, 32000, 44100, 48000 */
+    /** 采样率 支持 8000, 16000, 22050, 24000, 32000, 44100, 48000 */
     int sampleRate;
-    /** 声道数 1(单声道) 或 2(双声道) */
+    /** 声道数 支持1(单声道) 或 2(双声道) */
     int channels;
     
 } ZegoAPIAudioRecordConfig;
@@ -649,6 +651,12 @@ typedef enum : NSUInteger
     ZEGOAPI_RELAY_CDN_SERVER_DISCONNECTED = 13,
     /**< 主动断开 */
     ZEGOAPI_RELAY_DISCONNECTED = 14,
+    /**< 混流输入流会话关闭, 混流转推CDN时有效 */
+    ZEGOAPI_MIXSTREAM_ALL_INPUT_STREAM_CLOSED = 1214,
+    /**< 混流输入流全部没有数据, 混流转推CDN时有效 */
+    ZEGOAPI_MIXSTREAM_ALL_INPUT_STREAM_NODATA = 1215,
+    /**< 混流服务器内部错误，混流转推CDN时有效 */
+    ZEGOAPI_MIXSTREAM_SERVER_INTERNAL_ERROR = 1230,
 } ZegoAPIStreamRelayCDNDetail;
 
 /**

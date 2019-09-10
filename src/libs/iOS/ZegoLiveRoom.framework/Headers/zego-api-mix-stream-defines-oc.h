@@ -164,7 +164,8 @@
 @property (strong) NSMutableArray<ZegoMixStreamOutput*> *outputList;
 /**
  * 用户自定义数据
- @note 注意：userData自定义的数据通过媒体次要信息的 -onRecvMediaSideInfo:ofStream: 接口回调出来。
+ 
+ * 注意：userData自定义的数据通过媒体次要信息的 -onRecvMediaSideInfo:ofStream: 接口回调出来。
  */
 @property NSData* userData;
 /**

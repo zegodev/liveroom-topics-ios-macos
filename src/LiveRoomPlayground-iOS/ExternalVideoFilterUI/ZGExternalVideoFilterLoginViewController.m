@@ -45,7 +45,7 @@ static NSString *ZGExternalVideoFilterStreamID = @"ZGExternalVideoFilterStreamID
     [self checkFaceUnityAuthPack];
     
     [self setupUI];
-    self.filterBufferTypeList = @[@"AsyncPixelBufferType", @"AsyncI420PixelBufferType", @"SyncPixelBufferType"];
+    self.filterBufferTypeList = @[@"AsyncPixelBufferType", @"AsyncI420PixelBufferType", @"AsyncNV12PixelBufferType", @"SyncPixelBufferType"];
 }
 
 - (void)setupUI {
@@ -131,6 +131,8 @@ static NSString *ZGExternalVideoFilterStreamID = @"ZGExternalVideoFilterStreamID
         self.selectedFilterBufferType = ZegoVideoBufferTypeAsyncPixelBuffer;
     } else if (row == 1) {
         self.selectedFilterBufferType = ZegoVideoBufferTypeAsyncI420PixelBuffer;
+    } else if (row == 2) {
+        self.selectedFilterBufferType = ZegoVideoBufferTypeAsyncNV12PixelBuffer;
     } else {
         self.selectedFilterBufferType = ZegoVideoBufferTypeSyncPixelBuffer;
     }

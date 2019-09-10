@@ -118,17 +118,18 @@
 
 @end
 
-
+/**
+ 视频帧数据回调接口
+ 当格式为ARGB32/ABGR32/RGBA32/BGRA32，数据通过OnPlayVideoData回调。
+ 当格式为I420/NV12/NV21，数据通过OnPlayVideoData2回调。
+ 其他非法格式都判定为I420
+ */
 @protocol ZegoMediaPlayerVideoPlayDelegate <NSObject>
 
-
-/**
- 视频帧数据回调
- */
 @optional
 
 /**
- 视频帧数据回调
+ 视频帧数据回调，格式为ARGB32/ABGR32/RGBA32/BGRA32
  
  @param data 视频帧原始数据
  @param size 视频帧原始数据大小
@@ -138,7 +139,7 @@
 - (void)onPlayVideoData:(const char *)data size:(int)size format:(struct ZegoMediaPlayerVideoDataFormat)format;
 
 /**
- 视频帧数据回调
+ 视频帧数据回调，格式为ARGB32/ABGR32/RGBA32/BGRA32
  
  @param data 视频帧原始数据
  @param size 视频帧原始数据大小
@@ -147,6 +148,17 @@
  @see Deprecated, 请使用 onPlayVideoData:size:format:
  */
 - (void)onPlayVideoData:(const char *)data Size:(int)size Format:(struct ZegoMediaPlayerVideoDataFormat)format;
+
+/**
+ 视频帧数据回调，格式为I420/NV12/NV21
+ 
+ @param data 视频帧原始数据
+ @param size 视频帧原始数据大小
+ @param format 视频帧原始数据格式
+ @note 同步回调，请不要在回调中处理数据或做其他耗时操作
+ */
+- (void)onPlayVideoData2:(const char **)data size:(int *)size format:(struct ZegoMediaPlayerVideoDataFormat)format;
+
 
 @end
 
@@ -274,17 +286,18 @@
 
 @end
 
-
-@protocol ZegoMediaPlayerVideoPlayWithIndexDelegate <NSObject>
-
-
 /**
  多实例播放器的视频帧数据回调
+ 当格式为ARGB32/ABGR32/RGBA32/BGRA32，数据通过OnPlayVideoData回调。
+ 当格式为I420/NV12/NV21，数据通过OnPlayVideoData2回调。
+ 其他非法格式都判定为I420
  */
+@protocol ZegoMediaPlayerVideoPlayWithIndexDelegate <NSObject>
+
 @optional
 
 /**
- 视频帧数据回调
+ 视频帧数据回调, 格式为ARGB32/ABGR32/RGBA32/BGRA32
  
  @param data 视频帧原始数据
  @param size 视频帧原始数据大小
@@ -293,6 +306,17 @@
  @note 同步回调，请不要在回调中处理数据或做其他耗时操作
  */
 - (void)onPlayVideoData:(const char *)data size:(int)size format:(struct ZegoMediaPlayerVideoDataFormat)format playerIndex:(ZegoMediaPlayerIndex)index;
+
+/**
+ 视频帧数据回调, 格式为I420/NV12/NV21
+ 
+ @param data 视频帧原始数据
+ @param size 视频帧原始数据大小
+ @param format 视频帧原始数据格式
+ @param index 播放器序号
+ @note 同步回调，请不要在回调中处理数据或做其他耗时操作
+ */
+- (void)onPlayVideoData2:(const char **)data size:(int *)size format:(struct ZegoMediaPlayerVideoDataFormat)format playerIndex:(ZegoMediaPlayerIndex)index;
 
 @end
 
@@ -498,6 +522,18 @@
  @note 回调不会严格按照设定的回调间隔值返回，而是以处理音频帧或者视频帧的频率来判断是否需要回调。
  */
 - (BOOL)setProcessInterval:(long)interval;
+
+/**
+ 设置使用硬件解码
+ 
+ @return 设置是否成功
+ 
+ @note 当前只支持 iOS 系统
+ @note 需要在加载媒体资源之前设置，即在 start 或者 load 之前
+ @note 即使设置了使用硬件解码，引擎也会根据当前硬件情况决定是否使用
+ @note 多次调用没有影响
+ */
+- (BOOL)requireHWDecoder;
 
 @end
 

@@ -35,6 +35,14 @@
     [self setupUI];
 }
 
+- (IBAction)copyVEVersion:(id)sender {
+    [[UIPasteboard generalPasteboard] setString:[ZegoLiveRoomApi version2]];
+}
+
+- (IBAction)copySDKVersion:(id)sender {
+    [[UIPasteboard generalPasteboard] setString:[ZegoLiveRoomApi version]];
+}
+
 #pragma mark - private methods
 
 - (void)setupUI {

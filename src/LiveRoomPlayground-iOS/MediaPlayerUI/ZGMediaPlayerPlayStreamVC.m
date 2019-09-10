@@ -8,8 +8,7 @@
 #ifdef _Module_MediaPlayer
 
 #import "ZGMediaPlayerPlayStreamVC.h"
-#import "ZGExternalVideoCapturePlayStreamVC.h"
-#import <ZegoLiveRoom/ZegoLiveRoom.h>
+#import <ZegoLiveRoom/ZegoLiveRoomApi.h>
 #import "ZGAppGlobalConfigManager.h"
 #import "ZGAppSignHelper.h"
 #import "ZGUserIDHelper.h"
@@ -29,8 +28,8 @@
 - (void)dealloc {
     NSLog(@"%@ dealloc.", [self class]);
     
-    [self.zegoApi stopPlayingStream:self.streamID];
-    [self.zegoApi logoutRoom];
+    [_zegoApi stopPlayingStream:self.streamID];
+    [_zegoApi logoutRoom];
 }
 
 - (void)viewDidLoad {
@@ -118,8 +117,9 @@
     }
 }
 
-- (void)onPlayQualityUpdate:(int)quality stream:(NSString *)streamID videoFPS:(double)fps videoBitrate:(double)kbs {
+- (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality {
     // 观看质量更新
+    NSLog(@"拉流质量。fps:%f,videoBitrate:%f, quanlity:%d", quality.fps, quality.kbps, quality.quality);
 }
 
 @end

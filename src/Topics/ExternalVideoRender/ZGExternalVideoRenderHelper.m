@@ -58,6 +58,20 @@
     return videoImage;
 }
 
++ (NSArray<ZGDemoVideoRenderTypeItem*> *)demoRenderTypeItems {
+    return @[[ZGDemoVideoRenderTypeItem itemWithRenderType:VideoRenderTypeNone typeName:@"不开启外部渲染"],
+             [ZGDemoVideoRenderTypeItem itemWithRenderType:VideoRenderTypeRgb typeName:@"外部渲染,TypeRgb"],
+             [ZGDemoVideoRenderTypeItem itemWithRenderType:VideoRenderTypeYuv typeName:@"外部渲染,TypeYuv"],
+             [ZGDemoVideoRenderTypeItem itemWithRenderType:VideoRenderTypeAny typeName:@"外部渲染,TypeAny"],
+             [ZGDemoVideoRenderTypeItem itemWithRenderType:VideoRenderTypeExternalInternalRgb typeName:@"内部外部渲染,TypeRgb"],
+             [ZGDemoVideoRenderTypeItem itemWithRenderType:VideoRenderTypeExternalInternalYuv typeName:@"内部外部渲染,TypeYuv"]];
+}
+
++ (BOOL)isInternalVideoRenderType:(VideoRenderType)renderType {
+    return renderType == VideoRenderTypeExternalInternalRgb ||
+        renderType == VideoRenderTypeExternalInternalYuv;
+}
+
 @end
 
 #endif

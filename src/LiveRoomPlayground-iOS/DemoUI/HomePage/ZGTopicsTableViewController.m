@@ -45,6 +45,9 @@
 #ifdef _Module_AudioAux
     [advancedTopicList addObject:_Module_AudioAux];
 #endif
+#ifdef _Module_SoundLevel
+    [advancedTopicList addObject:_Module_SoundLevel];
+#endif
 #ifdef _Module_MediaPlayer
     [advancedTopicList addObject:_Module_MediaPlayer];
 #endif
@@ -65,6 +68,9 @@
 #endif
 #ifdef _Module_ExternalVideoFilter
     [advancedTopicList addObject:_Module_ExternalVideoFilter];
+#endif
+#ifdef _Module_AudioProcessing
+    [advancedTopicList addObject:_Module_AudioProcessing];
 #endif
     
     _topicList = topicList;
@@ -175,6 +181,13 @@
     }
 #endif
     
+#ifdef _Module_SoundLevel
+    if ([topicName isEqualToString:_Module_SoundLevel]) {
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"SoundLevel" bundle:nil];
+        vc = [sb instantiateInitialViewController];
+    }
+#endif
+    
     #ifdef _Module_MediaPlayer
     if ([topicName isEqualToString:_Module_MediaPlayer]) {
         UIStoryboard* sb = [UIStoryboard storyboardWithName:@"NewMediaPlayer" bundle:nil];
@@ -212,7 +225,7 @@
     
     #ifdef _Module_ExternalVideoRender
     if ([topicName isEqualToString:_Module_ExternalVideoRender]) {
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"ExternalVideoRender" bundle:nil];
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"NewExternalVideoRender" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
     #endif
@@ -223,6 +236,12 @@
         vc = [sb instantiateInitialViewController];
     }
     #endif
+#ifdef _Module_AudioProcessing
+    if ([topicName isEqualToString:_Module_AudioProcessing]) {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"AudioProcessing" bundle:nil];
+        vc = [sb instantiateInitialViewController];
+    }
+#endif
     
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];

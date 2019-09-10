@@ -5,8 +5,8 @@
 //  Created by jeffreypeng on 2019/8/15.
 //  Copyright © 2019 Zego. All rights reserved.
 //
-
-#ifdef _Module_ExternalVideoCapture
+#if defined(_Module_ExternalVideoCapture) || defined(_Module_MediaPlayer)
+// mediaplayer 专题也用到了外部滤镜
 
 #import <Foundation/Foundation.h>
 

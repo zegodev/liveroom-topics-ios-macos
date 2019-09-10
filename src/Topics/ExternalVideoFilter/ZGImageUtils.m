@@ -99,6 +99,53 @@
     return true;
 }
 
++ (bool)createNV12PixelBufferPool:(CVPixelBufferPoolRef*)pool width:(int)width height:(int)height {
+    CFDictionaryRef empty; // empty value for attr value.
+    CFMutableDictionaryRef attrs;
+    
+    empty = CFDictionaryCreate(kCFAllocatorDefault,
+                               NULL, NULL, 0,
+                               &kCFTypeDictionaryKeyCallBacks,
+                               &kCFTypeDictionaryValueCallBacks); // our empty IOSurface properties dictionary
+    
+    SInt32 cvPixelFormatTypeValue = kCVPixelFormatType_420YpCbCr8BiPlanarFullRange;
+    CFNumberRef cfPixelFormat = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, (const void*)(&(cvPixelFormatTypeValue)));
+    
+    SInt32 cvWidthValue = width;
+    CFNumberRef cfWidth = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, (const void*)(&(cvWidthValue)));
+    SInt32 cvHeightValue = height;
+    CFNumberRef cfHeight = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, (const void*)(&(cvHeightValue)));
+    
+    attrs = CFDictionaryCreateMutable(kCFAllocatorDefault,
+                                      5,
+                                      &kCFTypeDictionaryKeyCallBacks,
+                                      &kCFTypeDictionaryValueCallBacks);
+    
+    CFDictionarySetValue(attrs, kCVPixelBufferIOSurfacePropertiesKey, empty);
+    CFDictionarySetValue(attrs, kCVPixelBufferPixelFormatTypeKey, cfPixelFormat);
+    CFDictionarySetValue(attrs, kCVPixelBufferWidthKey, cfWidth);
+    CFDictionarySetValue(attrs, kCVPixelBufferHeightKey, cfHeight);
+#if TARGET_OS_IOS
+    CFDictionarySetValue(attrs, kCVPixelBufferOpenGLESCompatibilityKey, kCFBooleanTrue);
+#elif TARGET_OS_OSX
+    CFDictionarySetValue(attrs, kCVPixelBufferOpenGLCompatibilityKey, kCFBooleanTrue);
+#endif
+    
+    CVReturn ret = CVPixelBufferPoolCreate(kCFAllocatorDefault, nil, attrs, pool);
+    
+    CFRelease(attrs);
+    CFRelease(empty);
+    CFRelease(cfPixelFormat);
+    CFRelease(cfWidth);
+    CFRelease(cfHeight);
+    
+    if (ret != kCVReturnSuccess) {
+        return false;
+    }
+    
+    return true;
+}
+
 + (void)destroyPixelBufferPool:(CVPixelBufferPoolRef*)pool {
     CVPixelBufferPoolRelease(*pool);
     *pool = nil;

@@ -50,7 +50,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"外部视频采集-推流";
+    self.navigationItem.title = @"视频外部采集-推流";
     [self setupMtkPreviewViewIfNeed];
     [self setupMetalPreviewRendererIfNeed];
     [self startLive];

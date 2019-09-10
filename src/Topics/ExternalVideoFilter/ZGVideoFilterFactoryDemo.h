@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface ZGVideoFilterFactoryDemo : NSObject<ZegoVideoFilterFactory>
 
-// 此处的 bufferType 对应三种滤镜类型，以创建不同的外部滤镜实例
+// 此处的 bufferType 对应四种滤镜类型，以创建不同的外部滤镜实例
 @property (nonatomic, assign) ZegoVideoBufferType bufferType;
 
 @end

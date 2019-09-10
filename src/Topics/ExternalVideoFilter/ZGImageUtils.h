@@ -37,6 +37,17 @@
 
 
 /**
+ 创建 NV12 类型的 PixelBufferPool
+
+ @param pool CVPixelBufferPoolRef, The newly created pool will be placed here
+ @param width Image Width
+ @param height Image Height
+ @return 是否成功创建 PixelBufferPool
+ */
++ (bool)createNV12PixelBufferPool:(CVPixelBufferPoolRef*)pool width:(int)width height:(int)height;
+
+
+/**
  释放 CVPixelBufferPoolRef
 
  @param pool 待释放的 CVPixelBufferPoolRef

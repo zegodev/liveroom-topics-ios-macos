@@ -8,18 +8,14 @@
 #ifdef _Module_MediaPlayer
 
 #import "ZGMediaPlayerVideoDataToPixelBufferConverter.h"
+#import "ZGCVPixelBufferHelper.h"
 #import <sys/time.h>
 #import <memory>
 
 @interface ZGMediaPlayerVideoDataToPixelBufferConverter ()
 {
-    CVPixelBufferPoolRef pool_;
-    int video_width_;
-    int video_height_;
-    OSType pixel_format_type_;
     dispatch_queue_t _outputQueue;
 }
-
 @end
 
 @implementation ZGMediaPlayerVideoDataToPixelBufferConverter
@@ -31,52 +27,107 @@
     return self;
 }
 
-- (void)dealloc {
-    [self releasePixelBufferPool];
++ (CMTime)getCurrentTimestamp {
+    struct timeval tv_now;
+    gettimeofday(&tv_now, NULL);
+    unsigned long long t = (unsigned long long)(tv_now.tv_sec) * 1000 + tv_now.tv_usec / 1000;
+    CMTime timestamp = CMTimeMakeWithSeconds(t, 1000);
+    return timestamp;
 }
 
-typedef void (*CFTypeDeleter)(CFTypeRef cf);
-#define MakeCFTypeHolder(ptr) std::unique_ptr<void, CFTypeDeleter>(ptr, CFRelease)
-
-- (void)convertToPixelBufferWithVideoData:(const char *)data size:(int)size format:(ZegoMediaPlayerVideoDataFormat)format completion:(ZGMediaPlayerVideoDataToPixelBufferConvertCompletion)completion {
-    Weakify(self);
-    dispatch_async(_outputQueue, ^{
-        Strongify(self);
-        
-        struct timeval tv_now;
-        gettimeofday(&tv_now, NULL);
-        unsigned long long t = (unsigned long long)(tv_now.tv_sec) * 1000 + tv_now.tv_usec / 1000;
-        CMTime timestamp = CMTimeMakeWithSeconds(t, 1000);
-        
-        OSType pixelFormat = [[self class] toPixelBufferPixelFormatType:format.pixelFormat];
-        CVPixelBufferRef pixelBuffer = [self createInputBufferWithWidth:format.width height:format.height stride:format.strides[0] pixelFormatType:pixelFormat];
-        if (pixelBuffer == NULL) return;
-        
-        auto holder = MakeCFTypeHolder(pixelBuffer);
-        
-        CVReturn cvRet = CVPixelBufferLockBaseAddress(pixelBuffer, 0);
-        if (cvRet != kCVReturnSuccess) return;
-        
-        size_t destStride = CVPixelBufferGetBytesPerRow(pixelBuffer);
-        unsigned char *dest = (unsigned char *)CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
-        unsigned char *src = (unsigned char *)data;
-        for (int i = 0; i < format.height; i++) {
-            memcpy(dest, src, format.strides[0]);
-            src += format.strides[0];
-            dest += destStride;
+- (void)convertRGBCategoryDataToPixelBufferWithVideoData:(const char *)data size:(int)size format:(ZegoMediaPlayerVideoDataFormat)format completion:(ZGMediaPlayerVideoDataToPixelBufferConvertCompletion)completion {
+    // 注意：不要在另外的线程处理 data，因为 data 可能会被释放
+    CMTime timestamp = [self.class getCurrentTimestamp];
+    CVPixelBufferRef pixelBuffer = NULL;
+    switch (format.pixelFormat) {
+        case ZegoMediaPlayerVideoPixelFormatBGRA32:
+        {
+            pixelBuffer = [ZGCVPixelBufferHelper createRGBCategoryPixelBufferWithWidth:format.width height:format.height format:kCVPixelFormatType_32BGRA];
+            [ZGCVPixelBufferHelper copyDataIntoPixelBuffer:pixelBuffer withRGBCategoryData:data stride:format.strides[0] width:format.width height:format.height];
+            break;
         }
-        
-        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
-        
-        if (completion) {
+        case ZegoMediaPlayerVideoPixelFormatRGBA32:
+        {
+            pixelBuffer = [ZGCVPixelBufferHelper createRGBCategoryPixelBufferWithWidth:format.width height:format.height format:kCVPixelFormatType_32RGBA];
+            [ZGCVPixelBufferHelper copyDataIntoPixelBuffer:pixelBuffer withRGBCategoryData:data stride:format.strides[0] width:format.width height:format.height];
+            break;
+        }
+        case ZegoMediaPlayerVideoPixelFormatARGB32:
+        {
+            pixelBuffer = [ZGCVPixelBufferHelper createRGBCategoryPixelBufferWithWidth:format.width height:format.height format:kCVPixelFormatType_32ARGB];
+            [ZGCVPixelBufferHelper copyDataIntoPixelBuffer:pixelBuffer withRGBCategoryData:data stride:format.strides[0] width:format.width height:format.height];
+            break;
+        }
+        case ZegoMediaPlayerVideoPixelFormatABGR32:
+        {
+            pixelBuffer = [ZGCVPixelBufferHelper createRGBCategoryPixelBufferWithWidth:format.width height:format.height format:kCVPixelFormatType_32ABGR];
+            [ZGCVPixelBufferHelper copyDataIntoPixelBuffer:pixelBuffer withRGBCategoryData:data stride:format.strides[0] width:format.width height:format.height];
+            break;
+        }
+        default:
+            break;
+    }
+    
+    if (completion) {
+        if (pixelBuffer) {
+            CVPixelBufferRetain(pixelBuffer);
+        }
+        dispatch_async(_outputQueue, ^{
             completion(self, pixelBuffer, timestamp);
+            if (pixelBuffer) {
+                CVPixelBufferRelease(pixelBuffer);
+            }
+        });
+    }
+    
+    if (pixelBuffer) {
+        CVPixelBufferRelease(pixelBuffer);
+    }
+}
+
+- (void)convertYUVCategoryDataToPixelBufferWithVideoData:(const char **)data size:(int *)size format:(ZegoMediaPlayerVideoDataFormat)format completion:(ZGMediaPlayerVideoDataToPixelBufferConvertCompletion)completion {
+    // 注意：不要在另外的线程处理 data，因为 data 可能会被释放
+    CMTime timestamp = [self.class getCurrentTimestamp];
+    CVPixelBufferRef pixelBuffer = NULL;
+    switch (format.pixelFormat) {
+        case ZegoMediaPlayerVideoPixelFormatI420:
+        {
+            // YU12，存储顺序是先存Y，再存U，最后存V。 3 plane
+            pixelBuffer = [ZGCVPixelBufferHelper createI420PixelBufferWithWidth:format.width height:format.height];
+            [ZGCVPixelBufferHelper copyDataIntoPixelBuffer:pixelBuffer withI420Data:data strides:format.strides width:format.width height:format.height];
+            break;
         }
-    });
+        case ZegoMediaPlayerVideoPixelFormatNV12:
+        {
+            // 存储顺序是先存Y，再UV交替存储。 2 plane
+            pixelBuffer = [ZGCVPixelBufferHelper createNV12PixelBufferWithWidth:format.width height:format.height];
+            [ZGCVPixelBufferHelper copyDataIntoPixelBuffer:pixelBuffer withNV12Data:data strides:format.strides width:format.width height:format.height];
+        }
+        default:
+            break;
+    }
+    
+    if (completion) {
+        if (pixelBuffer) {
+            CVPixelBufferRetain(pixelBuffer);
+        }
+        dispatch_async(_outputQueue, ^{
+            completion(self, pixelBuffer, timestamp);
+            if (pixelBuffer) {
+                CVPixelBufferRelease(pixelBuffer);
+            }
+        });
+    }
+    
+    if (pixelBuffer) {
+        CVPixelBufferRelease(pixelBuffer);
+    }
 }
 
 #pragma mark - Private
 
 + (OSType)toPixelBufferPixelFormatType:(ZegoMediaPlayerVideoPixelFormat)srcFormat {
+    // Cb=U  Cr=V
     switch (srcFormat) {
         case ZegoMediaPlayerVideoPixelFormatBGRA32:
             return kCVPixelFormatType_32BGRA;
@@ -86,53 +137,19 @@ typedef void (*CFTypeDeleter)(CFTypeRef cf);
             return kCVPixelFormatType_32ARGB;
         case ZegoMediaPlayerVideoPixelFormatABGR32:
             return kCVPixelFormatType_32ABGR;
+        case ZegoMediaPlayerVideoPixelFormatI420:
+            // YU12，存储顺序是先存Y，再存U，最后存V。 3 plane
+            return kCVPixelFormatType_420YpCbCr8PlanarFullRange;
+        case ZegoMediaPlayerVideoPixelFormatNV12:
+            // 存储顺序是先存Y，再UV交替存储。 2 plane
+            return kCVPixelFormatType_420YpCbCr8BiPlanarFullRange;
+        case ZegoMediaPlayerVideoPixelFormatNV21:
+            // 存储顺序是先存Y，再VU交替存储。 2 plane
+            // iOS 不支持该格式
+            return kCVPixelFormatType_32BGRA;
         default:
             return kCVPixelFormatType_32BGRA;
             break;
-    }
-}
-
-- (void)createPixelBufferPool {
-    NSDictionary *pixelBufferAttributes = @{
-                                            (id)kCVPixelBufferOpenGLCompatibilityKey: @(YES),
-                                            (id)kCVPixelBufferWidthKey: @(video_width_),
-                                            (id)kCVPixelBufferHeightKey: @(video_height_),
-                                            (id)kCVPixelBufferIOSurfacePropertiesKey: [NSDictionary dictionary],
-                                            (id)kCVPixelBufferPixelFormatTypeKey: @(pixel_format_type_)
-                                            };
-    
-    CFDictionaryRef ref = (__bridge CFDictionaryRef)pixelBufferAttributes;
-    CVReturn ret = CVPixelBufferPoolCreate(nil, nil, ref, &pool_);
-    if (ret != kCVReturnSuccess) {
-        return ;
-    }
-}
-
-- (CVPixelBufferRef)createInputBufferWithWidth:(int)width height:(int)height stride:(int)stride pixelFormatType:(OSType)pixelFormatType{
-    if (video_width_ != width || video_height_ != height || pixel_format_type_ != pixelFormatType) {
-        [self releasePixelBufferPool];
-        
-        video_width_ = width;
-        video_height_ = height;
-        pixel_format_type_ = pixelFormatType;
-        
-        [self createPixelBufferPool];
-    }
-    
-    CVPixelBufferRef pixelBuffer;
-    CVReturn ret = CVPixelBufferPoolCreatePixelBuffer(nil, pool_, &pixelBuffer);
-    if (ret != kCVReturnSuccess)
-        return nil;
-    
-    return pixelBuffer;
-}
-
-- (void)releasePixelBufferPool {
-    if (pool_) {
-        CVPixelBufferPoolFlushFlags flag = 0;
-        CVPixelBufferPoolFlush(pool_, flag);
-        CVPixelBufferPoolRelease(pool_);
-        pool_ = nil;
     }
 }
 

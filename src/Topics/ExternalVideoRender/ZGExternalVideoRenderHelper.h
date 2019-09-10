@@ -9,7 +9,13 @@
 #ifdef _Module_ExternalVideoRender
 
 #import <Foundation/Foundation.h>
-#import "ZGExternalVideoRenderDemo.h"
+#import "ZGDemoVideoRenderTypeItem.h"
+
+#if TARGET_OS_OSX
+#import <ZegoLiveRoomOSX/zego-api-external-video-render-oc.h>
+#elif TARGET_OS_IOS
+#import <ZegoLiveRoom/zego-api-external-video-render-oc.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +23,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)showRenderData:(CVImageBufferRef)image inView:(ZGView *)view viewMode:(ZegoVideoViewMode)viewMode;
 + (void)removeRenderDataInView:(ZGView *)view;
+
+
+/**
+ 专题demo的渲染类型项列表
+ */
++ (NSArray<ZGDemoVideoRenderTypeItem*> *)demoRenderTypeItems;
+
+
+/**
+ 判断某个视频渲染类型是否会进行内部渲染
+
+ @param renderType 视频渲染类型
+ */
++ (BOOL)isInternalVideoRenderType:(VideoRenderType)renderType;
 
 @end
 

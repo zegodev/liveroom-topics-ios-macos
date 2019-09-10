@@ -42,7 +42,8 @@ static NSString *ZGEVFStreamID = @"ZGEVFStreamID";
     [super viewDidLoad];
     [self checkFaceUnityAuthPack];
     self.isPublishing = NO;
-    self.filterBufferTypeList = @[@"AsyncPixelBufferType", @"AsyncI420PixelBufferType", @"SyncPixelBufferType"];
+    // FaceUnity macOS SDK 暂不支持 I420 和 NV12 格式
+    self.filterBufferTypeList = @[@"AsyncPixelBufferType", @"AsyncI420PixelBufferType", @"AsyncNV12PixelBufferType", @"SyncPixelBufferType"];
     [self setupUI];
 }
 
@@ -134,6 +135,8 @@ static NSString *ZGEVFStreamID = @"ZGEVFStreamID";
         self.selectedFilterBufferType = ZegoVideoBufferTypeAsyncPixelBuffer;
     } else if (sender.indexOfSelectedItem == 1) {
         self.selectedFilterBufferType = ZegoVideoBufferTypeAsyncI420PixelBuffer;
+    } else if (sender.indexOfSelectedItem == 2) {
+        self.selectedFilterBufferType = ZegoVideoBufferTypeAsyncNV12PixelBuffer;
     } else {
         self.selectedFilterBufferType = ZegoVideoBufferTypeSyncPixelBuffer;
     }

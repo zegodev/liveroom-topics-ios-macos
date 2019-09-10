@@ -145,10 +145,22 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gbP-h5-Jhl">
+                                                    <rect key="frame" x="356" y="47.5" width="50" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="f7y-Xb-fNE"/>
+                                                    </constraints>
+                                                    <state key="normal" title="复制"/>
+                                                    <connections>
+                                                        <action selector="copyVEVersion:" destination="LgP-ia-sZx" eventType="touchUpInside" id="sim-OA-oDv"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="gbP-h5-Jhl" secondAttribute="bottom" constant="2" id="0Zc-pu-F68"/>
                                                 <constraint firstItem="1xX-LM-G8r" firstAttribute="leading" secondItem="mGp-77-AYF" secondAttribute="leading" constant="20" id="JhO-6w-aAK"/>
                                                 <constraint firstAttribute="trailing" secondItem="1xX-LM-G8r" secondAttribute="trailing" constant="8" id="OJ6-ta-D0V"/>
+                                                <constraint firstAttribute="trailing" secondItem="gbP-h5-Jhl" secondAttribute="trailing" constant="8" id="Q2l-0a-vri"/>
                                                 <constraint firstItem="1xX-LM-G8r" firstAttribute="centerY" secondItem="mGp-77-AYF" secondAttribute="centerY" id="fFg-gg-Ppw"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -166,8 +178,20 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="acL-ny-XbL">
+                                                    <rect key="frame" x="356" y="47.5" width="50" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="nJ6-sg-X5L"/>
+                                                    </constraints>
+                                                    <state key="normal" title="复制"/>
+                                                    <connections>
+                                                        <action selector="copySDKVersion:" destination="LgP-ia-sZx" eventType="touchUpInside" id="2DD-d1-hqT"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="acL-ny-XbL" secondAttribute="bottom" constant="2" id="1xD-z7-TFS"/>
+                                                <constraint firstAttribute="trailing" secondItem="acL-ny-XbL" secondAttribute="trailing" constant="8" id="YEe-1K-UFS"/>
                                                 <constraint firstItem="eOj-JQ-txg" firstAttribute="centerY" secondItem="O1d-pO-ht1" secondAttribute="centerY" id="cCF-bY-1eg"/>
                                                 <constraint firstAttribute="trailing" secondItem="eOj-JQ-txg" secondAttribute="trailing" constant="8" id="csh-0A-k29"/>
                                                 <constraint firstItem="eOj-JQ-txg" firstAttribute="leading" secondItem="O1d-pO-ht1" secondAttribute="leading" constant="20" id="dxA-uE-RfM"/>

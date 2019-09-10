@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zPj-Ou-hd8">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--声浪/音频频谱-->
+        <scene sceneID="ihg-8Y-Ibh">
+            <objects>
+                <viewController id="zPj-Ou-hd8" customClass="ZGSoundLevelLoginViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Zat-9s-8Qi">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="roomID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7o8-Cp-CUX">
+                                <rect key="frame" x="20" y="128" width="60.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入 roomID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8lq-TB-Jx8">
+                                <rect key="frame" x="20" y="159" width="374" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="lEQ-3c-iLF"/>
+                                    <constraint firstAttribute="height" constant="30" id="zFe-TK-Twt"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Dt-Ig-dvD">
+                                <rect key="frame" x="40" y="219" width="334" height="30"/>
+                                <color key="backgroundColor" red="0.36460450550000001" green="0.39655775450000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="gLA-Yp-Sx6"/>
+                                </constraints>
+                                <state key="normal" title="登录房间"/>
+                                <connections>
+                                    <segue destination="hH8-3f-9kv" kind="show" id="3pm-Pc-C5O"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0aP-Ru-oOO">
+                                <rect key="frame" x="109" y="289" width="196" height="30"/>
+                                <state key="normal" title="《进阶功能-声浪/音频频谱》"/>
+                                <connections>
+                                    <action selector="jumpToSoundLevelTopicLink:" destination="zPj-Ou-hd8" eventType="touchUpInside" id="iH6-cS-vrD"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="8lq-TB-Jx8" firstAttribute="leading" secondItem="PcU-aT-EMu" secondAttribute="leading" constant="20" id="Fpw-ZI-kPP"/>
+                            <constraint firstItem="0aP-Ru-oOO" firstAttribute="centerX" secondItem="Zat-9s-8Qi" secondAttribute="centerX" id="IBv-GG-8yQ"/>
+                            <constraint firstItem="PcU-aT-EMu" firstAttribute="trailing" secondItem="8lq-TB-Jx8" secondAttribute="trailing" constant="20" id="JWM-c7-txh"/>
+                            <constraint firstItem="7o8-Cp-CUX" firstAttribute="leading" secondItem="PcU-aT-EMu" secondAttribute="leading" constant="20" id="QUu-pQ-Wr7"/>
+                            <constraint firstItem="6Dt-Ig-dvD" firstAttribute="leading" secondItem="PcU-aT-EMu" secondAttribute="leading" constant="40" id="cyO-Kx-KOd"/>
+                            <constraint firstItem="0aP-Ru-oOO" firstAttribute="top" secondItem="6Dt-Ig-dvD" secondAttribute="bottom" constant="40" id="hsU-LI-FhI"/>
+                            <constraint firstItem="8lq-TB-Jx8" firstAttribute="top" secondItem="7o8-Cp-CUX" secondAttribute="bottom" constant="10" id="lyB-3A-VLb"/>
+                            <constraint firstAttribute="trailing" secondItem="6Dt-Ig-dvD" secondAttribute="trailing" constant="40" id="oXM-VU-HYD"/>
+                            <constraint firstItem="7o8-Cp-CUX" firstAttribute="top" secondItem="PcU-aT-EMu" secondAttribute="top" constant="40" id="t22-IG-ChU"/>
+                            <constraint firstItem="6Dt-Ig-dvD" firstAttribute="top" secondItem="8lq-TB-Jx8" secondAttribute="bottom" constant="30" id="vcZ-86-WNs"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="PcU-aT-EMu"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="声浪/音频频谱" id="vMM-cI-kbo"/>
+                    <connections>
+                        <outlet property="roomIDTextField" destination="8lq-TB-Jx8" id="Wdg-RH-IW0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nq3-vn-m50" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="393" y="159"/>
+        </scene>
+        <!--声浪房间-->
+        <scene sceneID="WtG-1e-VQI">
+            <objects>
+                <tableViewController storyboardIdentifier="SoundLevel" id="hH8-3f-9kv" customClass="ZGSoundLevelViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="160" estimatedRowHeight="160" sectionHeaderHeight="28" sectionFooterHeight="28" id="Up1-NH-FLq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ehu-pW-GCW">
+                                <rect key="frame" x="0.0" y="28" width="414" height="160"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ehu-pW-GCW" id="Mov-7m-XtR">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="159.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="hH8-3f-9kv" id="XZE-tm-rzB"/>
+                            <outlet property="delegate" destination="hH8-3f-9kv" id="VnZ-Eb-Ifr"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="声浪房间" id="UEk-Qs-Lss">
+                        <barButtonItem key="rightBarButtonItem" title="设置" id="0xH-0X-AcF">
+                            <connections>
+                                <segue destination="cPD-45-ZXC" kind="show" id="zWu-lX-f2x"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TY6-SI-o8W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1120" y="159"/>
+        </scene>
+        <!--设置-->
+        <scene sceneID="LZz-5X-reZ">
+            <objects>
+                <tableViewController id="cPD-45-ZXC" customClass="ZGSoundLevelConfigViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="dFS-m0-lSu">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection headerTitle="音频频谱设置" id="Rqc-F9-ugM">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="X4P-vH-fFZ">
+                                        <rect key="frame" x="0.0" y="55.5" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="X4P-vH-fFZ" id="BbM-GE-bAo">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="是否开启" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wfb-Vg-Hk9">
+                                                    <rect key="frame" x="20" y="11.5" width="70" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Btg-5K-qqC">
+                                                    <rect key="frame" x="345" y="6.5" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="enableFrequencySpectrumMonitor:" destination="cPD-45-ZXC" eventType="valueChanged" id="kek-Jx-TVw"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Btg-5K-qqC" firstAttribute="centerY" secondItem="BbM-GE-bAo" secondAttribute="centerY" id="L3W-3t-KkF"/>
+                                                <constraint firstItem="wfb-Vg-Hk9" firstAttribute="leading" secondItem="BbM-GE-bAo" secondAttribute="leading" constant="20" id="Pky-oM-enU"/>
+                                                <constraint firstItem="wfb-Vg-Hk9" firstAttribute="centerY" secondItem="BbM-GE-bAo" secondAttribute="centerY" id="ZHx-Ce-4mu"/>
+                                                <constraint firstAttribute="trailing" secondItem="Btg-5K-qqC" secondAttribute="trailing" constant="20" id="mMX-Dj-dvs"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="85" id="EtG-Xi-Ma0">
+                                        <rect key="frame" x="0.0" y="99.5" width="414" height="85"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EtG-Xi-Ma0" id="yJj-MN-w7X">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="84.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10ms" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="40a-mz-WyW">
+                                                    <rect key="frame" x="10" y="50" width="33" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3000ms" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6WE-V8-sGc">
+                                                    <rect key="frame" x="358.5" y="50" width="50.5" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="监控周期：500ms" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3l3-cS-JBT">
+                                                    <rect key="frame" x="20" y="12" width="140.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="500" minValue="10" maxValue="3000" translatesAutoresizingMaskIntoConstraints="NO" id="yaP-PW-cMf">
+                                                    <rect key="frame" x="48" y="43" width="308" height="31"/>
+                                                    <connections>
+                                                        <action selector="didFrequencySpectrumMonitorCycleChanged:" destination="cPD-45-ZXC" eventType="valueChanged" id="BnE-4g-Qrh"/>
+                                                        <action selector="setFrequencySpectrumMonitorCycle:" destination="cPD-45-ZXC" eventType="touchUpInside" id="JwH-de-6Z0"/>
+                                                    </connections>
+                                                </slider>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="40a-mz-WyW" firstAttribute="leading" secondItem="yJj-MN-w7X" secondAttribute="leading" constant="10" id="8Me-mR-XHW"/>
+                                                <constraint firstItem="3l3-cS-JBT" firstAttribute="top" secondItem="yJj-MN-w7X" secondAttribute="topMargin" constant="1" id="9H0-Hc-Caq"/>
+                                                <constraint firstItem="yaP-PW-cMf" firstAttribute="top" secondItem="3l3-cS-JBT" secondAttribute="bottom" constant="10" id="9dN-Os-d71"/>
+                                                <constraint firstAttribute="trailing" secondItem="6WE-V8-sGc" secondAttribute="trailing" constant="5" id="A09-cp-Zn9"/>
+                                                <constraint firstItem="40a-mz-WyW" firstAttribute="centerY" secondItem="yaP-PW-cMf" secondAttribute="centerY" id="CMO-Qf-V3f"/>
+                                                <constraint firstItem="yaP-PW-cMf" firstAttribute="leading" secondItem="yJj-MN-w7X" secondAttribute="leading" constant="50" id="Cdh-P6-Okx"/>
+                                                <constraint firstItem="3l3-cS-JBT" firstAttribute="leading" secondItem="yJj-MN-w7X" secondAttribute="leading" constant="20" id="Qpt-7N-btx"/>
+                                                <constraint firstAttribute="trailing" secondItem="yaP-PW-cMf" secondAttribute="trailing" constant="60" id="Zba-3P-6sQ"/>
+                                                <constraint firstItem="6WE-V8-sGc" firstAttribute="centerY" secondItem="yaP-PW-cMf" secondAttribute="centerY" id="j33-6y-aka"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="声浪设置" id="FjF-Zt-5YF">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="pmI-wr-GDu">
+                                        <rect key="frame" x="0.0" y="240.5" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pmI-wr-GDu" id="zg4-ql-YpG">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="是否开启" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ETe-Kp-et2">
+                                                    <rect key="frame" x="20" y="11.5" width="70" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VOc-jp-ulU">
+                                                    <rect key="frame" x="345" y="6.5" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="enableSoundLevelMonitor:" destination="cPD-45-ZXC" eventType="valueChanged" id="zAB-jW-I3C"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="VOc-jp-ulU" firstAttribute="centerY" secondItem="zg4-ql-YpG" secondAttribute="centerY" id="5GU-PO-mdO"/>
+                                                <constraint firstAttribute="trailing" secondItem="VOc-jp-ulU" secondAttribute="trailing" constant="20" id="MUI-Lm-d27"/>
+                                                <constraint firstItem="ETe-Kp-et2" firstAttribute="leading" secondItem="zg4-ql-YpG" secondAttribute="leading" constant="20" id="YVJ-rJ-BCM"/>
+                                                <constraint firstItem="ETe-Kp-et2" firstAttribute="centerY" secondItem="zg4-ql-YpG" secondAttribute="centerY" id="eU3-Pb-faa"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="85" id="oT7-Ki-aVc">
+                                        <rect key="frame" x="0.0" y="284.5" width="414" height="85"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oT7-Ki-aVc" id="Kj3-tZ-MyS">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="84.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100ms" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2w-8K-Vvj">
+                                                    <rect key="frame" x="5" y="50" width="40.5" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3000ms" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YKW-Ho-SRn">
+                                                    <rect key="frame" x="358" y="50" width="51" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="监控周期：200ms" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ima-G1-jli">
+                                                    <rect key="frame" x="20" y="12" width="140.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="200" minValue="100" maxValue="3000" translatesAutoresizingMaskIntoConstraints="NO" id="GcH-Dl-Fj6">
+                                                    <rect key="frame" x="48" y="43" width="308" height="31"/>
+                                                    <connections>
+                                                        <action selector="didSoundLevelMonitorCycleChanged:" destination="cPD-45-ZXC" eventType="valueChanged" id="3RK-GB-gVs"/>
+                                                        <action selector="setSoundLevelMonitorCycle:" destination="cPD-45-ZXC" eventType="touchUpInside" id="QC6-jA-zmu"/>
+                                                    </connections>
+                                                </slider>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="G2w-8K-Vvj" firstAttribute="centerY" secondItem="GcH-Dl-Fj6" secondAttribute="centerY" id="0NV-jB-Dff"/>
+                                                <constraint firstAttribute="trailing" secondItem="YKW-Ho-SRn" secondAttribute="trailing" constant="5" id="BrQ-49-8Z9"/>
+                                                <constraint firstItem="G2w-8K-Vvj" firstAttribute="leading" secondItem="Kj3-tZ-MyS" secondAttribute="leading" constant="5" id="HaG-pS-AWj"/>
+                                                <constraint firstItem="YKW-Ho-SRn" firstAttribute="centerY" secondItem="GcH-Dl-Fj6" secondAttribute="centerY" id="IEU-tW-G3a"/>
+                                                <constraint firstItem="Ima-G1-jli" firstAttribute="leading" secondItem="Kj3-tZ-MyS" secondAttribute="leading" constant="20" id="K7z-y3-0DU"/>
+                                                <constraint firstItem="Ima-G1-jli" firstAttribute="top" secondItem="Kj3-tZ-MyS" secondAttribute="topMargin" constant="1" id="SK8-ow-EE4"/>
+                                                <constraint firstAttribute="trailing" secondItem="GcH-Dl-Fj6" secondAttribute="trailing" constant="60" id="fsw-UC-J36"/>
+                                                <constraint firstItem="GcH-Dl-Fj6" firstAttribute="leading" secondItem="Kj3-tZ-MyS" secondAttribute="leading" constant="50" id="rwm-4l-eTj"/>
+                                                <constraint firstItem="GcH-Dl-Fj6" firstAttribute="top" secondItem="Ima-G1-jli" secondAttribute="bottom" constant="10" id="vEs-4a-EAL"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="cPD-45-ZXC" id="S1v-3q-68j"/>
+                            <outlet property="delegate" destination="cPD-45-ZXC" id="Mnf-LJ-LoY"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="设置" id="YF6-Yc-65O"/>
+                    <connections>
+                        <outlet property="enableFrequencyMonitorSwitch" destination="Btg-5K-qqC" id="eAK-OT-y3z"/>
+                        <outlet property="enableSoundLevelMonitorSwitch" destination="VOc-jp-ulU" id="UXN-OB-cXq"/>
+                        <outlet property="frequencyMonitorCycleLabel" destination="3l3-cS-JBT" id="q7Y-AF-eT1"/>
+                        <outlet property="frequencySlider" destination="yaP-PW-cMf" id="eR0-g4-dW4"/>
+                        <outlet property="soundLevelMonitorCycleLabel" destination="Ima-G1-jli" id="Xia-er-bSG"/>
+                        <outlet property="soundLevelSlider" destination="GcH-Dl-Fj6" id="WWp-Jf-Ud0"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bbg-fb-Eb7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1872" y="159"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="3Dd-9i-3le">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Y1T-Bq-1wh" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pSK-FW-lDp">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="zPj-Ou-hd8" kind="relationship" relationship="rootViewController" id="7HG-Kq-ign"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wqO-Ua-fyq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-333.33333333333337" y="158.70535714285714"/>
+        </scene>
+    </scenes>
+</document>
