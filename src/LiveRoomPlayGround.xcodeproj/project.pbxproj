@@ -113,6 +113,8 @@
 		860AD40022E72E4700111A0D /* ZGUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 860AD3FF22E72E4700111A0D /* ZGUserDefaults.m */; };
 		860AD40322E85DAA00111A0D /* ZGMixStreamInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 860AD40222E85DAA00111A0D /* ZGMixStreamInfoView.m */; };
 		860AD40522E85DC700111A0D /* ZGMixStreamInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860AD40422E85DC700111A0D /* ZGMixStreamInfoView.xib */; };
+		86136ED3236949B200D3E863 /* ZGAppGlobalConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FFE6B922F9549A00595041 /* ZGAppGlobalConfig.m */; };
+		86136ED4236949B300D3E863 /* ZGAppGlobalConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FFE6B922F9549A00595041 /* ZGAppGlobalConfig.m */; };
 		8615DFBA230E990200F68B5D /* ZGFUSkinConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 8615DFB9230E990200F68B5D /* ZGFUSkinConfig.m */; };
 		8615DFBE230FCB1100F68B5D /* libnama-mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8615DFBD230FCB1100F68B5D /* libnama-mac.a */; };
 		8617328922FAA60700FDB15E /* ZGPublishTopicPublishStreamVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8617328822FAA60700FDB15E /* ZGPublishTopicPublishStreamVC.m */; };
@@ -231,6 +233,7 @@
 		867CA8BA2303A89400544ADA /* ZGSVCDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 867CA8B92303A89400544ADA /* ZGSVCDemo.m */; };
 		86933BD4231CBF96003C85B9 /* ZGVideoFilterNV12Demo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86933BD3231CBF96003C85B9 /* ZGVideoFilterNV12Demo.m */; };
 		86933C2B231E08C7003C85B9 /* ZGVideoFilterNV12Demo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86933BD3231CBF96003C85B9 /* ZGVideoFilterNV12Demo.m */; };
+		86A3108F23586B7200380AB3 /* ZGVideoCaptureForMediaPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A77AD6CE215A2A73004D0D75 /* ZGVideoCaptureForMediaPlayer.mm */; };
 		86A7386E230A9E8F00F55F25 /* ZGAuxLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A7386D230A9E8F00F55F25 /* ZGAuxLoginViewController.m */; };
 		86A73874230AA00A00F55F25 /* ZGAuxPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A73873230AA00A00F55F25 /* ZGAuxPublishViewController.m */; };
 		86A73877230AA1AE00F55F25 /* ZGAuxPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A73876230AA1AE00F55F25 /* ZGAuxPlayViewController.m */; };
@@ -391,7 +394,6 @@
 		86FFE6CC22F97B1700595041 /* ZGAppSignHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FFE6CA22F97B1700595041 /* ZGAppSignHelper.m */; };
 		A77AD6CA21534DEE004D0D75 /* sample_-50_tempo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A77AD6C921534DEE004D0D75 /* sample_-50_tempo.mp3 */; };
 		A77AD6CC21534F7A004D0D75 /* ad.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A77AD6CB21534F31004D0D75 /* ad.mp4 */; };
-		A77AD6CF215A2A73004D0D75 /* ZGVideoCaptureForMediaPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A77AD6CE215A2A73004D0D75 /* ZGVideoCaptureForMediaPlayer.mm */; };
 		A77AD6D6215A3ECA004D0D75 /* ZGMediaPlayerPublishingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A77AD6D5215A3ECA004D0D75 /* ZGMediaPlayerPublishingHelper.m */; };
 		A7A13DB4215BCE8300C61045 /* ZGMediaPlayerDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A13DB3215BCE8300C61045 /* ZGMediaPlayerDemo.m */; };
 		A7CCA5DE21515BBB00191B55 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CCA5DD21515BBB00191B55 /* AppDelegate.m */; };
@@ -417,9 +419,7 @@
 		A7CD84B2215CC1CA006A23DB /* ZGUserIDHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD84B1215CC1CA006A23DB /* ZGUserIDHelper.m */; };
 		A7CD84B3215CC23E006A23DB /* ZGApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CCA6082151F8A400191B55 /* ZGApiManager.m */; };
 		A7CD84B4215CC241006A23DB /* ZGUserIDHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD84B1215CC1CA006A23DB /* ZGUserIDHelper.m */; };
-		A7CD84B5215CC516006A23DB /* ZGVideoCaptureForMediaPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A77AD6CE215A2A73004D0D75 /* ZGVideoCaptureForMediaPlayer.mm */; };
 		A7CD84B6215CC519006A23DB /* ZGMediaPlayerPublishingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A77AD6D5215A3ECA004D0D75 /* ZGMediaPlayerPublishingHelper.m */; };
-		A7CD84B7215CC51C006A23DB /* ZGMediaPlayerDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A13DB3215BCE8300C61045 /* ZGMediaPlayerDemo.m */; };
 		A7F19FF721807BD9004EAE25 /* ZGMediaSideInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F19FF521807BD9004EAE25 /* ZGMediaSideInfoViewController.m */; };
 		A7F19FF821807BD9004EAE25 /* ZGMediaSideInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7F19FF621807BD9004EAE25 /* ZGMediaSideInfoViewController.xib */; };
 		A7F1A00421816733004EAE25 /* ZGMediaSideInfoDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F1A00321816733004EAE25 /* ZGMediaSideInfoDemo.m */; };
@@ -2608,6 +2608,7 @@
 				8620EC6B230D427B00FD0841 /* ZGCustomTokenHelper.m in Sources */,
 				33984D5421F9BE10005D151C /* ZGUserIDHelper.m in Sources */,
 				33984D5321F9BC44005D151C /* ZGLiveReplayManager.m in Sources */,
+				86136ED3236949B200D3E863 /* ZGAppGlobalConfig.m in Sources */,
 				33984D3521F9BB54005D151C /* SampleHandler.m in Sources */,
 				8620EC64230D275200FD0841 /* ZGAppSignHelper.m in Sources */,
 				8641E6C022CB480F001BA439 /* ZGKeyCenter.m in Sources */,
@@ -2627,6 +2628,7 @@
 				8620EC70230D42EC00FD0841 /* ZGJsonHelper.m in Sources */,
 				8620EC63230D274D00FD0841 /* ZGUserDefaults.m in Sources */,
 				8620EC65230D275300FD0841 /* ZGAppSignHelper.m in Sources */,
+				86136ED4236949B300D3E863 /* ZGAppGlobalConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2636,7 +2638,6 @@
 			files = (
 				3310FCA022CDA6100000B82C /* Shaders.metal in Sources */,
 				86EEE73E2306C41E008CD053 /* ZGSVCViewController.m in Sources */,
-				A77AD6CF215A2A73004D0D75 /* ZGVideoCaptureForMediaPlayer.mm in Sources */,
 				86A73911230D4D4400F55F25 /* ZGVideoFilterFactoryDemo.m in Sources */,
 				3317A8192265C0B800D277AC /* ZegoDefaultLogFormatter.m in Sources */,
 				3317A81D2265C0B800D277AC /* ZegoDiskLogger.m in Sources */,
@@ -2690,6 +2691,7 @@
 				3317A8532265C63A00D277AC /* MASConstraint.m in Sources */,
 				3317A8452265C63A00D277AC /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				8615DFBA230E990200F68B5D /* ZGFUSkinConfig.m in Sources */,
+				86A3108F23586B7200380AB3 /* ZGVideoCaptureForMediaPlayer.mm in Sources */,
 				865C97BB2316952C008F8CED /* ZGAudioProcessTopicConfigManager.m in Sources */,
 				338C6A9C21C74E480072C470 /* ZegoMediaRecordConfig.m in Sources */,
 				865C97B92316952C008F8CED /* ZGAudioProcessTopicHelper.m in Sources */,
@@ -2767,7 +2769,6 @@
 				86220EBD22CB6C9600D7034D /* ZGVideoTalkViewController.m in Sources */,
 				8620EC7B230D633400FD0841 /* ZGMediaSideInfoInitVC.m in Sources */,
 				338C6AB021C8A29B0072C470 /* ZegoMediaRecordConfig.m in Sources */,
-				A7CD84B5215CC516006A23DB /* ZGVideoCaptureForMediaPlayer.mm in Sources */,
 				86220F2E22E165E300D7034D /* ZGJoinLiveTopicConstants.m in Sources */,
 				3317A8462265C63A00D277AC /* ViewController+MASAdditions.m in Sources */,
 				861D778C231E3C8C00436C4E /* ZGDemoVideoRenderTypeItem.m in Sources */,
@@ -2910,7 +2911,6 @@
 				861732DB230534B600FDB15E /* ZGDemoExternalVideoCaptureFactory.m in Sources */,
 				8617329D22FD829400FDB15E /* ZGHashTableHelper.m in Sources */,
 				865C97B82316952C008F8CED /* ZGAudioProcessTopicHelper.m in Sources */,
-				A7CD84B7215CC51C006A23DB /* ZGMediaPlayerDemo.m in Sources */,
 				86AE3BB422F17E0B0013C721 /* ZGImageUtils.m in Sources */,
 				86A7386E230A9E8F00F55F25 /* ZGAuxLoginViewController.m in Sources */,
 				3317A8122265C0B800D277AC /* ZegoDiskLogFormatter.m in Sources */,
@@ -2989,6 +2989,7 @@
 		33984D4B21F9BB55005D151C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GameLiveSetupUI/GameLiveSetupUI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y98YBP7T6D;
@@ -3002,7 +3003,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.doudong.LiveRoomPlayground.iOS.GameLiveSetupUI1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.doudong.LiveRoomPlayground.iOS.LiveSetupUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -3014,6 +3015,7 @@
 		33984D4C21F9BB55005D151C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GameLiveSetupUI/GameLiveSetupUI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y98YBP7T6D;
@@ -3027,7 +3029,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.doudong.LiveRoomPlayground.iOS.GameLiveSetupUI1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.doudong.LiveRoomPlayground.iOS.LiveSetupUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -3040,6 +3042,7 @@
 		33984D4E21F9BB55005D151C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GameLive/GameLive.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y98YBP7T6D;
@@ -3055,7 +3058,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.doudong.LiveRoomPlayground.iOS.GameLive1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.doudong.LiveRoomPlayground.iOS.Live;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -3067,6 +3070,7 @@
 		33984D4F21F9BB55005D151C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GameLive/GameLive.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y98YBP7T6D;
@@ -3082,7 +3086,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.doudong.LiveRoomPlayground.iOS.GameLive1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.doudong.LiveRoomPlayground.iOS.Live;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -3288,6 +3292,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CODE_SIGN_ENTITLEMENTS = "LiveRoomPlayground-iOS/LiveRoomPlayground-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y98YBP7T6D;
@@ -3326,6 +3331,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CODE_SIGN_ENTITLEMENTS = "LiveRoomPlayground-iOS/LiveRoomPlayground-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y98YBP7T6D;

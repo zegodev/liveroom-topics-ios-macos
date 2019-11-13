@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ZGExternalVideoFilterDemoProtocol <NSObject>
 
-- (ZGView *)getPlaybackView;
+- (ZEGOView *)getPlaybackView;
 
 @optional
 

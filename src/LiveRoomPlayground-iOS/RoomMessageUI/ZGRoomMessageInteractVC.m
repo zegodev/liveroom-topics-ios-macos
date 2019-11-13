@@ -15,11 +15,12 @@
 #import "ZGAppGlobalConfigManager.h"
 #import "ZGAppSignHelper.h"
 #import <objc/runtime.h>
+//#import <ZegoLiveRoom/ZegoLiveRoomApi-ReliableMessage.h>
 
 NSString* const ZGRoomMessageInteractMessageCellID = @"ZGRoomMessageCell";
 static char ZGRoomMessageInteractVCSendMessageTypeKey;
 
-@interface ZGRoomMessageInteractVC () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, ZegoRoomDelegate, ZegoIMDelegate>
+@interface ZGRoomMessageInteractVC () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, ZegoRoomDelegate, ZegoIMDelegate /*, ZegoReliableMessageDelegate */>
 
 @property (weak, nonatomic) IBOutlet UITableView *messageTableView;
 @property (weak, nonatomic) IBOutlet UILabel *choosedCustomCommandUserTipLabel;
@@ -94,6 +95,7 @@ static char ZGRoomMessageInteractVCSendMessageTypeKey;
         // 设置 delegate
         [self.zegoApi setRoomDelegate:self];
         [self.zegoApi setIMDelegate:self];
+//        [self.zegoApi setReliableMessageDelegate:self];
         
         // login
         // 登录前必须设置 userID 和 userName
@@ -129,7 +131,12 @@ static char ZGRoomMessageInteractVCSendMessageTypeKey;
  设置该模块的 ZegoLiveRoomApi 默认设置
  */
 + (void)setupZegoLiveRoomApiDefault:(ZGAppGlobalConfig *)appConfig {
+    // 设置环境
     [ZegoLiveRoomApi setUseTestEnv:(appConfig.environment == ZGAppEnvironmentTest)];
+    // 设置硬编硬解
+    [ZegoLiveRoomApi requireHardwareEncoder:appConfig.openHardwareEncode];
+    [ZegoLiveRoomApi requireHardwareDecoder:appConfig.openHardwareDecode];
+    
     [ZegoLiveRoomApi enableExternalRender:NO];
     [ZegoLiveRoomApi setVideoFilterFactory:nil];
     [ZegoLiveRoomApi setVideoCaptureFactory:nil];
@@ -216,6 +223,30 @@ static char ZGRoomMessageInteractVCSendMessageTypeKey;
         [self.sendMessageTextField becomeFirstResponder];
     }];
 }
+
+/*
+- (BOOL)test_sendCurrentInputTextAsReliableMessage {
+    NSLog(@"begin call test_sendCurrentInputTextAsReliableMessage");
+    static NSUInteger latestSeq = 0;
+    NSString *messageContent = _sendMessageTextField.text;
+    [self.zegoApi sendReliableMessage:messageContent type:@"MyMessageType" latestSeq:(int)latestSeq completion:^(int errorCode, NSString *roomId, NSString *msgType, NSUInteger msgSeq) {
+        NSLog(@"send result。errorCode:%d, msgSeq:%lu, msgType:%@", errorCode, (unsigned long)msgSeq, msgType);
+        if (errorCode != 0) {
+            [self.zegoApi getReliableMessages:@[@"MyMessageType"] completion:^(int errorCode, NSString *roomId, NSArray<ZegoReliableMessage *> *messageList) {
+                ZegoReliableMessage *m = messageList.firstObject;
+                NSLog(@"get result。errorCode:%d, msgSeq:%lu, msgType:%@", errorCode, (unsigned long)m.latestSeq, m.type);
+                if (errorCode == 0) {
+                    latestSeq = m.latestSeq;
+                    [self test_sendCurrentInputTextAsReliableMessage];
+                }
+            }];
+        } else {
+            latestSeq = msgSeq;
+        }
+    }];
+    return YES;
+}
+*/
 
 /**
  将当前输入的文本作为信息进行发送
@@ -414,6 +445,14 @@ static char ZGRoomMessageInteractVCSendMessageTypeKey;
         }
     }
 }
+
+/*
+#pragma mark - ZegoReliableMessageDelegate
+
+- (void)onRecvReliableMessage:(ZegoReliableMessage *)message room:(NSString *)roomId {
+    NSLog(@"收到可靠信息。type:%@, latestSeq:%u, content:%@", message.type, message.latestSeq, message.content);
+}
+*/
 
 @end
 #endif

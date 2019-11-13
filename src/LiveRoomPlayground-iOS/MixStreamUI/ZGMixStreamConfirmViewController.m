@@ -95,6 +95,7 @@ NSString* const ZGMixStreamConfirmMixStreamIDKey = @"kZGMixStreamConfirmMixStrea
     liveVC.mixStreamID = mixStreamID;
     liveVC.mixStreamDemo = self.mixStreamDemo;
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:liveVC];
+    nvc.modalPresentationStyle = UIModalPresentationFullScreen;
     
     // 关闭当前页面，弹出直播页面
     [self dismissViewControllerAnimated:NO completion:^{

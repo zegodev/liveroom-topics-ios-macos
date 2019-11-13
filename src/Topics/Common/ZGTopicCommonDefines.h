@@ -34,4 +34,13 @@ typedef NS_ENUM(NSUInteger, ZGTopicPublishStreamState) {
     ZGTopicPublishStreamStatePublishing = 2
 };
 
+// 保存全局配置的 key
+#define ZGAPP_GLOBAL_CONFIG_KEY @"kZGAppGlobalConfig"
+
+// 录屏进程的 zego SDK 日志目录
+#define ZGAPP_REPLAYKIT_UPLOAD_EXTENSION_ZEGO_LOG_DIR @"replaykit_upload_extension_zegolog"
+
+// app 共享数据组
+#define ZGAPP_GROUP_NAME @"group.com.zego.doudong.LiveRoomPlayground"
+
 #endif /* ZGTopicCommonDefines_h */

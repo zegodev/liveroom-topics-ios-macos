@@ -10,6 +10,7 @@
 
 #import "ZGPublishDemo.h"
 #import "ZGLoginRoomDemo.h"
+#import "ZGApiManager.h"
 
 @interface ZGPublishDemo () <ZegoLivePublisherDelegate>
 

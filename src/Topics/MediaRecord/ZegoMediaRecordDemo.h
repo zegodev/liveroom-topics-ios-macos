@@ -9,7 +9,6 @@
 #ifdef _Module_MediaRecord
 
 #import <Foundation/Foundation.h>
-#import "ZGApiManager.h"
 #import "ZegoMediaRecordConfig.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ZegoMediaRecordDemoProtocol <NSObject>
 
 @optional
-- (ZGView *)getPlaybackView;
+- (ZEGOView *)getPlaybackView;
 - (void)onPublishStateChange:(BOOL)isPublishing;
 - (void)onRecordStateChange:(BOOL)isRecording;
 - (void)onRecordStatusUpdateFromChannel:(ZegoAPIMediaRecordChannelIndex)index storagePath:(NSString *)path duration:(unsigned int)duration fileSize:(unsigned int)size;

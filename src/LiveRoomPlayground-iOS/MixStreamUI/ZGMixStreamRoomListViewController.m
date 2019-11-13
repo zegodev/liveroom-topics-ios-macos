@@ -168,7 +168,12 @@
  设置该模块的 ZegoLiveRoomApi 默认设置
  */
 - (void)setupZegoLiveRoomApiDefault:(ZGAppGlobalConfig *)appConfig {
+    // 设置环境
     [ZegoLiveRoomApi setUseTestEnv:(appConfig.environment == ZGAppEnvironmentTest)];
+    // 设置硬编硬解
+    [ZegoLiveRoomApi requireHardwareEncoder:appConfig.openHardwareEncode];
+    [ZegoLiveRoomApi requireHardwareDecoder:appConfig.openHardwareDecode];
+    
     [ZegoLiveRoomApi enableExternalRender:NO];
     [ZegoLiveRoomApi setVideoFilterFactory:nil];
     [ZegoLiveRoomApi setVideoCaptureFactory:nil];
@@ -180,6 +185,7 @@
     liveVC.mixStreamDemo = self.mixStreamDemo;
     
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:liveVC];
+    nvc.modalPresentationStyle = UIModalPresentationFullScreen;
     
     [self presentViewController:nvc animated:YES completion:nil];
 }

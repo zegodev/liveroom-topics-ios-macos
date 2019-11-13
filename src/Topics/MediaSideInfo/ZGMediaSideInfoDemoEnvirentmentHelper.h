@@ -9,7 +9,6 @@
 #ifdef _Module_MediaSideInfo
 
 #import <Foundation/Foundation.h>
-#import "ZGApiManager.h"
 #import "ZGMediaSideInfoDemo.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -40,8 +39,8 @@ typedef enum : NSUInteger {
 @interface ZGMediaSideInfoDemoEnvirentmentHelper : NSObject
 
 @property (weak) id<ZGMediaSideInfoDemoEnvirentmentHelperDelegate> delegate;
-@property (weak) ZGView* previewView;
-@property (weak) ZGView* playView;
+@property (weak) ZEGOView* previewView;
+@property (weak) ZEGOView* playView;
 
 @property (readonly) NSMutableArray<NSString*>* sentMsgs;
 @property (readonly) NSMutableArray<NSString*>* recvMsgs;

@@ -9,7 +9,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "ZGApiManager.h"
 #if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
 #import <ZegoLiveRoomOSX/zego-api-mediaplayer-oc.h>
@@ -39,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak) id<ZGMediaPlayerDemoDelegate> delegate;
 
 - (void)setPlayerType:(MediaPlayerType)type;
-- (void)setVideoView:(ZGView* _Nullable)view;
+- (void)setVideoView:(ZEGOView* _Nullable)view;
 - (void)setVolume:(int)volume;
 - (void)startPlaying:(NSString* _Nonnull)url repeat:(BOOL)repeat;
 - (void)stop;

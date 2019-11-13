@@ -93,6 +93,7 @@ NSString* const ZGMixStreamCreateRoomIDKey = @"kZGMixStreamCreateRoomID";
     confirmVC.mixStreamDemo = self.mixStreamDemo;
     
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:confirmVC];
+    nvc.modalPresentationStyle = UIModalPresentationFullScreen;
     
     [self presentViewController:nvc animated:YES completion:nil];
 }

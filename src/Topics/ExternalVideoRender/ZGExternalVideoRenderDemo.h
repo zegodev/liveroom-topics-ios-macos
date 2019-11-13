@@ -9,13 +9,12 @@
 #ifdef _Module_ExternalVideoRender
 
 #import <Foundation/Foundation.h>
-#import "ZGApiManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ZGExternalVideoRenderDemoProtocol <NSObject>
-- (ZGView *)getMainPlaybackView;
-- (ZGView *)getSubPlaybackView;
+- (ZEGOView *)getMainPlaybackView;
+- (ZEGOView *)getSubPlaybackView;
 - (void)onLiveStateUpdate;
 @end
 

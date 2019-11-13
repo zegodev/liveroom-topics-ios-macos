@@ -8,7 +8,6 @@
 #ifdef _Module_MediaPlayer
 
 #import <Foundation/Foundation.h>
-#import "ZGApiManager.h"
 
 #if TARGET_OS_OSX
 #import <ZegoLiveRoomOSX/zego-api-mediaplayer-oc.h>

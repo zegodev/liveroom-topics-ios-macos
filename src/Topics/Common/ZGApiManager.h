@@ -12,16 +12,10 @@
 #import <ZegoLiveRoomOSX/ZegoLiveRoomApi.h>
 #import <ZegoLiveRoomOSX/ZegoLiveRoomApi-Player.h>
 #import <ZegoLiveRoomOSX/ZegoLiveRoomApi-Publisher.h>
-#import <ZegoLiveRoomOSX/zego-api-external-video-capture-oc.h>
-#import <ZegoLiveRoomOSX/ZegoVideoCapture.h>
-#define ZGView NSView
 #elif TARGET_OS_IOS
 #import <ZegoLiveRoom/ZegoLiveRoomApi.h>
 #import <ZegoLiveRoom/ZegoLiveRoomApi-Player.h>
 #import <ZegoLiveRoom/ZegoLiveRoomApi-Publisher.h>
-#import <ZegoLiveRoom/zego-api-external-video-capture-oc.h>
-#import <ZegoLiveRoom/ZegoVideoCapture.h>
-#define ZGView UIView
 #endif
 
 
@@ -37,8 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
  获取 ZegoLiveRoomApi 单例。如果该单例不存在，则会使用 ZGAppGlobalConfigManager 的默认配置初始化。
  */
 @property (class, strong, nonatomic, readonly) ZegoLiveRoomApi *api;
-
-+ (void)enableExternalVideoCapture:(id<ZegoVideoCaptureFactory> _Nullable)factory videoRenderer:(id<ZegoLiveApiRenderDelegate> _Nullable)renderer;
 
 + (void)releaseApi;
 

@@ -8,19 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  子类化 NSUserDefaults，实现中指定了项目要求的特定 suitename，方便使用
  */
 @interface ZGUserDefaults : NSUserDefaults
 
-+ (NSUserDefaults *)standardUserDefaults NS_UNAVAILABLE;
++ (ZGUserDefaults *)standardUserDefaults;
 
-- (instancetype)initWithSuiteName:(nullable NSString *)suitename NS_UNAVAILABLE;
-
-- (instancetype)init;
+- (instancetype)initWithSuiteName:(NSString *)suitename NS_UNAVAILABLE;
 
 @end
-
-NS_ASSUME_NONNULL_END

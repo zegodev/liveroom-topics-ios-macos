@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ZGAuxDemoProtocol <NSObject>
 
-- (ZGView *)getPlaybackView;
+- (ZEGOView *)getPlaybackView;
 
 @optional
 

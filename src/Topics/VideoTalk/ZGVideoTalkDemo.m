@@ -9,8 +9,9 @@
 #ifdef _Module_VideoTalk
 
 #import "ZGVideoTalkDemo.h"
+#import <ZegoLiveRoom/ZegoLiveRoomApi-IM.h>
 
-@interface ZGVideoTalkDemo () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoLivePlayerDelegate>
+@interface ZGVideoTalkDemo () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoLivePlayerDelegate, ZegoIMDelegate, ZegoDeviceEventDelegate>
 
 @property (nonatomic, assign) BOOL enableCamera;
 @property (nonatomic, assign) BOOL enableMic;
@@ -64,6 +65,9 @@
             [api setRoomDelegate:self];
             [api setPublisherDelegate:self];
             [api setPlayerDelegate:self];
+            [api setIMDelegate:self];
+            [api setDeviceEventDelegate:self];
+            [api setRoomConfig:YES userStateUpdate:YES];
         }
         
         self.zegoApi = api;
@@ -345,7 +349,7 @@
     // 该用户被踢出房间的通知；有另外的设备用同样的 userID 登录了相同的房间，造成前面登录的用户被踢出房间，或者后台调用踢人接口将此用户踢出房间；App 应提示用户被踢出房间。
     // 注意：业务侧要确保分配的 userID 保持唯一，不然会造成互相抢占。
     
-    ZGLogWarn(@"被踢出房间，原因:%d，房间号:%@",reason, roomID);
+    ZGLogWarn(@"onKickOut，原因:%d，房间号:%@",reason, roomID);
     
     if (![roomID isEqualToString:self.talkRoomID]) {
         return;
@@ -362,7 +366,7 @@
 - (void)onDisconnect:(int)errorCode roomID:(NSString *)roomID {
     // 房间与 ZEGO 服务器断开连接的通知；一般在断网并在自动重连90秒后，依旧没有恢复网络时会收到这个回调，此时推流/拉流都会断开；App 端需要检测网络，在正常联网时重新登录房间，重新推流/拉流。
     
-    ZGLogWarn(@"房间连接断开，错误码:%d，房间号:%@",errorCode, roomID);
+    ZGLogWarn(@"onDisconnect，errorCode:%d, roomID:%@", errorCode,roomID);
     
     if (![roomID isEqualToString:self.talkRoomID]) {
         return;
@@ -377,11 +381,11 @@
 }
 
 - (void)onTempBroken:(int)errorCode roomID:(NSString *)roomID {
-    ZGLogWarn(@"房间与 Server 中断，SDK会尝试自动重连，房间号:%@",roomID);
+    ZGLogWarn(@"onTempBroken，errorCode:%d, roomID:%@", errorCode,roomID);
 }
 
 - (void)onReconnect:(int)errorCode roomID:(NSString *)roomID {
-    ZGLogInfo(@"房间与 Server 重新连接，房间号:%@",roomID);
+    ZGLogInfo(@"onReconnect，errorCode:%d, roomID:%@", errorCode,roomID);
 }
 
 - (void)onStreamUpdated:(int)type streams:(NSArray<ZegoStream *> *)streamList roomID:(NSString *)roomID {
@@ -403,6 +407,33 @@
         NSArray<NSString *> *streamIDs = [streamList valueForKeyPath:@"streamID"];
         [self removeRemoteUserTalkStreamWithIDs:streamIDs];
     }
+}
+
+#pragma mark - ZegoIMDelegate
+
+- (void)onUserUpdate:(NSArray<ZegoUserState *> *)userList updateType:(ZegoUserUpdateType)type {
+    NSMutableString *sb = [NSMutableString string];
+    [sb appendFormat:@"onUserUpdate，类型：%@",(type == ZEGO_UPDATE_TOTAL)?@"全量":@"增量"];
+    if (userList && userList.count > 0) {
+        for (ZegoUserState *us in userList) {
+            [sb appendFormat:@"\n用户（flag:%@, id:%@）", @(us.updateFlag), us.userID];
+        }
+    }
+    ZGLogInfo(@"%@", [sb copy]);
+}
+
+#pragma mark - ZegoDeviceEventDelegate
+
+- (void)zego_onDevice:(NSString *)deviceName error:(int)errorCode {
+    ZGLogInfo(@"zego_onDevice, deviceName:%@, errorCode:%d", deviceName, errorCode);
+}
+
+- (void)zego_onAudioDevice:(NSString *)deviceId deviceName:(NSString *)deviceName deviceType:(ZegoAPIAudioDeviceType)deviceType changeState:(ZegoAPIDeviceState)state {
+    ZGLogInfo(@"zego_onAudioDevice, deviceId:%@, deviceName:%@, deviceType:%@, deviceState:%@", deviceId, deviceName, @(deviceType), @(state));
+}
+
+- (void)zego_onVideoDevice:(NSString *)deviceId deviceName:(NSString *)deviceName changeState:(ZegoAPIDeviceState)deviceState {
+    ZGLogInfo(@"zego_onVideoDevice, deviceId:%@, deviceName:%@, deviceState:%@", deviceId, deviceName, @(deviceState));
 }
 
 
@@ -464,14 +495,34 @@
  远端摄像头状态通知
  */
 - (void)onRemoteCameraStatusUpdate:(int)status ofStream:(NSString *)streamID {
-    ZGLogInfo(@"远端摄像头状态变化, status:%d", status);
+    ZGLogInfo(@"远端摄像头状态变化, status:%@, streamID:%@", [ZGVideoTalkDemo remoteDeviceStatusTextForStatus:status], streamID);
 }
 
 /**
  远端麦克风状态通知
  */
 - (void)onRemoteMicStatusUpdate:(int)status ofStream:(NSString *)streamID {
-     ZGLogInfo(@"远端mic状态变化, status:%d", status);
+     ZGLogInfo(@"远端mic状态变化, status:%@, streamID:%@", [ZGVideoTalkDemo remoteDeviceStatusTextForStatus:status], streamID);
+}
+
+/**
+ 远端摄像头状态通知
+ */
+- (void)onRemoteCameraStatusUpdate:(int)status ofStream:(NSString *)streamID reason:(int)reason {
+    ZGLogInfo(@"远端camera状态变化, status:%@, reason:%d, streamID:%@", [ZGVideoTalkDemo remoteDeviceStatusTextForStatus:status], reason, streamID);
+}
+
+/**
+ 远端麦克风状态通知
+ */
+- (void)onRemoteMicStatusUpdate:(int)status ofStream:(NSString *)streamID reason:(int)reason {
+    ZGLogInfo(@"远端mic状态变化, status:%@, reason:%d, streamID:%@", [ZGVideoTalkDemo remoteDeviceStatusTextForStatus:status], reason, streamID);
+}
+
++ (NSString *)remoteDeviceStatusTextForStatus:(int)status {
+    if (status == 0) return @"打开";
+    if (status == 1) return @"关闭";
+    return [NSString stringWithFormat:@"%d", status];
 }
 
 @end

@@ -75,6 +75,7 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
     liveVC.joinLiveDemo = self.joinLiveDemo;
     
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:liveVC];
+    nvc.modalPresentationStyle = UIModalPresentationFullScreen;
     
     [self presentViewController:nvc animated:YES completion:nil];
 }

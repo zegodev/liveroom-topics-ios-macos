@@ -21,8 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZGExternalVideoRenderHelper : NSObject
 
-+ (void)showRenderData:(CVImageBufferRef)image inView:(ZGView *)view viewMode:(ZegoVideoViewMode)viewMode;
-+ (void)removeRenderDataInView:(ZGView *)view;
++ (void)showRenderData:(CVImageBufferRef)image inView:(ZEGOView *)view viewMode:(ZegoVideoViewMode)viewMode;
++ (void)removeRenderDataInView:(ZEGOView *)view;
 
 
 /**

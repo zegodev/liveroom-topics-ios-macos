@@ -94,7 +94,7 @@
 
 #pragma mark - Delegate
 
-- (ZGView *)getPlaybackView {
+- (ZEGOView *)getPlaybackView {
     return self.playView;
 }
 

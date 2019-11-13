@@ -164,13 +164,18 @@
 - (void)setupZegoComponents {
     ZGAppGlobalConfig *appConfig = [[ZGAppGlobalConfigManager sharedInstance] globalConfig];
     
+    // 设置环境
+    [ZegoLiveRoomApi setUseTestEnv:(appConfig.environment == ZGAppEnvironmentTest)];
+    // 设置硬编硬解
+    [ZegoLiveRoomApi requireHardwareEncoder:appConfig.openHardwareEncode];
+    [ZegoLiveRoomApi requireHardwareDecoder:appConfig.openHardwareDecode];
+    
     // configure ZegoLiveRoomApi context
     if (self.mediaItem.isVideo) {
         [ZegoLiveRoomApi setVideoCaptureFactory:self.externalVideoCaptureFactory];
     } else {
         [ZegoLiveRoomApi setVideoCaptureFactory:nil];
     }
-    [ZegoLiveRoomApi setUseTestEnv:(appConfig.environment == ZGAppEnvironmentTest)];
     
     // setup zegoApi
     self.zegoApi = [[ZegoLiveRoomApi alloc] initWithAppID:appConfig.appID appSignature:[ZGAppSignHelper convertAppSignFromString:appConfig.appSign]];

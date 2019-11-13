@@ -96,7 +96,11 @@
     ZGAppGlobalConfig *appConfig = [[ZGAppGlobalConfigManager sharedInstance] globalConfig];
     
     // 设置 SDK 环境，需要在 init SDK 之前设置，后面调用 SDK 的 api 才能在该环境内执行
+    // 设置环境
     [ZegoLiveRoomApi setUseTestEnv:(appConfig.environment == ZGAppEnvironmentTest)];
+    // 设置硬编硬解
+    [ZegoLiveRoomApi requireHardwareEncoder:appConfig.openHardwareEncode];
+    [ZegoLiveRoomApi requireHardwareDecoder:appConfig.openHardwareDecode];
     
     // init SDK
     ZGLogInfo(@"请求初始化");

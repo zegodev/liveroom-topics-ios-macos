@@ -37,6 +37,12 @@ typedef NS_ENUM(NSUInteger, ZGAppEnvironment) {
 // 环境
 @property (nonatomic, assign) ZGAppEnvironment environment;
 
+// 是否开启硬件编码
+@property (nonatomic, assign) BOOL openHardwareEncode;
+
+// 是否开启硬件解码
+@property (nonatomic, assign) BOOL openHardwareDecode;
+
 /**
  从字典转化为当前类型实例。
  

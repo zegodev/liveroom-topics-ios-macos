@@ -12,7 +12,7 @@
 
 @implementation ZGExternalVideoRenderHelper
 
-+ (void)showRenderData:(CVImageBufferRef)image inView:(ZGView *)view viewMode:(ZegoVideoViewMode)viewMode {
++ (void)showRenderData:(CVImageBufferRef)image inView:(ZEGOView *)view viewMode:(ZegoVideoViewMode)viewMode {
     CGImageRef cgImage = [self getCGImageFromCVImageBuffer:image inView:view viewMode:viewMode];
     CGImageRetain(cgImage);
     
@@ -40,13 +40,13 @@
     
 }
 
-+ (void)removeRenderDataInView:(ZGView *)view {
++ (void)removeRenderDataInView:(ZEGOView *)view {
     dispatch_async(dispatch_get_main_queue(), ^{
         view.layer.contents = nil;
     });
 }
 
-+ (CGImageRef)getCGImageFromCVImageBuffer:(CVImageBufferRef)imageBuffer inView:(ZGView *)view viewMode:(ZegoVideoViewMode)viewMode {
++ (CGImageRef)getCGImageFromCVImageBuffer:(CVImageBufferRef)imageBuffer inView:(ZEGOView *)view viewMode:(ZegoVideoViewMode)viewMode {
     CVPixelBufferLockBaseAddress(imageBuffer, kCVPixelBufferLock_ReadOnly);
     
     CIImage *ciImage = [CIImage imageWithCVPixelBuffer:imageBuffer];

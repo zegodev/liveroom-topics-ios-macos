@@ -12,8 +12,6 @@
 
 @interface ZGShareLogViewController () <UIDocumentInteractionControllerDelegate>
 
-@property (copy, nonatomic) NSString *dstLogFilePath;
-@property (strong, nonatomic) NSArray *srcLogs;
 @property (strong, nonatomic) UIDocumentInteractionController *documentController;
 
 @end
@@ -25,48 +23,60 @@
     
     self.view.backgroundColor = UIColor.whiteColor;
     
-    [self setupZipFiles];
-    [self zipAndShare];
+    [self zipAppSDKLogAndPresentSharePage];
 }
 
-- (void)setupZipFiles {
-    // 处理各种 path
-    NSString *cachesPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
-    NSString *zegologs = [cachesPath stringByAppendingString:@"/ZegoLogs"];
-    
-    // 日志压缩文件路径
-    NSString *dstLogFilePath = [zegologs stringByAppendingPathComponent:@"/zegoavlog.zip"];
-    self.dstLogFilePath = dstLogFilePath;
-    
-    // 获取 Library/Caches/ZegoLogs 目录下的所有文件
+- (NSArray<NSString*> *)zegoSDKLogFilesInDir:(NSString *)logDir {
     NSFileManager *manager = [NSFileManager defaultManager];
-    NSArray *files = [manager subpathsAtPath:zegologs];
+    NSArray *files = [manager subpathsAtPath:logDir];
     
-    NSMutableDictionary *logFiles = [NSMutableDictionary dictionaryWithCapacity:1];
-    NSMutableArray *srcLogs = [NSMutableArray arrayWithCapacity:1];
+    NSMutableArray<NSString*> *logFiles = [NSMutableArray array];
     [files enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL * stop) {
         // 取出 ZegoLogs 下的 txt 日志文件
         if ([obj hasSuffix:@".txt"]) {
-            NSString *logFileDir = [NSString stringWithFormat:@"%@/%@", zegologs, obj];
-            [srcLogs addObject:logFileDir];
-            [logFiles setObject:logFileDir forKey:obj];
+            NSString *logFileDir = [logDir stringByAppendingPathComponent:obj];
+            [logFiles addObject:logFileDir];
         }
     }];
-    
-    self.srcLogs = srcLogs;
+    return [logFiles copy];
 }
 
-- (void)zipAndShare {
-    // 压缩日志文件为 zip 格式
-    if ([SSZipArchive createZipFileAtPath:self.dstLogFilePath withFilesAtPaths:self.srcLogs]) {
-        UIDocumentInteractionController *controller = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:self.dstLogFilePath]];
-        controller.delegate = self;
-        self.documentController = controller;
+- (void)zipAppSDKLogAndPresentSharePage {
+    // 在异步线程压缩文件·
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        // app 的 zego SDK 日志
+        NSString *cachesPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+        NSString *zegologDir = [cachesPath stringByAppendingPathComponent:@"ZegoLogs"];
         
-        [controller presentOpenInMenuFromRect:self.view.bounds inView:self.view animated:YES];
-    } else {
-        [ZegoHudManager showMessage:@"压缩分享文件失败"];
-    }
+        NSArray<NSString*> *srcLogFiles = [self zegoSDKLogFilesInDir:zegologDir];
+        if (srcLogFiles.count == 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [ZegoHudManager showMessage:@"暂无日志"];
+            });
+            return;
+        }
+        
+        // 目标压缩包路径
+        NSString *logZipFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"app_zegoavlog.zip"];
+        BOOL zipRet = [SSZipArchive createZipFileAtPath:logZipFilePath withFilesAtPaths:srcLogFiles];
+        NSLog(@"zip ret: %d", zipRet);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (zipRet) {
+                UIDocumentInteractionController *controller = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:logZipFilePath]];
+                controller.delegate = self;
+                self.documentController = controller;
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+                    CGRect tarRect = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 10);
+                    [controller presentOpenInMenuFromRect:tarRect inView:self.view animated:YES];
+                } else {
+                    [controller presentOpenInMenuFromRect:self.view.bounds inView:self.view animated:YES];
+                }
+            } else {
+                [ZegoHudManager showMessage:@"压缩分享文件失败"];
+            }
+        });
+    });
 }
 
 - (void)documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {

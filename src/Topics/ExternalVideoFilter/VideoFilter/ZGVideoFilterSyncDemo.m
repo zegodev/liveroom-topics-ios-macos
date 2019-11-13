@@ -9,6 +9,8 @@
 #ifdef _Module_ExternalVideoFilter
 
 #import "ZGVideoFilterSyncDemo.h"
+#import "ZGApiManager.h"
+
 #if TARGET_OS_OSX
 #import "FUManager-mac.h"
 #elif TARGET_OS_IOS

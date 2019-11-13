@@ -59,7 +59,11 @@
         self.remoteSoundLevelList = [NSMutableArray<NSNumber *> array];
         
         ZGAppGlobalConfig *appConfig = [[ZGAppGlobalConfigManager sharedInstance] globalConfig];
+        // 设置环境
         [ZegoLiveRoomApi setUseTestEnv:(appConfig.environment == ZGAppEnvironmentTest)];
+        // 设置硬编硬解
+        [ZegoLiveRoomApi requireHardwareEncoder:appConfig.openHardwareEncode];
+        [ZegoLiveRoomApi requireHardwareDecoder:appConfig.openHardwareDecode];
         
         self.zegoApi = [[ZegoLiveRoomApi alloc] initWithAppID:(unsigned int)appConfig.appID appSignature:[ZGAppSignHelper convertAppSignFromString:appConfig.appSign] completionBlock:^(int errorCode) {
             if (errorCode == 0) {

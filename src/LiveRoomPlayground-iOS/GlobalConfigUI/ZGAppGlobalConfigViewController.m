@@ -11,8 +11,12 @@
 #import "ZGAppSignHelper.h"
 #import <ZegoLiveRoom/ZegoLiveRoomApi.h>
 #import "ZGWebRTCUrlInputVC.h"
+#import "ZGTopicCommonDefines.h"
+#import <SSZipArchive/SSZipArchive.h>
 
-@interface ZGAppGlobalConfigViewController ()
+@interface ZGAppGlobalConfigViewController () <UIDocumentInteractionControllerDelegate>
+
+@property (strong, nonatomic) UIDocumentInteractionController *documentController;
 
 @property (weak, nonatomic) IBOutlet UITextField *appIDTxf;
 @property (weak, nonatomic) IBOutlet UITextView *appSignTxv;
@@ -20,6 +24,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *VEVersionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *SDKVersionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *appVersionLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *openHardwareEncodeSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *openHardwareDecodeSwitch;
 
 @end
 
@@ -55,7 +61,6 @@
     self.appSignTxv.layer.borderColor = [UIColor colorWithWhite:0.6 alpha:1].CGColor;
     self.appSignTxv.layer.borderWidth = 0.5f;
     
-    
     self.VEVersionLabel.text = [NSString stringWithFormat:@"VE 版本：%@", [ZegoLiveRoomApi version2]];
     self.SDKVersionLabel.text = [NSString stringWithFormat:@"SDK 版本：%@", [ZegoLiveRoomApi version]];
     self.appVersionLabel.text = [NSString stringWithFormat:@"Demo 版本：%@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
@@ -87,6 +92,8 @@
         config.appID = (unsigned int)[self.appIDTxf.text longLongValue];
         config.appSign = self.appSignTxv.text;
         config.environment = self.environmentSegCtrl.selectedSegmentIndex == 0?ZGAppEnvironmentTest:ZGAppEnvironmentOfficial;
+        config.openHardwareEncode = self.openHardwareEncodeSwitch.isOn;
+        config.openHardwareDecode = self.openHardwareDecodeSwitch.isOn;
         
         [[ZGAppGlobalConfigManager sharedInstance] setGlobalConfig:config];
         [ZegoHudManager showMessage:@"已保存设置"];
@@ -102,6 +109,8 @@
     self.appIDTxf.text = @(configInfo.appID).stringValue;
     self.appSignTxv.text = configInfo.appSign;
     self.environmentSegCtrl.selectedSegmentIndex = configInfo.environment == ZGAppEnvironmentTest?0:1;
+    self.openHardwareEncodeSwitch.on = configInfo.openHardwareEncode;
+    self.openHardwareDecodeSwitch.on = configInfo.openHardwareDecode;
 }
 
 - (void)openWebRTCURLTestPage {
@@ -114,8 +123,86 @@
     if (indexPath.section == 2) {
         if (indexPath.row == 0) {
             [self openWebRTCURLTestPage];
+        } else if (indexPath.row == 1) {
+            [self zipReplayKitUploadExtensionSDKLogAndPresentSharePage];
         }
     }
+}
+
+- (NSString *)createZegoLogDirIfNeed {
+    // 设置录屏进程的 Zego SDK 日志路径
+    NSURL *groupURL = [[NSFileManager defaultManager]
+    containerURLForSecurityApplicationGroupIdentifier:ZGAPP_GROUP_NAME];
+    NSURL *replayKitZegoLogDirURL = [groupURL URLByAppendingPathComponent:ZGAPP_REPLAYKIT_UPLOAD_EXTENSION_ZEGO_LOG_DIR isDirectory:YES];
+    NSError *err = nil;
+    [[NSFileManager defaultManager] createDirectoryAtURL:replayKitZegoLogDirURL withIntermediateDirectories:YES attributes:nil error:&err];
+    NSString *dir = replayKitZegoLogDirURL.path;
+    NSLog(@"create zego log dir:%@, error:%@", dir, err);
+    if (err) {
+        return nil;
+    }
+    return dir;
+}
+
+- (NSArray<NSString*> *)zegoSDKLogFilesInDir:(NSString *)logDir {
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSArray *files = [manager subpathsAtPath:logDir];
+    
+    NSMutableArray<NSString*> *logFiles = [NSMutableArray array];
+    [files enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL * stop) {
+        // 取出 ZegoLogs 下的 txt 日志文件
+        if ([obj hasSuffix:@".txt"]) {
+            NSString *logFileDir = [logDir stringByAppendingPathComponent:obj];
+            [logFiles addObject:logFileDir];
+        }
+    }];
+    return [logFiles copy];
+}
+
+- (void)zipReplayKitUploadExtensionSDKLogAndPresentSharePage {
+    // 在异步线程压缩文件·
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        // 录屏扩展的日志
+        NSString *extensionSDKLogDir = [self createZegoLogDirIfNeed];
+        if (!extensionSDKLogDir) {
+            ZGLogWarn(@"获取录屏扩展 zego sdk 日志目录失败");
+            return;
+        }
+        
+        NSArray<NSString*> *srcLogFiles = [self zegoSDKLogFilesInDir:extensionSDKLogDir];
+        if (srcLogFiles.count == 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [ZegoHudManager showMessage:@"暂无日志"];
+            });
+            return;
+        }
+        
+        // 目标压缩包路径
+        NSString *logZipFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"upload_extension_zegoavlog.zip"];
+        BOOL zipRet = [SSZipArchive createZipFileAtPath:logZipFilePath withFilesAtPaths:srcLogFiles];
+        NSLog(@"zip ret: %d", zipRet);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (zipRet) {
+                UIDocumentInteractionController *controller = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:logZipFilePath]];
+                controller.delegate = self;
+                self.documentController = controller;
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+                    CGRect tarRect = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 10);
+                    [controller presentOpenInMenuFromRect:tarRect inView:self.view animated:YES];
+                } else {
+                    [controller presentOpenInMenuFromRect:self.view.bounds inView:self.view animated:YES];
+                }
+            } else {
+                [ZegoHudManager showMessage:@"压缩分享文件失败"];
+            }
+        });
+    });
+}
+
+#pragma mark - UIDocumentInteractionControllerDelegate
+- (void)documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {
+    [controller dismissMenuAnimated:YES];
 }
 
 @end

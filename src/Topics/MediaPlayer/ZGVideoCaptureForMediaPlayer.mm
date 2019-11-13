@@ -11,6 +11,7 @@
 #import <sys/time.h>
 #import <memory>
 #import <thread>
+#import "ZGApiManager.h"
 
 @interface ZGVideoCaptureForMediaPlayer () <ZegoVideoCaptureDevice> {
     id<ZegoVideoCaptureClientDelegate> client_;

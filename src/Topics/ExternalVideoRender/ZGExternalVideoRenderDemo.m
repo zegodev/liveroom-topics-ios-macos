@@ -11,6 +11,8 @@
 #import "ZGExternalVideoRenderDemo.h"
 #import "ZGUserIDHelper.h"
 #import "ZGExternalVideoRenderHelper.h"
+#import "ZGApiManager.h"
+
 #if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
 #define ZGImage NSImage

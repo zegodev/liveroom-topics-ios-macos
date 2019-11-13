@@ -8,6 +8,7 @@
 
 #import "ZGLoginRoomDemo.h"
 #import "ZegoLog.h"
+#import "ZGApiManager.h"
 
 @interface ZGLoginRoomDemo () <ZegoRoomDelegate>
 

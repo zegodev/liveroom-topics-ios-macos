@@ -15,10 +15,27 @@
 #import "ZegoLog.h"
 #import "ZGUserIDHelper.h"
 #import "ZGURLDefine.h"
-#import "ZGApiManager.h"
 #import "ZegoHudManager.h"
 #import "NSObject+Binding.h"
 #import "NSObject+Persistence.h"
 #import "UIApplication+JumpWeb.h"
+
+#if TARGET_OS_OSX
+#import <ZegoLiveRoomOSX/ZegoLiveRoomApi.h>
+#import <ZegoLiveRoomOSX/ZegoLiveRoomApi-Player.h>
+#import <ZegoLiveRoomOSX/ZegoLiveRoomApi-Publisher.h>
+#import <ZegoLiveRoomOSX/ZegoLiveRoomApi-IM.h>
+#import <ZegoLiveRoomOSX/ZegoLiveRoomApiDefines.h>
+#import <ZegoLiveRoomOSX/ZegoLiveRoomApiDefines-Publisher.h>
+#import <ZegoLiveRoomOSX/ZegoLiveRoomApiDefines-IM.h>
+#elif TARGET_OS_IOS
+#import <ZegoLiveRoom/ZegoLiveRoomApi.h>
+#import <ZegoLiveRoom/ZegoLiveRoomApi-Player.h>
+#import <ZegoLiveRoom/ZegoLiveRoomApi-Publisher.h>
+#import <ZegoLiveRoom/ZegoLiveRoomApi-IM.h>
+#import <ZegoLiveRoom/ZegoLiveRoomApiDefines.h>
+#import <ZegoLiveRoom/ZegoLiveRoomApiDefines-Publisher.h>
+#import <ZegoLiveRoom/ZegoLiveRoomApiDefines-IM.h>
+#endif
 
 #endif /* PrefixHeader_pch */

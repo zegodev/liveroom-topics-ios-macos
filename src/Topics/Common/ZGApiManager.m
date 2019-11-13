@@ -13,21 +13,6 @@ static ZegoLiveRoomApi *s_apiInstance = nil;
 
 @implementation ZGApiManager
 
-+ (void)enableExternalVideoCapture:(id<ZegoVideoCaptureFactory>)factory videoRenderer:(id<ZegoLiveApiRenderDelegate>)renderer {
-    if (s_apiInstance) {
-        [self releaseApi];
-    }
-    
-    [ZegoExternalVideoCapture setVideoCaptureFactory:factory channelIndex:ZEGOAPI_CHN_MAIN];
-    
-    if (renderer) {
-        [ZegoLiveRoomApi enableExternalRender:YES];
-        [[self api] setRenderDelegate:renderer];
-    } else {
-        [ZegoLiveRoomApi enableExternalRender:NO];
-    }
-}
-
 + (ZegoLiveRoomApi*)api {
     if (!s_apiInstance) {
         ZGAppGlobalConfig *config = [[ZGAppGlobalConfigManager sharedInstance] globalConfig];
@@ -80,6 +65,10 @@ static ZegoLiveRoomApi *s_apiInstance = nil;
             blk(errorCode);
         }
     }];
+    
+    // 设置硬编硬解
+    [ZegoLiveRoomApi requireHardwareEncoder:config.openHardwareEncode];
+    [ZegoLiveRoomApi requireHardwareDecoder:config.openHardwareDecode];
     
     ZGLogInfo(@"初始化SDK，AppID:%u,AppSign:%@", appID, appSign);
     return s_apiInstance != nil;

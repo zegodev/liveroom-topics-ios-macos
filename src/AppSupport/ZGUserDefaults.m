@@ -10,19 +10,18 @@
 
 @implementation ZGUserDefaults
 
-+ (NSUserDefaults *)standardUserDefaults {
-    @throw ([NSException exceptionWithName:@"Not support this method. Please init `ZGUserDefaults` with `init` method" reason:nil userInfo:nil]);
-    return nil;
-}
-
 - (instancetype)initWithSuiteName:(NSString *)suitename {
     @throw ([NSException exceptionWithName:@"Not support this method. Please init `ZGUserDefaults` with `init` method" reason:nil userInfo:nil]);
     return nil;
 }
 
 - (instancetype)init {
-    self = [super initWithSuiteName:@"group.liveRoomPlayground"];
+    self = [super initWithSuiteName:@"group.com.zego.doudong.LiveRoomPlayground"];
     return self;
+}
+
++ (NSUserDefaults *)standardUserDefaults {
+    return [[ZGUserDefaults alloc] init];
 }
 
 @end

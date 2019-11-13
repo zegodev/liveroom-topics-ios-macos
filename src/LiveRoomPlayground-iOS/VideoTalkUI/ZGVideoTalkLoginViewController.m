@@ -89,7 +89,12 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
  设置该模块的 ZegoLiveRoomApi 默认上下文
  */
 - (void)setupZegoLiveRoomApiDefault:(ZGAppGlobalConfig *)appConfig {
+    // 设置环境
     [ZegoLiveRoomApi setUseTestEnv:(appConfig.environment == ZGAppEnvironmentTest)];
+    // 设置硬编硬解
+    [ZegoLiveRoomApi requireHardwareEncoder:appConfig.openHardwareEncode];
+    [ZegoLiveRoomApi requireHardwareDecoder:appConfig.openHardwareDecode];
+    
     [ZegoLiveRoomApi enableExternalRender:NO];
     [ZegoLiveRoomApi setVideoFilterFactory:nil];
     [ZegoLiveRoomApi setVideoCaptureFactory:nil];
@@ -104,6 +109,8 @@ static NSString *ZGLoginRoomIDKey = @"ZGLoginRoomIDKey";
     vc.videoTalkDemo = self.videoTalkDemo;
     
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
+    nvc.modalPresentationStyle = UIModalPresentationFullScreen;
+    
     [self.navigationController presentViewController:nvc animated:YES completion:nil];
 }
 

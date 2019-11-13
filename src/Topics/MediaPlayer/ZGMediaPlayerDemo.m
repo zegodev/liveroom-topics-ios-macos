@@ -46,7 +46,9 @@ typedef enum {
         [ZGApiManager releaseApi];
         
         self.videoCapture = [[ZGVideoCaptureForMediaPlayer alloc] init];
-        [ZGApiManager enableExternalVideoCapture:self.videoCapture videoRenderer:nil];
+        
+        [ZegoLiveRoomApi enableExternalRender:NO];
+
         
         self.player = [[ZegoMediaPlayer alloc] initWithPlayerType:MediaPlayerTypeAux];
         [self.player setDelegate:self];
@@ -82,7 +84,7 @@ typedef enum {
     [self.player setPlayerType:type];
 }
 
-- (void)setVideoView:(ZGView *)view {
+- (void)setVideoView:(ZEGOView *)view {
     [self.player setView:view];
 }
 

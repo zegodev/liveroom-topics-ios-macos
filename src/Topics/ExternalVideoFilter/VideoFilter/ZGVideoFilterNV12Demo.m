@@ -125,20 +125,17 @@
         
         CVPixelBufferRef dst = [self->buffer_pool_ dequeueInputBuffer:imageWidth height:imageHeight stride:imageStride];
         
-        if (!dst) {
-            return;
-        }
-        
-        // 自定义前处理：此处使用 FaceUnity 作为外部滤镜
-        CVPixelBufferRef output = [[FUManager shareManager] renderItemsToPixelBuffer:pixel_buffer];
-        
-        if ([ZGImageUtils copyPixelBufferFrom:output to:dst]) {
-            // * 把从 buffer pool 中得到的 CVPixelBuffer 实例传进来
-            [self->buffer_pool_ queueInputBuffer:dst timestamp:timestamp_100n];
+        if (dst) {
+            // 自定义前处理：此处使用 FaceUnity 作为外部滤镜
+            CVPixelBufferRef output = [[FUManager shareManager] renderItemsToPixelBuffer:pixel_buffer];
+            
+            if ([ZGImageUtils copyPixelBufferFrom:output to:dst]) {
+                // * 把从 buffer pool 中得到的 CVPixelBuffer 实例传进来
+                [self->buffer_pool_ queueInputBuffer:dst timestamp:timestamp_100n];
+            }
         }
         
         self.pendingCount = self.pendingCount - 1;
-        
         CVPixelBufferRelease(pixel_buffer);
     });
 }

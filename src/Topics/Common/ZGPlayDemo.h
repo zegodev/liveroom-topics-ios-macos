@@ -9,6 +9,7 @@
 #ifdef _Module_Play
 
 #import <Foundation/Foundation.h>
+#import "ZGApiManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

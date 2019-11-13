@@ -70,30 +70,34 @@ static ZegoLogView *view = nil;
     self.formatter = [ZegoTTYLogFormatter new];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(onLogMessagesUpdate) name:ZegoRAMStoreLoggerLogDidChangeNotification object:nil];
     
+    self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7];
     
     //UI
     self.naviBar = [[UIView alloc] init];
-    self.naviBar.backgroundColor = UIColor.lightGrayColor;
+    self.naviBar.backgroundColor = [UIColor clearColor];
     
-    self.clearBtn = [[UIButton alloc] init];
+    self.clearBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.clearBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.clearBtn setTitle:@"清空" forState:UIControlStateNormal];
     [self.clearBtn addTarget:self action:@selector(onClear) forControlEvents:UIControlEventTouchUpInside];
     
-    self.shareBtn = [[UIButton alloc] init];
+    self.shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.shareBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.shareBtn setTitle:@"分享" forState:UIControlStateNormal];
     [self.shareBtn addTarget:self action:@selector(onShare) forControlEvents:UIControlEventTouchUpInside];
     
-    self.closeBtn = [[UIButton alloc] init];
+    self.closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.closeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.closeBtn setTitle:@"退出" forState:UIControlStateNormal];
     [self.closeBtn addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
     
     self.tableView = [[UITableView alloc] init];
+    self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.tableFooterView = [[UIView alloc] init];
     self.tableView.estimatedRowHeight = 44.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"UITableViewCell"];
     
     [self addSubview:self.naviBar];
     [self.naviBar addSubview:self.clearBtn];
@@ -124,6 +128,8 @@ static ZegoLogView *view = nil;
     [self hide];
     
     ZGShareLogViewController *vc = [[ZGShareLogViewController alloc] init];
+    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+    
     UIViewController *rootVC = UIApplication.sharedApplication.keyWindow.rootViewController;
     [rootVC.topPresentedViewController presentViewController:vc animated:YES completion:nil];
 }
@@ -167,7 +173,14 @@ static ZegoLogView *view = nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+    static NSString *cellID = @"UITableViewCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        cell.backgroundColor = [UIColor clearColor];
+        cell.contentView.backgroundColor = [UIColor clearColor];
+        cell.textLabel.textColor = [UIColor whiteColor];
+    }
     ZegoLogMessage *msg = self.logger.logs[indexPath.row];
     NSString *logString = [self.formatter formatLogMessage:msg];
     cell.textLabel.numberOfLines = 0;

@@ -47,11 +47,11 @@
 
 #pragma mark - ZGExternalVideoCaptureDemoProtocol
 
-- (ZGView *)getMainPlaybackView {
+- (ZEGOView *)getMainPlaybackView {
     return self.mainVideoView;
 }
 
-- (ZGView *)getSubPlaybackView {
+- (ZEGOView *)getSubPlaybackView {
     return self.subVideoView;
 }
 

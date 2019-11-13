@@ -21,7 +21,7 @@ typedef NS_ENUM(NSUInteger, StreamLayerType) {
 
 @protocol ZGSVCDemoProtocol <NSObject>
 
-- (ZGView *)getPlaybackView;
+- (ZEGOView *)getPlaybackView;
 
 @optional
 

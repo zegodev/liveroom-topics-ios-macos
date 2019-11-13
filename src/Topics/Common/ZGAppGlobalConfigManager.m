@@ -12,9 +12,7 @@
 #import "ZGAppSignHelper.h"
 #import "ZGHashTableHelper.h"
 #import "ZGKeyCenter.h"
-
-// 保存全局设置的 key
-NSString* const ZGAppGlobalConfigKey = @"kZGAppGlobalConfig";
+#import "ZGTopicCommonDefines.h"
 
 @interface ZGAppGlobalConfigManager ()
 {
@@ -71,7 +69,7 @@ static ZGAppGlobalConfigManager *instance = nil;
     dispatch_async(_configOptQueue, ^{
         // confObj 为 nil 时，删除设置
         if (!confObj) {
-            [self.zgUserDefaults removeObjectForKey:ZGAppGlobalConfigKey];
+            [self.zgUserDefaults removeObjectForKey:ZGAPP_GLOBAL_CONFIG_KEY];
             [self.zgUserDefaults synchronize];
             self.cachedConfigStr = nil;
             [self notifyGlobalConfigChanged:nil];
@@ -82,19 +80,20 @@ static ZGAppGlobalConfigManager *instance = nil;
         NSString *configStr = [ZGJsonHelper encodeToJSON:confDic];
         if (configStr) {
             self.cachedConfigStr = configStr;
-            [self.zgUserDefaults setObject:configStr forKey:ZGAppGlobalConfigKey];
+            [self.zgUserDefaults setObject:configStr forKey:ZGAPP_GLOBAL_CONFIG_KEY];
             [self.zgUserDefaults synchronize];
             [self notifyGlobalConfigChanged:confObj];
         }
     });
 }
 
+
 - (ZGAppGlobalConfig *)globalConfig {
     __block ZGAppGlobalConfig *conf = nil;
     dispatch_sync(_configOptQueue, ^{
         NSString *configStr = self.cachedConfigStr;
         if (configStr == nil || configStr.length == 0) {
-            configStr = [self.zgUserDefaults stringForKey:ZGAppGlobalConfigKey];
+            configStr = [self.zgUserDefaults stringForKey:ZGAPP_GLOBAL_CONFIG_KEY];
         }
         
         ZGAppGlobalConfig *confObj = nil;

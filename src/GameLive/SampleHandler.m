@@ -18,9 +18,7 @@
     CGFloat videoWidth = [(NSNumber *)setupInfo[@"width"] floatValue] != 0 ? [(NSNumber *)setupInfo[@"width"] floatValue] : [[UIScreen mainScreen] bounds].size.width;
     CGFloat videoHeight = [(NSNumber *)setupInfo[@"height"] floatValue] != 0 ? [(NSNumber *)setupInfo[@"height"] floatValue] : [[UIScreen mainScreen] bounds].size.height;
     
-    NSLog(@"[LiveRoomPlayground-GameLive] videoSize in setupInfo: %@", NSStringFromCGSize(CGSizeMake(videoWidth, videoHeight)));
-    
-    [ZGLiveReplayManager.sharedInstance startLiveWithTitle:liveTitle videoSize:CGSizeMake(videoWidth * 2, videoHeight * 2)];
+    [ZGLiveReplayManager.sharedInstance startLiveWithTitle:liveTitle videoSize:CGSizeMake(videoWidth, videoHeight)];
 }
 
 - (void)broadcastPaused {

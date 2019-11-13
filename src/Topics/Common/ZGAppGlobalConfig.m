@@ -33,6 +33,16 @@
         obj.environment = [env integerValue];
     }
     
+    id openHardwareEncode = dic[NSStringFromSelector(@selector(openHardwareEncode))];
+    if ([self checkIsNSStringOrNSNumber:openHardwareEncode]) {
+        obj.openHardwareEncode = [openHardwareEncode boolValue];
+    }
+    
+    id openHardwareDecode = dic[NSStringFromSelector(@selector(openHardwareDecode))];
+    if ([self checkIsNSStringOrNSNumber:openHardwareDecode]) {
+        obj.openHardwareDecode = [openHardwareDecode boolValue];
+    }
+    
     return obj;
 }
 
@@ -42,6 +52,8 @@
     dic[NSStringFromSelector(@selector(appID))] = @(self.appID);
     dic[NSStringFromSelector(@selector(appSign))] = self.appSign?self.appSign:@"";
     dic[NSStringFromSelector(@selector(environment))] = @(self.environment);
+    dic[NSStringFromSelector(@selector(openHardwareEncode))] = @(self.openHardwareEncode);
+    dic[NSStringFromSelector(@selector(openHardwareDecode))] = @(self.openHardwareDecode);
     
     return [dic copy];
 }

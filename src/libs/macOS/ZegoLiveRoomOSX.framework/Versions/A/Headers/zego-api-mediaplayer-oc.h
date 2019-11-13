@@ -320,6 +320,22 @@
 
 @end
 
+@protocol ZegoMediaPlayerAudioPlayDelegate <NSObject>
+
+/**
+ 音频数据回调，仅 PCM 数据有效
+
+ @param data 音频原始数据
+ @param length 音频数据大小
+ @param sample_rate 采样率
+ @param channels 通道数
+ @param bit_depth 位深
+ @param index 播放器序号
+ @note 同步回调，SDK 会直接使用该段内存中的数据
+ */
+- (void) onPlayAudioData:(unsigned char * const)data length:(int)length sample_rate:(int)sample_rate channels:(int)channels bit_depth:(int)bit_depth playerIndex:(ZegoMediaPlayerIndex)index;
+
+@end
 
 /**
  播放器
@@ -383,6 +399,14 @@
  @param format 需要返回的视频帧数据格式，@see ZegoMediaPlayerVideoPixelFormat
  */
 - (void)setVideoPlayWithIndexDelegate:(id<ZegoMediaPlayerVideoPlayWithIndexDelegate>)delegate format:(ZegoMediaPlayerVideoPixelFormat)format;
+
+
+/**
+ 设置音频数据回调
+
+ @param delegate 回调
+ */
+- (void)setAudioPlayDelegate:(id<ZegoMediaPlayerAudioPlayDelegate>)delegate;
 
 
 /**
@@ -534,6 +558,25 @@
  @note 多次调用没有影响
  */
 - (BOOL)requireHWDecoder;
+
+/**
+ 设置播放器播放控件的显示模式
+
+ @param mode 显示模式，详见 ZegoVideoViewMode，默认为 ZegoVideoViewModeScaleAspectFit
+ */
+- (void)setViewMode:(ZegoVideoViewMode)mode;
+
+/**
+ 设置播放的背景颜色
+
+ @param color 颜色,取值为0x00RRGGBB
+ */
+- (void)setBackgroundColor:(int)color;
+
+/**
+ 清除播放控件播放结束后, 在控件上保留的最后一帧画面
+ */
+- (void)clearView;
 
 @end
 

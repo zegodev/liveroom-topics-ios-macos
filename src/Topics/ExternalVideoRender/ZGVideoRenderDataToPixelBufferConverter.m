@@ -6,6 +6,9 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
+#ifdef _Module_ExternalVideoRender
+
+
 #import "ZGVideoRenderDataToPixelBufferConverter.h"
 #import "ZGCVPixelBufferHelper.h"
 
@@ -89,3 +92,6 @@
 }
 
 @end
+
+
+#endif

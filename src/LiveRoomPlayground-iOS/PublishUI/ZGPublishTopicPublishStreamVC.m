@@ -202,11 +202,11 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
 
 - (void)startLive {
     if (self.loginRoomState != ZGTopicLoginRoomStateNotLogin) {
-        NSLog(@"已登录或正在登录中，无需重复开始直播请求。");
+        ZGLogWarn(@"已登录或正在登录中，无需重复开始直播请求。");
         return;
     }
     if (self.publishStreamState != ZGTopicPublishStreamStateStopped) {
-        NSLog(@"正在推流或正在请求推流中，无需重复开始直播请求。");
+        ZGLogWarn(@"正在推流或正在请求推流中，无需重复开始直播请求。");
         return;
     }
     
@@ -231,7 +231,7 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
         [ZegoHudManager hideNetworkLoading];
         
         if (errorCode != 0) {
-            ZGLogWarn(@"登录房间失败,errorCode:%d", errorCode);
+            ZGLogWarn(@"登录房间失败,roomID:%@,errorCode:%d", roomID, errorCode);
             [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"登录房间失败,errorCode:%d", errorCode]];
             self.loginRoomState = ZGTopicLoginRoomStateNotLogin;
             [self invalidateLiveStateUILayout];
@@ -239,6 +239,7 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
             [ZegoHudManager showMessage:[NSString stringWithFormat:@"登录房间失败,errorCode:%d", errorCode]];
             return;
         }
+        ZGLogInfo(@"登录房间成功,roomID:%@", roomID);
         
         // 登录房间成功
         // 开始推流，在 ZegoLivePublisherDelegate 的 onPublishStateUpdate:streamID:streamInfo: 中或知推流结果
@@ -246,9 +247,12 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
         [self saveValue:streamID forKey:ZGPublishTopicPublishStreamVCKey_streamID];
         [self appendProcessTipAndMakeVisible:@"登录房间成功"];
         self.loginRoomState = ZGTopicLoginRoomStateLogined;
+        ZGLogInfo(@"请求推流,roomID:%@, stremID:%@", roomID, streamID);
         if ([self.zegoApi startPublishing:streamID title:nil flag:ZEGO_SINGLE_ANCHOR]) {
             [self appendProcessTipAndMakeVisible:@"请求推流"];
             self.publishStreamState = ZGTopicPublishStreamStatePublishRequesting;
+        } else {
+            ZGLogWarn(@"请求推流失败。方法返回 NO");
         }
         [self invalidateLiveStateUILayout];
     }];
@@ -363,21 +367,21 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
 #pragma mark - ZegoRoomDelegate
 
 - (void)onKickOut:(int)reason roomID:(NSString *)roomID {
-    ZGLogWarn(@"onKickOut，reason:%d", reason);
+    ZGLogWarn(@"onKickOut，reason:%d, roomID:%@", reason, roomID);
     NSLog(@"onKickOut, reason:%d", reason);
     [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"被踢出房间, reason:%d", reason]];
     [self internalStopLive];
 }
 
 - (void)onDisconnect:(int)errorCode roomID:(NSString *)roomID {
-    ZGLogWarn(@"onDisconnect，errorCode:%d", errorCode);
+    ZGLogWarn(@"onDisconnect，errorCode:%d, roomID:%@", errorCode, roomID);
     NSLog(@"onDisconnect, errorCode:%d", errorCode);
     [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"已断开和房间的连接, errorCode:%d", errorCode]];
     [self internalStopLive];
 }
 
 - (void)onReconnect:(int)errorCode roomID:(NSString *)roomID {
-    ZGLogWarn(@"onReconnect，errorCode:%d", errorCode);
+    ZGLogWarn(@"onReconnect，errorCode:%d, roomID:%@", errorCode, roomID);
     NSLog(@"onReconnect, errorCode:%d", errorCode);
     [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"重连, errorCode:%d", errorCode]];
 }
@@ -396,10 +400,10 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
     [self invalidateLiveStateUILayout];
     
     if (stateCode == 0) {
-        ZGLogInfo(@"推流请求成功");
+        ZGLogInfo(@"推流请求成功, streamID:%@", streamID);
         [self appendProcessTipAndMakeVisible:@"推流请求成功，正在推流"];
     } else {
-        ZGLogWarn(@"推流请求失败，stateCode:%d", stateCode);
+        ZGLogWarn(@"推流请求失败，streamID:%@，stateCode:%d", streamID, stateCode);
         [self appendProcessTipAndMakeVisible:[NSString stringWithFormat:@"推流请求失败，stateCode:%d",stateCode]];
     }
 }

@@ -10,7 +10,7 @@
 
 #import "ZegoMediaRecordDemo.h"
 #import "ZGUserIDHelper.h"
-#import "ZGUserIDHelper.h"
+#import "ZGApiManager.h"
 
 @interface ZegoMediaRecordDemo () <ZegoRoomDelegate,ZegoLivePublisherDelegate,ZegoMediaRecordDelegage>
 
@@ -48,7 +48,7 @@
     NSLog(NSLocalizedString(@"startPreview", nil));
     
     if ([self.delegate respondsToSelector:@selector(getPlaybackView)]) {
-        ZGView *view = [self.delegate getPlaybackView];
+        ZEGOView *view = [self.delegate getPlaybackView];
         [ZGApiManager.api setPreviewView:view];
     }
 

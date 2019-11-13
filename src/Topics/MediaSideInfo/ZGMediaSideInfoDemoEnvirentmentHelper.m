@@ -10,6 +10,7 @@
 
 #import "ZGMediaSideInfoDemoEnvirentmentHelper.h"
 #import "ZGUserIDHelper.h"
+#import "ZGApiManager.h"
 
 @interface ZGMediaSideInfoDemoEnvirentmentHelper () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoLivePlayerDelegate>
 
@@ -27,8 +28,8 @@
         _sentMsgs = [NSMutableArray array];
         _recvMsgs = [NSMutableArray array];
         _streamID = [ZGUserIDHelper getDeviceUUID];
+        [ZegoLiveRoomApi enableExternalRender:NO];
         
-        [ZGApiManager enableExternalVideoCapture:nil videoRenderer:nil];
         [[ZGApiManager api] setRoomDelegate:self];
         [[ZGApiManager api] setPublisherDelegate:self];
         [[ZGApiManager api] setPlayerDelegate:self];
@@ -87,7 +88,7 @@
 - (void)onPublishStateUpdate:(int)stateCode streamID:(NSString *)streamID streamInfo:(NSDictionary *)info {
     if (stateCode == 0) {
         assert(self.status == kZGMediaSideTopicStatus_Starting_Publishing);
-        ZGView* v = self.config.onlyAudioPublish ? nil : self.playView;
+        ZEGOView* v = self.config.onlyAudioPublish ? nil : self.playView;
         bool result = [[ZGApiManager api] startPlayingStream:self.streamID inView:v];
         if (result) {
             self.status = kZGMediaSideTopicStatus_Starting_Playing;
