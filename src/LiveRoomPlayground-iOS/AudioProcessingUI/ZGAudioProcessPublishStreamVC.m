@@ -74,7 +74,6 @@
     // 设置硬编硬解
     [ZegoLiveRoomApi requireHardwareEncoder:appConfig.openHardwareEncode];
     [ZegoLiveRoomApi requireHardwareDecoder:appConfig.openHardwareDecode];
-    [ZegoLiveRoomApi setVideoCaptureFactory:nil];
     
     // setup zegoApi
     self.zegoApi = [[ZegoLiveRoomApi alloc] initWithAppID:appConfig.appID appSignature:[ZGAppSignHelper convertAppSignFromString:appConfig.appSign] completionBlock:^(int errorCode) {

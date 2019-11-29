@@ -28,7 +28,6 @@
         _sentMsgs = [NSMutableArray array];
         _recvMsgs = [NSMutableArray array];
         _streamID = [ZGUserIDHelper getDeviceUUID];
-        [ZegoLiveRoomApi enableExternalRender:NO];
         
         [[ZGApiManager api] setRoomDelegate:self];
         [[ZGApiManager api] setPublisherDelegate:self];

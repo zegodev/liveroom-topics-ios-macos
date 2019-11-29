@@ -173,10 +173,6 @@
     // 设置硬编硬解
     [ZegoLiveRoomApi requireHardwareEncoder:appConfig.openHardwareEncode];
     [ZegoLiveRoomApi requireHardwareDecoder:appConfig.openHardwareDecode];
-    
-    [ZegoLiveRoomApi enableExternalRender:NO];
-    [ZegoLiveRoomApi setVideoFilterFactory:nil];
-    [ZegoLiveRoomApi setVideoCaptureFactory:nil];
 }
 
 - (void)gotoAudienceLivePageWithRoomAnchorID:(NSString *)roomAnchorID {

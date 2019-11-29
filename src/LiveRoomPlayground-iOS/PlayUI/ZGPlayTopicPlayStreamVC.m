@@ -17,6 +17,9 @@
 #import "ZGPlayTopicSettingVC.h"
 #import <ZegoLiveRoom/ZegoLiveRoomApi.h>
 
+// 是否判断目标流在当前登录房间中
+#define ZG_PLAY_STREAM_TOPIC_JUDGE_TARGET_PLAY_STREAM_IN_ROOM 0
+
 NSString* const ZGPlayTopicPlayStreamVCKey_roomID = @"kRoomID";
 NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
 
@@ -189,14 +192,22 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
         [self saveValue:streamID forKey:ZGPlayTopicPlayStreamVCKey_streamID];
         
         // 如果存在目标流则播放，如果不存在则日志记录不存在目标流
+        BOOL needPlayStream = YES;
+        BOOL needHandleStreamNotExist = NO;
+#if ZG_PLAY_STREAM_TOPIC_JUDGE_TARGET_PLAY_STREAM_IN_ROOM
         NSArray<NSString *> *roomStreamIDs = [streamList valueForKeyPath:@"streamID"];
-        if ([roomStreamIDs containsObject:streamID]) {
+        if (![roomStreamIDs containsObject:streamID]) {
+            needPlayStream = NO;
+            needHandleStreamNotExist = YES;
+        }
+#endif
+        if (needPlayStream) {
             // play stream
             self.isPlayingLive = YES;
             self.currentStreamID = streamID;
             [self invalidatePlayLiveStateUILayout];
             
-            // 根据配置设置 ZegoLiveRoomApi 
+            // 根据配置设置 ZegoLiveRoomApi
             [ZegoLiveRoomApi requireHardwareDecoder:self.enableHardwareDecode];
             
             // 开始拉流
@@ -207,8 +218,9 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
             [self.zegoApi setViewMode:self.playViewMode ofStream:streamID];
             
             [self appendProcessTipAndMakeVisible:@"正在拉流"];
-        } else {
-            // 提示不存在
+        }
+        
+        if (needHandleStreamNotExist) {
             [self appendProcessTipAndMakeVisible:@"房间不存在目标流"];
             [self appendProcessTipAndMakeVisible:@"退出房间"];
             [self.zegoApi logoutRoom];

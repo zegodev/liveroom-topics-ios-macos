@@ -9,6 +9,7 @@
 
 #import "ZGExternalVideoCapturePlayStreamVC.h"
 #import <ZegoLiveRoom/ZegoLiveRoom.h>
+#import <ZegoLiveRoom/zego-api-external-video-capture-oc.h>
 #import "ZGAppGlobalConfigManager.h"
 #import "ZGAppSignHelper.h"
 #import "ZGUserIDHelper.h"
@@ -47,8 +48,8 @@
     // 设置硬编硬解
     [ZegoLiveRoomApi requireHardwareEncoder:appConfig.openHardwareEncode];
     [ZegoLiveRoomApi requireHardwareDecoder:appConfig.openHardwareDecode];
-    [ZegoLiveRoomApi setVideoCaptureFactory:nil];
-    
+    [ZegoExternalVideoCapture setVideoCaptureFactory:nil channelIndex:ZEGOAPI_CHN_MAIN];
+
     // init SDK
     ZGLogInfo(@"请求初始化");
     self.zegoApi = [[ZegoLiveRoomApi alloc] initWithAppID:(unsigned int)appConfig.appID appSignature:[ZGAppSignHelper convertAppSignFromString:appConfig.appSign] completionBlock:^(int errorCode) {

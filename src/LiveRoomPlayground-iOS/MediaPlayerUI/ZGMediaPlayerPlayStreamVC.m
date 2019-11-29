@@ -47,7 +47,6 @@
     // 设置硬编硬解
     [ZegoLiveRoomApi requireHardwareEncoder:appConfig.openHardwareEncode];
     [ZegoLiveRoomApi requireHardwareDecoder:appConfig.openHardwareDecode];
-    [ZegoLiveRoomApi setVideoCaptureFactory:nil];
     
     // init SDK
     ZGLogInfo(@"请求初始化");

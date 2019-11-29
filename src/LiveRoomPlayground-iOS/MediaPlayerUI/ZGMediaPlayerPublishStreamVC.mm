@@ -55,7 +55,7 @@
     [_mediaPlayer uninit];
     [_zegoApi stopPublishing];
     [_zegoApi logoutRoom];
-    [ZegoLiveRoomApi setVideoCaptureFactory:nil];
+    [ZegoExternalVideoCapture setVideoCaptureFactory:nil channelIndex:ZEGOAPI_CHN_MAIN];
 }
 
 - (void)viewDidLoad {
@@ -172,9 +172,9 @@
     
     // configure ZegoLiveRoomApi context
     if (self.mediaItem.isVideo) {
-        [ZegoLiveRoomApi setVideoCaptureFactory:self.externalVideoCaptureFactory];
+        [ZegoExternalVideoCapture setVideoCaptureFactory:self.externalVideoCaptureFactory channelIndex:ZEGOAPI_CHN_MAIN];
     } else {
-        [ZegoLiveRoomApi setVideoCaptureFactory:nil];
+        [ZegoExternalVideoCapture setVideoCaptureFactory:nil channelIndex:ZEGOAPI_CHN_MAIN];
     }
     
     // setup zegoApi

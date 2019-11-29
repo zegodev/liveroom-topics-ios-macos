@@ -57,7 +57,6 @@
     // 设置硬编硬解
     [ZegoLiveRoomApi requireHardwareEncoder:appConfig.openHardwareEncode];
     [ZegoLiveRoomApi requireHardwareDecoder:appConfig.openHardwareDecode];
-    [ZegoLiveRoomApi setVideoCaptureFactory:nil];
     
     // 在初始化 SDK 前，设置外部渲染type，对预览视图进行外部渲染
     // 设置视频外部渲染 type
