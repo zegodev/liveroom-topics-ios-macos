@@ -10,12 +10,16 @@
 - `GameLiveSetupUI`是 iOS11 以下录屏必须的录屏界面程序。
 - `LiveRoomPlayground-macOS`是 macOS 项目。
 
-项目代码没有包含 Zego SDK，需要下载相应的 SDK，引入到项目，才能运行项目。
+1.项目代码没有包含 Zego SDK，需要下载相应的 SDK，引入到项目，才能运行项目。
 - 若需要运行 `LiveRoomPlayground-iOS`，请下载 [iOS SDK](https://storage.zego.im/downloads/ZegoLiveRoom-MediaPlayer-iOS.zip)，解压得到 `ZegoLiveRoom.framework`，然后放入 `src/libs/iOS` 目录。
 - 若需要运行 `LiveRoomPlayground-macOS`，请下载 [macOS SDK](https://storage.zego.im/downloads/ZegoLiveRoom-MediaPlayer-MacOS-OC.zip)，解压得到 `ZegoLiveRoom.framework`，然后放入 `src/libs/macOS` 目录。
 
 > iOS SDK 包含真机版（iphoneos）和真机+模拟器混合版（iphoneos_simulator），请选择合适的版本，但在导出包时，请确保使用真机版，否则打包会报错。
 
+
+2.`ZGKeyCenter.m`中填写正确的 `appID` 和 `appSign`，若无，请在[即构管理控制台](https://console.zego.im/acount/register)申请。
+
+3.如果需要体验外部滤镜，需要在`authpack.h`文件中填写正确的 faceUinty 的证书。
 
 专题目录如下：
 ## 快速开始  
