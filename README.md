@@ -1,7 +1,23 @@
+
 # liveroom-topics-iOS/macOS
 
 >国内用户推荐去码云下载，速度更快 [https://gitee.com/zegodev/liveroom-topics-ios-macos.git](https://gitee.com/zegodev/liveroom-topics-ios-macos.git)  
 
+## Demo 使用指引
+本 Demo 包含若个 Target。
+- `LiveRoomPlayground-iOS`为 iOS 项目。
+- `GameLive`是录屏进程程序。
+- `GameLiveSetupUI`是 iOS11 以下录屏必须的录屏界面程序。
+- `LiveRoomPlayground-macOS`是 macOS 项目。
+
+项目代码没有包含 Zego SDK，需要下载相应的 SDK，引入到项目，才能运行项目。
+- 若需要运行 `LiveRoomPlayground-iOS`，请下载 [iOS SDK](https://storage.zego.im/downloads/ZegoLiveRoom-MediaPlayer-iOS.zip)，解压得到 `ZegoLiveRoom.framework`，然后放入 `src/libs/iOS` 目录。
+- 若需要运行 `LiveRoomPlayground-macOS`，请下载 [macOS SDK](https://storage.zego.im/downloads/ZegoLiveRoom-MediaPlayer-MacOS-OC.zip)，解压得到 `ZegoLiveRoom.framework`，然后放入 `src/libs/macOS` 目录。
+
+> iOS SDK 包含真机版（iphoneos）和真机+模拟器混合版（iphoneos_simulator），请选择合适的版本，但在导出包时，请确保使用真机版，否则打包会报错。
+
+
+专题目录如下：
 ## 快速开始  
 ### [推流](https://github.com/zegodev/liveroom-topics-ios-macos/tree/master/src/Topics/Common)  
 ### [拉流](https://github.com/zegodev/liveroom-topics-ios-macos/tree/master/src/Topics/Common)  
