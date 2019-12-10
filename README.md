@@ -19,7 +19,7 @@
 
 2.`ZGKeyCenter.m`中填写正确的 `appID` 和 `appSign`，若无，请在[即构管理控制台](https://console.zego.im/acount/register)申请。
 
-3.如果需要体验外部滤镜，需要在`authpack.h`文件中填写正确的 faceUinty 的证书。
+3.如果需要体验外部滤镜，需要在`authpack.h`文件中填写正确的 faceUnity 的证书。
 
 专题目录如下：
 ## 快速开始  
