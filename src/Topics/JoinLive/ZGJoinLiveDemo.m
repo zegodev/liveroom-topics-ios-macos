@@ -6,13 +6,14 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
-#ifdef _Module_JoinLive
+#if defined(_Module_JoinLive) || defined(_Module_RoomConfigLive)
 
 #import "ZGJoinLiveDemo.h"
 #import <ZegoLiveRoom/ZegoLiveRoomApi-IM.h>
 
 @interface ZGJoinLiveDemo () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoLivePlayerDelegate, ZegoIMDelegate>
 
+@property (nonatomic, assign) BOOL audienceCreateRoomEnabled;
 @property (nonatomic, assign) BOOL enableCamera;
 @property (nonatomic, assign) BOOL enableMic;
 @property (nonatomic, assign) BOOL apiInitialized;
@@ -65,12 +66,23 @@
             [api setPlayerDelegate:self];
             [api setIMDelegate:self];
             // 设置是否可以监控房间其他用户的登录或离开
-            [api setRoomConfig:NO userStateUpdate:YES];
+            [api setRoomConfig:self.audienceCreateRoomEnabled userStateUpdate:YES];
         }
         
         self.zegoApi = api;
     }
     return self;
+}
+
+- (void)setAudienceCreateRoomEnabled:(BOOL)audienceCreateRoomEnabled {
+    if (![self checkApiInitialized]) {
+        return;
+    }
+    
+    _audienceCreateRoomEnabled = audienceCreateRoomEnabled;
+    [self.zegoApi setRoomConfig:audienceCreateRoomEnabled userStateUpdate:YES];
+    NSString *boolStr = audienceCreateRoomEnabled?@"YES":@"NO";
+    ZGLogInfo(@"enableMic:%@", boolStr);
 }
 
 - (void)setEnableMic:(BOOL)enableMic {

@@ -11,11 +11,11 @@
 #import "ZGSoundLevelViewController.h"
 #import "ZGSoundLevelConfigViewController.h"
 #import "ZGSoundLevelTableViewCell.h"
-#import "ZGSoundLevelDemo.h"
+#import "ZGSoundLevelManager.h"
 
-@interface ZGSoundLevelViewController () <ZGSoundLevelDemoProtocol>
+@interface ZGSoundLevelViewController () <ZGSoundLevelDataSource>
 
-@property (nonatomic, strong) ZGSoundLevelDemo *demo;
+@property (nonatomic, strong) ZGSoundLevelManager *manager;
 
 @end
 
@@ -23,13 +23,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.demo = [[ZGSoundLevelDemo alloc] initWithRoomID:self.roomID];
-    if (self.demo) {
-        [self.demo setZGSoundLevelDelegate:self];
-        self.demo.enableFrequencySpectrumMonitor = YES;
-        self.demo.enableSoundLevelMonitor = YES;
-        self.demo.frequencySpectrumMonitorCycle = 100;
-        self.demo.soundLevelMonitorCycle = 100;
+    self.manager = [[ZGSoundLevelManager alloc] initWithRoomID:self.roomID];
+    if (self.manager) {
+        [self.manager setZGSoundLevelDataSource:self];
+        self.manager.enableFrequencySpectrumMonitor = YES;
+        self.manager.enableSoundLevelMonitor = YES;
+        self.manager.frequencySpectrumMonitorCycle = 100;
+        self.manager.soundLevelMonitorCycle = 100;
     }
     [self setupUI];
 }
@@ -37,16 +37,15 @@
 - (void)setupUI {
     [self.tableView registerNib:[UINib nibWithNibName:@"ZGSoundLevelTableViewCell" bundle:nil] forCellReuseIdentifier:@"ZGSoundLevelTableViewCell"];
     self.tableView.separatorStyle = UITableViewCellEditingStyleNone;
-    self.tableView.backgroundColor = [UIColor colorWithRed:235.0/255.0 green:238.0/255.0 blue:244.0/255/0 alpha:1];
 }
 
 - (void)dealloc {
-    self.demo = nil;
+    self.manager = nil;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     ZGSoundLevelConfigViewController *vc = segue.destinationViewController;
-    vc.demo = self.demo;
+    vc.manager = self.manager;
 }
 
 #pragma mark - Delegate
@@ -57,35 +56,35 @@
 }
 
 // 本地推流音频频谱数据刷新
-- (void)onCaptureFrequencySpectrumDataUpdate {
+- (void)onCaptureFrequencySpectrumDataUpdate:(NSArray<NSNumber *> *)captureSpectrumList {
     ZGSoundLevelTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    cell.spectrumList = self.demo.captureSpectrumList;
+    cell.spectrumList = captureSpectrumList;
 }
 
 // 拉流音频频谱数据刷新
-- (void)onRemoteFrequencySpectrumDataUpdate {
+- (void)onRemoteFrequencySpectrumDataUpdate:(NSDictionary<NSString *,NSArray<NSNumber *> *> *)remoteSpectrumDict {
     NSInteger rowCount = [self.tableView numberOfRowsInSection:1];
     for (NSInteger row = 0; row < rowCount; row++) {
         ZGSoundLevelTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:1]];
-        if (self.demo.remoteSpectrumList.count > row) {
-            cell.spectrumList = self.demo.remoteSpectrumList[row];
+        if ([remoteSpectrumDict objectForKey:cell.streamID]) {
+            cell.spectrumList = remoteSpectrumDict[cell.streamID];
         }
     }
 }
 
 // 本地推流声浪数据刷新
-- (void)onCaptureSoundLevelDataUpdate {
+- (void)onCaptureSoundLevelDataUpdate:(NSNumber *)captureSoundLevel {
     ZGSoundLevelTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    cell.soundLevel = self.demo.captureSoundLevel.floatValue;
+    cell.soundLevel = captureSoundLevel;
 }
 
 // 拉流声浪数据刷新
-- (void)onRemoteSoundLevelDataUpdate {
+- (void)onRemoteSoundLevelDataUpdate:(NSDictionary<NSString *,NSNumber *> *)remoteSoundLevelDict {
     NSInteger rowCount = [self.tableView numberOfRowsInSection:1];
     for (NSInteger row = 0; row < rowCount; row++) {
         ZGSoundLevelTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:1]];
-        if (self.demo.remoteSoundLevelList.count > row) {
-            cell.soundLevel = self.demo.remoteSoundLevelList[row].floatValue;
+        if ([remoteSoundLevelDict objectForKey:cell.streamID]) {
+            cell.soundLevel = remoteSoundLevelDict[cell.streamID];
         }
     }
 }
@@ -101,7 +100,7 @@
     if (section == 0) {
         return 1;
     } else {
-        long num = self.demo.remoteStreamIDList.count;
+        long num = self.manager.remoteStreamIDList.count;
         return num;
     }
 }
@@ -110,10 +109,10 @@
     ZGSoundLevelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZGSoundLevelTableViewCell"];
     cell.userInteractionEnabled = NO;
     if (indexPath.section == 0) {
-        cell.streamID = [NSString stringWithFormat:@"%@(我)", self.demo.localStreamID];
+        cell.streamID = [NSString stringWithFormat:@"%@(我)", self.manager.localStreamID];
     } else {
-        if (self.demo.remoteStreamIDList.count > indexPath.row) {
-            cell.streamID = self.demo.remoteStreamIDList[indexPath.row];
+        if (self.manager.remoteStreamIDList.count > indexPath.row) {
+            cell.streamID = self.manager.remoteStreamIDList[indexPath.row];
         }
     }
     return cell;

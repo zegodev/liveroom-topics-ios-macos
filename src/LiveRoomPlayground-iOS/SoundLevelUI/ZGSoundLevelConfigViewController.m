@@ -29,22 +29,22 @@
 }
 
 - (void)setupUI {
-    self.enableFrequencyMonitorSwitch.on = self.demo.enableFrequencySpectrumMonitor;
-    self.enableSoundLevelMonitorSwitch.on = self.demo.enableSoundLevelMonitor;
-    self.frequencyMonitorCycleLabel.text = [NSString stringWithFormat:@"监控周期：%dms", self.demo.frequencySpectrumMonitorCycle];
-    self.soundLevelMonitorCycleLabel.text = [NSString stringWithFormat:@"监控周期：%dms", self.demo.soundLevelMonitorCycle];
-    self.frequencySlider.value = self.demo.frequencySpectrumMonitorCycle;
-    self.soundLevelSlider.value = self.demo.soundLevelMonitorCycle;
+    self.enableFrequencyMonitorSwitch.on = self.manager.enableFrequencySpectrumMonitor;
+    self.enableSoundLevelMonitorSwitch.on = self.manager.enableSoundLevelMonitor;
+    self.frequencyMonitorCycleLabel.text = [NSString stringWithFormat:@"监控周期：%dms", self.manager.frequencySpectrumMonitorCycle];
+    self.soundLevelMonitorCycleLabel.text = [NSString stringWithFormat:@"监控周期：%dms", self.manager.soundLevelMonitorCycle];
+    self.frequencySlider.value = self.manager.frequencySpectrumMonitorCycle;
+    self.soundLevelSlider.value = self.manager.soundLevelMonitorCycle;
 }
 
 #pragma mark - FrequencySpectrum Setting Actions
 
 - (IBAction)enableFrequencySpectrumMonitor:(UISwitch *)sender {
-    self.demo.enableFrequencySpectrumMonitor = sender.on;
+    self.manager.enableFrequencySpectrumMonitor = sender.on;
 }
 
 - (IBAction)setFrequencySpectrumMonitorCycle:(UISlider *)sender {
-    self.demo.frequencySpectrumMonitorCycle = (unsigned int)sender.value;
+    self.manager.frequencySpectrumMonitorCycle = (unsigned int)sender.value;
 }
 
 - (IBAction)didFrequencySpectrumMonitorCycleChanged:(UISlider *)sender {
@@ -54,11 +54,11 @@
 #pragma mark - SoundLevel Setting Actions
 
 - (IBAction)enableSoundLevelMonitor:(UISwitch *)sender {
-    self.demo.enableSoundLevelMonitor = sender.on;
+    self.manager.enableSoundLevelMonitor = sender.on;
 }
 
 - (IBAction)setSoundLevelMonitorCycle:(UISlider *)sender {
-    self.demo.soundLevelMonitorCycle = (unsigned int)sender.value;
+    self.manager.soundLevelMonitorCycle = (unsigned int)sender.value;
 }
 
 - (IBAction)didSoundLevelMonitorCycleChanged:(UISlider *)sender {

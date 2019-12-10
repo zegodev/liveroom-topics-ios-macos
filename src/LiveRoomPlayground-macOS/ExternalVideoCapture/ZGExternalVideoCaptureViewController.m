@@ -12,6 +12,7 @@
 #import <MetalKit/MetalKit.h>
 #import <Metal/Metal.h>
 #import <ZegoLiveRoomOSX/ZegoLiveRoomApi.h>
+#import <ZegoLiveRoomOSX/zego-api-external-video-capture-oc.h>
 #import "ZGMetalPreviewYUVRenderer.h"
 #import "ZGMetalPreviewBGRARenderer.h"
 #import "ZGDemoExternalVideoCameraCaptureController.h"
@@ -211,7 +212,7 @@
     [_zegoApi stopPublishing];
     [_zegoApi logoutRoom];
     _zegoApi = nil;
-    [ZegoLiveRoomApi setVideoCaptureFactory:nil];
+    [ZegoExternalVideoCapture setVideoCaptureFactory:nil channelIndex:ZEGOAPI_CHN_MAIN];
     
     self.isPublishing = NO;
     [self invalidatePublishBtn];
@@ -235,7 +236,7 @@
     [ZegoLiveRoomApi requireHardwareDecoder:appConfig.openHardwareDecode];
     
     // 设置是否使用外部视频采集
-    [ZegoLiveRoomApi setVideoCaptureFactory:self.externalVideoCaptureFactory];
+    [ZegoExternalVideoCapture setVideoCaptureFactory:self.externalVideoCaptureFactory channelIndex:ZEGOAPI_CHN_MAIN];
     
     // init SDK
     ZGLogInfo(@"请求初始化");

@@ -125,8 +125,27 @@
             [self openWebRTCURLTestPage];
         } else if (indexPath.row == 1) {
             [self zipReplayKitUploadExtensionSDKLogAndPresentSharePage];
+        } else if (indexPath.row == 2) {
+            [self clearHostAppZegoSDKLog];
         }
     }
+}
+
+- (void)clearHostAppZegoSDKLog {
+    NSLog(@"begin clearHostAppZegoSDKLog");
+    NSArray<NSString*> *srcLogFiles = [self zegoSDKLogFilesInDir:ZG_HOST_APP_ZEGO_LOG_DIR_FULLPATH];
+    if (srcLogFiles.count > 0) {
+        for (NSString *logFilePath in srcLogFiles) {
+            NSError *err;
+            [[NSFileManager defaultManager] removeItemAtPath:logFilePath error:&err];
+            if (err) {
+                NSLog(@"Failed to remove file(%@), err:%@", logFilePath, err);
+            } else {
+                NSLog(@"Succeed to remove file(%@)", logFilePath);
+            }
+        }
+    }
+    NSLog(@"end clearHostAppZegoSDKLog");
 }
 
 - (NSString *)createZegoLogDirIfNeed {

@@ -103,6 +103,10 @@
 		33B8461C228910FA00B86227 /* NSObject+FBKVOController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B84618228910FA00B86227 /* NSObject+FBKVOController.m */; };
 		33C4F3B022700F7300CB76D6 /* ZGPublishDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C4F3AF22700F7300CB76D6 /* ZGPublishDemo.m */; };
 		33F02386219AF92400D0C1D9 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		860090FB2393F6C6003F5A86 /* RoomConfigTopic.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 860090FA2393F6C6003F5A86 /* RoomConfigTopic.storyboard */; };
+		860090FE2393F99D003F5A86 /* ZGRoomConfigTopicInitVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 860090FD2393F99D003F5A86 /* ZGRoomConfigTopicInitVC.m */; };
+		86009101239406C2003F5A86 /* ZGRoomConfigLiveVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 86009100239406C2003F5A86 /* ZGRoomConfigLiveVC.m */; };
+		8600910423940804003F5A86 /* ZGJoinLiveUserRenderViewRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8600910323940804003F5A86 /* ZGJoinLiveUserRenderViewRelation.m */; };
 		8603F85722C5C57C007EE4C1 /* ZegoLiveRoom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8603F85522C5C57C007EE4C1 /* ZegoLiveRoom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		860AD3E922E553A700111A0D /* ZGMixStreamAnchorLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 860AD3E822E553A700111A0D /* ZGMixStreamAnchorLiveViewController.m */; };
 		860AD3EC22E553EA00111A0D /* ZGMixStreamAudienceLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 860AD3EB22E553EA00111A0D /* ZGMixStreamAudienceLiveViewController.m */; };
@@ -381,7 +385,7 @@
 		86EEE73E2306C41E008CD053 /* ZGSVCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EEE73D2306C41E008CD053 /* ZGSVCViewController.m */; };
 		86EEE73F2306D6D3008CD053 /* ZGSVCDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 867CA8B92303A89400544ADA /* ZGSVCDemo.m */; };
 		86F05AEC22EB230D004495F5 /* libnama.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 86D43EFC22E5D75800DC36BE /* libnama.a */; };
-		86FF4B4F2313E01A00E43105 /* ZGSoundLevelDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4B4E2313E01A00E43105 /* ZGSoundLevelDemo.m */; };
+		86FF4B4F2313E01A00E43105 /* ZGSoundLevelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4B4E2313E01A00E43105 /* ZGSoundLevelManager.m */; };
 		86FF4B522313EB6D00E43105 /* ZGSoundLevelLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4B512313EB6D00E43105 /* ZGSoundLevelLoginViewController.m */; };
 		86FF4B542313EB7E00E43105 /* SoundLevel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86FF4B532313EB7E00E43105 /* SoundLevel.storyboard */; };
 		86FFE6BA22F9549A00595041 /* ZGAppGlobalConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FFE6B922F9549A00595041 /* ZGAppGlobalConfig.m */; };
@@ -616,6 +620,13 @@
 		33C4F3AE22700F7300CB76D6 /* ZGPublishDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGPublishDemo.h; sourceTree = "<group>"; };
 		33C4F3AF22700F7300CB76D6 /* ZGPublishDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGPublishDemo.m; sourceTree = "<group>"; };
 		33E28AF32268696B002B4ACF /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		860090FA2393F6C6003F5A86 /* RoomConfigTopic.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RoomConfigTopic.storyboard; sourceTree = "<group>"; };
+		860090FC2393F99D003F5A86 /* ZGRoomConfigTopicInitVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGRoomConfigTopicInitVC.h; sourceTree = "<group>"; };
+		860090FD2393F99D003F5A86 /* ZGRoomConfigTopicInitVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGRoomConfigTopicInitVC.m; sourceTree = "<group>"; };
+		860090FF239406C2003F5A86 /* ZGRoomConfigLiveVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGRoomConfigLiveVC.h; sourceTree = "<group>"; };
+		86009100239406C2003F5A86 /* ZGRoomConfigLiveVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGRoomConfigLiveVC.m; sourceTree = "<group>"; };
+		8600910223940804003F5A86 /* ZGJoinLiveUserRenderViewRelation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGJoinLiveUserRenderViewRelation.h; sourceTree = "<group>"; };
+		8600910323940804003F5A86 /* ZGJoinLiveUserRenderViewRelation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGJoinLiveUserRenderViewRelation.m; sourceTree = "<group>"; };
 		8603F84E22C5C4F9007EE4C1 /* ZegoLiveRoom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZegoLiveRoom.framework; path = libs/ZegoLiveRoom.framework; sourceTree = "<group>"; };
 		8603F85522C5C57C007EE4C1 /* ZegoLiveRoom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZegoLiveRoom.framework; sourceTree = "<group>"; };
 		860AD3E722E553A700111A0D /* ZGMixStreamAnchorLiveViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGMixStreamAnchorLiveViewController.h; sourceTree = "<group>"; };
@@ -976,8 +987,8 @@
 		86EEE73A2306B1E2008CD053 /* sample.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample.wav; sourceTree = "<group>"; };
 		86EEE73C2306C41E008CD053 /* ZGSVCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSVCViewController.h; sourceTree = "<group>"; };
 		86EEE73D2306C41E008CD053 /* ZGSVCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSVCViewController.m; sourceTree = "<group>"; };
-		86FF4B4D2313E01A00E43105 /* ZGSoundLevelDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSoundLevelDemo.h; sourceTree = "<group>"; };
-		86FF4B4E2313E01A00E43105 /* ZGSoundLevelDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSoundLevelDemo.m; sourceTree = "<group>"; };
+		86FF4B4D2313E01A00E43105 /* ZGSoundLevelManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSoundLevelManager.h; sourceTree = "<group>"; };
+		86FF4B4E2313E01A00E43105 /* ZGSoundLevelManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSoundLevelManager.m; sourceTree = "<group>"; };
 		86FF4B502313EB6D00E43105 /* ZGSoundLevelLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSoundLevelLoginViewController.h; sourceTree = "<group>"; };
 		86FF4B512313EB6D00E43105 /* ZGSoundLevelLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSoundLevelLoginViewController.m; sourceTree = "<group>"; };
 		86FF4B532313EB7E00E43105 /* SoundLevel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SoundLevel.storyboard; sourceTree = "<group>"; };
@@ -1490,6 +1501,18 @@
 			path = ExternalVideoCapture;
 			sourceTree = "<group>";
 		};
+		860090F92393F67F003F5A86 /* RoomConfigTopicUI */ = {
+			isa = PBXGroup;
+			children = (
+				860090FA2393F6C6003F5A86 /* RoomConfigTopic.storyboard */,
+				860090FC2393F99D003F5A86 /* ZGRoomConfigTopicInitVC.h */,
+				860090FD2393F99D003F5A86 /* ZGRoomConfigTopicInitVC.m */,
+				860090FF239406C2003F5A86 /* ZGRoomConfigLiveVC.h */,
+				86009100239406C2003F5A86 /* ZGRoomConfigLiveVC.m */,
+			);
+			path = RoomConfigTopicUI;
+			sourceTree = "<group>";
+		};
 		8617329022FAE25A00FDB15E /* PublishStream */ = {
 			isa = PBXGroup;
 			children = (
@@ -1555,6 +1578,8 @@
 			children = (
 				86220EEE22D744C900D7034D /* ZGJoinLiveDemo.h */,
 				86220EEF22D744C900D7034D /* ZGJoinLiveDemo.m */,
+				8600910223940804003F5A86 /* ZGJoinLiveUserRenderViewRelation.h */,
+				8600910323940804003F5A86 /* ZGJoinLiveUserRenderViewRelation.m */,
 			);
 			path = JoinLive;
 			sourceTree = "<group>";
@@ -2017,8 +2042,8 @@
 		86FF4B4B2313DF1200E43105 /* SoundLevel */ = {
 			isa = PBXGroup;
 			children = (
-				86FF4B4D2313E01A00E43105 /* ZGSoundLevelDemo.h */,
-				86FF4B4E2313E01A00E43105 /* ZGSoundLevelDemo.m */,
+				86FF4B4D2313E01A00E43105 /* ZGSoundLevelManager.h */,
+				86FF4B4E2313E01A00E43105 /* ZGSoundLevelManager.m */,
 			);
 			path = SoundLevel;
 			sourceTree = "<group>";
@@ -2151,6 +2176,7 @@
 				3317A8682265DA9900D277AC /* PlayUI */,
 				8641E6C322CB630F001BA439 /* VideoTalkUI */,
 				86220EF122D7466A00D7034D /* JoinLiveUI */,
+				860090F92393F67F003F5A86 /* RoomConfigTopicUI */,
 				86220F0F22DF2C1300D7034D /* MixStreamUI */,
 				86EEE73423068A0C008CD053 /* AudioAuxUI */,
 				86FF4B4C2313DFF700E43105 /* SoundLevelUI */,
@@ -2587,6 +2613,7 @@
 				86D4427A22E71B0C00DC36BE /* mu_eyebrow_01.png in Resources */,
 				86220EB722CB637000D7034D /* VideoTalk.storyboard in Resources */,
 				86EEE73923068A5C008CD053 /* AudioAux.storyboard in Resources */,
+				860090FB2393F6C6003F5A86 /* RoomConfigTopic.storyboard in Resources */,
 				860AD40522E85DC700111A0D /* ZGMixStreamInfoView.xib in Resources */,
 				86D442F522E7411800DC36BE /* juanhuzi_lm_fu.png in Resources */,
 				86D442B122E71B0D00DC36BE /* mu_blush_20.png in Resources */,
@@ -2758,6 +2785,7 @@
 				86220F1722DF335300D7034D /* ZGMixStreamConfirmViewController.m in Sources */,
 				3317A85F2265D10A00D277AC /* ZGShareLogViewController.m in Sources */,
 				86FFE6BA22F9549A00595041 /* ZGAppGlobalConfig.m in Sources */,
+				86009101239406C2003F5A86 /* ZGRoomConfigLiveVC.m in Sources */,
 				861732C123042B3200FDB15E /* ZGMetalPreviewBGRARenderer.m in Sources */,
 				86AE3BB022F08C3F0013C721 /* ZGVideoFilterI420Demo.m in Sources */,
 				3317A8502265C63A00D277AC /* View+MASAdditions.m in Sources */,
@@ -2778,7 +2806,7 @@
 				86AE056B230BA314005E09FF /* ZGRoomMessageChooseUserVC.m in Sources */,
 				86AE3BAA22F086F40013C721 /* ZGVideoFilterAsyncDemo.m in Sources */,
 				86220F0022D85F2000D7034D /* ZGJoinLiveViewController.m in Sources */,
-				86FF4B4F2313E01A00E43105 /* ZGSoundLevelDemo.m in Sources */,
+				86FF4B4F2313E01A00E43105 /* ZGSoundLevelManager.m in Sources */,
 				86AE0560230AAF75005E09FF /* ZGRoomMessageInteractVC.m in Sources */,
 				3317A8482265C63A00D277AC /* MASCompositeConstraint.m in Sources */,
 				860AD3F922E6F70600111A0D /* ZGMixStreamTopicMixStreamFlags.m in Sources */,
@@ -2810,6 +2838,7 @@
 				3317A88022671A2300D277AC /* NSObject+Persistence.m in Sources */,
 				86220EF022D744C900D7034D /* ZGJoinLiveDemo.m in Sources */,
 				865C97932314E42F008F8CED /* ZGAudioProcessPlayStreamVC.m in Sources */,
+				8600910423940804003F5A86 /* ZGJoinLiveUserRenderViewRelation.m in Sources */,
 				86D4419D22E718E600DC36BE /* FUMakeButton.m in Sources */,
 				861732D423050CA000FDB15E /* ZGExternalVideoCapturePlayStreamVC.m in Sources */,
 				3317A8162265C0B800D277AC /* ZegoRAMStoreLogger.m in Sources */,
@@ -2884,6 +2913,7 @@
 				86D4406422E70ECA00DC36BE /* FUDemoBar.m in Sources */,
 				86A73874230AA00A00F55F25 /* ZGAuxPublishViewController.m in Sources */,
 				3317A8562265C63A00D277AC /* MASViewAttribute.m in Sources */,
+				860090FE2393F99D003F5A86 /* ZGRoomConfigTopicInitVC.m in Sources */,
 				86D4406D22E70ECA00DC36BE /* UIColor+FUDemoBar.m in Sources */,
 				3330991222004FCA008F02E0 /* ZGExternalVideoRenderHelper.m in Sources */,
 				861732A622FD854900FDB15E /* ZGPlayTopicSettingVC.m in Sources */,

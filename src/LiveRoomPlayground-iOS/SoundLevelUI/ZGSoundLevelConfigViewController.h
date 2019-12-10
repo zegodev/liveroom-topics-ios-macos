@@ -9,13 +9,13 @@
 #ifdef _Module_SoundLevel
 
 #import <UIKit/UIKit.h>
-#import "ZGSoundLevelDemo.h"
+#import "ZGSoundLevelManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZGSoundLevelConfigViewController : UITableViewController
 
-@property (nonatomic, strong) ZGSoundLevelDemo *demo;
+@property (nonatomic, strong) ZGSoundLevelManager *manager;
 
 @end
 

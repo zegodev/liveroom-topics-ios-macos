@@ -9,6 +9,7 @@
 #import "ZGShareLogViewController.h"
 #import <SSZipArchive/SSZipArchive.h>
 #import "ZegoHudManager.h"
+#import "ZGTopicCommonDefines.h"
 
 @interface ZGShareLogViewController () <UIDocumentInteractionControllerDelegate>
 
@@ -45,10 +46,7 @@
     // 在异步线程压缩文件·
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         // app 的 zego SDK 日志
-        NSString *cachesPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
-        NSString *zegologDir = [cachesPath stringByAppendingPathComponent:@"ZegoLogs"];
-        
-        NSArray<NSString*> *srcLogFiles = [self zegoSDKLogFilesInDir:zegologDir];
+        NSArray<NSString*> *srcLogFiles = [self zegoSDKLogFilesInDir:ZG_HOST_APP_ZEGO_LOG_DIR_FULLPATH];
         if (srcLogFiles.count == 0) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [ZegoHudManager showMessage:@"暂无日志"];

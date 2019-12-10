@@ -36,6 +36,9 @@
 #ifdef _Module_JoinLive
     [commonTopicList addObject:_Module_JoinLive];
 #endif
+#ifdef _Module_RoomConfigLive
+    [commonTopicList addObject:_Module_RoomConfigLive];
+#endif
 #ifdef _Module_RoomMessage
     [commonTopicList addObject:_Module_RoomMessage];
 #endif
@@ -156,6 +159,13 @@
 #ifdef _Module_JoinLive
     if ([topicName isEqualToString:_Module_JoinLive]) {
         UIStoryboard* sb = [UIStoryboard storyboardWithName:@"JoinLive" bundle:nil];
+        vc = [sb instantiateInitialViewController];
+    }
+#endif
+    
+#ifdef _Module_RoomConfigLive
+    if ([topicName isEqualToString:_Module_RoomConfigLive]) {
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"RoomConfigTopic" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
 #endif

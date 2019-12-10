@@ -11,6 +11,7 @@
 #import "ZegoTTYLogger.h"
 #import "ZegoDiskLogger.h"
 #import "ZegoRAMStoreLogger.h"
+#import "ZGTopicCommonDefines.h"
 
 @interface AppDelegate ()
 
@@ -20,7 +21,10 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    // 配置应用的 log lib
     [self configZegoLog];
+    
     return YES;
 }
 

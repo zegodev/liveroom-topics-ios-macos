@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LNh-uk-ocM">
-    <device id="retina5_9" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LNh-uk-ocM">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,32 +13,32 @@
             <objects>
                 <viewController storyboardIdentifier="ZGVideoTalkLoginViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="LNh-uk-ocM" customClass="ZGVideoTalkLoginViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yzC-k1-n6t">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="roomID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hzf-ae-8CJ">
-                                <rect key="frame" x="20.000000000000004" y="74" width="60.333333333333343" height="21"/>
+                                <rect key="frame" x="20" y="74" width="60.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入 roomID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="92f-J0-oCf">
-                                <rect key="frame" x="20" y="105" width="335" height="30"/>
+                                <rect key="frame" x="20" y="105" width="374" height="30"/>
+                                <color key="backgroundColor" systemColor="systemFillColor" red="0.47058823529999999" green="0.47058823529999999" blue="0.50196078430000002" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Vqn-gD-E2F"/>
                                 </constraints>
-                                <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="roomID 代表一个房间的标识，需保证房间 ID 信息的全局唯一，长度不超过 255 bytes 的可打印字符串。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7oK-nt-7Zm">
-                                <rect key="frame" x="20" y="160" width="335" height="61"/>
+                                <rect key="frame" x="20" y="160" width="374" height="61"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mYc-Ct-MLA">
-                                <rect key="frame" x="40" y="251" width="295" height="30"/>
+                                <rect key="frame" x="40" y="251" width="334" height="30"/>
                                 <color key="backgroundColor" red="0.36460450552426282" green="0.39655775453828379" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Jxm-g3-fTA"/>
@@ -51,7 +49,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="7oK-nt-7Zm" firstAttribute="top" secondItem="92f-J0-oCf" secondAttribute="bottom" constant="25" id="7zY-lq-0B8"/>
                             <constraint firstItem="12B-xT-tCF" firstAttribute="trailing" secondItem="mYc-Ct-MLA" secondAttribute="trailing" constant="40" id="9Gq-Nh-w20"/>
@@ -80,15 +78,15 @@
             <objects>
                 <viewController storyboardIdentifier="ZGVideoTalkViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KRn-gV-p9E" customClass="ZGVideoTalkViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="j7H-WY-oFC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nnu-rB-vxs">
-                                <rect key="frame" x="0.0" y="44" width="375" height="687"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="771"/>
+                                <color key="backgroundColor" systemColor="systemFillColor" red="0.47058823529999999" green="0.47058823529999999" blue="0.50196078430000002" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oI9-8S-mkH">
-                                <rect key="frame" x="0.0" y="731" width="375" height="47"/>
+                                <rect key="frame" x="0.0" y="815" width="414" height="47"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="摄像头" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6E-ac-cQ3">
                                         <rect key="frame" x="8" y="15" width="43" height="17"/>
@@ -115,19 +113,19 @@
                                         </connections>
                                     </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="音频模块" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6i6-Xd-8YZ">
-                                        <rect key="frame" x="212" y="15" width="57.333333333333314" height="17"/>
+                                        <rect key="frame" x="212" y="15" width="57.5" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ufa-3w-FFi">
-                                        <rect key="frame" x="269.33333333333331" y="8" width="51" height="31"/>
+                                        <rect key="frame" x="269.5" y="8" width="51" height="31"/>
                                         <connections>
                                             <action selector="onToggleEnableAudioModuleSwitch:" destination="KRn-gV-p9E" eventType="valueChanged" id="ruh-WP-Ow1"/>
                                         </connections>
                                     </switch>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="snm-iL-sdM" secondAttribute="bottom" constant="8" id="0Ks-TL-ueO"/>
                                     <constraint firstItem="t3G-MT-J0m" firstAttribute="centerY" secondItem="oI9-8S-mkH" secondAttribute="centerY" id="1y4-I2-wNs"/>
@@ -146,7 +144,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="nnu-rB-vxs" firstAttribute="top" secondItem="jak-ay-Anz" secondAttribute="top" id="2NQ-HM-k4h"/>
                             <constraint firstItem="jak-ay-Anz" firstAttribute="trailing" secondItem="oI9-8S-mkH" secondAttribute="trailing" id="IdI-DK-YFW"/>

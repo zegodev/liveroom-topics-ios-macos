@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3WY-um-443">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3WY-um-443">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -25,13 +23,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入roomID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UPu-sc-FmC">
-                                <rect key="frame" x="20" y="93" width="374" height="30"/>
-                                <nil key="textColor"/>
+                                <rect key="frame" x="20" y="93" width="374" height="34"/>
+                                <color key="backgroundColor" systemColor="systemFillColor" red="0.47058823529999999" green="0.47058823529999999" blue="0.50196078430000002" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W3r-YV-UFI">
-                                <rect key="frame" x="119.5" y="143" width="175" height="30"/>
+                                <rect key="frame" x="119.5" y="147" width="175" height="30"/>
                                 <color key="backgroundColor" red="0.36460450550000001" green="0.39655775450000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="175" id="Ooa-he-kOs"/>
@@ -43,14 +41,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n6A-VB-yd0">
-                                <rect key="frame" x="127" y="181" width="160" height="30"/>
+                                <rect key="frame" x="127" y="185" width="160" height="30"/>
                                 <state key="normal" title="《常用功能-房间消息》"/>
                                 <connections>
                                     <action selector="goTopicLink:" destination="3WY-um-443" eventType="touchUpInside" id="W1m-tr-hur"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="n6A-VB-yd0" firstAttribute="top" secondItem="W3r-YV-UFI" secondAttribute="bottom" constant="8" id="KxZ-xY-Y8P"/>
                             <constraint firstItem="W3r-YV-UFI" firstAttribute="top" secondItem="UPu-sc-FmC" secondAttribute="bottom" constant="20" id="MCs-zj-U2u"/>
@@ -119,7 +117,7 @@
                                                 </constraints>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="DcX-Qi-VDc"/>
                                             <constraint firstItem="bmh-AZ-yoM" firstAttribute="leading" secondItem="79H-zT-7gx" secondAttribute="leading" constant="5" id="HnN-gA-t4w"/>
@@ -136,7 +134,7 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0vX-JW-YU5">
                                         <rect key="frame" x="0.0" y="100" width="414" height="1"/>
-                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="y73-c6-TGV"/>
                                         </constraints>
@@ -173,7 +171,7 @@
                                                 </constraints>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstItem="pQ6-fr-XSv" firstAttribute="top" secondItem="XYh-mm-XAA" secondAttribute="top" constant="6" id="3vF-nT-c9B"/>
                                             <constraint firstAttribute="trailing" secondItem="pQ6-fr-XSv" secondAttribute="trailing" constant="12" id="BQ4-kc-y1F"/>
@@ -190,7 +188,7 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d6O-YZ-cyf">
                                         <rect key="frame" x="0.0" y="201" width="414" height="1"/>
-                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="X2p-my-X3R"/>
                                         </constraints>
@@ -241,7 +239,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstItem="Jcx-Q3-dpV" firstAttribute="leading" secondItem="aLQ-qH-krI" secondAttribute="trailing" constant="5" id="2Wt-WA-FFI"/>
                                             <constraint firstItem="Jcx-Q3-dpV" firstAttribute="top" secondItem="gXH-5Y-0Yi" secondAttribute="top" constant="10" id="4SO-57-dS6"/>
@@ -263,7 +261,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="wgy-r5-iRd" firstAttribute="trailing" secondItem="ngV-yM-W5n" secondAttribute="trailing" id="Cfj-D2-khZ"/>
                             <constraint firstItem="ngV-yM-W5n" firstAttribute="bottom" secondItem="Uoc-5e-Y6S" secondAttribute="bottom" id="Csv-gA-I5q"/>

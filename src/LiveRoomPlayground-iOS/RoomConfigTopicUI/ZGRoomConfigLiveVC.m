@@ -1,48 +1,45 @@
 //
-//  JoinLiveViewController.m
+//  ZGRoomConfigLiveVC.m
 //  LiveRoomPlayground-iOS
 //
-//  Created by jeffreypeng on 2019/7/12.
+//  Created by jeffreypeng on 2019/12/1.
 //  Copyright © 2019 Zego. All rights reserved.
 //
+#ifdef _Module_RoomConfigLive
 
-#ifdef _Module_JoinLive
-
-#import "ZGJoinLiveViewController.h"
-#import "ZGJoinLiveDemo.h"
+#import "ZGRoomConfigLiveVC.h"
 #import "ZGJoinLiveUserRenderViewRelation.h"
 
 
 // 每行显示播放视图数目
-const NSInteger JoinLiveDemoRenderViewDisplayColumnPerRow = 3;
+const NSInteger ZGRoomConfigTopicLiveRenderViewDisplayColumnPerRow = 3;
 // 播放视图间距
-const CGFloat JoinLiveDemoRenderViewSpacing = 8.f;
+const CGFloat ZGRoomConfigTopicLiveRenderViewSpacing = 8.f;
 
-@interface ZGJoinLiveViewController () <JoinLiveDemoDataSource, JoinLiveDemoDelegate>
+@interface ZGRoomConfigLiveVC () <JoinLiveDemoDataSource, JoinLiveDemoDelegate>
 
 @property (nonatomic, weak) IBOutlet UISwitch *cameraSwitch;
 @property (nonatomic, weak) IBOutlet UISwitch *micSwitch;
 
-// 连麦按钮
-@property (nonatomic, weak) IBOutlet UIButton *joinLiveButn;
-
 // 用户视频容器视图，用户的视频视图需要添加在该容器视图中
 @property (nonatomic, weak) IBOutlet UIView *userLiveContainerView;
 
-@property (nonatomic, copy) NSString *localLiveStreamID;
 @property (nonatomic) NSMutableArray<ZGJoinLiveUserRenderViewRelation*> *userRenderViewRelationList;
 
 @property (nonatomic, assign) NSInteger viewAppearNum;
 
 @end
 
-@implementation ZGJoinLiveViewController
+@implementation ZGRoomConfigLiveVC
+
++ (instancetype)fromStoryboard {
+    return [[UIStoryboard storyboardWithName:@"RoomConfigTopic" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([ZGRoomConfigLiveVC class])];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
 #if DEBUG
-    NSAssert(self.roomAnchorID != nil, @"'roomAnchorID' can't be empty.");
     NSAssert(self.roomID != nil, @"'roomID' can't be empty.");
     NSAssert(self.currentUserID != nil, @"'currentUserID' can't be empty.");
     NSAssert(self.joinLiveDemo != nil, @"'joinLiveDemo' can't be nil.");
@@ -50,16 +47,12 @@ const CGFloat JoinLiveDemoRenderViewSpacing = 8.f;
     
     self.userRenderViewRelationList = [NSMutableArray array];
     
-    
-    // 初始化 localLiveStreamID
-    self.localLiveStreamID = [NSString stringWithFormat:@"JoinLiveDemo-s-%@", self.currentUserID];
-    
-    
     // 设置 dataSource 和 delegate
     self.joinLiveDemo.dataSource = self;
     self.joinLiveDemo.delegate = self;
     
     [self setupUI];
+    // 根据角色，进行合适的登录、推拉流逻辑
     [self joinVideoLiveRoom];
 }
 
@@ -79,22 +72,6 @@ const CGFloat JoinLiveDemoRenderViewSpacing = 8.f;
 
 - (IBAction)onToggleMicSwitch:(UISwitch *)sender {
     self.joinLiveDemo.enableMic = sender.isOn;
-}
-
-- (IBAction)joinLiveButnOnClick:(id)sender {
-    
-    if ([self currentUserIsRoomAnchor]) {
-        return;
-    }
-    
-    if (self.joinLiveDemo.localOnLive) {
-        [self.joinLiveDemo stopLocalUserLive];
-        [self removeLocalUserLiveRenderViewRelation];
-    }
-    else if (![self getLocalUserLiveRenderViewRelation]){
-        [self addLocalUserLiveRenderViewRelation];
-        [self.joinLiveDemo startLocalUserLive];
-    }
 }
 
 - (void)userLiveContainerViewTap:(UITapGestureRecognizer *)tapGR {
@@ -133,17 +110,9 @@ const CGFloat JoinLiveDemoRenderViewSpacing = 8.f;
 
 #pragma mark - private methods
 
-/**
- 当前用户是否为房间主播（创建者）
- */
-- (BOOL)currentUserIsRoomAnchor {
-    return [self.roomAnchorID isEqualToString:self.currentUserID];
-}
-
 - (void)setupUI {
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"退出" style:UIBarButtonItemStylePlain target:self action:@selector(closePage:)];
-    self.navigationItem.title = [self currentUserIsRoomAnchor] ? @"主播":@"观众";
-    self.joinLiveButn.hidden = [self currentUserIsRoomAnchor];
+    self.navigationItem.title = self.userRole == ZEGO_ANCHOR ? @"主播":@"观众";
     
     self.cameraSwitch.on = self.joinLiveDemo.enableCamera;
     self.micSwitch.on = self.joinLiveDemo.enableMic;
@@ -152,14 +121,13 @@ const CGFloat JoinLiveDemoRenderViewSpacing = 8.f;
     self.userLiveContainerView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userLiveContainerViewTap:)];
     [self.userLiveContainerView addGestureRecognizer:tapGR];
-    
-    [self invalidateJoinLiveButnUI];
 }
 
 - (void)joinVideoLiveRoom {
-    BOOL isAnchor = [self currentUserIsRoomAnchor];
+    BOOL isAnchor = self.userRole == ZEGO_ANCHOR;
     [ZegoHudManager showNetworkLoading];
     Weakify(self);
+    [self.joinLiveDemo setAudienceCreateRoomEnabled:self.audienceCreateRoomEnabled];
     BOOL result = [self.joinLiveDemo joinLiveRoom:self.roomID userID:self.currentUserID isAnchor:isAnchor callback:^(int errorCode, NSArray<NSString *> *joinTalkUserIDs) {
         [ZegoHudManager hideNetworkLoading];
         Strongify(self);
@@ -169,7 +137,7 @@ const CGFloat JoinLiveDemoRenderViewSpacing = 8.f;
         }
         
         // 房间创建者，在进入房间后，直接开启直播
-        if ([self currentUserIsRoomAnchor]) {
+        if (isAnchor) {
             [self addLocalUserLiveRenderViewRelation];
             [self.joinLiveDemo startLocalUserLive];
         }
@@ -185,16 +153,11 @@ const CGFloat JoinLiveDemoRenderViewSpacing = 8.f;
     }
 }
 
-- (void)invalidateJoinLiveButnUI {
-    BOOL localOnLive = self.joinLiveDemo.localOnLive;
-    [self.joinLiveButn setTitle:localOnLive?@"结束连麦":@"视频连麦" forState:UIControlStateNormal];
-}
-
 - (void)addLocalUserLiveRenderViewRelation {
     ZGJoinLiveUserRenderViewRelation *relation = [ZGJoinLiveUserRenderViewRelation new];
     relation.isLocalUser = YES;
     relation.userID = self.currentUserID;
-    relation.mainShow = [self currentUserIsRoomAnchor];
+    relation.mainShow = self.userRole == ZEGO_ANCHOR;
     
     UIView *renderView = [UIView new];
     relation.renderView = renderView;
@@ -284,8 +247,8 @@ const CGFloat JoinLiveDemoRenderViewSpacing = 8.f;
     }
     
     // 排列小展示视图
-    NSInteger columnPerRow = JoinLiveDemoRenderViewDisplayColumnPerRow;
-    CGFloat viewSpacing = JoinLiveDemoRenderViewSpacing;
+    NSInteger columnPerRow = ZGRoomConfigTopicLiveRenderViewDisplayColumnPerRow;
+    CGFloat viewSpacing = ZGRoomConfigTopicLiveRenderViewSpacing;
     CGFloat playViewWidth = (containerViewSize.width - (columnPerRow + 1)*viewSpacing) /columnPerRow;
     CGFloat playViewHeight = 1.5f * playViewWidth;
     
@@ -390,7 +353,7 @@ const CGFloat JoinLiveDemoRenderViewSpacing = 8.f;
         // 如果不存在 main show，则设置主播的live视图 main show
         __block ZGJoinLiveUserRenderViewRelation *anchorItem = nil;
         [self.userRenderViewRelationList enumerateObjectsUsingBlock:^(ZGJoinLiveUserRenderViewRelation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj.userID isEqualToString:self.roomAnchorID]) {
+            if ([obj.userID isEqualToString:self.currentUserID] && self.userRole == ZEGO_ANCHOR) {
                 anchorItem = obj;
                 *stop = YES;
             }
@@ -435,7 +398,6 @@ const CGFloat JoinLiveDemoRenderViewSpacing = 8.f;
 
 - (void)demo:(ZGJoinLiveDemo *)demo localUserOnLiveUpdated:(BOOL)onLive {
     NSLog(@"本地用户是否在直播。onLive: %@", @(onLive));
-    [self invalidateJoinLiveButnUI];
 }
 
 - (void)demo:(ZGJoinLiveDemo *)demo remoteUserOnLiveUpdated:(BOOL)onLive withUserIDs:(NSArray<NSString*> *)remoteUserIDs {
@@ -458,12 +420,7 @@ const CGFloat JoinLiveDemoRenderViewSpacing = 8.f;
 
 - (void)demo:(ZGJoinLiveDemo *)demo remoteUserLeaveLiveRoom:(NSArray<NSString *> *)userIDs {
     // 远端用户离开房间的回调
-    // 若主播（房间创建者）退出，则弹窗提示并退出
-    if ([userIDs containsObject:self.roomAnchorID]) {
-        [self handleExitRoomWithAlertMessage:@"主播（房间创建者）已退出直播" requestLeaveRoom:YES];
-    }
 }
 
 @end
-
 #endif

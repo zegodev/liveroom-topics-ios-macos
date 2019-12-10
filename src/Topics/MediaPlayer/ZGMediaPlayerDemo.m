@@ -47,9 +47,6 @@ typedef enum {
         
         self.videoCapture = [[ZGVideoCaptureForMediaPlayer alloc] init];
         
-        [ZegoLiveRoomApi enableExternalRender:NO];
-
-        
         self.player = [[ZegoMediaPlayer alloc] initWithPlayerType:MediaPlayerTypeAux];
         [self.player setDelegate:self];
         [self.player setVideoPlayDelegate:self.videoCapture format:ZegoMediaPlayerVideoPixelFormatBGRA32];

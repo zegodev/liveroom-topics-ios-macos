@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *streamID;
 @property (nonatomic, copy) NSArray<NSNumber *> *spectrumList;
-@property (nonatomic, assign) float soundLevel;
+@property (nonatomic, copy) NSNumber *soundLevel;
 
 @end
 

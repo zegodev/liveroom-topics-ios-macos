@@ -5,6 +5,7 @@
 #define _Module_Play @"拉流"
 #define _Module_VideoTalk @"视频通话"
 #define _Module_JoinLive @"直播连麦"
+#define _Module_RoomConfigLive @"选择身份登录房间"
 #define _Module_RoomMessage @"房间消息"
 #define _Module_MixStream @"混流"
 #define _Module_AudioAux @"混音"

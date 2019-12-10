@@ -6,7 +6,7 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
-#ifdef _Module_JoinLive
+#if defined(_Module_JoinLive) || defined(_Module_RoomConfigLive)
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -136,6 +136,9 @@ typedef NS_ENUM(NSUInteger, ZGJoinLiveDemoJoinRoomState) {
  */
 @interface ZGJoinLiveDemo : NSObject
 
+// 观众是否可以创建房间
+@property (nonatomic, readonly) BOOL audienceCreateRoomEnabled;
+
 // 是否启用相机
 @property (nonatomic, readonly) BOOL enableCamera;
 
@@ -176,6 +179,11 @@ typedef NS_ENUM(NSUInteger, ZGJoinLiveDemoJoinRoomState) {
 - (instancetype)initWithAppID:(unsigned int)appID
                       appSign:(NSData *)appSign
               completionBlock:(void(^)(ZGJoinLiveDemo *demo, int errorCode))completionBlock;
+
+/**
+ 设置观众是否可以创建房间
+ */
+- (void)setAudienceCreateRoomEnabled:(BOOL)audienceCreateRoomEnabled;
 
 /**
  启用或停用麦克风。初始化回调的 errorCode == 0 时设置才有效。

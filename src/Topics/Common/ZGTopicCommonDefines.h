@@ -43,4 +43,9 @@ typedef NS_ENUM(NSUInteger, ZGTopicPublishStreamState) {
 // app 共享数据组
 #define ZGAPP_GROUP_NAME @"group.com.zego.doudong.LiveRoomPlayground"
 
+// 宿主 app 的日志目录的完整地址(这里也是 zegoSDK log的默认地址)
+#define ZG_HOST_APP_ZEGO_LOG_DIR_FULLPATH (\
+    [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"ZegoLogs"] \
+    )
+
 #endif /* ZGTopicCommonDefines_h */

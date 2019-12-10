@@ -43,8 +43,8 @@
 }
 
 // 设置声浪 UI, 声浪回调的值的范围是 [0, 100]
-- (void)setSoundLevel:(float)soundLevel {
-    [self.soundLevelView setProgress:(soundLevel / 100) animated:YES];
+- (void)setSoundLevel:(NSNumber *)soundLevel {
+    [self.soundLevelView setProgress:(soundLevel.floatValue / 100) animated:YES];
     _soundLevel = soundLevel;
 }
 
