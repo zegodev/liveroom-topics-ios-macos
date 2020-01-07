@@ -21,6 +21,11 @@
 
 3.如果需要体验外部滤镜，需要在`authpack.h`文件中填写正确的 faceUnity 的证书。
 
+4.因为下载的 SDK 不包含`声浪/音频频谱`模块，使用 Demo 时请把 `ModuleCompileDefine.h` 文件中的相关模块宏定义注释掉。如下处理：
+```
+// #define _Module_SoundLevel @"声浪/音频频谱"
+```
+
 专题目录如下：
 ## 快速开始  
 ### [推流](https://github.com/zegodev/liveroom-topics-ios-macos/tree/master/src/Topics/Common)  
