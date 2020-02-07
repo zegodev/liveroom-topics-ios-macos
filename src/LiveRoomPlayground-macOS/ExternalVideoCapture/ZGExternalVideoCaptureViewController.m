@@ -135,7 +135,7 @@
         } else if (captureSource == 2) {
             // image capture
             if (dataFormat == 2) {
-                _videoCaptureController = [[ZGDemoExternalVideoImageCaptureController alloc] initWithMotionImage:[NSImage imageNamed:@"watermark-zego.png"]];
+                _videoCaptureController = [[ZGDemoExternalVideoImageCaptureController alloc] initWithMotionImage:[NSImage imageNamed:@"ZegoLogo.png"]];
                 _videoCaptureController.delegate = self;
             }
             // 图像 capture source 暂不支持 YUV 的类型

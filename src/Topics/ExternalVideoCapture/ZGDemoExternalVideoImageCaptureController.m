@@ -16,8 +16,8 @@
 @property (nonatomic) UIImage *motionImage;
 #endif
 
+@property (nonatomic, assign) CGImageRef bgraImage;
 @property (assign, nonatomic) NSUInteger fps;
-@property (strong, nonatomic) NSDate *startDate;
 @property (strong, nonatomic) NSTimer *fpsTimer;
 
 @end
@@ -28,6 +28,7 @@
 - (instancetype)initWithMotionImage:(NSImage *)motionImage {
     if (self = [super init]) {
         self.motionImage = motionImage;
+        self.bgraImage = [self CreateBGRAImageFromRGBAImage:[self.motionImage CGImageForProposedRect:nil context:nil hints:nil]];
     }
     return self;
 }
@@ -37,20 +38,24 @@
 - (instancetype)initWithMotionImage:(UIImage *)motionImage {
     if (self = [super init]) {
         self.motionImage = motionImage;
+        self.bgraImage = [self CreateBGRAImageFromRGBAImage:self.motionImage.CGImage];
     }
     return self;
 }
 #endif
 
+- (void)dealloc {
+    CGImageRelease(self.bgraImage);
+}
+
 - (BOOL)start {
     if (!self.fpsTimer) {
-        self.fps = self.fps ?:1;
+        self.fps = self.fps ?:15;
         NSTimeInterval delta = 1.f/self.fps;
         self.fpsTimer = [NSTimer timerWithTimeInterval:delta target:self selector:@selector(captureImage) userInfo:nil repeats:YES];
         [NSRunLoop.mainRunLoop addTimer:self.fpsTimer forMode:NSRunLoopCommonModes];
     }
     
-    self.startDate = NSDate.date;
     [self.fpsTimer fire];
     [self captureImage];//在开始时立即调用一次
     
@@ -62,39 +67,28 @@
         [self.fpsTimer invalidate];
         self.fpsTimer = nil;
     }
-    
-    self.startDate = nil;
 }
+
 
 - (void)captureImage {
     dispatch_sync(dispatch_get_global_queue(0, 0), ^{
-        CGSize contextSize = CGSizeMake(270, 480);
+        CGSize contextSize = CGSizeMake(720, 1280);
         CGSize imgSize = self.motionImage.size;
-        CGFloat OriginX = arc4random()%(uint32_t)(contextSize.width-imgSize.width);
-        CGFloat OriginY = arc4random()%(uint32_t)(contextSize.height-imgSize.height);
-        CGPoint origin = CGPointMake(OriginX, OriginY);
+        CGFloat originX = arc4random()%(uint32_t)(contextSize.width-imgSize.width);
+        CGFloat originY = arc4random()%(uint32_t)(contextSize.height-imgSize.height);
+        CGPoint origin = CGPointMake(originX, originY);
         
-        CGImageRef cgImage;
-#if TARGET_OS_OSX
-        cgImage = [self.motionImage CGImageForProposedRect:nil context:nil hints:nil];
-#elif TARGET_OS_IOS
-        cgImage = self.motionImage.CGImage;
-#endif
+        CVPixelBufferRef pixelBuffer = [self pixelBufferFromCGImage:self.bgraImage contextSize:contextSize imageOrigin:origin];
         
-        CVPixelBufferRef pixel = [self pixelBufferFromCGImage:cgImage contextSize:contextSize imageOrigin:origin];
-        
-        NSUInteger fps = self.fps;
-        NSTimeInterval timeInterval = -self.startDate.timeIntervalSinceNow;
-        int64_t value = timeInterval / fps;
-        CMTime time = CMTimeMake(value, (int32_t)fps);
+        CMTime time = CMTimeMakeWithSeconds([[NSDate date] timeIntervalSince1970], 1000);
         
         id<ZGDemoExternalVideoCaptureControllerDelegate> delegate = self.delegate;
         if (delegate &&
             [delegate respondsToSelector:@selector(externalVideoCaptureController:didCapturedData:presentationTimeStamp:)]) {
-            [delegate externalVideoCaptureController:self didCapturedData:pixel presentationTimeStamp:time];
+            [delegate externalVideoCaptureController:self didCapturedData:pixelBuffer presentationTimeStamp:time];
         }
         
-        CVPixelBufferRelease(pixel);
+        CVPixelBufferRelease(pixelBuffer);
     });
 }
 
@@ -102,26 +96,14 @@
     CVReturn status;
     CVPixelBufferRef pixelBuffer;
     
-    CFDictionaryRef empty = CFDictionaryCreate(kCFAllocatorDefault,
-                                               NULL, NULL, 0,
-                                               &kCFTypeDictionaryKeyCallBacks,
-                                               &kCFTypeDictionaryValueCallBacks);
-    
-    CFMutableDictionaryRef attrs = CFDictionaryCreateMutable(kCFAllocatorDefault,
-                                                             1,
-                                                             &kCFTypeDictionaryKeyCallBacks,
-                                                             &kCFTypeDictionaryValueCallBacks);
-    
-    CFDictionarySetValue(attrs, kCVPixelBufferIOSurfacePropertiesKey, empty);
+    NSDictionary *pixelBufferAttributes = @{(id)kCVPixelBufferIOSurfacePropertiesKey: [NSDictionary dictionary]};
     
     status = CVPixelBufferCreate(kCFAllocatorDefault,
                                  contextSize.width,
                                  contextSize.height,
                                  kCVPixelFormatType_32BGRA,
-                                 attrs,
+                                 (__bridge CFDictionaryRef)pixelBufferAttributes,
                                  &pixelBuffer);
-    CFRelease(attrs);
-    CFRelease(empty);
     
     if (status != kCVReturnSuccess) {
         return NULL;
@@ -130,9 +112,11 @@
     time_t currentTime = time(0);
     
     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
-    void *data = CVPixelBufferGetBaseAddress(pixelBuffer);
-    char color[4] = {0};
     
+    void *data = CVPixelBufferGetBaseAddress(pixelBuffer);
+    
+    // Random Background Color
+    char color[4] = {0};
     color[0] = (currentTime * 1) % 0xFF;
     color[1] = (currentTime * 2) % 0xFF;
     color[2] = (currentTime * 3) % 0xFF;
@@ -159,13 +143,10 @@
                                                  rgbColorSpace,
                                                  kCGImageAlphaPremultipliedLast);
     
-    CGImageRef bgraImage = [self CreateBGRAImageFromRGBAImage:image];
-    
     CGContextDrawImage(context,
                        CGRectMake(origin.x, origin.y, CGImageGetWidth(image), CGImageGetHeight(image)),
-                       bgraImage);
+                       image);
     
-    CGImageRelease(bgraImage);
     CGContextRelease(context);
     CGColorSpaceRelease(rgbColorSpace);
     

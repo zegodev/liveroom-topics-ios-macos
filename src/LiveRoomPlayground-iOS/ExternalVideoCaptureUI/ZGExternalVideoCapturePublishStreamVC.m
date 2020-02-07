@@ -103,7 +103,7 @@
         } else if (self.captureSource == 2) {
             // image capture, FIXME: 还不支持该类型
             if (self.captureDataFormat == 2) {
-                _videoCaptureController = [[ZGDemoExternalVideoImageCaptureController alloc] initWithMotionImage:[UIImage imageNamed:@"watermark-zego.png"]];
+                _videoCaptureController = [[ZGDemoExternalVideoImageCaptureController alloc] initWithMotionImage:[UIImage imageNamed:@"ZegoLogo.png"]];
                 _videoCaptureController.delegate = self;
             }
             // 图像 capture source 暂不支持 YUV 的类型

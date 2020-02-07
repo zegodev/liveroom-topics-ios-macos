@@ -192,9 +192,11 @@
     [self.mediaPlayer setProcessInterval:500];
     [self.mediaPlayer setDelegate:self];
     
-    // 由于 CVPixelBuffer 的限制，现在只支持将 BGRA，i420，NV12 格式转为 CVPixelBuffer
+    // Warning:由于 CVPixelBuffer 的限制，现在只支持将 BGRA，i420，NV12 格式转为 CVPixelBuffer
+    // 所以请 iOS 开发者选择 BGRA，i420，NV12 类型
     [self.mediaPlayer setVideoPlayDelegate:self format:ZegoMediaPlayerVideoPixelFormatNV12];
-    [self.mediaPlayer requireHWDecoder];
+    BOOL ret = [self.mediaPlayer requireHWDecoder];
+    NSLog(@"requireHWDecoder.ret:%d", ret);
     
     [self.mediaPlayer setView:self.mediaRenderView];
     [self.mediaPlayer setVolume:self.playVolume];
@@ -249,6 +251,8 @@
         
         ZegoAVConfig* config = [[ZegoAVConfig alloc] init];
         config.videoEncodeResolution = currentEncodeResolution;
+        config.bitrate = 1200*1000;
+        config.fps = 15;
         [self->_zegoApi setAVConfig:config];
     }
     

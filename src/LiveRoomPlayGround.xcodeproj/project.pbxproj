@@ -290,6 +290,8 @@
 		86AE3BAD22F08B8B0013C721 /* ZGVideoFilterSyncDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AE3BAC22F08B8B0013C721 /* ZGVideoFilterSyncDemo.m */; };
 		86AE3BB022F08C3F0013C721 /* ZGVideoFilterI420Demo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AE3BAF22F08C3F0013C721 /* ZGVideoFilterI420Demo.m */; };
 		86AE3BB422F17E0B0013C721 /* ZGImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AE3BB322F17E0B0013C721 /* ZGImageUtils.m */; };
+		86B2E72B23CC1FA300B7CC19 /* ZegoLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 86B2E72A23CC1FA300B7CC19 /* ZegoLogo.png */; };
+		86B2E72C23CC1FA300B7CC19 /* ZegoLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 86B2E72A23CC1FA300B7CC19 /* ZegoLogo.png */; };
 		86D43E9922E1D5B400DC36BE /* ExternalVideoFilter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86D43E9822E1D5B400DC36BE /* ExternalVideoFilter.storyboard */; };
 		86D43E9C22E1D62900DC36BE /* ZGExternalVideoFilterLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D43E9B22E1D62900DC36BE /* ZGExternalVideoFilterLoginViewController.m */; };
 		86D43E9F22E1DBDD00DC36BE /* ZGExternalVideoFilterDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D43E9E22E1DBDD00DC36BE /* ZGExternalVideoFilterDemo.m */; };
@@ -846,6 +848,7 @@
 		86AE3BAF22F08C3F0013C721 /* ZGVideoFilterI420Demo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGVideoFilterI420Demo.m; sourceTree = "<group>"; };
 		86AE3BB222F17E0B0013C721 /* ZGImageUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGImageUtils.h; sourceTree = "<group>"; };
 		86AE3BB322F17E0B0013C721 /* ZGImageUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGImageUtils.m; sourceTree = "<group>"; };
+		86B2E72A23CC1FA300B7CC19 /* ZegoLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ZegoLogo.png; sourceTree = "<group>"; };
 		86D43E9822E1D5B400DC36BE /* ExternalVideoFilter.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ExternalVideoFilter.storyboard; sourceTree = "<group>"; };
 		86D43E9A22E1D62900DC36BE /* ZGExternalVideoFilterLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGExternalVideoFilterLoginViewController.h; sourceTree = "<group>"; };
 		86D43E9B22E1D62900DC36BE /* ZGExternalVideoFilterLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGExternalVideoFilterLoginViewController.m; sourceTree = "<group>"; };
@@ -2080,6 +2083,7 @@
 			children = (
 				86D4407B22E7171A00DC36BE /* FaceUnityResource */,
 				33984D2521F9A950005D151C /* watermark-zego.png */,
+				86B2E72A23CC1FA300B7CC19 /* ZegoLogo.png */,
 				A77AD6CB21534F31004D0D75 /* ad.mp4 */,
 				A77AD6C921534DEE004D0D75 /* sample_-50_tempo.mp3 */,
 				86EEE73A2306B1E2008CD053 /* sample.wav */,
@@ -2525,6 +2529,7 @@
 				86A73920230D575000F55F25 /* FaceUnity.xcassets in Resources */,
 				A7CCA5E021515BBD00191B55 /* Assets.xcassets in Resources */,
 				338C6A9521C7499E0072C470 /* ZegoMediaRecordViewController.xib in Resources */,
+				86B2E72C23CC1FA300B7CC19 /* ZegoLogo.png in Resources */,
 				A77AD6CC21534F7A004D0D75 /* ad.mp4 in Resources */,
 				A77AD6CA21534DEE004D0D75 /* sample_-50_tempo.mp3 in Resources */,
 				A7CCA6062151F7C300191B55 /* ZGMediaPlayerViewController.xib in Resources */,
@@ -2553,6 +2558,7 @@
 				86D4427E22E71B0C00DC36BE /* mu_eyebrow_16.png in Resources */,
 				86D442A122E71B0D00DC36BE /* mu_blush_01.png in Resources */,
 				861732A022FD84C900FDB15E /* PlayStream.storyboard in Resources */,
+				86B2E72B23CC1FA300B7CC19 /* ZegoLogo.png in Resources */,
 				86D4426E22E71B0C00DC36BE /* mu_eyebrow_19.png in Resources */,
 				3351F1E321991DA500C50E28 /* SVC.storyboard in Resources */,
 				8620EC78230D613E00FD0841 /* MediaSideInfo.storyboard in Resources */,

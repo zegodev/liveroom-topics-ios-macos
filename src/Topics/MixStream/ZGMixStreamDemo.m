@@ -24,6 +24,7 @@
 @property (nonatomic, copy) NSString *localUserID;
 @property (nonatomic, copy) NSString *currentMixStreamID;
 @property (nonatomic, assign) BOOL onMixStream;
+@property (nonatomic, copy) NSArray<ZegoMixStreamOutput*> *currentMixConfOutputList;
 
 // 远程用户的流列表
 @property (nonatomic) NSMutableArray<ZegoStream *> *remoteUserStreams;
@@ -272,6 +273,7 @@
     int seq = [_zegoStreamMixer mixStreamEx:mixConfig mixStreamID:mixStreamID];
     if (seq > 0) {
         self.currentMixStreamID = mixStreamID;
+        self.currentMixConfOutputList = [mixConfig.outputList copy];
         [self updateOnMixStream:YES];
     }
     else {
@@ -397,6 +399,9 @@
     if (mixStreamID.length > 0 && _zegoStreamMixer) {
         ZegoMixStreamConfig *emptyConfig = [ZegoMixStreamConfig new];
         emptyConfig.inputStreamList = [NSMutableArray array];
+        if (self.currentMixConfOutputList) {
+            emptyConfig.outputList = [NSMutableArray arrayWithArray:self.currentMixConfOutputList];
+        }
         int seq = [_zegoStreamMixer mixStreamEx:emptyConfig mixStreamID:mixStreamID];
         if (seq > 0) {
             [self updateOnMixStream:NO];

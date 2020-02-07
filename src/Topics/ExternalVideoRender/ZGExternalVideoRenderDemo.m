@@ -54,7 +54,7 @@
         [ZegoExternalVideoRender enableExternalVideoRender:YES type:VideoExternalRenderTypeDecodeRgbSeries];
         [ZegoExternalVideoRender.sharedInstance setExternalVideoRenderDelegate:self];
         
-        _image = [ZGImage imageNamed:@"watermark-zego.png"];
+        _image = [ZGImage imageNamed:@"ZegoLogo.png"];
     }
     return self;
 }

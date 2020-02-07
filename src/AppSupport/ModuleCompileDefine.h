@@ -9,7 +9,7 @@
 #define _Module_RoomMessage @"房间消息"
 #define _Module_MixStream @"混流"
 #define _Module_AudioAux @"混音"
-#define _Module_SoundLevel @"声浪/音频频谱"
+//#define _Module_SoundLevel @"声浪/音频频谱"
 #define _Module_MediaPlayer @"媒体播放器"
 #define _Module_MediaSideInfo @"媒体次要信息"
 #define _Module_ScalableVideoCoding @"分层编码"
