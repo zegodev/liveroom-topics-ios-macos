@@ -21,9 +21,9 @@
 
 3.如果需要体验外部滤镜，需要在`authpack.h`文件中填写正确的 faceUnity 的证书。
 
-4.因为下载的 SDK 不包含`声浪/音频频谱`模块，使用 Demo 时请把 `ModuleCompileDefine.h` 文件中的相关模块宏定义注释掉，否则会编译不过。如下处理：
+4.本Demo包含了`声浪（频率功率谱）`模块，若需要体验，请先联系Zego 技术支持获取带`声浪（频率功率谱）`功能的 SDK，并把Demo中 `ModuleCompileDefine.h` 文件中 `_Module_SoundLevel` 宏打开，这样就可以在Demo首页的模块列表中出现`声浪/音频频谱`入口进行体验，如下处理：
 ```
-// #define _Module_SoundLevel @"声浪/音频频谱"
+#define _Module_SoundLevel @"声浪/音频频谱"
 ```
 
 专题目录如下：
