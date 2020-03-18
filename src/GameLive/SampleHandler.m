@@ -10,15 +10,13 @@
 #import "SampleHandler.h"
 #import "ZGLiveReplayManager.h"
 
+#define GameLiveSampleHandlerLogCapturedAudioSampleInfo 0
+
 @implementation SampleHandler
 
 - (void)broadcastStartedWithSetupInfo:(NSDictionary<NSString *,NSObject *> *)setupInfo {
-    // User has requested to start the broadcast. Setup info from the UI extension can be supplied but optional.
-    NSString *liveTitle = (NSString *)setupInfo[@"title"];
-    CGFloat videoWidth = [(NSNumber *)setupInfo[@"width"] floatValue] != 0 ? [(NSNumber *)setupInfo[@"width"] floatValue] : [[UIScreen mainScreen] bounds].size.width;
-    CGFloat videoHeight = [(NSNumber *)setupInfo[@"height"] floatValue] != 0 ? [(NSNumber *)setupInfo[@"height"] floatValue] : [[UIScreen mainScreen] bounds].size.height;
-    
-    [ZGLiveReplayManager.sharedInstance startLiveWithTitle:liveTitle videoSize:CGSizeMake(videoWidth, videoHeight)];
+    CGSize videoSize = CGSizeMake(720, 1280);
+    [ZGLiveReplayManager.sharedInstance startLiveWithTitle:@"" videoSize:videoSize];
 }
 
 - (void)broadcastPaused {
@@ -37,6 +35,10 @@
 
 - (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer withType:(RPSampleBufferType)sampleBufferType {
     
+#if GameLiveSampleHandlerLogCapturedAudioSampleInfo
+    [self logAudioSampleBuffer:sampleBuffer withType:sampleBufferType];
+#endif
+    
     switch (sampleBufferType) {
         case RPSampleBufferTypeVideo:
             // Handle audio sample buffer
@@ -54,6 +56,22 @@
         default:
             break;
     }
+}
+
+- (void)logAudioSampleBuffer:(CMSampleBufferRef)sampleBuffer withType:(RPSampleBufferType)sampleBufferType {
+    if (!sampleBuffer) return;
+    if (sampleBufferType != RPSampleBufferTypeAudioMic
+        && sampleBufferType != RPSampleBufferTypeAudioApp) {
+        return;
+    }
+    
+    CMFormatDescriptionRef formatDescription =
+      CMSampleBufferGetFormatDescription(sampleBuffer);
+    const AudioStreamBasicDescription* const asbd =
+      CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription);
+
+    NSString *typeStr = sampleBufferType == RPSampleBufferTypeAudioMic?@"Mic":@"App";
+    NSLog(@"audio[%@]: sampleRate:%0.5f, channel:%d, bytes:%d", typeStr, asbd->mSampleRate, asbd->mChannelsPerFrame, asbd-> mBytesPerFrame);
 }
 
 

@@ -9,7 +9,7 @@
 
 #import "ZGMediaPlayerVideoDataToPixelBufferConverter.h"
 #import "ZGCVPixelBufferHelper.h"
-#import <sys/time.h>
+#import "CMTimeHelper.h"
 #import <memory>
 
 @interface ZGMediaPlayerVideoDataToPixelBufferConverter ()
@@ -27,17 +27,9 @@
     return self;
 }
 
-+ (CMTime)getCurrentTimestamp {
-    struct timeval tv_now;
-    gettimeofday(&tv_now, NULL);
-    unsigned long long t = (unsigned long long)(tv_now.tv_sec) * 1000 + tv_now.tv_usec / 1000;
-    CMTime timestamp = CMTimeMakeWithSeconds(t, 1000);
-    return timestamp;
-}
-
 - (void)convertRGBCategoryDataToPixelBufferWithVideoData:(const char *)data size:(int)size format:(ZegoMediaPlayerVideoDataFormat)format completion:(ZGMediaPlayerVideoDataToPixelBufferConvertCompletion)completion {
     // 注意：不要在另外的线程处理 data，因为 data 可能会被释放
-    CMTime timestamp = [self.class getCurrentTimestamp];
+    CMTime timestamp = [CMTimeHelper getCurrentTimestamp];
     CVPixelBufferRef pixelBuffer = NULL;
     switch (format.pixelFormat) {
         case ZegoMediaPlayerVideoPixelFormatBGRA32:

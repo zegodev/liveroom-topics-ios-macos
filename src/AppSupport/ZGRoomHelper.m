@@ -10,7 +10,7 @@
 
 @implementation ZGRoomHelper
 
-+ (NSString *)zegoQueryRoomListUrlWithAppID:(unsigned int)appID isTestEnv:(BOOL)isTestEnv; {
++ (NSString *)zegoQueryRoomListUrlWithAppID:(unsigned int)appID isTestEnv:(BOOL)isTestEnv {
     NSString *baseUrl = nil;
     if (isTestEnv) {
         baseUrl = @"https://test2-liveroom-api.zego.im";

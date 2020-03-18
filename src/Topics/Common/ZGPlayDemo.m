@@ -170,7 +170,7 @@
     //拉流质量更新, 回调频率默认3秒一次
     //可通过 -setPlayQualityMonitorCycle: 修改回调频率
     
-    ZGLogDebug(@"拉流质量回调,streamID:%@,fps:%f,videoBitrate:%f,audioBitrate:%f",streamID, quality.fps, quality.kbps, quality.akbps);
+    ZGLogDebug(@"拉流质量回调,streamID:%@,vdecFps:%f,videoBitrate:%f,audioBitrate:%f",streamID, quality.vdecFps, quality.kbps, quality.akbps);
     
     if ([self.delegate respondsToSelector:@selector(onPlayQualityUpdate:quality:)]) {
         [self.delegate onPlayQualityUpdate:streamID quality:quality];

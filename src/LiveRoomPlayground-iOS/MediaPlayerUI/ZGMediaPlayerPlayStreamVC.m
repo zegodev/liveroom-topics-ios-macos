@@ -122,7 +122,7 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality {
     // 观看质量更新
-    NSLog(@"拉流质量。fps:%f,videoBitrate:%f, quanlity:%d", quality.fps, quality.kbps, quality.quality);
+    NSLog(@"拉流质量。vdecFps:%f,videoBitrate:%f, quanlity:%d", quality.vdecFps, quality.kbps, quality.quality);
 }
 
 @end

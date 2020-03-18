@@ -77,7 +77,7 @@ typedef void (*CFTypeDeleter)(CFTypeRef cf);
 - (void)onPlayVideoData:(const char *)data size:(int)size format:(ZegoMediaPlayerVideoDataFormat)format {
     struct timeval tv_now;
     gettimeofday(&tv_now, NULL);
-    unsigned long long t = (unsigned long long)(tv_now.tv_sec) * 1000 + tv_now.tv_usec / 1000;
+    unsigned long long timeMS = (unsigned long long)(tv_now.tv_sec) * 1000 + tv_now.tv_usec / 1000;
     
     CVPixelBufferRef pixelBuffer = [self createInputBufferWithWidth:format.width height:format.height stride:format.strides[0]];
     if (pixelBuffer == NULL) return;
@@ -98,7 +98,7 @@ typedef void (*CFTypeDeleter)(CFTypeRef cf);
     
     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
     
-    [self handleFrame:pixelBuffer time:t];
+    [self handleFrame:pixelBuffer time:timeMS];
 }
 
 #pragma mark - Private
@@ -145,8 +145,8 @@ typedef void (*CFTypeDeleter)(CFTypeRef cf);
     return pixelBuffer;
 }
 
-- (void)handleFrame:(CVPixelBufferRef)frame time:(unsigned long long)t {
-    CMTime pts = CMTimeMakeWithSeconds(t, 1000);
+- (void)handleFrame:(CVPixelBufferRef)frame time:(unsigned long long)timeMS {
+    CMTime pts = CMTimeMake(timeMS, 1000);
     std::lock_guard<std::mutex> lg(capture_lock_);
     if (capture_started_) {
         [client_ onIncomingCapturedData:frame withPresentationTimeStamp:pts];

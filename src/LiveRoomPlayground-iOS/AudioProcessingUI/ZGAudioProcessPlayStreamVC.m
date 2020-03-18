@@ -8,7 +8,6 @@
 #ifdef _Module_AudioProcessing
 
 #import "ZGAudioProcessPlayStreamVC.h"
-#import "ZGExternalVideoCapturePlayStreamVC.h"
 #import <ZegoLiveRoom/ZegoLiveRoom.h>
 #import "ZGAppGlobalConfigManager.h"
 #import "ZGAppSignHelper.h"

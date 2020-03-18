@@ -5,6 +5,7 @@
 //  Created by Paaatrick on 2019/8/20.
 //  Copyright © 2019 Zego. All rights reserved.
 //
+#ifdef _Module_ExternalVideoFilter
 
 #import "ZGExternalVideoFilterViewController.h"
 #import "ZGExternalVideoFilterConfigViewController.h"
@@ -192,3 +193,5 @@ static NSString *ZGEVFStreamID = @"ZGEVFStreamID";
 
 
 @end
+
+#endif

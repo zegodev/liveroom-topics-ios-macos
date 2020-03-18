@@ -19,4 +19,6 @@
 #define _Module_ExternalVideoFilter @"自定义前处理(FaceUnity)"
 #define _Module_AudioProcessing @"变声、混响、立体声"
 
+#define _Module_SDKAPITest @"SDK API 原子化测试"
+
 #endif

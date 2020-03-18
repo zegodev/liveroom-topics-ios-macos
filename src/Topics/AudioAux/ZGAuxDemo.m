@@ -202,7 +202,7 @@
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality {
     //    ZGLogInfo(@"拉流质量更新:分辨率:%dx%d, 帧率:%ffps, 码率:%fkbps", quality.height, quality.width, quality.fps, quality.kbps);
     if ([self.delegate respondsToSelector:@selector(onAuxPlayQualityUpdate:)]) {
-        NSString *qualityString = [NSString stringWithFormat:@"分辨率：%dx%d \n帧率：%.2f fps \n码率：%.2f kbps", quality.height, quality.width, quality.fps, quality.kbps];
+        NSString *qualityString = [NSString stringWithFormat:@"分辨率：%dx%d \n帧率：%.2f vdecFps \n码率：%.2f kbps", quality.height, quality.width, quality.vdecFps, quality.kbps];
         [self.delegate onAuxPlayQualityUpdate:qualityString];
     }
 }

@@ -402,9 +402,12 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality {
     NSMutableString *text = [NSMutableString string];
-    [text appendFormat:@"帧率：%d \n", (int)quality.fps];
+    [text appendFormat:@"帧率：%d \n", (int)quality.vdecFps];
     [text appendFormat:@"码率:%.2f kb/s \n", quality.kbps];
     [text appendFormat:@"分辨率:%dx%d", quality.width, quality.height];
+#ifdef DEBUG
+    NSLog(@"拉流质量。fps:%d vdjFps:%d vdecFps:%d vrndFps:%d", (int)quality.fps, (int)quality.vdjFps, (int)quality.vdecFps, (int)quality.vrndFps);
+#endif
     self.playLiveQualityLabel.text = [text copy];
 }
 

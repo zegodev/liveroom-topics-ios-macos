@@ -14,6 +14,8 @@
 #import "ZGTopicCommonDefines.h"
 #import <SSZipArchive/SSZipArchive.h>
 
+#define APP_GLOBAL_CONFIG_HIDE_APPID_SIGN 0
+
 @interface ZGAppGlobalConfigViewController () <UIDocumentInteractionControllerDelegate>
 
 @property (strong, nonatomic) UIDocumentInteractionController *documentController;
@@ -118,19 +120,6 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 2) {
-        if (indexPath.row == 0) {
-            [self openWebRTCURLTestPage];
-        } else if (indexPath.row == 1) {
-            [self zipReplayKitUploadExtensionSDKLogAndPresentSharePage];
-        } else if (indexPath.row == 2) {
-            [self clearHostAppZegoSDKLog];
-        }
-    }
-}
-
 - (void)clearHostAppZegoSDKLog {
     NSLog(@"begin clearHostAppZegoSDKLog");
     NSArray<NSString*> *srcLogFiles = [self zegoSDKLogFilesInDir:ZG_HOST_APP_ZEGO_LOG_DIR_FULLPATH];
@@ -217,6 +206,33 @@
             }
         });
     });
+}
+
+#pragma mark - table delegate & data source
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+#if APP_GLOBAL_CONFIG_HIDE_APPID_SIGN
+    NSUInteger row = indexPath.row;
+    if (indexPath.section == 0) {
+        if (row == 0 || row == 1) {
+            return 0.0f;
+        }
+    }
+#endif
+    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 2) {
+        if (indexPath.row == 0) {
+            [self openWebRTCURLTestPage];
+        } else if (indexPath.row == 1) {
+            [self zipReplayKitUploadExtensionSDKLogAndPresentSharePage];
+        } else if (indexPath.row == 2) {
+            [self clearHostAppZegoSDKLog];
+        }
+    }
 }
 
 #pragma mark - UIDocumentInteractionControllerDelegate

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1000"
+   LastUpgradeVersion = "1130"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,7 +17,7 @@
                BlueprintIdentifier = "A7CCA5D821515BBB00191B55"
                BuildableName = "LiveRoomPlayground-macOS.app"
                BlueprintName = "LiveRoomPlayground-macOS"
-               ReferencedContainer = "container:LiveRoomPlayGround.xcodeproj">
+               ReferencedContainer = "container:LiveRoomPlayground.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,17 +29,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A7CCA5D821515BBB00191B55"
-            BuildableName = "LiveRoomPlayground-macOS.app"
-            BlueprintName = "LiveRoomPlayground-macOS"
-            ReferencedContainer = "container:LiveRoomPlayGround.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -58,16 +47,9 @@
             BlueprintIdentifier = "A7CCA5D821515BBB00191B55"
             BuildableName = "LiveRoomPlayground-macOS.app"
             BlueprintName = "LiveRoomPlayground-macOS"
-            ReferencedContainer = "container:LiveRoomPlayGround.xcodeproj">
+            ReferencedContainer = "container:LiveRoomPlayground.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <AdditionalOptions>
-         <AdditionalOption
-            key = "NSZombieEnabled"
-            value = "YES"
-            isEnabled = "YES">
-         </AdditionalOption>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -82,7 +64,7 @@
             BlueprintIdentifier = "A7CCA5D821515BBB00191B55"
             BuildableName = "LiveRoomPlayground-macOS.app"
             BlueprintName = "LiveRoomPlayground-macOS"
-            ReferencedContainer = "container:LiveRoomPlayGround.xcodeproj">
+            ReferencedContainer = "container:LiveRoomPlayground.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

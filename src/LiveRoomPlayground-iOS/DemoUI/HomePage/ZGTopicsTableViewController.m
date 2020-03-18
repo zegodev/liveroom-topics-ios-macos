@@ -75,6 +75,9 @@
 #ifdef _Module_AudioProcessing
     [advancedTopicList addObject:_Module_AudioProcessing];
 #endif
+#ifdef _Module_SDKAPITest
+    [advancedTopicList addObject:_Module_SDKAPITest];
+#endif
     
     _topicList = topicList;
 }
@@ -246,9 +249,17 @@
         vc = [sb instantiateInitialViewController];
     }
     #endif
+    
 #ifdef _Module_AudioProcessing
     if ([topicName isEqualToString:_Module_AudioProcessing]) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"AudioProcessing" bundle:nil];
+        vc = [sb instantiateInitialViewController];
+    }
+#endif
+    
+#ifdef _Module_SDKAPITest
+    if ([topicName isEqualToString:_Module_SDKAPITest]) {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"SDKAPITest" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
 #endif

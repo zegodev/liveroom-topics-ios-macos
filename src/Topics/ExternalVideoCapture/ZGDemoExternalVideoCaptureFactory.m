@@ -12,7 +12,7 @@
 
 @interface ZGDemoExternalVideoCaptureFactory () <ZegoVideoCaptureDevice>
 {
-    dispatch_queue_t _postDataQueue;
+    dispatch_queue_t _clientQueue;
 }
 
 @property (nonatomic) id<ZegoVideoCaptureClientDelegate> client;
@@ -25,7 +25,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _postDataQueue = dispatch_queue_create("com.doudong.ZGDemoExternalVideoCaptureFactory.postDataQueue", DISPATCH_QUEUE_SERIAL);
+        _clientQueue = dispatch_queue_create("com.doudong.ZGDemoExternalVideoCaptureFactory.ClientQueue", DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }
@@ -33,7 +33,7 @@
 - (void)postCapturedData:(CVImageBufferRef)image withPresentationTimeStamp:(CMTime)time {
     if (!image) return;
     CVBufferRetain(image);
-    dispatch_async(_postDataQueue, ^{
+    dispatch_async(_clientQueue, ^{
         if (self.isCapture) {
             [self.client onIncomingCapturedData:image withPresentationTimeStamp:time];
         }
@@ -53,6 +53,11 @@
 
 - (void)destoryResource {
     [self stopCapture];
+    
+    // 同步_clientQueue，在 client destroy 前停止 client 向SDK继续塞数据
+    dispatch_sync(_clientQueue, ^{
+        
+    });
     [self.client destroy];
     self.client = nil;
 }
@@ -73,9 +78,10 @@
 
 - (void)zego_allocateAndStart:(nonnull id<ZegoVideoCaptureClientDelegate>)client {
     NSLog(NSLocalizedString(@"%s", nil), __func__);
-    
-    self.client = client;
-    [self.client setFillMode:ZegoVideoFillModeCrop];
+    dispatch_async(_clientQueue, ^{
+        self.client = client;
+        [self.client setFillMode:ZegoVideoFillModeCrop];
+    });
 }
 
 - (void)zego_stopAndDeAllocate {

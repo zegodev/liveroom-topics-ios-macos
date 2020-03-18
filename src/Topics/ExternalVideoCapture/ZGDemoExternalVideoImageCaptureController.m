@@ -7,6 +7,7 @@
 //
 
 #import "ZGDemoExternalVideoImageCaptureController.h"
+#import "CMTimeHelper.h"
 
 @interface ZGDemoExternalVideoImageCaptureController ()
 #if TARGET_OS_OSX
@@ -80,7 +81,7 @@
         
         CVPixelBufferRef pixelBuffer = [self pixelBufferFromCGImage:self.bgraImage contextSize:contextSize imageOrigin:origin];
         
-        CMTime time = CMTimeMakeWithSeconds([[NSDate date] timeIntervalSince1970], 1000);
+        CMTime time = [CMTimeHelper getCurrentTimestamp];
         
         id<ZGDemoExternalVideoCaptureControllerDelegate> delegate = self.delegate;
         if (delegate &&
