@@ -40,6 +40,7 @@
 ### [声浪/音频频谱](https://github.com/zegodev/liveroom-topics-ios-macos/tree/master/src/Topics/SoundLevel)
 ### [媒体播放器 iOS](https://github.com/zegodev/liveroom-topics-ios-macos/tree/master/src/LiveRoomPlayground-iOS/MediaPlayerUI)
 ### [媒体播放器 Macos](https://github.com/zegodev/liveroom-topics-ios-macos/tree/master/src/LiveRoomPlayground-macOS/MediaPlayerUI)
+### [音效播放器 iOS](https://github.com/zegodev/liveroom-topics-ios-macos/tree/master/src/LiveRoomPlayground-iOS/AudioPlayerUI)
 ### [媒体次要信息 iOS](https://github.com/zegodev/liveroom-topics-ios-macos/tree/master/src/LiveRoomPlayground-iOS/MediaSideInfoUI)
 ### [媒体次要信息 Macos](https://github.com/zegodev/liveroom-topics-ios-macos/tree/master/src/LiveRoomPlayground-macOS/MediaSideInfoUI)
 ### [分层视频编码](https://github.com/zegodev/liveroom-topics-ios-macos/tree/master/src/Topics/SVC)
