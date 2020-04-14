@@ -50,57 +50,58 @@
 }
 
 - (void)loadLocalMediaItems {
-    __block BOOL hasAuth = NO;
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunguarded-availability"
-    MPMediaLibraryAuthorizationStatus authStatus = [MPMediaLibrary authorizationStatus];
-    switch (authStatus) {
-        case MPMediaLibraryAuthorizationStatusNotDetermined:
-            [MPMediaLibrary requestAuthorization:^(MPMediaLibraryAuthorizationStatus status) {
-                NSLog(@"%s, %d", __func__, (int)status);
-                if (status == MPMediaLibraryAuthorizationStatusAuthorized) {
+    if (@available(iOS 9.3, *)) {
+        __block BOOL hasAuth = NO;
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wunguarded-availability"
+            MPMediaLibraryAuthorizationStatus authStatus = [MPMediaLibrary authorizationStatus];
+            switch (authStatus) {
+                case MPMediaLibraryAuthorizationStatusNotDetermined:
+                    [MPMediaLibrary requestAuthorization:^(MPMediaLibraryAuthorizationStatus status) {
+                        NSLog(@"%s, %d", __func__, (int)status);
+                        if (status == MPMediaLibraryAuthorizationStatusAuthorized) {
+                            hasAuth = YES;
+                        }
+                    }];
+                    break;
+                    
+                case MPMediaLibraryAuthorizationStatusDenied:
+                case MPMediaLibraryAuthorizationStatusRestricted:
+                    break;
+                case MPMediaLibraryAuthorizationStatusAuthorized:
                     hasAuth = YES;
-                }
-            }];
-            break;
-            
-        case MPMediaLibraryAuthorizationStatusDenied:
-        case MPMediaLibraryAuthorizationStatusRestricted:
-            break;
-        case MPMediaLibraryAuthorizationStatusAuthorized:
-            hasAuth = YES;
-        default:
-            break;
-    }
-#pragma clang diagnostic pop
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSMutableArray<ZGMediaPlayerMediaItem*> *songList = nil;
-        if (hasAuth) {
-            songList = [NSMutableArray array];
-            MPMediaQuery *query = [MPMediaQuery songsQuery];
-            const int MAX_COUNT = 50;
-            int cnt = 0;
-            for (MPMediaItemCollection *collection in query.collections) {
-                for (MPMediaItem *item in collection.items) {
-                    
-                    NSString* title = [item title];
-                    NSString* url = [[item valueForProperty:MPMediaItemPropertyAssetURL] absoluteString];
-                    if (url.length == 0 || title.length == 0) continue;
-                    
-                    [songList addObject:[ZGMediaPlayerMediaItem itemWithFileUrl:url mediaName:title isVideo:NO]];
-                    cnt++;
-                    if (cnt >= MAX_COUNT) break;
-                }
-                if (cnt >= MAX_COUNT) break;
+                default:
+                    break;
             }
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.localItems = [songList copy];
-            [self.tableView reloadData];
-        });
-    });
+        #pragma clang diagnostic pop
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                NSMutableArray<ZGMediaPlayerMediaItem*> *songList = nil;
+                if (hasAuth) {
+                    songList = [NSMutableArray array];
+                    MPMediaQuery *query = [MPMediaQuery songsQuery];
+                    const int MAX_COUNT = 50;
+                    int cnt = 0;
+                    for (MPMediaItemCollection *collection in query.collections) {
+                        for (MPMediaItem *item in collection.items) {
+                            
+                            NSString* title = [item title];
+                            NSString* url = [[item valueForProperty:MPMediaItemPropertyAssetURL] absoluteString];
+                            if (url.length == 0 || title.length == 0) continue;
+                            
+                            [songList addObject:[ZGMediaPlayerMediaItem itemWithFileUrl:url mediaName:title isVideo:NO]];
+                            cnt++;
+                            if (cnt >= MAX_COUNT) break;
+                        }
+                        if (cnt >= MAX_COUNT) break;
+                    }
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.localItems = [songList copy];
+                    [self.tableView reloadData];
+                });
+            });
+    }
 }
 
 #pragma mark - Table view data source

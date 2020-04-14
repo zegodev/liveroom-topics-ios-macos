@@ -152,48 +152,38 @@
 }
 
 + (bool)copyPixelBufferFrom:(CVPixelBufferRef)src to:(CVPixelBufferRef)dst {
-    bool ret = true;
-    
-    CVPixelBufferLockBaseAddress(src, kCVPixelBufferLock_ReadOnly);
-    
-    unsigned char* pb = (unsigned char*)CVPixelBufferGetBaseAddressOfPlane(src, 0);
-    int height = (int)CVPixelBufferGetHeight(src);
-    int stride = (int)CVPixelBufferGetBytesPerRow(src);
-    int size = (int)CVPixelBufferGetDataSize(src);
-    
-    while (1) {
-        CVReturn cvRet = CVPixelBufferLockBaseAddress(dst, 0);
-        if (cvRet != kCVReturnSuccess) {
-            ret = false;
-            break;
-        }
-        
-        int dst_height = (int)CVPixelBufferGetHeight(dst);
-        int dst_stride = (int)CVPixelBufferGetBytesPerRow(dst);
-        int dst_size = (int)CVPixelBufferGetDataSize(dst);
-        
-        if (stride == dst_stride && dst_size == size) {
-            unsigned char* temp = (unsigned char*)CVPixelBufferGetBaseAddressOfPlane(dst, 0);
-            memcpy(temp, pb, size);
-        } else {
-            int copy_height = height > dst_height ? dst_height : height;
-            int copy_stride = stride > dst_stride ? dst_stride : stride;
-            
-            unsigned char* offset_dst = (unsigned char*)CVPixelBufferGetBaseAddressOfPlane(dst, 0);
-            unsigned char* offset_src = pb;
-            for (int i = 0; i < copy_height; i++) {
-                memcpy(offset_dst, offset_src, copy_stride);
-                offset_src += stride;
-                offset_dst += dst_stride;
-            }
-        }
-        
-        CVPixelBufferUnlockBaseAddress(dst, 0);
-        break;
+    CVReturn optRet = kCVReturnSuccess;
+    optRet = CVPixelBufferLockBaseAddress(src, kCVPixelBufferLock_ReadOnly);
+    if (optRet != kCVReturnSuccess) {
+        return optRet;
+    }
+    optRet = CVPixelBufferLockBaseAddress(dst, 0);
+    if (optRet != kCVReturnSuccess) {
+        return optRet;
     }
     
+    size_t planeCount = CVPixelBufferGetPlaneCount(src);
+    if (planeCount == 0) {
+        // non-planar
+        void *p_dst = CVPixelBufferGetBaseAddress(dst);
+        void *p_src = CVPixelBufferGetBaseAddress(src);
+        size_t height = CVPixelBufferGetHeight(src);
+        size_t bytesPerRow = CVPixelBufferGetBytesPerRow(src);
+        memcpy(p_dst, p_src, height * bytesPerRow);
+    } else {
+        // planar
+        for (size_t plane = 0; plane < planeCount; plane++) {
+            void *p_dst = CVPixelBufferGetBaseAddressOfPlane(dst, plane);
+            void *p_src = CVPixelBufferGetBaseAddressOfPlane(src, plane);
+            size_t height = CVPixelBufferGetHeightOfPlane(src, plane);
+            size_t bytesPerRow = CVPixelBufferGetBytesPerRowOfPlane(src, plane);
+            memcpy(p_dst, p_src, height * bytesPerRow);
+        }
+    }
+    
+    CVPixelBufferUnlockBaseAddress(dst, 0);
     CVPixelBufferUnlockBaseAddress(src, kCVPixelBufferLock_ReadOnly);
-    return ret;
+    return optRet == kCVReturnSuccess;
 }
 
 #if TARGET_OS_IOS

@@ -27,7 +27,7 @@
     return self;
 }
 
-- (void)convertRGBCategoryDataToPixelBufferWithVideoData:(const char *)data size:(int)size format:(ZegoMediaPlayerVideoDataFormat)format completion:(ZGMediaPlayerVideoDataToPixelBufferConvertCompletion)completion {
+- (void)convertRGBCategoryDataToPixelBufferWithVideoData:(const char *)data size:(int)size format:(struct ZegoMediaPlayerVideoDataFormat)format completion:(ZGMediaPlayerVideoDataToPixelBufferConvertCompletion)completion {
     // 注意：不要在另外的线程处理 data，因为 data 可能会被释放
     CMTime timestamp = [CMTimeHelper getCurrentTimestamp];
     CVPixelBufferRef pixelBuffer = NULL;
@@ -77,9 +77,9 @@
     }
 }
 
-- (void)convertYUVCategoryDataToPixelBufferWithVideoData:(const char **)data size:(int *)size format:(ZegoMediaPlayerVideoDataFormat)format completion:(ZGMediaPlayerVideoDataToPixelBufferConvertCompletion)completion {
+- (void)convertYUVCategoryDataToPixelBufferWithVideoData:(const char **)data size:(int *)size format:(struct ZegoMediaPlayerVideoDataFormat)format completion:(ZGMediaPlayerVideoDataToPixelBufferConvertCompletion)completion {
     // 注意：不要在另外的线程处理 data，因为 data 可能会被释放
-    CMTime timestamp = [self.class getCurrentTimestamp];
+    CMTime timestamp = [CMTimeHelper getCurrentTimestamp];
     CVPixelBufferRef pixelBuffer = NULL;
     switch (format.pixelFormat) {
         case ZegoMediaPlayerVideoPixelFormatI420:

@@ -7,6 +7,8 @@
 //
 #ifdef _Module_ExternalVideoCapture
 
+#define EXTERNAL_VIDEO_CAPTURE_VERIFY_SIDE_INFO_BACKGROUND 0
+
 #import "ZGExternalVideoCapturePublishStreamVC.h"
 #import <MetalKit/MetalKit.h>
 #import <Metal/Metal.h>
@@ -22,6 +24,13 @@
 #import "ZGUserIDHelper.h"
 #import "Masonry.h"
 
+#if EXTERNAL_VIDEO_CAPTURE_VERIFY_SIDE_INFO_BACKGROUND
+
+#import "ZGMediaSideInfoDemo.h"
+
+#endif
+
+
 @interface ZGExternalVideoCapturePublishStreamVC () <ZGDemoExternalVideoCaptureControllerDelegate, ZegoLivePublisherDelegate>
 
 @property (nonatomic) MTKView *mtkPreviewView;
@@ -30,6 +39,13 @@
 @property (nonatomic) ZGDemoExternalVideoCaptureFactory *externalVideoCaptureFactory;
 
 @property (nonatomic) ZegoLiveRoomApi *zegoApi;
+
+#if EXTERNAL_VIDEO_CAPTURE_VERIFY_SIDE_INFO_BACKGROUND
+
+@property (nonatomic) ZGMediaSideInfoDemo *mediaSideDemo;
+@property (nonatomic) NSTimer *sendSideInfoTimer;
+
+#endif
 
 @end
 
@@ -41,21 +57,54 @@
 
 - (void)dealloc {
     NSLog(@"%@ dealloc.", [self class]);
-    
+#if EXTERNAL_VIDEO_CAPTURE_VERIFY_SIDE_INFO_BACKGROUND
+    [self stopSendSideInfoTimer];
+#endif
     [_videoCaptureController stop];
     [self stopPreview];
     [self.zegoApi stopPublishing];
     [self.zegoApi logoutRoom];
     [ZegoExternalVideoCapture setVideoCaptureFactory:nil channelIndex:ZEGOAPI_CHN_MAIN];
+    NSLog(@"[%@]setVideoCaptureFactory:nil", [NSThread currentThread]);
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"视频外部采集-推流";
+    
     [self setupMtkPreviewViewIfNeed];
     [self setupMetalPreviewRendererIfNeed];
     [self startLive];
 }
+
+#if EXTERNAL_VIDEO_CAPTURE_VERIFY_SIDE_INFO_BACKGROUND
+
+- (void)startSendSideInfoTimer {
+    [_sendSideInfoTimer invalidate];
+    if (!_mediaSideDemo) {
+        ZGMediaSideInfoDemoConfig *conf = [ZGMediaSideInfoDemoConfig new];
+        conf.onlyAudioPublish = NO;
+        conf.customPacket = NO;
+        _mediaSideDemo = [[ZGMediaSideInfoDemo alloc] initWithConfig:conf];
+        [_mediaSideDemo activateMediaSideInfoForPublishChannel:ZEGOAPI_CHN_MAIN];
+    }
+    
+    static uint64_t xx = 0;
+    Weakify(self);
+    _sendSideInfoTimer = [NSTimer timerWithTimeInterval:0.3 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        Strongify(self);
+        NSString *s = [NSString stringWithFormat:@"tick_%llu", xx++];
+        [self->_mediaSideDemo sendMediaSideInfo:[s dataUsingEncoding:NSUTF8StringEncoding] toPublishChannel:ZEGOAPI_CHN_MAIN];
+    }];
+    
+    [[NSRunLoop currentRunLoop] addTimer:_sendSideInfoTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void)stopSendSideInfoTimer {
+    [_sendSideInfoTimer invalidate];
+}
+
+#endif
 
 #pragma mark - private methods
 
@@ -122,7 +171,10 @@
         factory.onStartPreview = ^BOOL{
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (!strongSelf) return NO;
-            return [strongSelf.videoCaptureController start];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [strongSelf.videoCaptureController start];
+            });
+            return YES;
         };
         factory.onStopPreview = ^{
             
@@ -130,9 +182,13 @@
         factory.onStartCapture = ^BOOL{
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (!strongSelf) return NO;
-            return [strongSelf.videoCaptureController start];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [strongSelf.videoCaptureController start];
+            });
+            return YES;
         };
         factory.onStopCapture = ^{
+            NSLog(@"==onStopCapture");
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (!strongSelf) return;
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -171,8 +227,9 @@
     [ZegoLiveRoomApi requireHardwareEncoder:appConfig.openHardwareEncode];
     [ZegoLiveRoomApi requireHardwareDecoder:appConfig.openHardwareDecode];
     
-    // 设置是否使用外部视频采集    
+    // 设置是否使用外部视频采集
     [ZegoExternalVideoCapture setVideoCaptureFactory:self.externalVideoCaptureFactory channelIndex:ZEGOAPI_CHN_MAIN];
+    NSLog(@"[%@]setVideoCaptureFactory:%@", [NSThread currentThread], self.externalVideoCaptureFactory);
     
     // init SDK
     ZGLogInfo(@"请求初始化");
@@ -247,6 +304,9 @@
 - (void)onPublishStateUpdate:(int)stateCode streamID:(NSString *)streamID streamInfo:(NSDictionary *)info {
     if (stateCode == 0) {
         ZGLogInfo(@"推流成功, streamID:%@", streamID);
+#if EXTERNAL_VIDEO_CAPTURE_VERIFY_SIDE_INFO_BACKGROUND
+        [self startSendSideInfoTimer];
+#endif
     } else {
         ZGLogWarn(@"推流失败, streamID:%@", streamID);
     }

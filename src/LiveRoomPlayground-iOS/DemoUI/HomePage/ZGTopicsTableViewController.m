@@ -54,6 +54,9 @@
 #ifdef _Module_MediaPlayer
     [advancedTopicList addObject:_Module_MediaPlayer];
 #endif
+#ifdef _Module_AudioPlayer
+    [advancedTopicList addObject:_Module_AudioPlayer];
+#endif
 #ifdef _Module_MediaSideInfo
     [advancedTopicList addObject:_Module_MediaSideInfo];
 #endif
@@ -204,6 +207,13 @@
     #ifdef _Module_MediaPlayer
     if ([topicName isEqualToString:_Module_MediaPlayer]) {
         UIStoryboard* sb = [UIStoryboard storyboardWithName:@"NewMediaPlayer" bundle:nil];
+        vc = [sb instantiateInitialViewController];
+    }
+    #endif
+
+    #ifdef _Module_AudioPlayer
+    if ([topicName isEqualToString:_Module_AudioPlayer]) {
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"AudioPlayer" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
     #endif

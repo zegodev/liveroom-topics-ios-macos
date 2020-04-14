@@ -65,12 +65,12 @@
 #pragma mark - ZegoVideoCaptureFactory
 
 - (nonnull id<ZegoVideoCaptureDevice>)zego_create:(nonnull NSString*)deviceId {
-    NSLog(NSLocalizedString(@"%s", nil), __func__);
+    NSLog(@"%s.%@", __func__, self);
     return self;
 }
 
 - (void)zego_destroy:(nonnull id<ZegoVideoCaptureDevice>)device {
-    NSLog(NSLocalizedString(@"%s", nil), __func__);
+    NSLog(@"%s. %@", __func__, self);
     [self destoryResource];
 }
 

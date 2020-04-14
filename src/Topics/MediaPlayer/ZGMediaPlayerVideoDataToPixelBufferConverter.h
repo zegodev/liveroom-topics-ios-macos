@@ -27,12 +27,12 @@ typedef void(^ZGMediaPlayerVideoDataToPixelBufferConvertCompletion)(ZGMediaPlaye
 /**
  将播放器播放的RGB类型数据塞给 converter 处理，处理完成后通过 completion 回调输出 CVPixelBufferRef。
  */
-- (void)convertRGBCategoryDataToPixelBufferWithVideoData:(const char *)data size:(int)size format:(ZegoMediaPlayerVideoDataFormat)format completion:(ZGMediaPlayerVideoDataToPixelBufferConvertCompletion)completion;
+- (void)convertRGBCategoryDataToPixelBufferWithVideoData:(const char *)data size:(int)size format:(struct ZegoMediaPlayerVideoDataFormat)format completion:(ZGMediaPlayerVideoDataToPixelBufferConvertCompletion)completion;
 
 /**
  将播放器播放的YUV类型数据塞给 converter 处理，处理完成后将在另一线程中通过 completion 回调输出 CVPixelBufferRef。
  */
-- (void)convertYUVCategoryDataToPixelBufferWithVideoData:(const char **)data size:(int*)size format:(ZegoMediaPlayerVideoDataFormat)format completion:(ZGMediaPlayerVideoDataToPixelBufferConvertCompletion)completion;
+- (void)convertYUVCategoryDataToPixelBufferWithVideoData:(const char **)data size:(int*)size format:(struct ZegoMediaPlayerVideoDataFormat)format completion:(ZGMediaPlayerVideoDataToPixelBufferConvertCompletion)completion;
 
 @end
 

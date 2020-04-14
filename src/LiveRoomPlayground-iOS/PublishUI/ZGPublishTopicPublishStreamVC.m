@@ -19,6 +19,8 @@
 #import <ZegoLiveRoom/ZegoLiveRoomApi.h>
 
 
+#define PUBLISH_TOPIC_PUBLISH_FLAG_JOIN 0
+
 NSString* const ZGPublishTopicPublishStreamVCKey_roomID = @"kRoomID";
 NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
 
@@ -248,7 +250,11 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
         [self appendProcessTipAndMakeVisible:@"登录房间成功"];
         self.loginRoomState = ZGTopicLoginRoomStateLogined;
         ZGLogInfo(@"请求推流,roomID:%@, stremID:%@", roomID, streamID);
-        if ([self.zegoApi startPublishing:streamID title:nil flag:ZEGO_SINGLE_ANCHOR]) {
+        int publishFlag = ZEGO_SINGLE_ANCHOR;
+#if PUBLISH_TOPIC_PUBLISH_FLAG_JOIN
+        publishFlag = ZEGO_JOIN_PUBLISH;
+#endif
+        if ([self.zegoApi startPublishing:streamID title:nil flag:publishFlag]) {
             [self appendProcessTipAndMakeVisible:@"请求推流"];
             self.publishStreamState = ZGTopicPublishStreamStatePublishRequesting;
         } else {
