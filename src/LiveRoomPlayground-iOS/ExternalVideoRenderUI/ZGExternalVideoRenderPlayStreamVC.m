@@ -151,13 +151,10 @@
  @param pixelFormat format type, 用于指定 data 的数据类型
  @streamID 流名
  */
-- (void)onVideoRenderCallback:(unsigned char **)data dataLen:(int*)dataLen width:(int)width height:(int)height strides:(int[])strides pixelFormat:(VideoPixelFormat)pixelFormat streamID:(const char *)streamID {
+- (void)onVideoRenderCallback:(unsigned char **)data dataLen:(int*)dataLen width:(int)width height:(int)height strides:(int[])strides pixelFormat:(VideoPixelFormat)pixelFormat streamID:(NSString *)streamID {
     BOOL handleData = NO;
-    if (streamID) {
-        NSString *st = [[NSString alloc] initWithUTF8String:streamID];
-        if ([st isEqualToString:self.streamID]) {
-            handleData = YES;
-        }
+    if ([streamID isEqualToString:self.streamID]) {
+        handleData = YES;
     }
     
     if (handleData) {

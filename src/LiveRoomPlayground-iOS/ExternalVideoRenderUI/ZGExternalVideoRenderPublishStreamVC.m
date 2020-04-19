@@ -148,17 +148,12 @@
  @param pixelFormat format type, 用于指定 data 的数据类型
  @streamID 流名
  */
-- (void)onVideoRenderCallback:(unsigned char **)data dataLen:(int*)dataLen width:(int)width height:(int)height strides:(int[])strides pixelFormat:(VideoPixelFormat)pixelFormat streamID:(const char *)streamID {
+- (void)onVideoRenderCallback:(unsigned char **)data dataLen:(int*)dataLen width:(int)width height:(int)height strides:(int[])strides pixelFormat:(VideoPixelFormat)pixelFormat streamID:(NSString *)streamID {
     BOOL isPreviewData = NO;
-    if (!streamID) {
+    // 由于是对预览视图进行外部渲染，此时的 streamID 等于 kZegoVideoDataMainPublishingStream 或 kZegoVideoDataAuxPublishingStream
+    if ([streamID isEqualToString:kZegoVideoDataMainPublishingStream] ||
+        [streamID isEqualToString:kZegoVideoDataAuxPublishingStream]) {
         isPreviewData = YES;
-    } else {
-        // 由于是对预览视图进行外部渲染，此时的 streamID 等于 kZegoVideoDataMainPublishingStream 或 kZegoVideoDataAuxPublishingStream
-        NSString *st = [[NSString alloc] initWithUTF8String:streamID];
-        if ([st isEqualToString:kZegoVideoDataMainPublishingStream] ||
-            [st isEqualToString:kZegoVideoDataAuxPublishingStream]) {
-            isPreviewData = YES;
-        }
     }
     
     if (isPreviewData) {
