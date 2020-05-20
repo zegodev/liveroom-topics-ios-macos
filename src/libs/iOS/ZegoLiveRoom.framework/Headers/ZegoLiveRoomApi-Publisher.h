@@ -8,7 +8,6 @@
 
 #import "ZegoLiveRoomApi.h"
 #import "ZegoLiveRoomApiDefines-Publisher.h"
-#import "ZegoVideoCapture.h"
 
 @protocol ZegoLivePublisherDelegate;
 

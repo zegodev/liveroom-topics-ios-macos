@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ES0-h3-e7r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ES0-h3-e7r">
     <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -134,6 +134,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3nX-ix-aXv">
+                                <rect key="frame" x="10" y="823" width="51" height="31"/>
+                                <connections>
+                                    <action selector="switchFrontCameraValueChanged:" destination="ES0-h3-e7r" eventType="valueChanged" id="K4E-KI-axe"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Front Cam" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Axb-J6-URZ">
+                                <rect key="frame" x="10" y="798.5" width="80" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -141,6 +153,7 @@
                             <constraint firstItem="IDT-W5-E6J" firstAttribute="centerX" secondItem="2AE-EM-hT8" secondAttribute="centerX" id="1Ir-gR-tDr"/>
                             <constraint firstItem="Icn-44-Ron" firstAttribute="leading" secondItem="jii-2u-zUh" secondAttribute="leading" id="23O-RT-N7c"/>
                             <constraint firstItem="jii-2u-zUh" firstAttribute="bottom" secondItem="d2n-Lm-aGv" secondAttribute="bottom" constant="8" id="4aS-o3-PLm"/>
+                            <constraint firstItem="3nX-ix-aXv" firstAttribute="top" secondItem="Axb-J6-URZ" secondAttribute="bottom" constant="4" id="5bg-CW-Te4"/>
                             <constraint firstItem="ORg-Dn-MbF" firstAttribute="leading" secondItem="jii-2u-zUh" secondAttribute="leading" constant="20" id="Bo1-6W-wnZ"/>
                             <constraint firstItem="g8i-JS-Ta1" firstAttribute="top" secondItem="bXZ-DK-tNJ" secondAttribute="bottom" constant="2" id="DWC-a6-y8w"/>
                             <constraint firstItem="jii-2u-zUh" firstAttribute="trailing" secondItem="Zd2-Lv-mE8" secondAttribute="trailing" constant="8" id="EQf-51-Bp5"/>
@@ -154,13 +167,17 @@
                             <constraint firstItem="ORg-Dn-MbF" firstAttribute="centerY" secondItem="2AE-EM-hT8" secondAttribute="centerY" id="NfJ-M5-LNI"/>
                             <constraint firstItem="jii-2u-zUh" firstAttribute="trailing" secondItem="d2n-Lm-aGv" secondAttribute="trailing" constant="10" id="OPL-sW-vxO"/>
                             <constraint firstItem="jii-2u-zUh" firstAttribute="trailing" secondItem="x4E-tZ-i0S" secondAttribute="trailing" id="RDj-xy-LLO"/>
+                            <constraint firstItem="Axb-J6-URZ" firstAttribute="leading" secondItem="jii-2u-zUh" secondAttribute="leading" constant="10" id="RMn-nL-uFw"/>
+                            <constraint firstItem="jii-2u-zUh" firstAttribute="bottom" secondItem="3nX-ix-aXv" secondAttribute="bottom" constant="8" id="d5e-d9-bcF"/>
                             <constraint firstItem="jii-2u-zUh" firstAttribute="trailing" secondItem="Icn-44-Ron" secondAttribute="trailing" id="dOl-uL-tE8"/>
                             <constraint firstItem="Plu-vT-cIr" firstAttribute="leading" secondItem="jii-2u-zUh" secondAttribute="leading" constant="20" id="diG-F5-nkM"/>
                             <constraint firstItem="bXZ-DK-tNJ" firstAttribute="top" secondItem="PKU-7Y-Bf8" secondAttribute="bottom" constant="10" id="fWR-tn-mdi"/>
                             <constraint firstItem="x4E-tZ-i0S" firstAttribute="top" secondItem="jii-2u-zUh" secondAttribute="top" id="mIa-dE-RTV"/>
                             <constraint firstItem="jii-2u-zUh" firstAttribute="trailing" secondItem="Bc1-x0-JrM" secondAttribute="trailing" constant="10" id="nkL-Z8-1qI"/>
                             <constraint firstAttribute="trailing" secondItem="ORg-Dn-MbF" secondAttribute="trailing" constant="20" id="tDl-el-iD2"/>
+                            <constraint firstItem="3nX-ix-aXv" firstAttribute="leading" secondItem="jii-2u-zUh" secondAttribute="leading" constant="10" id="u2E-YS-YBE"/>
                             <constraint firstItem="jii-2u-zUh" firstAttribute="trailing" secondItem="Plu-vT-cIr" secondAttribute="trailing" constant="20" id="uS4-ig-uDQ"/>
+                            <constraint firstItem="3nX-ix-aXv" firstAttribute="top" secondItem="Axb-J6-URZ" secondAttribute="bottom" constant="4" id="uYg-vz-QKa"/>
                             <constraint firstItem="x4E-tZ-i0S" firstAttribute="leading" secondItem="jii-2u-zUh" secondAttribute="leading" id="wV4-94-Dur"/>
                             <constraint firstItem="jii-2u-zUh" firstAttribute="bottom" secondItem="Icn-44-Ron" secondAttribute="bottom" id="xdK-pr-YSU"/>
                             <constraint firstItem="jii-2u-zUh" firstAttribute="trailing" secondItem="g8i-JS-Ta1" secondAttribute="trailing" constant="10" id="z61-9z-FM5"/>

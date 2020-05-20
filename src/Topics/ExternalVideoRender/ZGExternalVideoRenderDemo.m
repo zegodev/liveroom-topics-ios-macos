@@ -25,7 +25,13 @@
 #import <ZegoLiveRoom/zego-api-external-video-render-oc.h>
 #endif
 
-@interface ZGExternalVideoRenderDemo () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoLivePlayerDelegate, ZegoExternalVideoRenderDelegate>
+@interface ZGExternalVideoRenderDemo () <
+ZegoRoomDelegate,
+ZegoLivePublisherDelegate,
+ZegoLivePlayerDelegate,
+ZegoVideoRenderDelegate,
+ZegoVideoRenderCVPixelBufferDelegate
+>
 
 @property (assign ,nonatomic) BOOL isLoginRoom;
 @property (assign, nonatomic) BOOL isPreview;
@@ -44,15 +50,20 @@
 
 - (void)dealloc {
     [ZGApiManager releaseApi];
-    [ZegoExternalVideoRender enableExternalVideoRender:NO type:VideoExternalRenderTypeDecodeRgbSeries];
-    [ZegoExternalVideoRender.sharedInstance setExternalVideoRenderDelegate:nil];
+    
+    [ZegoExternalVideoRender enableVideoRender:NO streamID:self.streamID];
+    [ZegoExternalVideoRender.sharedInstance setZegoVideoRenderDelegate:nil];
+    [ZegoExternalVideoRender.sharedInstance setZegoVideoRenderCVPixelBufferDelegate:nil];
+    [ZegoExternalVideoRender setVideoRenderType:VideoRenderTypeNone];
 }
 
 - (instancetype)init {
     if (self = [super init]) {
         [ZGApiManager releaseApi];
-        [ZegoExternalVideoRender enableExternalVideoRender:YES type:VideoExternalRenderTypeDecodeRgbSeries];
-        [ZegoExternalVideoRender.sharedInstance setExternalVideoRenderDelegate:self];
+        [ZegoExternalVideoRender enableVideoRender:YES streamID:self.streamID];
+        [[ZegoExternalVideoRender sharedInstance] setZegoVideoRenderCVPixelBufferDelegate:self];
+        [[ZegoExternalVideoRender sharedInstance] setZegoVideoRenderDelegate:self];
+        [ZegoExternalVideoRender setVideoRenderType:VideoRenderTypeRgb];
         
         _image = [ZGImage imageNamed:@"ZegoLogo.png"];
     }
@@ -405,6 +416,22 @@
     return [NSString stringWithFormat:@"s-%@-%lu", ZGUserIDHelper.userID, currentTime];
 }
 
+
+- (void)onSetFlipMode:(int)mode streamID:(NSString *)streamID {
+    
+}
+
+- (void)onSetRotation:(int)rotation streamID:(NSString *)streamID {
+    
+}
+
+- (void)onVideoRenderCallback:(unsigned char **)data dataLen:(int *)dataLen width:(int)width height:(int)height strides:(int *)strides pixelFormat:(VideoPixelFormat)pixelFormat streamID:(NSString *)streamID {
+    
+}
+
+- (void)onVideoRenderCallback:(CVPixelBufferRef)data streamID:(NSString *)streamID {
+    
+}
 
 @end
 

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreVideo/CoreVideo.h>
 
 @interface ZGCVPixelBufferHelper : NSObject
 

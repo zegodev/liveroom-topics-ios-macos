@@ -8,12 +8,15 @@
 #import <Foundation/Foundation.h>
 #import "ZegoLiveRoomApiDefines.h"
 #import "ZegoLiveRoomApiDefines-IM.h"
+#import "zego-api-defines-oc.h"
 
 @protocol ZegoRoomDelegate;
 @protocol ZegoLiveEventDelegate;
 @protocol ZegoDeviceEventDelegate;
 @protocol ZegoAVEngineDelegate;
 @protocol ZegoLogInfoDelegate;
+@protocol ZegoAudioRouteDelegate;
+@protocol ZegoNetTypeDelegate;
 
 typedef void(^ZegoInitSDKCompletionBlock)(int errorCode);
 typedef void(^ZegoLoginCompletionBlock)(int errorCode, NSArray<ZegoStream*> *streamList);
@@ -263,6 +266,13 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  */
 - (void)resumeModule:(int)moduleType;
 
+/**
+ 设置音频路由回调
+ 
+ @param delegate 回调
+ */
+- (bool)setAudioRouteDelegate:(id<ZegoAudioRouteDelegate>)delegate;
+
 #endif
 
 #if TARGET_OS_OSX
@@ -293,6 +303,15 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  @return 设备信息列表
  */
 - (NSArray<ZegoAPIDeviceInfo *> *)getAudioDeviceList:(ZegoAPIAudioDeviceType)deviceType;
+
+
+/**
+ 获取视频设备支持分辨率列表 mac平台需要在initsdk 回调后方可调用
+ 
+ @param deviceId 设备id
+ @return 设备支持分辨率列表
+ */
+- (NSArray<ZegoAPIDeviceVideoCapabilityInfo *> *)getVideoDevCapabilityList:(NSString *)deviceId;
 
 /**
  获取视频设备列表
@@ -472,6 +491,13 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  @return true 成功, false 失败
  */
 - (bool)setLogInfoDelegate:(id<ZegoLogInfoDelegate>)delegate;
+
+/**
+ 设置网络类型回调
+
+ @param delegate 代理对象
+ */
+- (bool)setNetTypeDelegate:(id<ZegoNetTypeDelegate>)delegate;
 
 @end
 
@@ -694,5 +720,28 @@ typedef enum : NSUInteger {
  @param errorCode 错误码
  */
 - (void)onLogUploadResult:(int)errorCode;
+
+@end
+
+
+@protocol ZegoAudioRouteDelegate <NSObject>
+
+/**
+ 音频路由发生变化
+ 
+ @param audioRoute 当前的音频路由类型
+ */
+- (void)onAudioRouteChange:(ZegoAPIAudioRoute)audioRoute;
+
+@end
+
+@protocol ZegoNetTypeDelegate <NSObject>
+
+/**
+ 网络类型变更通知
+
+ @param netType 网络类型, 详见 zego-api-defines-oc.h 中的 ZegoAPINetType
+ */
+- (void)onNetTypeChange:(ZegoAPINetType)netType;
 
 @end

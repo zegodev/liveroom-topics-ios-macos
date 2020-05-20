@@ -13,8 +13,6 @@
 /** 媒体录制类型 */
 typedef enum : NSUInteger
 {
-    /** 不录制任何数据 */
-    ZEGOAPI_MEDIA_RECORD_NONE = 0,
     /** 只录制音频 */
     ZEGOAPI_MEDIA_RECORD_AUDIO = 1,
     /** 只录制视频 */

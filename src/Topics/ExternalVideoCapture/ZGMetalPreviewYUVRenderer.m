@@ -26,9 +26,19 @@
 @property (nonatomic, strong) id<MTLBuffer> convertMatrix;
 @property (nonatomic, assign) NSUInteger numVertices;
 
+@property (nonatomic, assign) NSUInteger displayFrameCountLoop;
+
 @end
 
 @implementation ZGMetalPreviewYUVRenderer
+
+- (void)dealloc {
+    // Release texture cache
+    if (self.textureCache) {
+        CVMetalTextureCacheFlush(self.textureCache, 0);
+        CFRelease(self.textureCache);
+    }
+}
 
 - (instancetype)initWithDevice:(id<MTLDevice>)device forRenderView:(MTKView *)renderView {
     if (self = [super init]) {
@@ -56,6 +66,16 @@
         
         CVMetalTextureRef texture = NULL; // CoreVideo的Metal纹理
         CVReturn status = CVMetalTextureCacheCreateTextureFromImage(NULL, self.textureCache, pixelBuffer, NULL, pixelFormat, width, height, 0, &texture);
+        
+        self.displayFrameCountLoop++;
+        if (self.displayFrameCountLoop > 15) {
+            // 定期 CVMetalTextureCacheFlush，释放内存
+            if (self.textureCache) {
+                CVMetalTextureCacheFlush(self.textureCache, 0);
+            }
+            self.displayFrameCountLoop = 0;
+        }
+        
         if(status == kCVReturnSuccess)
         {
             textureY = CVMetalTextureGetTexture(texture); // 转成Metal用的纹理

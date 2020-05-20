@@ -632,6 +632,16 @@ typedef enum : NSUInteger
 
 @end
 
+@interface ZegoAPIDeviceVideoCapabilityInfo : NSObject
+/** 分辨率高 */
+@property int height;
+/** 分辨率宽 */
+@property int width;
+
+@end
+
+
+
 /**
  多媒体流附加信息
  */
@@ -790,5 +800,42 @@ typedef enum : NSInteger
     ZEGOAPI_DEVICE_ERROR_REASON_SYSTEM_PRESSURE = 7,
 
 }ZegoAPIDeviceErrorReason;
+
+/** 音频路由类型 */
+typedef NS_ENUM(NSInteger, ZegoAPIAudioRoute)
+{
+    /** 扬声器 */
+    ZEGOAPI_AUDIO_ROUTE_SPEAKER = 0,
+    /** 耳机 */
+    ZEGOAPI_AUDIO_ROUTE_HEADSET,
+    /** 蓝牙 */
+    ZEGOAPI_AUDIO_ROUTE_BLUETOOTH,
+    /** 听筒 */
+    ZEGOAPI_AUDIO_ROUTE_RECEIVER,
+    /** USB 音频设备 */
+    ZEGOAPI_AUDIO_ROUTE_USB_AUDIO
+    
+};
+
+/** 网络类型 */
+typedef NS_ENUM(NSInteger, ZegoAPINetType)
+{
+    /** 无网络 */
+    ZEGOAPI_NT_NONE = 0,
+    /** 网线 */
+    ZEGOAPI_NT_LINE = 1,
+    /**  WIFI */
+    ZEGOAPI_NT_WIFI = 2,
+    /** 2G */
+    ZEGOAPI_NT_2G   = 3,
+    /** 3G */
+    ZEGOAPI_NT_3G   = 4,
+    /** 4G */
+    ZEGOAPI_NT_4G   = 5,
+    /** 5G */
+    ZEGOAPI_NT_5G   = 6,
+    /** 未知类型 */
+    ZEGOAPI_NT_UNKNOWN = 32
+};
 
 #endif /* zego_api_defines_oc_h */

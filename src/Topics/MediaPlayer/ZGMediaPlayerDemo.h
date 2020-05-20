@@ -12,6 +12,7 @@
 #if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
 #import <ZegoLiveRoomOSX/zego-api-mediaplayer-oc.h>
+#import <ZegoLiveRoomOSX/zego-api-external-video-capture-oc.h>
 #elif TARGET_OS_IOS
 #import <UIKit/UIKit.h>
 #import <ZegoLiveRoom/zego-api-mediaplayer-oc.h>

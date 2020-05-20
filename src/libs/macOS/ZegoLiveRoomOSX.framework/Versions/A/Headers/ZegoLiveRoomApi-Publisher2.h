@@ -8,7 +8,7 @@
 
 #import "ZegoLiveRoomApi.h"
 #import "ZegoLiveRoomApiDefines-Publisher.h"
-#import "ZegoVideoCapture.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface ZegoLiveRoomApi (DuoPublisher)
 

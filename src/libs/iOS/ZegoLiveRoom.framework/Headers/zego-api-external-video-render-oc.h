@@ -12,61 +12,6 @@
 #include <AVFoundation/AVFoundation.h>
 #include "zego-api-defines-oc.h"
 
-
-/**
- @warning Deprecated 请使用 ZegoVideoRenderDelegate
-
- 视频外部渲染视频数据及其格式的回调
- */
-@protocol ZegoExternalVideoRenderDelegate <NSObject>
-
-@optional
-/**
- SDK 从 App 端获取 CVPixelBufferRef 地址
- 
- * 已调用 +enableExternalVideoRender:type: 开启外部渲染，并调用 -setExternalVideoRenderDelegate: 成功设置外部渲染代理对象后，SDK 会触发此回调，App 端在此 API 中获取视频数据的宽高后分配能够保存此视频数据的 CVPixelBufferRef; SDK 通过此 API 获取到 App 指定的 CVPixelBufferRef 后，将采集的视频源数据拷贝进去。
- 
- @param width 视频宽度，SDK 给出当前采集的图像数据的宽
- @param height 视频高度，SDK 给出当前采集的图像数据的高
- @param cvPixelFormatType SDK 给出的视频数据格式类型 ，用来创建 CVPixelBufferRef 对象
- @return CVPixelBufferRef 对象
- */
-- (CVPixelBufferRef)onCreateInputBufferWithWidth:(int)width height:(int)height cvPixelFormatType:(OSType)cvPixelFormatType;
-
-/**
- SDK 从 App 端获取 CVPixelBufferRef 地址
- 
- * 已调用 +enableExternalVideoRender:type: 开启外部渲染，并调用 -setExternalVideoRenderDelegate: 成功设置外部渲染代理对象后，SDK 会触发此回调，App 端在此 API 中获取视频数据的宽高后分配能够保存此视频数据的 CVPixelBufferRef; SDK 通过此 API 获取到 App 指定的 CVPixelBufferRef 后，将采集的视频源数据拷贝进去。
- 
- @param width 视频宽度，SDK 给出当前采集的图像数据的宽
- @param height 视频高度，SDK 给出当前采集的图像数据的高
- @param cvPixelFormatType SDK 给出的视频数据格式类型，用来创建CVPixelBufferRef对象
- @param streamID 当前正在推流/拉流的流名
- @return CVPixelBufferRef 对象
- */
-- (CVPixelBufferRef)onCreateInputBufferWithWidth:(int)width height:(int)height cvPixelFormatType:(OSType)cvPixelFormatType streamID:(NSString *)streamID;
-
-/**
- SDK 通知 App 端已将视频数据拷贝到其指定的 CVPixelBufferRef
- 
- * SDK 通过此回调通知 App 端已将视频数据拷贝到其指定的 CVPixelBufferRef 中。当对拉流数据进行外部渲染时，streamID 为拉流流名。当对推流数据进行外部渲染时，streamID 为常量 kZegoVideoDataMainPublishingStream 表示是第一路推流数据；streamID 为常量 kZegoVideoDataAuxPublishingStream 表示是第二路推流数据；一般是为了在同时推两路流并使用外部渲染时对流进行区分。
- 
- @param pixelBuffer 已填充视频数据的 CVPixelBufferRef 地址
- @param streamID 推流/拉流的流名
- */
-- (void)onPixelBufferCopyed:(CVPixelBufferRef)pixelBuffer streamID:(NSString *)streamID;
-
-/**
- SDK 通知下一帧数据是否需要翻转
-
- @param mode 翻转类型
- @param streamID 流名
- @discussion 仅本地预览的外部渲染会回调。此处的 mode 是基于推流图像计算出来的，和 SetVideoMirrorMode 不一定一致，请基于 SetFlipMode 的参数决定是否翻转
- */
-- (void)onSetFlipMode:(int)mode streamID:(NSString *)streamID;
-
-@end
-
 /**
  视频帧格式
  */
@@ -146,20 +91,6 @@ typedef NS_ENUM(NSInteger, VideoPixelFormat) {
 @end
 
 /**
- 视频外部渲染类型
-
- @warning Deprecated
- 
- - VideoExternalRenderTypeDecodeRgbSeries: 外部视频渲染回调抛解码后的数据(kCVPixelFormatType_32BGRA)，SDK 内部不会渲染推流/拉流视频数据，即推流时即使设置了预览视图（setPreviewView）并启动本地预览（startPreview）也无法显示视频画面，拉流时设置了播放视图也无法显示视频画面，需要 App 实现视频的渲染。
- - VideoExternalRenderTypeDecodeRender: 外部视频渲染回调抛解码后数据(kCVPixelFormatType_32BGRA)，SDK 内部会对推流/拉流视频数据进行渲染，即 App 设置视图后能正常显示视频画面，但是此类型默认没有开启外部渲染，App 若想拿到视频数据需要通过 + enableVideoRender:streamID: 、+ enableVideoPreview:channelIndex: 开启 SDK 的外部渲染。
- */
-typedef NS_ENUM(NSInteger, VideoExternalRenderType) {
-    
-    VideoExternalRenderTypeDecodeRgbSeries = 0,
-    VideoExternalRenderTypeDecodeRender = 3
-};
-
-/**
  视频外部渲染数据格式及渲染方式
  */
 typedef NS_ENUM(NSInteger, VideoRenderType) {
@@ -191,35 +122,6 @@ typedef NS_ENUM(NSInteger, VideoRenderType) {
 + (instancetype)sharedInstance;
 
 /**
- 设置外部渲染代理对象
-
- * 注意：
- * 1.未设置代理，不会收到视频数据的回调。
- * 2.推荐使用单例对象设置外部渲染代理，保证回调是全局唯一的。
- 
- @warning Deprecated 请使用 setZegoVideoRenderDelegate
-
- @param delegate 外部渲染代理，详见 delegate ZegoExternalVideoRenderDelegate。
- */
-- (void)setExternalVideoRenderDelegate:(id<ZegoExternalVideoRenderDelegate>)delegate;
-
-
-/**
- 设置是否开启外部渲染
-
- * 当出现 SDK 的渲染无法满足需求时，或者 App 需要获取 SDK 采集或拉流的视频数据进行特殊处理时，又或者 App 使用了跨平台界面框架（例如 QT 需要有复杂层级关系的界面以实现高体验的交互）或游戏引擎（例如 Unity3D、Cocos2d-x）等情况时建议使用 SDK 的自定义视频渲染功能。
- * 注意：
- * 1.此 API 必须在初始化 SDK 之前调用。
- * 2.开启外部渲染后，需要设置外部渲染代理(-setExternalVideoRenderDelegate:)才能收到视频数据再做相应的渲染处理。
- 
- @warning Deprecated 请使用 setVideoRenderType
- 
- @param enable YES 表示开启外部渲染，NO 表示关闭外部渲染
- @param type 视频外部渲染类型，详见 enum VideoExternalRenderType。
- */
-+ (void)enableExternalVideoRender:(BOOL)enable type:(VideoExternalRenderType)type;
-
-/**
  开/关外部视频渲染(拉流)，拉流时 App 能拿到 SDK 抛出的视频数据。
  
  * 注意：
@@ -247,7 +149,7 @@ typedef NS_ENUM(NSInteger, VideoRenderType) {
  设置开启外部渲染时要求 SDK 提供的数据格式及渲染方式
 
  @param type 指定 SDK 提供的数据格式及渲染方式
- @note 在初始化 SDK 之前调用有效
+ @note 在启动推/拉流 及 预览 前设置有效
  */
 + (void)setVideoRenderType:(VideoRenderType)type;
 

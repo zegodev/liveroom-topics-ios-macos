@@ -171,7 +171,7 @@
 }
 
 - (void)enablePreviewMirror:(BOOL)enable {
-    [self.zegoApi setVideoMirrorMode:enable ? ZegoVideoMirrorModePreviewCaptureBothNoMirror : ZegoVideoMirrorModePreviewMirrorPublishNoMirror];
+    [self.zegoApi setVideoMirrorMode:enable ? ZegoVideoMirrorModePreviewMirrorPublishNoMirror : ZegoVideoMirrorModePreviewCaptureBothNoMirror];
 }
 
 

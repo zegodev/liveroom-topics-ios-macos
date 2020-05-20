@@ -3,7 +3,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "ZegoAudioCapture.h"
 #import "zego-api-defines-oc.h"
 #import "zego-api-audio-frame-oc.h"
 
@@ -119,16 +118,6 @@ typedef enum ZegoAPIAuxPublishChannelAudioSrcType
  */
 + (int)onPlaybackAudioFrame:(ZegoAPIAudioFrame*)audioFrame;
 
-
-/**
- 获取 IAudioDataInOutput 对象
- 
- @return IAudioDataInOutput 对象，参考 IAudioDataInOutput 类型
- @discussion 必须在InitSDK之后调用。
- @warning Deprecated 不建议使用，请使用 ZegoExternalAudioDevice 其它方法。
- */
-+ (AVE::IAudioDataInOutput *)getIAudioDataInOutput;
- 
 @end
 
 #endif /* zego_api_external_audio_device_oc_h */

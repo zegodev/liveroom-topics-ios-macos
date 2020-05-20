@@ -16,6 +16,15 @@
 #import "ZGAppSignHelper.h"
 
 
+// 是否使用和主 app 相同的 userid
+#define REPLAYKIT_USE_SAME_USERID_AS_HOST_APP 0
+
+// 是否使用固定 roomid 和 streamid
+#define REPLAYKIT_USE_CONSTANT_ROOMID_STREAMID 0
+
+// 是否推横屏
+#define REPLAYKIT_PUBLISH_LANDSCAPE_ORIEN 0
+
 static ZGLiveReplayManager *_avkitManager;
 
 @interface ZGLiveReplayManager () <ZegoRoomDelegate, ZegoLivePublisherDelegate>
@@ -112,14 +121,22 @@ static ZGLiveReplayManager *_avkitManager;
     }
     
     [ZegoLiveRoomApi prepareReplayLiveCapture];
-
-    [ZegoLiveRoomApi setUserID:ZGUserIDHelper.userID userName:ZGUserIDHelper.userID];
+    
+    NSString *userid = nil;
+#if REPLAYKIT_USE_SAME_USERID_AS_HOST_APP
+    userid = ZGUserIDHelper.userID;
+#else
+    userid = [NSString stringWithFormat:@"ios-replay-%@", ZGUserIDHelper.userID];
+#endif
+    [ZegoLiveRoomApi setUserID:userid userName:userid];
     
     [ZegoLiveRoomApi requireHardwareDecoder:YES];
     [ZegoLiveRoomApi requireHardwareEncoder:YES];
-    [ZegoLiveRoomApi setConfig:@"replaykit_handle_rotation=false"];
+    [ZegoLiveRoomApi setConfig:@"replaykit_handle_rotation=false"]; // 走协议
     [ZegoLiveRoomApi setConfig:@"max_channels=0"];
     [ZegoLiveRoomApi setConfig:@"max_publish_channels=1"];
+    
+    // AVConfig
     
     NSLog(@"appId:%@, useTestEnv:%@", @(appId), @(useTestEnv));
     NSLog(@"call initWithAppID:appSignature:");
@@ -192,7 +209,15 @@ static ZGLiveReplayManager *_avkitManager;
         NSLog(@"[LiveRoomPlayground-GameLive] login Room success %@", roomID);
         
         ZegoAVConfig *config = [ZegoAVConfig new];
-        config.videoEncodeResolution = self.videoSize;
+        
+        // 推横屏，需要 width > height。
+        CGFloat minSide = MIN(self.videoSize.width, self.videoSize.height);
+        CGFloat maxSide = MAX(self.videoSize.width, self.videoSize.height);
+#if REPLAYKIT_PUBLISH_LANDSCAPE_ORIEN
+        config.videoEncodeResolution = CGSizeMake(maxSide, minSide);
+#else
+        config.videoEncodeResolution = CGSizeMake(minSide, maxSide);
+#endif
         config.fps = 10;
         config.bitrate = 1500000;
         [self.api setAVConfig:config];
@@ -225,13 +250,21 @@ static ZGLiveReplayManager *_avkitManager;
 #pragma mark - Access
 
 - (NSString *)genRoomID {
+#if REPLAYKIT_USE_CONSTANT_ROOMID_STREAMID
+    return @"rxxyy";
+#else
     unsigned long currentTime = (unsigned long)[[NSDate date] timeIntervalSince1970];
     return [NSString stringWithFormat:@"#evc-ios-replay-%@-%lu", ZGUserIDHelper.userID, currentTime];
+#endif
 }
 
 - (NSString *)genStreamID {
+#if REPLAYKIT_USE_CONSTANT_ROOMID_STREAMID
+    return @"sxxyy";
+#else
     unsigned long currentTime = (unsigned long)[[NSDate date] timeIntervalSince1970];
     return [NSString stringWithFormat:@"s-%@-%lu", ZGUserIDHelper.userID, currentTime];
+#endif
 }
 
 

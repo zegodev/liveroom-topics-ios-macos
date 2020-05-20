@@ -177,8 +177,10 @@ typedef NS_ENUM(NSInteger, ZegoVideoBufferType) {
 /**
  设置外部滤镜模块
 
- @param factory 工厂对象
- @param idx 必须在 Init 前调用，并且不能置空
+ @param factory 工厂对象；当置空时，关闭外部滤镜功能。
+ @param idx 推荐通道
+ @discussion 必须在 推/拉流、预览 前设置；
+ @discussion 在 推/拉流、预览 过程中不要改变该工厂实例。
  */
 + (void)setVideoFilterFactory:(nullable id<ZegoVideoFilterFactory>)factory channelIndex:(ZegoAPIPublishChannelIndex)idx;
 

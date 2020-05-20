@@ -11,6 +11,7 @@
 #import "ZGExternalVideoFilterLoginViewController.h"
 #import "ZGExternalVideoFilterPublishViewController.h"
 #import "ZGExternalVideoFilterPlayViewController.h"
+#import <ZegoLiveRoom/zego-api-external-video-filter-oc.h>
 
 // 检查一下是否有 FaceUnity 的鉴权
 #import "authpack.h"

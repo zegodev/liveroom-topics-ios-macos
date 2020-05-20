@@ -627,6 +627,22 @@
  */
 - (void)clearView;
 
+/**
+ 设置播放声道
+ 
+ @param channel 声道, 参见 ZegoMediaPlayerAudioChannel 定义. 播放器初始化时默认是 ZegoMediaPlayerAudioChannelAll
+ */
+- (void)setActiveAudioChannel:(ZegoMediaPlayerAudioChannel)channel;
+
+/**
+ 设置声道音调
+ 
+ @param channel 声道, 参见 ZegoMediaPlayerAudioChannel 定义
+ @param value 音调偏移值, 有效值范围 [-8.0, 8.0], 播放器初始化时默认是 0
+ @note 可选择设置左声道、右声道、左右声道，当只设置一个声道时，另一个声道保持原值
+ */
+- (void)setAudioChannel:(ZegoMediaPlayerAudioChannel)channel keyShift:(float)value;
+
 @end
 
 #endif /* zego_api_mediaplayer_oc_h */

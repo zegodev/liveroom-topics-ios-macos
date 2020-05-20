@@ -17,6 +17,7 @@
 #import "ZGPublishTopicConfigManager.h"
 #import "ZGPublishTopicSettingVC.h"
 #import <ZegoLiveRoom/ZegoLiveRoomApi.h>
+#import <ZegoLiveRoom/zego-api-camera-oc.h>
 
 
 #define PUBLISH_TOPIC_PUBLISH_FLAG_JOIN 0
@@ -41,6 +42,7 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
 @property (nonatomic) BOOL enableMic;
 @property (nonatomic) BOOL enableCamera;
 @property (nonatomic) BOOL openAudioModule;
+@property (nonatomic) BOOL useFrontCamera;
 
 @property (nonatomic) ZegoLiveRoomApi *zegoApi;
 @property (nonatomic) ZGTopicLoginRoomState loginRoomState;
@@ -74,6 +76,12 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
+    
+    // 推流时，点击屏幕设置对焦点和曝光点
+    if (_publishStreamState == ZGTopicPublishStreamStatePublishing) {
+        CGPoint point = [[touches anyObject] locationInView:self.previewView];
+        [self setFocusAndExposurePointInPreviewView:point];
+    }
 }
 
 - (IBAction)startLiveButnClick:(id)sender {
@@ -101,6 +109,11 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
     } else {
         [self.zegoApi pauseModule:ZEGOAPI_MODULE_AUDIO];
     }
+}
+
+- (IBAction)switchFrontCameraValueChanged:(UISwitch *)sender {
+    self.useFrontCamera = sender.isOn;
+    [self.zegoApi setFrontCam:self.useFrontCamera];
 }
 
 #pragma mark - private methods
@@ -144,6 +157,7 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
     self.enableMic = YES;
     self.enableCamera = YES;
     self.openAudioModule = YES;
+    self.useFrontCamera = YES;
 }
 
 - (void)initializeZegoApi {
@@ -172,6 +186,7 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
         
         [self.zegoApi enableMic:self.enableMic];
         [self.zegoApi enableCamera:self.enableCamera];
+        [self.zegoApi setFrontCam:self.useFrontCamera];
         if (self.openAudioModule) {
             [self.zegoApi resumeModule:ZEGOAPI_MODULE_AUDIO];
         } else {
@@ -297,6 +312,12 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
     
     // 退出房间后，SDK 内部会停止预览。此时需要重新开启预览
     [self startPreview];
+}
+
+- (void)setFocusAndExposurePointInPreviewView:(CGPoint)point {
+    CGPoint relativePoint = CGPointMake(point.x / self.previewView.bounds.size.width, point.y / self.previewView.bounds.size.height);
+    [ZegoCamera setCamFocusPointInPreview:relativePoint channelIndex:ZEGOAPI_CHN_MAIN];
+    [ZegoCamera setCamExposurePointInPreview:relativePoint channelIndex:ZEGOAPI_CHN_MAIN];
 }
 
 - (void)invalidateLiveStateUILayout {

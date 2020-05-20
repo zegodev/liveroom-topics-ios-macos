@@ -24,9 +24,19 @@
 
 @property (assign, nonatomic) ZegoVideoViewMode renderViewMode;
 
+@property (nonatomic, assign) NSUInteger displayFrameCountLoop;
+
 @end
 
 @implementation ZGMetalPreviewBGRARenderer
+
+- (void)dealloc {
+    // Release texture cache
+    if (self.textureCache) {
+        CVMetalTextureCacheFlush(self.textureCache, 0);
+        CFRelease(self.textureCache);
+    }
+}
 
 - (instancetype)initWithDevice:(id<MTLDevice>)device forRenderView:(MTKView *)renderView {
     if (self = [super init]) {
@@ -55,6 +65,15 @@
                                                                 CVPixelBufferGetHeight(pixelBuffer),
                                                                 0,
                                                                 &tmpTexture);
+    
+    self.displayFrameCountLoop++;
+    if (self.displayFrameCountLoop > 15) {
+        // 定期 CVMetalTextureCacheFlush，释放内存
+        if (self.textureCache) {
+            CVMetalTextureCacheFlush(self.textureCache, 0);
+        }
+        self.displayFrameCountLoop = 0;
+    }
     
     if(status == kCVReturnSuccess) {
         self.texture = CVMetalTextureGetTexture(tmpTexture);

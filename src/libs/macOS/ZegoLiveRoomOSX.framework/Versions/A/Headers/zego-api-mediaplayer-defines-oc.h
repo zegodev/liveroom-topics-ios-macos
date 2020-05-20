@@ -40,6 +40,12 @@ typedef NS_ENUM(NSInteger, ZegoMediaPlayerIndex) {
     ZegoMediaPlayerIndexFourth = 3,
 };
 
+typedef NS_ENUM(NSInteger, ZegoMediaPlayerAudioChannel) {
+    ZegoMediaPlayerAudioChannelLeft = 1,
+    ZegoMediaPlayerAudioChannelRight = 2,
+    ZegoMediaPlayerAudioChannelAll = 3
+};
+
 struct ZegoMediaPlayerVideoDataFormat
 {
     int width;

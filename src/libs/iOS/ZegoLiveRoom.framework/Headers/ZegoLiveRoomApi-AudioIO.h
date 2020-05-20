@@ -25,7 +25,7 @@
 /**
  获取 IAudioDataInOutput 对象
  
- @warning Deprecated，请使用 [ZegoExternalAudioDevice getIAudioDataInOutput]
+ @warning Deprecated，请使用 ZegoExternalAudioDevice 中的方法代替
  */
 - (AVE::IAudioDataInOutput *)getIAudioDataInOutput __attribute__ ((deprecated));
 

@@ -12,10 +12,9 @@
 
 #if TARGET_OS_OSX
 #import <ZegoLiveRoomOSX/zego-api-external-video-capture-oc.h>
-#import <ZegoLiveRoomOSX/ZegoVideoCapture.h>
 #elif TARGET_OS_IOS
 #import <ZegoLiveRoom/zego-api-external-video-capture-oc.h>
-#import <ZegoLiveRoom/ZegoVideoCapture.h>
+//#import <ZegoLiveRoom/ZegoVideoCapture.h>
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
