@@ -26,6 +26,7 @@ typedef enum : NSUInteger {
  kStartThreadError              = 10004002,
  kStartRequestError             = 10005001,
  kStartUpdateStreamInfoError    = 10006001,
+ kSDKNotInit                    = 10008002,
 
  kNetworkNotConnectError        = 11000101,
  kNetworkDnsResolveError        = 11000404,

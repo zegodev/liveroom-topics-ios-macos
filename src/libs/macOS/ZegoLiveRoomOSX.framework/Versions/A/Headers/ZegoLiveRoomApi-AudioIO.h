@@ -16,20 +16,6 @@
 #if TARGET_OS_IPHONE
 
 /**
- 启用外部音频采集
- 
- @warning Deprecated，请使用 [ZegoExternalAudioDevice enableExternalAudioDevice:]
- */
-+ (void)enableExternalAudioDevice:(bool)enable __attribute__ ((deprecated));
-
-/**
- 获取 IAudioDataInOutput 对象
- 
- @warning Deprecated，请使用 ZegoExternalAudioDevice 中的方法代替
- */
-- (AVE::IAudioDataInOutput *)getIAudioDataInOutput __attribute__ ((deprecated));
-
-/**
  耳机插入状态下是否使用回声消除
  
  * 建议在初始化 SDK 后，推流前调用设置。

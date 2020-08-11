@@ -63,7 +63,7 @@
 @end
 
 /**
- *  udp探测结果
+ * udp探测结果
 */
 @interface ZegoUdpTraceResult : NSObject
 
@@ -73,14 +73,14 @@
 @property (nonatomic, assign) unsigned int code;
 
 /**
- *udp rtt 单位ms
+ * udp rtt 单位ms
  */
 @property (nonatomic, assign) int rtt;
 
 @end
 
 /*
-   traceroute探测结果
+ * traceroute探测结果
 */
 @interface ZegoTracerouteResult : NSObject
 
@@ -90,7 +90,7 @@
 @property (nonatomic, assign) unsigned int code;
 
 /**
- *tracert 单位ms
+ * tracert 单位ms
  */
 @property (nonatomic, assign) int time;
 

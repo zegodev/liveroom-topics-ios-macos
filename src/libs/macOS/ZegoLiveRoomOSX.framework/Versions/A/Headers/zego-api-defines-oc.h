@@ -246,6 +246,11 @@ typedef enum : NSUInteger {
  推流内容控制， 0 表示输出的混流包含音视频，1 表示只包含音频，2 表示只包含视频；默认值为 0。
  */
 @property int contentControl;
+/**
+ 输入流音量, 有效值范围 [0, 200], 默认值 100
+ */
+@property int volume;
+
 
 /**
  *  原点在左上角，top/bottom/left/right 定义如下：
@@ -537,7 +542,7 @@ typedef enum : NSUInteger {
 typedef enum : NSUInteger {
     /** 低于设置的最低码率时，停止视频发送，默认 */
     ZEGOAPI_TRAFFIC_CONTROL_MIN_VIDEO_BITRATE_NO_VIDEO = 0,
-    /** 低于设置的最低码率时，视频以极低的帧率发送 （不超过2fps) */
+    /** 低于设置的最低码率时，视频以极低的帧率发送 （不超过3fps) */
     ZEGOAPI_TRAFFIC_CONTROL_MIN_VIDEO_BITRATE_ULTRA_LOW_FPS
     
 } ZegoAPITrafficControlMinVideoBitrateMode;
@@ -554,6 +559,8 @@ typedef enum : NSUInteger {
     ZEGOAPI_AUDIO_DEVICE_MODE_COMMUNICATION2 = 4,
     /** 通话模式, 开启系统回声消除，与 ZEGOAPI_AUDIO_DEVICE_MODE_COMMUNICATION 相比，该模式会下麦后释放麦克风，切回媒体音量 */
     ZEGOAPI_AUDIO_DEVICE_MODE_COMMUNICATION3 = 5,
+    /** 普通模式2,关闭系统回声消除  与ZEGO_AUDIO_DEVICE_MODE_GENERAL 相比 该模式使用麦克风设备后不会释放 */
+    ZEGOAPI_AUDIO_DEVICE_MODE_GENERAL2 = 6,
 } ZegoAPIAudioDeviceMode;
 
 /** 音频录制时，指定音源类型 */
@@ -585,7 +592,7 @@ typedef struct
 typedef enum :  NSUInteger {
     /** 主推流通道，默认*/
     ZEGOAPI_CHN_MAIN        =   0,
-    /** 第二路推流通道, 无法推出声音*/
+    /** 第二路推流通道, 默认没有声音，需要指定音频源。*/
     ZEGOAPI_CHN_AUX,
 } ZegoAPIPublishChannelIndex;
 
@@ -637,6 +644,8 @@ typedef enum : NSUInteger
 @property int height;
 /** 分辨率宽 */
 @property int width;
+/** 帧率 */
+@property int fps;
 
 @end
 
@@ -813,7 +822,9 @@ typedef NS_ENUM(NSInteger, ZegoAPIAudioRoute)
     /** 听筒 */
     ZEGOAPI_AUDIO_ROUTE_RECEIVER,
     /** USB 音频设备 */
-    ZEGOAPI_AUDIO_ROUTE_USB_AUDIO
+    ZEGOAPI_AUDIO_ROUTE_USB_AUDIO,
+    /** air play */
+    ZEGOAPI_AUDIO_ROUTE_AIR_PLAY
     
 };
 
@@ -837,5 +848,16 @@ typedef NS_ENUM(NSInteger, ZegoAPINetType)
     /** 未知类型 */
     ZEGOAPI_NT_UNKNOWN = 32
 };
+
+/** sdk 任务类型*/
+typedef NS_ENUM(NSInteger, ZegoAPITaskType)
+{
+    /** 正常任务 */
+    ZEGOAPI_TASK_NORMAL = 1,
+    /** 延时类任务(如定时器) */
+    ZEGOAPI_TASK_DELAY = 2,
+};
+
+
 
 #endif /* zego_api_defines_oc_h */

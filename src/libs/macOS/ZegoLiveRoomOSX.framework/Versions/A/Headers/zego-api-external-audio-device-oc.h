@@ -34,7 +34,7 @@ typedef enum ZegoAPIAuxPublishChannelAudioSrcType
  * 3.在客户有自己的渲染需求时使用音频外部渲染的功能，比如对拉取到的原始 PCM 数据做特殊应用或者处理后再渲染。
  
  * 注意：
- * 1.必须在初始化 SDK 之前设置。
+ * 1.必须在 启动预览/推流/拉流 之前设置。
  * 2.开发者采用音频外部采集和渲染后，SDK 内部不负责声音增强、噪音抑制、回音消除等功能，需要用户自己实现。
  * 3.音频外部采集和外部渲染是一体的，如果开发者采用了外部渲染，则在有需要的情况下，应当自己实现外部采集；同理，采用了外部采集，在有需要的情况下，应当自己实现外部渲染。
  
@@ -49,10 +49,10 @@ typedef enum ZegoAPIAuxPublishChannelAudioSrcType
   选择辅助推流通道的音频采集源
  
   * 需要同时推两路流时使用。
-  * 注意：必须在 init SDK 之前设置。
+  * 注意：必须在 启动预览/推流/拉流 之前设置。
   
   @param type 辅助推流通道音频采集源类别，详见 enum ZegoAPIAuxPublishChannelAudioSrcType
-  @return 详见 enum ZegoAPIErrorCode，默认值为 kZegoAPIAuxPublishChannelAudioSrcTypeNone(无声)
+  @return 详见 enum ZegoAPIErrorCode，非0失败
   */
 + (int)setAudioSrcForAuxiliaryPublishChannel:(ZegoAPIAuxPublishChannelAudioSrcType)type;
 

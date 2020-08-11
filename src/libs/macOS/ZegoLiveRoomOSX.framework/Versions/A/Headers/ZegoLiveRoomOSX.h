@@ -49,8 +49,9 @@ FOUNDATION_EXPORT const unsigned char ZegoLiveRoomVersionString[];
 #import <ZegoLiveRoomOSX/zego-api-audio-encrypt-decrypt-oc.h>
 #import <ZegoLiveRoomOSX/zego-api-sound-level-oc.h>
 #import <ZegoLiveRoomOSX/zego-api-media-recorder-oc.h>
-#import <ZegoLiveRoomOSX/zego-api-frequency-spectrum-oc.h>
 #import <ZegoLiveRoomOSX/zego-api-audio-player-oc.h>
+#import <ZegoLiveRoomOSX/zego-api-auto-mix-stream-oc.h>
+#import <ZegoLiveRoomOSX/zego-api-auto-mix-stream-defines-oc.h>
 #import <ZegoLiveRoomOSX/zego-api-network-trace-oc.h>
 #import <ZegoLiveRoomOSX/zego-api-network-trace-defines-oc.h>
 #import <ZegoLiveRoomOSX/ZegoLiveRoomApi-ReliableMessage.h>

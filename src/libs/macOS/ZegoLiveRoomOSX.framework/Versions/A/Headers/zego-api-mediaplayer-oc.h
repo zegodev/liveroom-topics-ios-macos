@@ -18,155 +18,6 @@
 
 
 /**
- 播放器的回调接口
-
- @warning Deprecated，请使用 ZegoMediaPlayerEventWithIndexDelegate 替代
- */
-@protocol ZegoMediaPlayerEventDelegate <NSObject>
-
-@optional
-
-/**
- 开始播放
- */
-- (void)onPlayStart;
-
-/**
- 暂停播放
- */
-- (void)onPlayPause;
-
-/**
- 恢复播放
- */
-- (void)onPlayResume;
-
-/**
- 播放错误
-
- @param code
- PLAY_ERROR_NOERROR = 0,
- PLAY_ERROR_FILE =  -1，文件格式不支持,
- PLAY_ERROR_PATH =  -2，路径不存在,
- PLAY_ERROR_CODEC = -3, 文件无法解码
- PLAY_ERROR_NO_SUPPORT_STREAM = -4,文件中没有可播放的音视频流
- PLAY_ERROR_DEMUX = -5, 文件解析过程中出现错误
- */
-- (void)onPlayError:(int)code;
-
-/**
- 开始播放视频
- */
-- (void)onVideoBegin;
-
-
-/**
- 开始播放音频
- */
-- (void)onAudioBegin;
-
-
-/**
- 播放结束
- */
-- (void)onPlayEnd;
-
-/**
- 用户停止播放的回调
- */
-- (void)onPlayStop;
-
-/**
- 网络音乐资源播放不畅，开始尝试缓存数据。
- 
- @warning 只有播放网络音乐资源才需要关注这个回调
- */
-- (void)onBufferBegin;
-
-/**
- 网络音乐资源可以顺畅播放。
- 
- @warning 只有播放网络音乐资源才需要关注这个回调
- */
-- (void)onBufferEnd;
-
-/**
- 快进到指定时刻
-
- @param code >=0 成功，其它表示失败
- @param millisecond 实际快进的进度，单位毫秒
- */
-- (void)onSeekComplete:(int)code when:(long)millisecond;
-
-/**
- 截图
- 
- @param image
- */
-- (void)onSnapshot:(ZEGOImage *)image;
-
-/**
- 预加载完成
- */
-- (void)onLoadComplete;
-
-/**
- 播放进度回调
- 
- @param timestamp 当前播放进度，单位毫秒
- @note 同步回调，请不要在回调中处理数据或做其他耗时操作
- */
-- (void)onProcessInterval:(long)timestamp;
-
-@end
-
-/**
- 视频帧数据回调接口
- 当格式为ARGB32/ABGR32/RGBA32/BGRA32，数据通过OnPlayVideoData回调。
- 当格式为I420/NV12/NV21，数据通过OnPlayVideoData2回调。
- 其他非法格式都判定为I420
-
- @warning Deprecated，请使用 ZegoMediaPlayerVideoPlayWithIndexDelegate 替代
- */
-@protocol ZegoMediaPlayerVideoPlayDelegate <NSObject>
-
-@optional
-
-/**
- 视频帧数据回调，格式为ARGB32/ABGR32/RGBA32/BGRA32
- 
- @param data 视频帧原始数据
- @param size 视频帧原始数据大小
- @param format 视频帧原始数据格式
- @note 同步回调，请不要在回调中处理数据或做其他耗时操作
- */
-- (void)onPlayVideoData:(const char *)data size:(int)size format:(struct ZegoMediaPlayerVideoDataFormat)format;
-
-/**
- 视频帧数据回调，格式为ARGB32/ABGR32/RGBA32/BGRA32
- 
- @param data 视频帧原始数据
- @param size 视频帧原始数据大小
- @param format 视频帧原始数据格式
- @note 同步回调，请不要在回调中处理数据或做其他耗时操作
- @see Deprecated, 请使用 onPlayVideoData:size:format:
- */
-- (void)onPlayVideoData:(const char *)data Size:(int)size Format:(struct ZegoMediaPlayerVideoDataFormat)format;
-
-/**
- 视频帧数据回调，格式为I420/NV12/NV21
- 
- @param data 视频帧原始数据
- @param size 视频帧原始数据大小
- @param format 视频帧原始数据格式
- @note 同步回调，请不要在回调中处理数据或做其他耗时操作
- */
-- (void)onPlayVideoData2:(const char **)data size:(int *)size format:(struct ZegoMediaPlayerVideoDataFormat)format;
-
-
-@end
-
-/**
  多实例播放器的回调接口
  */
 @protocol ZegoMediaPlayerEventWithIndexDelegate <NSObject>
@@ -197,13 +48,7 @@
 /**
  播放错误
  
- @param code
- PLAY_ERROR_NOERROR = 0,
- PLAY_ERROR_FILE =  -1，文件格式不支持,
- PLAY_ERROR_PATH =  -2，路径不存在,
- PLAY_ERROR_CODEC = -3, 文件无法解码
- PLAY_ERROR_NO_SUPPORT_STREAM = -4,文件中没有可播放的音视频流
- PLAY_ERROR_DEMUX = -5, 文件解析过程中出现错误
+ @param code 错误码, 详见 ZegoMediaPlayerError
  @param index 播放器序号
  */
 - (void)onPlayError:(int)code playerIndex:(ZegoMediaPlayerIndex)index;
@@ -287,6 +132,13 @@
  @note 同步回调，请不要在回调中处理数据或做其他耗时操作
  */
 - (void)onProcessInterval:(long)timestamp playerIndex:(ZegoMediaPlayerIndex)index;
+
+/**
+ 网络文件读完结尾的回调
+
+@param index 播放器序号
+ */
+- (void)onReadEOF:(ZegoMediaPlayerIndex)index;
 
 @end
 
@@ -372,27 +224,6 @@
  释放播放器
  */
 - (void)uninit;
-
-
-/**
- 设置播放器事件回调
-
- @warning Deprecated，请使用 [setEventWithIndexDelegate:] 代替
-
- @param delegate 回调
- */
-- (void)setDelegate:(id<ZegoMediaPlayerEventDelegate>)delegate;
-
-
-/**
- 设置视频帧数据回调
-
- @warning Deprecated，请使用 [setVideoPlayWithIndexDelegate:format:] 代替
-
- @param delegate 回调
- @param format 需要返回的视频帧数据格式，@see ZegoMediaPlayerVideoPixelFormat
- */
-- (void)setVideoPlayDelegate:(id<ZegoMediaPlayerVideoPlayDelegate>)delegate format:(ZegoMediaPlayerVideoPixelFormat)format;
 
 /**
  设置播放器事件回调
@@ -642,6 +473,44 @@
  @note 可选择设置左声道、右声道、左右声道，当只设置一个声道时，另一个声道保持原值
  */
 - (void)setAudioChannel:(ZegoMediaPlayerAudioChannel)channel keyShift:(float)value;
+
+/**
+ 设置网络素材最大的缓存时长和缓存数据大小, 以先达到者为准
+
+ @param time 缓存最大时长, 单位 ms, 有效值为大于等于 2000, 如果填 0, 表示不限制
+ @param size 缓存最大尺寸, 单位 byte, 有效值为大于等于 5000000, 如果填 0, 表示不限制
+ @note 不允许 time 和 size 都为 0
+ @note SDK 内部默认 timeInMS 为 5000, sizeInByte 为 15*1024*1024
+ @note 在 start 或者 load 之前调用, 设置一次, 生命周期内一直有效
+ */
+- (void)setOnlineResourceCacheDuration:(int)time andSize:(int)size;
+
+/**
+ 获取网络素材缓存队列的缓存数据可播放的时长和缓存数据大小
+ @param time 缓存数据可播放的时长, 单位 ms
+ @param size 缓存数据大小, 单位 byte
+ @return true 调用成功, false 调用失败
+ */
+- (bool)getOnlineResourceCacheStat:(int*)time andSize:(int*)size;
+
+/**
+ 设置缓冲回调的阈值, 缓冲区可播放时长大于阈值时，开始播放, 并回调 OnBufferEnd
+
+ @param threshold  阈值, 单位 ms
+ @note 在 Start 或者 Load 之前调用, 设置一次, 生命周期内一直有效
+ @note SDK 默认值是 5000ms
+ */
+- (void)setBufferThreshold:(int)threshold;
+
+/**
+ 设置加载资源的超时时间
+
+ @param timeout 超时时间, 单位 ms, 有效值为大于等于 1000
+ @note 在 start 或者 load 之前设置, 设置一次, 生命周期内一直有效
+ @note 当打开文件超过设定超时时间，会失败并回调 onPlayError
+ @note SDK 默认会一直等待
+ */
+- (void)setLoadResourceTimeout:(int)timeout;
 
 @end
 

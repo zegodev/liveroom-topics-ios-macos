@@ -167,7 +167,7 @@ typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *s
 /**
  自定义推流配置
  
- @param config 配置信息 key-value，目前 key 仅支持 kPublishCustomTarget ，value 为用户自定义的转推 RTMP 地址。参考 zego-api-defines-oc.h 中相关定义
+ @param config 配置信息 key-value，直推 CDN 时, 使用kPublishCDNTarget, value 为用户指定的直推 CDN 地址. 连麦推流时, 使用kPublishCustomTarget, value 为用户指定的转推 RTMP 地址，非 RTMP 地址可能导致转推失败。参考 zego-api-defines-oc.h 中相关定义
  @param index 推流 channel Index
  @discussion 开发者如果使用自定义转推功能，推流开始前，必须调用此接口设置转推 RTMP 地址（SDK 推流方式必须为 UDP，转推地址必须为 RTMP），否则可能导致转推失败。
  */
@@ -353,6 +353,8 @@ typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *s
 
 /**
  是否开启码率控制
+
+ * 注意：在推流之前设置有效。
  
  @param enable true 启用，false 不启用。默认不启用
  @param index 推流 channel Index
@@ -440,45 +442,6 @@ typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *s
 - (void)setPreviewWaterMarkRect:(CGRect)waterMarkRect channelIndex:(ZegoAPIPublishChannelIndex)index;
 
 /**
- 发送媒体次要信息开关
-
- @warning Deprecated，请使用 zego-api-media-side-info-oc.h 的 setMediaSideFlags:onlyAudioPublish:channelIndex:
- 
- @param start true 开启, false 关闭
- @param onlyAudioPublish true 纯音频直播，不传输视频数据, false 音视频直播，传输视频数据
- @param index 推流 channel Index
- @discussion onlyAudioPublish 开关在 start 开关开启时才生效
- */
-- (void)setMediaSideFlags:(bool)start onlyAudioPublish:(bool)onlyAudioPublish channelIndex:(ZegoAPIPublishChannelIndex)index;
-
-/**
- 发送媒体次要信息开关
-
- @warning Deprecated，请使用 zego-api-media-side-info-oc.h 的 setMediaSideFlags:onlyAudioPublish:seiSendType:channelIndex:
- 
- @param start true 开启, false 关闭
- @param onlyAudioPublish true 纯音频直播，不传输视频数据, false 音视频直播，传输视频数据
- @param mediaInfoType 请参考 MediaInfoType 定义，建议使用 SeiZegoDefined
- @param seiSendType 请参考 SeiSendType 定义，此参数只对发送SEI时有效，当mediaInfoType为 SideInfoZegoDefined 时此参数无效，当发送SEI时建议使用 SeiSendInVideoFrame
- @param index 推流 channel Index
- @discussion onlyAudioPublish 开关在 start 开关开启时才生效
- */
-- (void)setMediaSideFlags:(bool)start onlyAudioPublish:(bool)onlyAudioPublish mediaInfoType:(int)mediaInfoType seiSendType:(int)seiSendType channelIndex:(ZegoAPIPublishChannelIndex)index;
-
-/**
- 发送媒体次要信息
-
- @warning Deprecated，请使用 zego-api-media-side-info-oc.h 的 sendMediaSideInfo:dataLen:packet:channelIndex:
- 
- @param inData 媒体次要信息数据
- @param dataLen 数据长度
- @param packet 是否外部已经打包好包头，true 已打包, false 未打包
- @param index 推流 channel Index
- @discussion 主播端开启媒体次要信息开关，并调用此 API 发送媒体次要信息后，观众端在 [ZegoLiveRoomApi (Player) -setMediaSideCallback:] 设置的回调中获取媒体次要信息
- */
-- (void)sendMediaSideInfo:(const unsigned char *)inData dataLen:(int)dataLen packet:(bool)packet channelIndex:(ZegoAPIPublishChannelIndex)index;
-
-/**
  给推流通道设置扩展参数，一般不建议修改
 
  @param param_config 参数配置信息
@@ -499,6 +462,31 @@ typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *s
  @attention 必须在预览之后或者推流之后才能调用
 */
 - (AVCaptureDevice*)getAVCaptureDevice:(ZegoAPIPublishChannelIndex)channelIndex;
+
+/**
+ 设置指定推流通道的延迟模式
+ 
+ * 设置 SDK 推流时音频使用的延迟模式，可以根据自己的业务场景选择最合适的延迟模式，详情可咨询 ZEGO 技术支持。
+ 
+ * 注意：在推流前调用有效。
+ 
+ @param mode 延迟模式，默认 ZEGOAPI_LATENCY_MODE_NORMAL 普通延迟模式
+ @param channelIndex 推流通道, 详见 ZegoAPIPublishChannelIndex
+ */
+- (void)setLatencyMode:(ZegoAPILatencyMode)mode channelIndex:(ZegoAPIPublishChannelIndex)channelIndex;
+
+/**
+ 设置指定推流通道的推流音频声道数
+ 
+ * 注意：
+ * 1.在推流前调用有效。
+ * 2.[ZegoLiveRoomApi(Publisher) -setLatencyMode:] 中将延迟模式设置为 ZEGO_LATENCY_MODE_NORMAL、ZEGO_LATENCY_MODE_NORMAL2、ZEGO_LATENCY_MODE_LOW3 才能设置双声道。
+ * 3.在移动端双声道通常需要配合音频前处理才能体现效果。
+
+ @param count 声道数，1 或 2，默认为 1（单声道）
+ @param channelIndex 推流通道, 详见 ZegoAPIPublishChannelIndex
+ */
+- (void)setAudioChannelCount:(int)count channelIndex:(ZegoAPIPublishChannelIndex)channelIndex;
 
 
 @end

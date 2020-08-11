@@ -151,7 +151,7 @@
  
  * 注意：推流开始前调用有效。
 
- @param config 推流配置信息，目前 key 仅支持 kPublishCustomTarget，value 为用户指定的转推 RTMP 地址，非 RTMP 地址可能导致转推失败
+ @param config 推流配置信息，直推 CDN 时, 使用kPublishCDNTarget, value 为用户指定的直推 CDN 地址. 连麦推流时, 使用kPublishCustomTarget, value 为用户指定的转推 RTMP 地址，非 RTMP 地址可能导致转推失败
  */
 - (void)setPublishConfig:(NSDictionary<NSString*,NSString*> *)config;
 
@@ -339,24 +339,23 @@
 /**
  是否开启码率控制
  
- * 注意：
- * 1.在推流之前设置有效。
- * 2.不推荐使用此接口，可使用 [ZegoLiveRoomApi(Publisher) -setVideoEncoderRateControlConfig:encoderCRF:] 调整编码器的码率控制策略。
+ * 注意：在推流之前设置有效。
 
  @param enable true 启用，false 不启用。默认 false
  @return true 表示调用成功，false 表示调用失败。
- @see -setVideoEncoderRateControlConfig:encoderCRF:
+ @discussion 开启后，在带宽不足的情况下码率自动适应当前带宽
  */
 - (bool)enableRateControl:(bool)enable;
 
+
 /**
  设置编码器码率控制策略
- 
- * 注意：在推流之前设置有效。
 
- @param strategy 码率控制策略，默认 ZEGOAPI_RC_CBR 恒定码率
- @param encoderCRF 当策略为恒定质量（ZEGOAPI_RC_VBR/ZEGOAPI_RC_CRF）有效，取值范围 [0,51]，越小质量越好，但是码率会相应变大。默认 23，建议取值范围 [18,28]
- */
+ * 注意：在推流之前设置有效。
+ 
+@param strategy 策略配置，参考 ZegoVideoEncoderRateControlStrategy
+@param encoderCRF 当策略为恒定质量（ZEGOAPI_RC_VBR/ZEGOAPI_RC_CRF）有效，取值范围 [0~51]，越小质量越好，但是码率会相应变大。建议取值范围 [18, 28]
+*/
 - (void)setVideoEncoderRateControlConfig:(ZegoAPIVideoEncoderRateControlStrategy)strategy encoderCRF:(int)encoderCRF;
 
 /**
@@ -551,29 +550,6 @@
 - (bool)enableAGC:(bool)enable;
 
 /**
- 发送媒体次要信息开关
- 
- @warning Deprecated，请使用 zego-api-media-side-info-oc.h 的 setMediaSideFlags:onlyAudioPublish:channelIndex:
-
- @param start true 开启媒体次要信息传输, false 关闭媒体次要信息传输。start 为 true 时，onlyAudioPublish 开关才有效
- @param onlyAudioPublish true 纯音频直播，不传输视频数据，false 音视频直播，传输视频数据。默认为 false。如果本次只有音频直播，必须将 onlyAudioPublish 置为 true，此时会由音频来驱动次要信息的传输，同时忽略视频流传输
- @discussion 初始化 SDK 后，开始推流前调用。
- */
-- (void)setMediaSideFlags:(bool)start onlyAudioPublish:(bool)onlyAudioPublish;
-
-/**
- 发送媒体次要信息
-
- @warning Deprecated，请使用 zego-api-media-side-info-oc.h 的 sendMediaSideInfo:packet:channelIndex:
- 
- @param inData 需要传输的音视频次要信息数据，外部输入
- @param dataLen 传入的 inData 长度，不能大于 1000 Bytes
- @param packet 是否外部已经打包好包头，true 已打包, false 未打包。
- @discussion 主播端开启媒体次要信息开关，开始推流后调用。调用此 API 发送媒体次要信息后，观众端在 [ZegoLiveRoomApi (Player) -setMediaSideCallback:] 设置的回调中获取媒体次要信息。不需要发送媒体次要信息时，可调用 [ZegoLiveRoomApi (Publisher) setMediaSideFlags:false onlyAudioPublish:false] 关闭通道
- */
-- (void)sendMediaSideInfo:(const unsigned char *)inData dataLen:(int)dataLen packet:(bool)packet;
-
-/**
  设置视频采集缩放时机
  
  * 注意：
@@ -586,7 +562,7 @@
 - (void)SetCapturePipelineScaleMode:(ZegoAPICapturePipelineScaleMode)mode;
 
 /**
- 设置延迟模式
+ 设置所有推流通道的延迟模式
  
  * 设置 SDK 推流时音频使用的延迟模式，可以根据自己的业务场景选择最合适的延迟模式，详情可咨询 ZEGO 技术支持。
  
@@ -597,7 +573,7 @@
 - (void)setLatencyMode:(ZegoAPILatencyMode)mode;
 
 /**
- 设置推流音频声道数
+ 设置所有推流通道的推流音频声道数
  
  * 注意：
  * 1.在推流前调用有效。
@@ -715,7 +691,7 @@
  * 1.推流前调用有效。
  * 2.该设置会影响 [ZegoLivePublisherDelegate -onPublishQualityUpdate:quality:] 的回调频率。
 
- @param timeInMS 质量监控回调的时间周期，单位为毫秒，取值范围为[500,60000]。默认为 3000
+ @param timeInMS 质量监控回调的时间周期，单位为毫秒，取值范围为[500,60000]。大于3000必须为3000整数倍，否则sdk会自动向上取整（比如设置为5000，sdk内部会取整为6000），默认为 3000
  */
 + (void)setPublishQualityMonitorCycle:(unsigned int)timeInMS;
 
@@ -863,6 +839,15 @@
  @param index 推流使用的推流通道
  */
 - (void)onCaptureVideoFirstFrame:(ZegoAPIPublishChannelIndex)index;
+
+/**
+ 预览视频的首帧通知
+ 
+ * 可以通过此 API 获取 SDK 预览视频首帧的时间，开启外部采集后，收到第一帧数据会回调。
+
+ @param index 推流使用的推流通道
+ */
+- (void)onPreviewVideoFirstFrame:(ZegoAPIPublishChannelIndex)index;
 
 /**
  采集音频的首帧通知

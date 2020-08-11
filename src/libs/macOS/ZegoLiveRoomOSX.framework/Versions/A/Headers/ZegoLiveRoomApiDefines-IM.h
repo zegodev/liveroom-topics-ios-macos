@@ -97,24 +97,6 @@ typedef enum
 
 @end
 
-/** 会话消息 */
-@interface ZegoConversationMessage : NSObject
-
-/** 来源用户 Id */
-@property (nonatomic, copy) NSString *fromUserId;
-/** 来源用户名 */
-@property (nonatomic, copy) NSString *fromUserName;
-/** 消息 Id */
-@property (nonatomic, assign) unsigned long long messageId;
-/** 内容 */
-@property (nonatomic, copy) NSString *content;
-/** 消息类型 */
-@property (nonatomic, assign) ZegoMessageType type;
-/** 发送时间 */
-@property (nonatomic, assign) unsigned long long sendTime;
-
-@end
-
 
 /** 房间不可靠消息 */
 @interface ZegoBigRoomMessage : NSObject
@@ -150,19 +132,5 @@ typedef enum
 @end
 
 #endif
-
-/** 会话信息 */
-@interface ZegoConversationInfo : NSObject
-
-/** 会话名称 */
-@property (nonatomic, copy) NSString *conversationName;
-/** 会话创建者 Id */
-@property (nonatomic, copy) NSString *creatorId;
-/** 创建时间 */
-@property (nonatomic, assign) unsigned int createTime;
-/** 会话成员列表 */
-@property (nonatomic, strong) NSArray<ZegoUser*>* members;
-
-@end
 
 #endif /* ZegoLiveRoomApiDefines_h */

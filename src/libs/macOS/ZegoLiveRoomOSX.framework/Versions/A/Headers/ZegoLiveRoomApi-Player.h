@@ -9,7 +9,6 @@
 #import "ZegoLiveRoomApiDefines.h"
 
 @protocol ZegoLivePlayerDelegate;
-@protocol ZegoLiveApiRenderDelegate;
 @protocol ZegoLiveApiAudioRecordDelegate;
 
 
@@ -208,7 +207,7 @@
  * 1. 必须在拉流 startPlayingStream 后调用才有效。
  * 2. 一般在流播放、流新增、全屏切换等其他流尺寸可能变化的场合时调用。
  
- @param mode 模式，参考 ZegoVideoViewMode 定义。默认 ZegoVideoViewModeScaleAspectFill
+ @param mode 模式，参考 ZegoVideoViewMode 定义。默认 ZegoVideoVideModeScaleAspectFit
  @param streamID 播放流 ID
  @return true 成功，false 失败
  */
@@ -228,9 +227,18 @@
 - (bool)setViewRotation:(int)rotate ofStream:(NSString *)streamID;
 
 /**
+ 开启播放镜像
+
+ @param enable true 开启, false 关闭, 默认 false
+ @param streamID 播放流 ID
+ @return true 成功，false 失败
+ */
+- (bool)enableViewMirror:(bool)enable ofStream:(NSString *)streamID;
+
+/**
  设置视频控件的背景颜色
  
- @param  color 颜色,取值为0x00RRGGBB
+ @param color 颜色,取值为0x00RRGGBB
  @param streamID 播放流 ID
  @return true 成功，false 失败
  */
@@ -295,7 +303,7 @@
  * 注意：
  * 1. 设置该 API 后，[ZegoLivePlayerDelegate -onPlayQualityUpdate:stream:videoFPS:videoBitrate:]  将会按照设置值的频率回调。
  
- @param timeInMS 时间周期，单位为毫秒，取值范围为(500, 60000)。默认为 3000
+ @param timeInMS 时间周期，单位为毫秒，取值范围为(500, 60000)。大于3000必须为3000整数倍，否则sdk会自动向上取整（比如设置为5000，sdk内部会取整为6000），默认为 3000
  */
 + (void)setPlayQualityMonitorCycle:(unsigned int)timeInMS;
 
@@ -336,16 +344,6 @@
  @return 最大支持播放流数
  */
 + (int)getMaxPlayChannelCount;
-
-/**
- 设置回调, 接收媒体次要信息
-
- @warning Deprecated，请使用 zego-api-media-side-info-oc.h 的 setMediaSideCallback:
- 
- @param onMediaSideCallback 回调函数指针, pszStreamID：流ID，标记当前回调的信息属于哪条流， buf：接收到的信息数据（具体内容参考官网对应文档中的格式说明）, dataLen：buf 总长度
- @discussion 开始拉流前调用。观众端在此 API 设置的回调中获取主播端发送的次要信息（要求主播端开启发送媒体次要信息开关，并调用 [ZegoLiveRoomApi (Publisher) -sendMediaSideInfo:dataLen:packet:] 发送次要信息）。当不需要接收信息时，需将 onMediaSideCallback 置空，避免内存泄漏
- */
-- (void)setMediaSideCallback:(void(*)(const char *pszStreamID, const unsigned char* buf, int dataLen))onMediaSideCallback;
 
 /**
  帧顺序检测开关
@@ -490,35 +488,6 @@
  @param quality ZegoPlayQuality 对象，内部包含了各项质量数据
  */
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality;
-
-@end
-
-/**
- * 视频外部渲染代理
- * 
- * @warning Deprecated，请使用 zego-api-external-video-render-oc.h 中的 ZegoExternalVideoRenderDelegate
- */
-@protocol ZegoLiveApiRenderDelegate <NSObject>
-
-/**
- SDK 从用户端获取 PixelBuffer 地址
- 
- @param width 视频宽度
- @param height 视频高度
- @param stride 视频帧数据每一行字节数
- @return CVPixelBufferRef 对象
- @discussion 开启外部渲染，设置外部渲染代理对象成功后，SDK 通过此 API 从用户端获取 PixelBuffer 地址。SDK 获取到用户指定的 PixelBuffer 后，将采集的视频源数据拷贝进去
- */
-- (CVPixelBufferRef)onCreateInputBufferWithWidth:(int)width height:(int)height stride:(int)stride;
-
-/**
- SDK 拷贝视频数据完成通知
- 
- @param pixelBuffer 拷贝完成的 PixelBuffer 地址
- @param streamID 流名
- @discussion SDK 通过此回调通知用户数据拷贝完成。当外部渲染拉流数据，streamID 为拉流流名；当外部渲染推流数据，streamID 为常量 kZegoVideoDataMainPublishingStream 时表示第一路推流数据；streamID 为常量 kZegoVideoDataAuxPublishingStream 时表示第二路推流数据
- */
-- (void)onPixelBufferCopyed:(CVPixelBufferRef)pixelBuffer ofStream:(NSString *)streamID;
 
 @end
 

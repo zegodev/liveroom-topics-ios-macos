@@ -22,6 +22,10 @@ typedef void(^ZegoInitSDKCompletionBlock)(int errorCode);
 typedef void(^ZegoLoginCompletionBlock)(int errorCode, NSArray<ZegoStream*> *streamList);
 typedef void(^ZegoResponseBlock)(int result, NSString *fromUserID, NSString *fromUserName);
 typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
+typedef void(^ZegoLogHookBlock)(NSString *logMessage);
+
+
+typedef void(^ZegoRunLoopObserveBlock)(long taskId, ZegoAPITaskType type, int taskDispatchTime, int taskRunTime, int taskTotalTime);
 
 @interface ZegoLiveRoomApi : NSObject
 
@@ -39,6 +43,16 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  @return 版本号2
  */
 + (NSString *)version2;
+
+/**
+ hook sdk 日志
+ 
+ @param  logHookblk 设置日志hook
+ @discussion 1、回调信息为加密信息(需要zego解密工具解密)
+             2、设置此日志回调之后sdk 将不会在写日志文件
+             3、调用时机,应该最早时机调用此接口 InitSDK之前
+ */
++ (void)setLogHook:(ZegoLogHookBlock)logHookblk;
 
 /**
  是否启用测试环境
@@ -110,6 +124,15 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
 + (void)setLogDir:(NSString *)logDir size:(unsigned int)size subFolder:(NSString *)subFolder;
 
 /**
+ 设置observe sdk主线程回调 
+
+ @param blk 回调
+ @discussion 回调值信息 taskId：sdk任务id  type: 任务类型 taskDispatchTime: 任务调度消耗时间 单位ms taskRunTime: 任务执行耗时 单位ms taskTotalTime: 任务总耗时 单位ms 一般情况只需关注此时间即可
+ @discussion 建议每次 初始化SDK前调用, SDK 被反初始化会清除此回调值 
+ */
++ (void)setRunLoopObserveDelegate:(ZegoRunLoopObserveBlock)blk;
+
+/**
  初始化 SDK
  
  @param appID  Zego 派发的数字 ID, 开发者的唯一标识
@@ -146,6 +169,7 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  @param userStateUpdate 用户状态（用户进入、退出房间）是否广播。true 广播，false 不广播。默认 false
  @discussion 在 userStateUpdate 为 true 的情况下，用户进入、退出房间会触发 [ZegoLiveRoomApi (IM) -onUserUpdate:updateType:] 回调
  @discussion 在登录房间前调用有效，退出房间后失效
+ @discussion userStateUpdate为房间属性而非用户属性，设置的是该房间内是否会进行用户状态的广播。如果需要在房间内用户状态改变时，其他用户能收到通知，请为所有用户设置为true；反之，设置为false。设置为true后，方可从OnUserUpdate回调收到用户状态变更通知
  */
 - (void)setRoomConfig:(bool)audienceCreateRoom userStateUpdate:(bool)userStateUpdate;
 
@@ -188,6 +212,18 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  @discussion 登录房间成功，才能开始直播。观众登录房间成功后，会在 blk 中返回当前房间的流信息
  */
 - (bool)loginRoom:(NSString *)roomID roomName:(NSString *)roomName role:(int)role withCompletionBlock:(ZegoLoginCompletionBlock)blk;
+
+/**
+ 切换房间 调用成功 会停止推拉流 (登录房间成功后，需要快速切换到其它房间时使用,也会停止MultiRoom的拉流) 
+ 
+ @param roomID 房间 ID，长度不可超过 255 byte
+ @param roomName 房间名称，可选，长度不可超过 255 byte
+ @param role 成员角色，可取值为 ZEGO_ANCHOR（主播），ZEGO_AUDIENCE（观众），详见 ZegoRole 定义
+ @param blk 回调 block
+ @return true 成功，false 失败
+ @discussion 切换房间成功，才能开始直播。观众登录房间成功后，会在 blk 中返回当前房间的流信息
+ */
+- (bool)switchRoom:(NSString *)roomID roomName:(NSString *)roomName role:(int)role withCompletionBlock:(ZegoLoginCompletionBlock)blk;
 
 /**
  退出房间
@@ -471,12 +507,12 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  
  @param config 配置信息，如"keep_audio_session_active=true", 等号后面值的类型要看下面每一项的定义
  
+ @discussion 具体配置信息请咨询技术支持
  @discussion "prefer_play_ultra_source", int value(1/0), default: 0. 可在 InitSDK 之后，拉流之前调用
  @discussion "keep_audio_session_active", bool value, default: false. if set true, app need to set the session inactive yourself
  @discussion "enforce_audio_loopback_in_sync", bool value, default: false. enforce audio loopback in synchronous method
  @discussion "audio_session_mix_with_others", bool value, default: true. set AVAudioSessionCategoryOptionMixWithOthers
  @discussion "support_general_mode_below_ios9", bool value, default: false. support general mode below ios 9.0
- @discussion "play_nodata_abort", bool value, default: false，设置拉流时没拉到数据是否终止拉流，设置为false表示不终止，设置为true表示终止，拉流之前调用有效
  @discussion "room_retry_time", uint32 value, default:300S，设置房间异常后自动恢复最大重试时间，SDK尽最大努力恢复，单位为S，SDK默认为300s，设置为0时不重试
  @discussion "av_retry_time", uint32 value, default:300S，设置推拉流异常后自动恢复最大重试时间，SDK尽最大努力恢复，单位为S，SDK默认为300s，设置为0时不重试
  @discussion "play_clear_last_frame", bool value, default false. 停止拉流时，是否清除最后一帧内容
@@ -651,6 +687,16 @@ typedef enum : NSUInteger {
  */
 - (void)zego_onDevice:(NSString *)deviceName error:(int)errorCode;
 
+/**
+ 设备事件回调
+ 
+ @param deviceName 设备类型名称。返回值 kZegoDeviceCameraName/kZegoDeviceMicrophoneName/kZegoDeviceAudioName
+ @param errorCode 错误码。 返回值参考 ZegoAPIDeviceErrorCode 定义
+ @param deviceID  出错的设备id (目前仅支持mac设备)
+ @discussion 调用 [ZegoLiveRoomApi -setDeviceEventDelegate] 设置设备事件代理对象后，在此回调中获取设备状态或错误
+ */
+- (void)zego_onDevice:(NSString *)deviceName error:(int)errorCode deviceID:(NSString *)deviceID;
+
 #if TARGET_OS_OSX
 
 @optional
@@ -745,3 +791,7 @@ typedef enum : NSUInteger {
 - (void)onNetTypeChange:(ZegoAPINetType)netType;
 
 @end
+
+
+
+

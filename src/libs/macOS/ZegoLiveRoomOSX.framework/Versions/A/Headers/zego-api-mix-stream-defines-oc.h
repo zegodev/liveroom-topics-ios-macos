@@ -40,6 +40,10 @@
  推流内容控制， 0 表示输出的混流包含音视频，1 表示只包含音频，2 表示只包含视频；默认值为 0。
  */
 @property int contentControl;
+/**
+ 输入流音量, 有效值范围 [0, 200], 默认值 100
+ */
+@property int volume;
 
 /**
  *  原点在左上角，top/bottom/left/right 定义如下：

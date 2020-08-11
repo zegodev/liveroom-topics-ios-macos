@@ -39,7 +39,7 @@ typedef void(^ZegoBigRoomMessageCompletion)(int errorCode, NSString *roomId, NSS
  * 1.在登录房间后调用该 API 才有效。
  * 2.调用该 API 后，房间的其他用户可以通过回调 [ZegoIMDelegate -onRecvRoomMessage:messageList:] 收到该条消息。
  
- @param content 消息内容, 不超过 512 字节
+ @param content 消息内容, 小于1024 字节
  @param type 消息类型，可以自定义。详见 ZegoMessageType
  @param category 消息分类，可以自定义。详见 ZegoMessageCategory
  @param completionBlock 消息发送结果回调。回调信息包含 server 下发的 messageId
@@ -56,7 +56,7 @@ typedef void(^ZegoBigRoomMessageCompletion)(int errorCode, NSString *roomId, NSS
  * 1.在登录房间后调用该 API 才有效。
  * 2.调用该 API 后，房间的其他用户可以通过回调 [ZegoIMDelegate -onRecvBigRoomMessage:messageList:] 收到该条消息。
  
- @param content 消息内容, 不超过 512 字节
+ @param content 消息内容, 小于1024 字节
  @param type 消息类型，可以自定义。详见 ZegoMessageType
  @param category 消息分类，可以自定义。详见 ZegoMessageCategory
  @param completionBlock 消息发送结果回调。回调信息包含 server 下发的 messageId
@@ -75,7 +75,7 @@ typedef void(^ZegoBigRoomMessageCompletion)(int errorCode, NSString *roomId, NSS
 @optional
 
 /**
- 房间成员更新回调
+ 房间成员更新回调 该回调返回人数上限为500人
  
  * 注意：
  * 1.必须调用 [ZegoLiveRoomApi +setRoomConfig:userStateUpdate:] 开启用户状态（用户进入、退出房间）广播，当房间成员变化（用户进入、退出房间）时，才会触发此回调。

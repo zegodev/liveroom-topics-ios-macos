@@ -38,7 +38,9 @@ typedef enum : NSUInteger
     /** 录制文件为 FLV 格式 */
     ZEGOAPI_MEDIA_RECORD_FLV  = 1,
     /** 录制文件为 MP4 格式 */
-    ZEGOAPI_MEDIA_RECORD_MP4  = 2
+    ZEGOAPI_MEDIA_RECORD_MP4  = 2,
+    /** 录制文件为 AAC 格式 */
+    ZEGOAPI_MEDIA_RECORD_AAC  = 4
 } ZegoAPIMediaRecordFormat;
 
 typedef enum : NSUInteger

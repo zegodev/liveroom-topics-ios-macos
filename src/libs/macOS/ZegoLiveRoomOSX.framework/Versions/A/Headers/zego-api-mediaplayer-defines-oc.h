@@ -34,10 +34,10 @@ typedef NS_ENUM(NSInteger, ZegoMediaPlayerVideoPixelFormat) {
 };
 
 typedef NS_ENUM(NSInteger, ZegoMediaPlayerIndex) {
-    ZegoMediaPlayerIndexFirst  = 0,
-    ZegoMediaPlayerIndexSecond = 1,
-    ZegoMediaPlayerIndexThird  = 2,
-    ZegoMediaPlayerIndexFourth = 3,
+    ZegoMediaPlayerIndexFirst   = 0,
+    ZegoMediaPlayerIndexSecond  = 1,
+    ZegoMediaPlayerIndexThird   = 2,
+    ZegoMediaPlayerIndexFourth  = 3,
 };
 
 typedef NS_ENUM(NSInteger, ZegoMediaPlayerAudioChannel) {
@@ -45,6 +45,29 @@ typedef NS_ENUM(NSInteger, ZegoMediaPlayerAudioChannel) {
     ZegoMediaPlayerAudioChannelRight = 2,
     ZegoMediaPlayerAudioChannelAll = 3
 };
+
+/**
+ 媒体播放器错误码
+ */
+typedef NS_ENUM(NSInteger, ZegoMediaPlayerError) {
+    /** ok */
+    ZegoMediaPlayerErrorOK = 0,
+    /** 文件格式不支持 */
+    ZegoMediaPlayerErrorFile = -1,
+    /** 路径不存在 */
+    ZegoMediaPlayerErrorPath = -2,
+    /** 文件无法解码 */
+    ZegoMediaPlayerErrorCodec = -3,
+    /** 文件中没有可播放的音视频流 */
+    ZegoMediaPlayerErrorNoSupportStream = -4,
+    /** 文件解析过程中出现错误 */
+    ZegoMediaPlayerErrorDemux = -5,
+    /** 播放掉帧 */
+    ZegoMediaPlayerErrorFrameDrop = -6,
+    /** 加载资源超时 */
+    ZegoMediaPlayerErrorLoadTimeout = -7
+};
+
 
 struct ZegoMediaPlayerVideoDataFormat
 {

@@ -125,7 +125,7 @@ typedef NS_ENUM(NSInteger, VideoRenderType) {
  开/关外部视频渲染(拉流)，拉流时 App 能拿到 SDK 抛出的视频数据。
  
  * 注意：
- * 1.只有当 +enableExternalVideoRender:type:  的 type 参数设置为 VideoExternalRenderTypeDecodeRender，该接口才有效。
+ * 1.只有当 +setVideoRenderType:type: 的 type 参数设置为非 VIDEO_RENDER_TYPE_NONE 时，该接口才有效。
  * 2.必须在拉流(startPlayingStream)之后调用才生效。
  
  @param enable YES 开启外部视频渲染， NO 关闭外部视频渲染，默认为不开启
@@ -137,7 +137,7 @@ typedef NS_ENUM(NSInteger, VideoRenderType) {
  开/关外部视频渲染(推流预览)，推流时 App 能拿到 SDK 抛出的视频数据。
  
  * 注意：
- * 1.只有当 +enableExternalVideoRender:type:  的 type 参数设置为 VideoExternalRenderTypeDecodeRender，该接口才有效。
+ * 1.只有当 +setVideoRenderType:type: 的 type 参数设置为非 VIDEO_RENDER_TYPE_NONE 时，该接口才有效。
  * 2.必须在 初始化 SDK 之后调用才生效。
  
  @param enable YES 开启外部视频渲染， NO 关闭外部视频渲染，默认为不开启
