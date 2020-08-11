@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)playTopicConfigManager:(ZGPlayTopicConfigManager *)configManager enableHardwareDecodeDidChange:(BOOL)enableHardwareDecode;
 
+- (void)playTopicConfigManager:(ZGPlayTopicConfigManager *)configManager previewMinnorDidChange:(BOOL)isPreviewMinnor;
+
 @end
 
 /**
@@ -62,6 +64,15 @@ NS_ASSUME_NONNULL_BEGIN
  返回是否启用硬件解码标识。如果不存在保存的设置，则返回默认值。
  */
 - (BOOL)isEnableHardwareDecode;
+
+- (void)setPreviewMinnor:(BOOL)isPreviewMinnor;
+
+/**
+ 返回是否启用预览镜像标识。如果不存在保存的设置，则返回默认值。
+ */
+- (BOOL)isPreviewMinnor;
+
+
 
 @end
 

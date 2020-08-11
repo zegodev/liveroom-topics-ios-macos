@@ -62,7 +62,7 @@ static char ZGRoomMessageInteractVCSendMessageTypeKey;
     _roomUserList = [NSMutableArray array];
     
     // 获取到 userID 和 userName
-    self.zgUserID = [NSString stringWithFormat:@"%@_%ld",[UIDevice currentDevice].name,(long)[NSDate date].timeIntervalSince1970];
+    self.zgUserID = [NSString stringWithFormat:@"user_%lf",[NSDate date].timeIntervalSince1970];
     self.zgUserName = self.zgUserID;
     
     self.appConfig = [[ZGAppGlobalConfigManager sharedInstance] globalConfig];

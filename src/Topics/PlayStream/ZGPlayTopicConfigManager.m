@@ -15,6 +15,7 @@ NSString* const ZGPlayTopicConfigPlayViewModeKey = @"ZGPlayTopicConfigPlayViewMo
 NSString* const ZGPlayTopicConfigPlayStreamVolumeKey = @"ZGPlayTopicConfigPlayStreamVolumeKey";
 
 NSString* const ZGPlayTopicConfigEnableHardwareDecodeKey = @"ZGPlayTopicConfigEnableHardwareDecodeKey";
+NSString* const ZGPlayTopicConfigPreviewMinnorKey = @"ZGPlayTopicConfigPreviewMinnorKey";
 
 @interface ZGPlayTopicConfigManager ()
 {
@@ -149,6 +150,34 @@ static ZGPlayTopicConfigManager *instance = nil;
             isEnable = [obj boolValue];
         } else {
             isEnable = NO;
+        }
+    });
+    return isEnable;
+}
+
+- (void)setPreviewMinnor:(BOOL)isPreviewMinnor {
+    dispatch_async(_configOptQueue, ^{
+        NSNumber *obj = @(isPreviewMinnor);
+        [self.zgUserDefaults setObject:obj forKey:ZGPlayTopicConfigPreviewMinnorKey];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            for (id<ZGPlayTopicConfigChangedHandler> handler in self.configChangedHandlers) {
+                if ([handler respondsToSelector:@selector(playTopicConfigManager:previewMinnorDidChange:)]) {
+                    [handler playTopicConfigManager:self previewMinnorDidChange:isPreviewMinnor];
+                }
+            }
+        });
+    });
+}
+
+- (BOOL)isPreviewMinnor {
+    __block BOOL isEnable = NO;
+    dispatch_sync(_configOptQueue, ^{
+        NSNumber *n = [self.zgUserDefaults objectForKey:ZGPlayTopicConfigPreviewMinnorKey];
+        if (n) {
+            isEnable = [n boolValue];
+        } else {
+            // 设置默认
+            isEnable = YES;
         }
     });
     return isEnable;

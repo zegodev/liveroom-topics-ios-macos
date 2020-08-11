@@ -27,7 +27,7 @@
     return self;
 }
 
-- (void)convertToPixelBufferWithData:(const unsigned char **)data dataLen:(int*)dataLen width:(int)width height:(int)height strides:(int[])strides pixelFormat:(VideoPixelFormat)pixelFormat completion:(ZGVideoRenderDataToPixelBufferConvertCompletion)completion {
+- (void)convertToPixelBufferWithData:(const unsigned char **)data dataLen:(int*)dataLen width:(int)width height:(int)height strides:(int[])strides pixelFormat:(VideoPixelFormat)pixelFormat  completion:(ZGVideoRenderDataToPixelBufferConvertCompletion)completion {
     
     const char **originData = (const char **)data;
     CVPixelBufferRef pixelBuffer = NULL;
@@ -89,6 +89,95 @@
     if (pixelBuffer) {
         CVPixelBufferRelease(pixelBuffer);
     }
+}
+
++ (BOOL)copyToPixelBuffer:(CVPixelBufferRef)pixelBuffer withData:(const unsigned char **)data dataLen:(int*)dataLen width:(int)width height:(int)height strides:(int[])strides pixelFormat:(VideoPixelFormat)pixelFormat {
+    BOOL ret = NO;
+    const char **originData = (const char **)data;
+    switch (pixelFormat) {
+        case PixelFormatI420:
+        {
+            [ZGCVPixelBufferHelper copyDataIntoPixelBuffer:pixelBuffer withI420Data:originData strides:strides width:width height:height];
+            ret = YES;
+            break;
+        }
+        case PixelFormatNV12:
+        {
+            // 存储顺序是先存Y，再UV交替存储。 2 plane
+            [ZGCVPixelBufferHelper copyDataIntoPixelBuffer:pixelBuffer withNV12Data:originData strides:strides width:width height:height];
+            ret = YES;
+            break;
+        }
+        case PixelFormatBGRA32:
+        {
+            [ZGCVPixelBufferHelper copyDataIntoPixelBuffer:pixelBuffer withRGBCategoryData:(const char *)data[0] stride:strides[0] width:width height:height];
+            ret = YES;
+            break;
+        }
+        case PixelFormatRGBA32:
+        {
+            [ZGCVPixelBufferHelper copyDataIntoPixelBuffer:pixelBuffer withRGBCategoryData:(const char *)data[0] stride:strides[0] width:width height:height];
+            ret = YES;
+            break;
+        }
+        case PixelFormatARGB32:
+        {
+            [ZGCVPixelBufferHelper copyDataIntoPixelBuffer:pixelBuffer withRGBCategoryData:(const char *)data[0] stride:strides[0] width:width height:height];
+            ret = YES;
+            break;
+        }
+        case PixelFormatABGR32:
+        {
+            [ZGCVPixelBufferHelper copyDataIntoPixelBuffer:pixelBuffer withRGBCategoryData:(const char *)data[0] stride:strides[0] width:width height:height];
+            ret = YES;
+            break;
+        }
+        default:
+            break;
+    }
+    return ret;
+}
+
++ (OSType)getApplePixelFormatFromZego:(VideoPixelFormat)zegoPixelFormat {
+    OSType destFormat = 0;
+    switch (zegoPixelFormat) {
+        case PixelFormatI420:
+        {
+            destFormat = kCVPixelFormatType_420YpCbCr8PlanarFullRange;
+            break;
+        }
+        case PixelFormatNV12:
+        {
+            // 存储顺序是先存Y，再UV交替存储。 2 plane
+            destFormat = kCVPixelFormatType_420YpCbCr8BiPlanarFullRange;
+            break;
+        }
+        case PixelFormatBGRA32:
+        {
+            destFormat = kCVPixelFormatType_32BGRA;
+            break;
+        }
+        case PixelFormatRGBA32:
+        {
+            destFormat = kCVPixelFormatType_32RGBA;
+            break;
+        }
+        case PixelFormatARGB32:
+        {
+            destFormat = kCVPixelFormatType_32ARGB;
+            break;
+            break;
+        }
+        case PixelFormatABGR32:
+        {
+            destFormat = kCVPixelFormatType_32ABGR;
+            break;
+        }
+        default:
+            break;
+    }
+    
+    return destFormat;
 }
 
 @end

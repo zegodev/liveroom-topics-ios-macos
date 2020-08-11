@@ -311,11 +311,11 @@
     [_externalVideoCaptureFactory postCapturedData:imageData withPresentationTimeStamp:presentationTimeStamp];
     
     // 预览
-    CVBufferRetain(imageData);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self->_metalPreviewRenderer displayPixelBuffer:imageData];
-        CVBufferRelease(imageData);
-    });
+//    CVBufferRetain(imageData);
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [self->_metalPreviewRenderer displayPixelBuffer:imageData];
+//        CVBufferRelease(imageData);
+//    });
 }
 
 #pragma mark - ZegoLivePublisherDelegate

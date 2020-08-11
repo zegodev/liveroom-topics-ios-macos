@@ -74,7 +74,7 @@
 typedef void (*CFTypeDeleter)(CFTypeRef cf);
 #define MakeCFTypeHolder(ptr) std::unique_ptr<void, CFTypeDeleter>(ptr, CFRelease)
 
-- (void)onPlayVideoData:(const char *)data size:(int)size format:(ZegoMediaPlayerVideoDataFormat)format {
+- (void)onPlayVideoData:(const char *)data size:(int)size format:(ZegoMediaPlayerVideoDataFormat)format playerIndex:(ZegoMediaPlayerIndex)index {
     struct timeval tv_now;
     gettimeofday(&tv_now, NULL);
     unsigned long long timeMS = (unsigned long long)(tv_now.tv_sec) * 1000 + tv_now.tv_usec / 1000;

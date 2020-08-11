@@ -14,7 +14,7 @@
 #import "ZGMediaPlayerVideoDataToPixelBufferConverter.h"
 #import <ZegoLiveRoom/zego-api-mediaplayer-oc.h>
 
-@interface ZGMediaPlayerPublishStreamVC () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoMediaPlayerEventDelegate, ZegoMediaPlayerVideoPlayDelegate>
+@interface ZGMediaPlayerPublishStreamVC () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoMediaPlayerEventWithIndexDelegate, ZegoMediaPlayerVideoPlayWithIndexDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *mediaRenderView;
 @property (weak, nonatomic) IBOutlet UIButton *playButn;
@@ -52,10 +52,16 @@
 
 - (void)dealloc {
     NSLog(@"%@ dealloc", [self class]);
+
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
     [_mediaPlayer uninit];
     [_zegoApi stopPublishing];
     [_zegoApi logoutRoom];
     [ZegoExternalVideoCapture setVideoCaptureFactory:nil channelIndex:ZEGOAPI_CHN_MAIN];
+    self.zegoApi = nil;
 }
 
 - (void)viewDidLoad {
@@ -116,7 +122,12 @@
 #pragma mark - private methods
 
 - (void)preLoadMedia {
-    [_mediaPlayer load:self.mediaItem.fileUrl];
+    Weakify(self)
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        Strongify(self)
+        [self.mediaPlayer load:self.mediaItem.fileUrl];
+    });
+    
 }
 
 - (void)startLive {
@@ -188,13 +199,13 @@
     }
     
     // setup mediaPlayer。选择 MediaPlayerTypeAux 类型，将播放数据混入到推流中
-    self.mediaPlayer = [[ZegoMediaPlayer alloc] initWithPlayerType:self.audioMixEnabled?MediaPlayerTypeAux:MediaPlayerTypePlayer];
+    self.mediaPlayer = [[ZegoMediaPlayer alloc] initWithPlayerType:self.audioMixEnabled?MediaPlayerTypeAux:MediaPlayerTypePlayer playerIndex:ZegoMediaPlayerIndexFirst];
     [self.mediaPlayer setProcessInterval:500];
-    [self.mediaPlayer setDelegate:self];
+    [self.mediaPlayer setEventWithIndexDelegate:self];
     
     // Warning:由于 CVPixelBuffer 的限制，现在只支持将 BGRA，i420，NV12 格式转为 CVPixelBuffer
     // 所以请 iOS 开发者选择 BGRA，i420，NV12 类型
-    [self.mediaPlayer setVideoPlayDelegate:self format:ZegoMediaPlayerVideoPixelFormatNV12];
+    [self.mediaPlayer setVideoPlayWithIndexDelegate:self format:ZegoMediaPlayerVideoPixelFormatNV12];
     BOOL ret = [self.mediaPlayer requireHWDecoder];
     NSLog(@"requireHWDecoder.ret:%d", ret);
     
@@ -287,47 +298,49 @@
     NSLog(@"推流质量。fps:%f,vencFps:%f,videoBitrate:%f, quanlity:%d, width:%d, height:%d", quality.fps, quality.vencFps, quality.kbps, quality.quality, quality.width, quality.height);
 }
 
-#pragma mark - ZegoMediaPlayerEventDelegate
+#pragma mark - ZegoMediaPlayerEventWithIndexDelegate
 
 /**
  开始播放
  */
-- (void)onPlayStart {
+- (void)onPlayStart:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
 }
 
 /**
  暂停播放
  */
-- (void)onPlayPause {
+- (void)onPlayPause:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
 }
 
 /**
  恢复播放
  */
-- (void)onPlayResume {
+- (void)onPlayResume:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
 }
 
 /**
  播放错误
  */
-- (void)onPlayError:(int)code {
+
+- (void)onPlayError:(int)code playerIndex: (ZegoMediaPlayerIndex)index{
+
     NSLog(@"%s, code:%d", __func__, code);
 }
 
 /**
  播放结束
  */
-- (void)onPlayEnd {
+- (void)onPlayEnd:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
 }
 
 /**
  用户停止播放的回调
  */
-- (void)onPlayStop {
+- (void)onPlayStop:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
 }
 
@@ -336,7 +349,7 @@
  
  @warning 只有播放网络音乐资源才需要关注这个回调
  */
-- (void)onBufferBegin {
+- (void)onBufferBegin:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
 }
 
@@ -345,7 +358,7 @@
  
  @warning 只有播放网络音乐资源才需要关注这个回调
  */
-- (void)onBufferEnd {
+- (void)onBufferEnd:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
 }
 
@@ -355,14 +368,15 @@
  @param code >=0 成功，其它表示失败
  @param millisecond 实际快进的进度，单位毫秒
  */
-- (void)onSeekComplete:(int)code when:(long)millisecond {
+
+- (void)onSeekComplete:(int)code when:(long)millisecond playerIndex: (ZegoMediaPlayerIndex)index{
     NSLog(@"%s", __func__);
 }
 
 /**
  预加载完成
  */
-- (void)onLoadComplete {
+- (void)onLoadComplete:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
     
     self.playButn.enabled = YES;
@@ -390,7 +404,9 @@
  @param timestamp 当前播放进度，单位毫秒
  @note 同步回调，请不要在回调中处理数据或做其他耗时操作
  */
-- (void)onProcessInterval:(long)timestamp {
+
+- (void)onProcessInterval:(long)timestamp playerIndex: (ZegoMediaPlayerIndex)index{
+
     NSLog(@"%s", __func__);
     // 切换到主线程更新 UI
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -408,7 +424,8 @@
  @param format 视频帧原始数据格式
  @note 同步回调，请不要在回调中处理数据或做其他耗时操作
  */
-- (void)onPlayVideoData:(const char *)data size:(int)size format:(struct ZegoMediaPlayerVideoDataFormat)format {
+
+- (void)onPlayVideoData:(const char *)data size:(int)size format:(struct ZegoMediaPlayerVideoDataFormat)format playerIndex:(ZegoMediaPlayerIndex)index{
     // 注意：不要在另外的线程处理 data，因为 data 可能会被释放
     Weakify(self);
     [self.playerVideoHandler convertRGBCategoryDataToPixelBufferWithVideoData:data size:size format:format completion:^(ZGMediaPlayerVideoDataToPixelBufferConverter * _Nonnull converter, CVPixelBufferRef  _Nonnull buffer, CMTime timestamp) {
@@ -417,7 +434,8 @@
     }];
 }
 
-- (void)onPlayVideoData2:(const char **)data size:(int *)size format:(struct ZegoMediaPlayerVideoDataFormat)format {
+- (void)onPlayVideoData2:(const char **)data size:(int *)size format:(struct ZegoMediaPlayerVideoDataFormat)format playerIndex:(ZegoMediaPlayerIndex)index{
+
     // 注意：不要在另外的线程处理 data，因为 data 可能会被释放
     Weakify(self);
     [self.playerVideoHandler convertYUVCategoryDataToPixelBufferWithVideoData:data size:size format:format completion:^(ZGMediaPlayerVideoDataToPixelBufferConverter * _Nonnull converter, CVPixelBufferRef  _Nonnull buffer, CMTime timestamp) {

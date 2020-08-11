@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithPixelFormatType:(OSType)pixelFormatType;
 
+- (void)changeCaptureOrientation:(BOOL)change;
+
 @end
 
 NS_ASSUME_NONNULL_END

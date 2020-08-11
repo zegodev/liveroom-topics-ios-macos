@@ -21,6 +21,7 @@ NSString* const ZGExternalVideoCaptureInitialVCKey_streamID = @"kStreamID";
 @property (nonatomic, weak) IBOutlet UITextField *streamIDTxf;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *captureSourceSegCtrl;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *captureDataFormatSegCtrl;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *resolusionConsistencySegCtrl;
 
 @end
 
@@ -36,6 +37,9 @@ NSString* const ZGExternalVideoCaptureInitialVCKey_streamID = @"kStreamID";
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
+}
+- (IBAction)didChangeCaptureAndEncodeResolution:(UISegmentedControl *)sender {
+    
 }
 
 - (IBAction)captureSourceValueChanged:(id)sender {
@@ -57,7 +61,6 @@ NSString* const ZGExternalVideoCaptureInitialVCKey_streamID = @"kStreamID";
     vc.streamID = streamID;
     vc.captureSource = self.captureSourceSegCtrl.selectedSegmentIndex + 1;
     vc.captureDataFormat = self.captureDataFormatSegCtrl.selectedSegmentIndex + 1;
-    
     [self saveValue:roomID forKey:ZGExternalVideoCaptureInitialVCKey_roomID];
     [self saveValue:streamID forKey:ZGExternalVideoCaptureInitialVCKey_streamID];
     

@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *hardwareDecodeSwitch;
 @property (weak, nonatomic) IBOutlet UISlider *playVolumeSlider;
 @property (weak, nonatomic) IBOutlet UILabel *playVolumeLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *previewMirrorSwitch;
 
 @end
 
@@ -50,6 +51,11 @@ static NSArray<NSNumber*> *ZGPlayTopicCommonVideoViewModeList;
     self.playVolumeLabel.text = @(volume).stringValue;
 }
 
+- (IBAction)playMirrorSwitchValueChange:(id)sender {
+    [[ZGPlayTopicConfigManager sharedInstance] setPreviewMinnor:self.previewMirrorSwitch.isOn];
+}
+
+
 #pragma mark - private methods
 
 + (NSString *)displayTextForVideoViewMode:(ZegoVideoViewMode)viewMode {
@@ -74,6 +80,8 @@ static NSArray<NSNumber*> *ZGPlayTopicCommonVideoViewModeList;
     [self invalidatePlayViewModeUI:[ZGPlayTopicConfigManager sharedInstance].playViewMode];
     [self invalidateEnableHardwareDecodeUI:[ZGPlayTopicConfigManager sharedInstance].isEnableHardwareDecode];
     [self invalidatePlayVolumeUI:[ZGPlayTopicConfigManager sharedInstance].playStreamVolume];
+    [self.previewMirrorSwitch setOn:[ZGPlayTopicConfigManager sharedInstance].isPreviewMinnor animated:NO];
+
 }
 
 - (void)invalidatePlayViewModeUI:(ZegoVideoViewMode)viewMode {

@@ -23,7 +23,7 @@ typedef enum {
     ZGPlayingSubState_Buffering
 } ZGPlayingSubState;
 
-@interface ZGMediaPlayerDemo () <ZegoMediaPlayerEventDelegate>
+@interface ZGMediaPlayerDemo () <ZegoMediaPlayerEventWithIndexDelegate>
 
 @property (strong) ZegoMediaPlayer* player;
 @property (nonatomic) ZGPlayerState playerState;
@@ -48,8 +48,8 @@ typedef enum {
         self.videoCapture = [[ZGVideoCaptureForMediaPlayer alloc] init];
         
         self.player = [[ZegoMediaPlayer alloc] initWithPlayerType:MediaPlayerTypeAux];
-        [self.player setDelegate:self];
-        [self.player setVideoPlayDelegate:self.videoCapture format:ZegoMediaPlayerVideoPixelFormatBGRA32];
+        [self.player setEventWithIndexDelegate:self];
+        [self.player setVideoPlayWithIndexDelegate:self.videoCapture format:ZegoMediaPlayerVideoPixelFormatBGRA32];
         
         self.publishHelper = [ZGMediaPlayerPublishingHelper new];
         __weak ZGMediaPlayerDemo* weakSelf = self;

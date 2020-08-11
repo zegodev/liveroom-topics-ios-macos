@@ -17,7 +17,7 @@
 @property (strong, nonatomic) AVCaptureDeviceInput *input;
 @property (strong, nonatomic) AVCaptureVideoDataOutput *output;
 @property (strong, nonatomic) AVCaptureSession *session;
-
+@property (nonatomic, assign) AVCaptureVideoOrientation currentOrientation;
 @property (assign, nonatomic) BOOL isRunning;
 
 @end
@@ -31,6 +31,7 @@
 - (instancetype)initWithPixelFormatType:(OSType)pixelFormatType {
     if (self = [super init]) {
         self.pixelFormatType = pixelFormatType;
+        self.currentOrientation = AVCaptureVideoOrientationPortrait;
         _outputCallbackQueue = dispatch_queue_create("com.doudong.ZGDemoExternalVideoCameraCaptureController.outputCallbackQueue", DISPATCH_QUEUE_SERIAL);
     }
     return self;
@@ -46,10 +47,10 @@
     }
     
     [self.session beginConfiguration];
-    if ([self.session canSetSessionPreset:AVCaptureSessionPresetHigh]) {
-        [self.session setSessionPreset:AVCaptureSessionPresetHigh];
+    if ([self.session canSetSessionPreset:AVCaptureSessionPreset1280x720]) {
+        [self.session setSessionPreset:AVCaptureSessionPreset1280x720];
     } else {
-        NSLog(@"Start failed. Failed to add `AVCaptureSessionPresetHigh`.");
+        NSLog(@"Start failed. Failed to add `AVCaptureSessionPreset1280x720`.");
         return NO;
     }
     
@@ -72,10 +73,10 @@
     
     AVCaptureConnection *captureConnection = [output connectionWithMediaType:AVMediaTypeVideo];
     if (input.device.position == AVCaptureDevicePositionFront) {
-        captureConnection.videoMirrored = YES;
+        captureConnection.videoMirrored = NO;
     }
     if (captureConnection.isVideoOrientationSupported) {
-        captureConnection.videoOrientation = AVCaptureVideoOrientationPortrait;
+        captureConnection.videoOrientation = self.currentOrientation;
     }
     
     [self.session commitConfiguration];
@@ -86,6 +87,43 @@
     
     self.isRunning = YES;
     return YES;
+}
+
+
+- (void)changeCaptureOrientation:(BOOL)change
+{
+    [self.session beginConfiguration];
+    if ([self.session canSetSessionPreset:AVCaptureSessionPreset1280x720]) {
+        [self.session setSessionPreset:AVCaptureSessionPreset1280x720];
+    } else {
+        NSLog(@"Start failed. Failed to add `AVCaptureSessionPreset1280x720`.");
+    }
+    
+    AVCaptureDeviceInput *input = self.input;
+    if ([self.session canAddInput:input]) {
+        [self.session addInput:input];
+    }
+    
+    AVCaptureVideoDataOutput *output = self.output;
+    if ([self.session canAddOutput:output]) {
+        [self.session addOutput:output];
+    }
+    
+    AVCaptureConnection *captureConnection = [output connectionWithMediaType:AVMediaTypeVideo];
+    if (input.device.position == AVCaptureDevicePositionFront) {
+        captureConnection.videoMirrored = NO;
+    }
+    if (captureConnection.isVideoOrientationSupported) {
+        if (change) {
+            self.currentOrientation = AVCaptureVideoOrientationLandscapeLeft;
+            captureConnection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+        } else {
+            self.currentOrientation = AVCaptureVideoOrientationPortrait;
+            captureConnection.videoOrientation = AVCaptureVideoOrientationPortrait;
+        }
+    }
+    
+    [self.session commitConfiguration];
 }
 
 - (void)stop {

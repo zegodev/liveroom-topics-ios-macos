@@ -43,6 +43,7 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
 @property (nonatomic) BOOL enableCamera;
 @property (nonatomic) BOOL openAudioModule;
 @property (nonatomic) BOOL useFrontCamera;
+@property (nonatomic) BOOL isFocusLocked;
 
 @property (nonatomic) ZegoLiveRoomApi *zegoApi;
 @property (nonatomic) ZGTopicLoginRoomState loginRoomState;
@@ -79,6 +80,7 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
     
     // 推流时，点击屏幕设置对焦点和曝光点
     if (_publishStreamState == ZGTopicPublishStreamStatePublishing) {
+        [self unlockFocusAndExposure];
         CGPoint point = [[touches anyObject] locationInView:self.previewView];
         [self setFocusAndExposurePointInPreviewView:point];
     }
@@ -132,6 +134,17 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
     // 加载持久化的 roomID, streamID
     self.roomIDTextField.text = [self savedValueForKey:ZGPublishTopicPublishStreamVCKey_roomID];
     self.streamIDTextField.text = [self savedValueForKey:ZGPublishTopicPublishStreamVCKey_streamID];
+
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPresses:)];
+    longPressGesture.minimumPressDuration = 1;
+    [self.previewView addGestureRecognizer:longPressGesture];
+}
+
+- (void)longPresses:(UILongPressGestureRecognizer *)sender {
+    // 推流时，长按屏幕锁定对焦点和曝光点
+    if (_publishStreamState == ZGTopicPublishStreamStatePublishing && sender.state == UIGestureRecognizerStateBegan) {
+        [self lockFocusAndExposure];
+    }
 }
 
 - (void)goConfigPage:(id)sender {
@@ -318,6 +331,23 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
     CGPoint relativePoint = CGPointMake(point.x / self.previewView.bounds.size.width, point.y / self.previewView.bounds.size.height);
     [ZegoCamera setCamFocusPointInPreview:relativePoint channelIndex:ZEGOAPI_CHN_MAIN];
     [ZegoCamera setCamExposurePointInPreview:relativePoint channelIndex:ZEGOAPI_CHN_MAIN];
+}
+
+- (void)lockFocusAndExposure {
+    ZGLogInfo(@"📷🔒 Lock focus and exposure");
+    self.isFocusLocked = YES;
+    [ZegoCamera setCamFocusMode:ZegoCameraFocusModeLocked channelIndex:ZEGOAPI_CHN_MAIN];
+    [ZegoCamera setCamExposureMode:ZegoCameraExposureModeLocked channelIndex:ZEGOAPI_CHN_MAIN];
+}
+
+- (void)unlockFocusAndExposure {
+    if (!self.isFocusLocked) {
+        return;
+    }
+    ZGLogInfo(@"📷🔑 Unlock focus and exposure");
+    self.isFocusLocked = NO;
+    [ZegoCamera setCamFocusMode:ZegoCameraFocusModeContinuousAutoFocus channelIndex:ZEGOAPI_CHN_MAIN];
+    [ZegoCamera setCamExposureMode:ZegoCameraExposureModeContinuousAutoExposure channelIndex:ZEGOAPI_CHN_MAIN];
 }
 
 - (void)invalidateLiveStateUILayout {

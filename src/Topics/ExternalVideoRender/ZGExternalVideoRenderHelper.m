@@ -13,31 +13,32 @@
 @implementation ZGExternalVideoRenderHelper
 
 + (void)showRenderData:(CVImageBufferRef)image inView:(ZEGOView *)view viewMode:(ZegoVideoViewMode)viewMode {
-    CGImageRef cgImage = [self getCGImageFromCVImageBuffer:image inView:view viewMode:viewMode];
-    CGImageRetain(cgImage);
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        view.layer.contents = CFBridgingRelease(cgImage);
-        CGImageRelease(cgImage);
+    @autoreleasepool {
+        CGImageRef cgImage = [self getCGImageFromCVImageBuffer:image inView:view viewMode:viewMode];
+        CGImageRetain(cgImage);
         
-        CALayerContentsGravity contentViewMode = nil;
-        switch (viewMode) {
-            case ZegoVideoViewModeScaleToFill:{
-                contentViewMode = kCAGravityResize;
-                break;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            view.layer.contents = CFBridgingRelease(cgImage);
+            CGImageRelease(cgImage);
+            
+            CALayerContentsGravity contentViewMode = nil;
+            switch (viewMode) {
+                case ZegoVideoViewModeScaleToFill:{
+                    contentViewMode = kCAGravityResize;
+                    break;
+                }
+                case ZegoVideoViewModeScaleAspectFit:{
+                    contentViewMode = kCAGravityResizeAspect;
+                    break;
+                }
+                case ZegoVideoViewModeScaleAspectFill:{
+                    contentViewMode = kCAGravityResizeAspectFill;
+                    break;
+                }
             }
-            case ZegoVideoViewModeScaleAspectFit:{
-                contentViewMode = kCAGravityResizeAspect;
-                break;
-            }
-            case ZegoVideoViewModeScaleAspectFill:{
-                contentViewMode = kCAGravityResizeAspectFill;
-                break;
-            }
-        }
-        view.layer.contentsGravity = contentViewMode;
-    });
-    
+            view.layer.contentsGravity = contentViewMode;
+        });
+    }
 }
 
 + (void)removeRenderDataInView:(ZEGOView *)view {

@@ -18,7 +18,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZGVideoCaptureForMediaPlayer : NSObject <ZegoVideoCaptureFactory, ZegoMediaPlayerVideoPlayDelegate>
+@interface ZGVideoCaptureForMediaPlayer : NSObject <ZegoVideoCaptureFactory, ZegoMediaPlayerVideoPlayWithIndexDelegate>
 
 @end
 

@@ -14,12 +14,16 @@
 #import "ZGUserIDHelper.h"
 #import "ZGExternalVideoRenderHelper.h"
 #import "ZGVideoRenderDataToPixelBufferConverter.h"
+#import "ZGPixelBufferPoolController.h"
+
 
 @interface ZGExternalVideoRenderPublishStreamVC () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoVideoRenderDelegate>
 
 @property (nonatomic, weak) IBOutlet UIView *previewView;
 @property (nonatomic) ZegoLiveRoomApi *zegoApi;
 @property (nonatomic) ZGVideoRenderDataToPixelBufferConverter *renderDataToPixelBufferConverter;
+@property (nonatomic) ZGPixelBufferPoolController *pixelBufferPoolController;
+@property (nonatomic) dispatch_queue_t render_queue;
 
 @end
 
@@ -40,12 +44,14 @@
     [_zegoApi stopPreview];
     [_zegoApi stopPublishing];
     [_zegoApi logoutRoom];
+    [_pixelBufferPoolController destroyAllPixelBufferPool];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"视频外部渲染-推流";
+    _render_queue = dispatch_queue_create("RenderQueue", DISPATCH_QUEUE_SERIAL);
     
     [self setupZegoComponents];
     [self setupRenderDataToPixelBufferConverter];
@@ -80,9 +86,20 @@
     _renderDataToPixelBufferConverter = [[ZGVideoRenderDataToPixelBufferConverter alloc] init];
 }
 
+- (ZGPixelBufferPoolController *)pixelBufferPoolController {
+    if (!_pixelBufferPoolController) {
+        _pixelBufferPoolController = [[ZGPixelBufferPoolController alloc] init];
+    }
+    return _pixelBufferPoolController;
+}
+
 - (void)startLive {
     // 开始预览
-    [_zegoApi setPreviewView:self.previewView];
+    if (self.previewRenderType == VideoRenderTypeNone) {
+        [_zegoApi setPreviewView:self.previewView];
+    }else {
+        [_zegoApi setPreviewView:nil];
+    }
     [_zegoApi startPreview];
     
     // 设置userid，username
@@ -157,6 +174,30 @@
     }
     
     if (isPreviewData) {
+        // 通过 CVPixelBufferPool 来创建 CVPixelBuffer
+        OSType appleFormat = [ZGVideoRenderDataToPixelBufferConverter getApplePixelFormatFromZego:pixelFormat];
+        if (appleFormat == 0) {
+            return;
+        }
+        ZGPixelBufferPool *poolObj = [self.pixelBufferPoolController getPixelBufferPool:streamID];
+        if (!poolObj || ([poolObj width] != width || [poolObj height] != height || [poolObj format] != appleFormat)) {
+            if (poolObj) {
+                [self.pixelBufferPoolController destroyPixelBufferPool:streamID];
+            }
+            poolObj = [self.pixelBufferPoolController createPixelBufferPool:width height:height format:appleFormat streamID:streamID];
+            if (!poolObj) {
+                return;
+            }
+        }
+        
+        CVPixelBufferRef pixelBuffer;
+        CVReturn ret = CVPixelBufferPoolCreatePixelBuffer(nil, [poolObj bufferPool], &pixelBuffer);
+        if (ret != kCVReturnSuccess) {
+            NSLog(@"[onVideoRenderCallback] pixelbuffer pool creates pixelbuffer failed, error: %d", ret);
+            return;
+        }
+        
+        
         // 自定义外部渲染逻辑，改变数据，这里变成灰度图像。业务可以根据 pixelFormat 自行处理
         // begin
         if (pixelFormat == PixelFormatI420) {
@@ -183,20 +224,30 @@
         // end
         
         // 在对于预览的渲染时，由于 SDK 不会内部渲染，修改 data 不会生效，所以也需要自定义显示渲染视图
-        const unsigned char **originData = (const unsigned char **)data;
-        Weakify(self);
-        [_renderDataToPixelBufferConverter convertToPixelBufferWithData:originData dataLen:dataLen width:width height:height strides:strides pixelFormat:pixelFormat completion:^(ZGVideoRenderDataToPixelBufferConverter *converter, CVPixelBufferRef buffer) {
-            Strongify(self);
-            if (buffer) {
-                // FIXME：CGImageRef 可能不支持显示 i420 格式
-                [ZGExternalVideoRenderHelper showRenderData:buffer inView:self.previewView viewMode:ZegoVideoViewModeScaleAspectFit];
-            }
-        }];
+        if (![ZGExternalVideoRenderHelper isInternalVideoRenderType:self.previewRenderType]) {
+            const unsigned char **originData = (const unsigned char **)data;
+            [ZGVideoRenderDataToPixelBufferConverter copyToPixelBuffer:pixelBuffer withData:originData dataLen:dataLen width:width height:height strides:strides pixelFormat:pixelFormat];
+            
+            // 模拟一个消费者消费 pixelBuffer
+            CVPixelBufferRetain(pixelBuffer);
+            dispatch_async(_render_queue, ^{
+                [ZGExternalVideoRenderHelper showRenderData:pixelBuffer inView:self.previewView viewMode:ZegoVideoViewModeScaleAspectFit];
+                CVPixelBufferRelease(pixelBuffer);
+            });
+            
+            CVPixelBufferRelease(pixelBuffer);
+        } else {
+            CVPixelBufferRelease(pixelBuffer);
+        }
     }
 }
 
 - (void)onSetFlipMode:(int)mode streamID:(NSString *)streamID {
+    // TODO: 如果有镜像，这里需要处理。mode 参考 `ZegoVideoFlipMode`
+}
 
+- (void)onSetRotation:(int)rotation streamID:(NSString *)streamID {
+    // TODO: 如果有旋转，这里需要处理。rotation 为逆时针旋转角度
 }
 
 @end

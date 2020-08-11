@@ -245,6 +245,7 @@
 		865C97B92316952C008F8CED /* ZGAudioProcessTopicHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 865C97B42316952B008F8CED /* ZGAudioProcessTopicHelper.m */; };
 		865C97BA2316952C008F8CED /* ZGAudioProcessTopicConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 865C97B62316952B008F8CED /* ZGAudioProcessTopicConfigManager.m */; };
 		865C97BB2316952C008F8CED /* ZGAudioProcessTopicConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 865C97B62316952B008F8CED /* ZGAudioProcessTopicConfigManager.m */; };
+		865D644724C71AFC00B0F1CE /* ZGPixelBufferPoolController.m in Sources */ = {isa = PBXBuildFile; fileRef = 865D644624C71AFC00B0F1CE /* ZGPixelBufferPoolController.m */; };
 		86672992231F648C00ED0F39 /* ZGSoundLevelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86672991231F648C00ED0F39 /* ZGSoundLevelViewController.m */; };
 		86672995231F64A500ED0F39 /* ZGSoundLevelConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86672994231F64A500ED0F39 /* ZGSoundLevelConfigViewController.m */; };
 		866C6421240FD6FC00BBE424 /* SDKAPITestChildVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 866C6420240FD6FC00BBE424 /* SDKAPITestChildVC.m */; };
@@ -831,6 +832,8 @@
 		865C97B52316952B008F8CED /* ZGAudioProcessTopicConfigManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGAudioProcessTopicConfigManager.h; sourceTree = "<group>"; };
 		865C97B62316952B008F8CED /* ZGAudioProcessTopicConfigManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGAudioProcessTopicConfigManager.m; sourceTree = "<group>"; };
 		865C97B72316952B008F8CED /* ZGAudioProcessTopicHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGAudioProcessTopicHelper.h; sourceTree = "<group>"; };
+		865D644524C71AFC00B0F1CE /* ZGPixelBufferPoolController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGPixelBufferPoolController.h; sourceTree = "<group>"; };
+		865D644624C71AFC00B0F1CE /* ZGPixelBufferPoolController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGPixelBufferPoolController.m; sourceTree = "<group>"; };
 		86672990231F648C00ED0F39 /* ZGSoundLevelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSoundLevelViewController.h; sourceTree = "<group>"; };
 		86672991231F648C00ED0F39 /* ZGSoundLevelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGSoundLevelViewController.m; sourceTree = "<group>"; };
 		86672993231F64A400ED0F39 /* ZGSoundLevelConfigViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGSoundLevelConfigViewController.h; sourceTree = "<group>"; };
@@ -1376,6 +1379,8 @@
 				861D777D231E149E00436C4E /* ZGExternalVideoRenderPublishStreamVC.m */,
 				861D777F231E14AD00436C4E /* ZGExternalVideoRenderPlayStreamVC.h */,
 				861D7780231E14AD00436C4E /* ZGExternalVideoRenderPlayStreamVC.m */,
+				865D644524C71AFC00B0F1CE /* ZGPixelBufferPoolController.h */,
+				865D644624C71AFC00B0F1CE /* ZGPixelBufferPoolController.m */,
 			);
 			path = ExternalVideoRenderUI;
 			sourceTree = "<group>";
@@ -2936,6 +2941,7 @@
 				3317A81C2265C0B800D277AC /* ZegoDiskLogger.m in Sources */,
 				33B84619228910FA00B86227 /* FBKVOController.m in Sources */,
 				862AD17122FD75CA00621DB8 /* ZGMediaRecordViewController.m in Sources */,
+				865D644724C71AFC00B0F1CE /* ZGPixelBufferPoolController.m in Sources */,
 				861732F42306BF8900FDB15E /* ZGWebRTCUrlInputVC.m in Sources */,
 				86D43EAB22E558F400DC36BE /* ZGExternalVideoFilterPublishViewController.m in Sources */,
 				3317A7ED2265BC2100D277AC /* CMPopTipView.m in Sources */,

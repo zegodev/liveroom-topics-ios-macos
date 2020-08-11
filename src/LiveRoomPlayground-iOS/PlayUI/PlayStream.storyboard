@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8ux-z8-iYV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8ux-z8-iYV">
     <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -258,6 +258,42 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="64" id="dCn-5X-4Qj">
+                                        <rect key="frame" x="0.0" y="327" width="414" height="64"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dCn-5X-4Qj" id="k4O-G1-pFr">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="镜像" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWk-8R-oRj">
+                                                    <rect key="frame" x="20" y="10" width="35" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="预览镜像" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v0H-yg-oT5">
+                                                    <rect key="frame" x="20" y="39" width="53.5" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="367-WK-odN">
+                                                    <rect key="frame" x="355" y="16.5" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="playMirrorSwitchValueChange:" destination="Wfo-HC-GFq" eventType="valueChanged" id="KAZ-so-J4S"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="367-WK-odN" firstAttribute="centerY" secondItem="k4O-G1-pFr" secondAttribute="centerY" id="02L-0i-ECF"/>
+                                                <constraint firstItem="tWk-8R-oRj" firstAttribute="top" secondItem="k4O-G1-pFr" secondAttribute="top" constant="10" id="16v-YS-bCW"/>
+                                                <constraint firstItem="v0H-yg-oT5" firstAttribute="top" secondItem="tWk-8R-oRj" secondAttribute="bottom" constant="8" id="8rb-1H-7OX"/>
+                                                <constraint firstItem="tWk-8R-oRj" firstAttribute="leading" secondItem="k4O-G1-pFr" secondAttribute="leading" constant="20" id="q3d-e2-oPt"/>
+                                                <constraint firstAttribute="trailing" secondItem="367-WK-odN" secondAttribute="trailing" constant="10" id="rL3-CV-ABe"/>
+                                                <constraint firstItem="v0H-yg-oT5" firstAttribute="leading" secondItem="k4O-G1-pFr" secondAttribute="leading" constant="20" id="yTw-Jw-37x"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -271,6 +307,7 @@
                         <outlet property="playViewModeLabel" destination="joH-Tw-3P1" id="nQM-iP-gcS"/>
                         <outlet property="playVolumeLabel" destination="T9h-8N-cF2" id="FBA-wZ-jHR"/>
                         <outlet property="playVolumeSlider" destination="epk-s7-ORf" id="6yW-aL-Hbo"/>
+                        <outlet property="previewMirrorSwitch" destination="367-WK-odN" id="RVo-h6-Gpx"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gY2-cc-8GL" userLabel="First Responder" sceneMemberID="firstResponder"/>

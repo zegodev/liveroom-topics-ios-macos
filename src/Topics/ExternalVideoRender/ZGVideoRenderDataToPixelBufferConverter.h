@@ -38,6 +38,16 @@ typedef void(^ZGVideoRenderDataToPixelBufferConvertCompletion)(ZGVideoRenderData
  */
 - (void)convertToPixelBufferWithData:(const unsigned char **)data dataLen:(int*)dataLen width:(int)width height:(int)height strides:(int[])strides pixelFormat:(VideoPixelFormat)pixelFormat completion:(ZGVideoRenderDataToPixelBufferConvertCompletion)completion;
 
+/** 将 Zego 外部渲染的视频数据拷贝到 CVPixelBuffer 中
+ */
++ (BOOL)copyToPixelBuffer:(CVPixelBufferRef)pixelBuffer withData:(const unsigned char **)data dataLen:(int*)dataLen width:(int)width height:(int)height strides:(int[])strides pixelFormat:(VideoPixelFormat)pixelFormat;
+
+/** 将 Zego 的 pixel 格式转换成苹果支持的
+ 
+ 如果苹果不支持，则返回 0
+ */
++ (OSType)getApplePixelFormatFromZego:(VideoPixelFormat)zegoPixelFormat;
+
 @end
 
 #endif

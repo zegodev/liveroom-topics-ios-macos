@@ -166,6 +166,13 @@
 }
 
 - (void)drawInMTKView:(nonnull MTKView *)view {
+#if TARGET_OS_IOS
+    BOOL isBackground = UIApplication.sharedApplication.applicationState == UIApplicationStateBackground;
+    if (isBackground) {//后台调用部分系统版本会导致崩溃
+        return;
+    }
+#endif
+    
     id <CAMetalDrawable> currentDrawable = self.currentDrawable;
     id <MTLCommandBuffer> commandBuffer = self.commandQueue.commandBuffer;
     MTLRenderPassDescriptor *currentRenderPassDescriptor = self.currentRenderPassDescriptor;

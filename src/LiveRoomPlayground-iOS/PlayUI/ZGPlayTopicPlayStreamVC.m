@@ -16,6 +16,7 @@
 #import "ZGTopicCommonDefines.h"
 #import "ZGPlayTopicSettingVC.h"
 #import <ZegoLiveRoom/ZegoLiveRoomApi.h>
+#import <ZegoLiveRoom/ZegoLiveRoomApi-Player.h>
 
 // 是否判断目标流在当前登录房间中
 #define ZG_PLAY_STREAM_TOPIC_JUDGE_TARGET_PLAY_STREAM_IN_ROOM 0
@@ -37,6 +38,7 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
 @property (nonatomic) ZegoVideoViewMode playViewMode;
 @property (nonatomic) BOOL enableHardwareDecode;
 @property (nonatomic) int playStreamVolume;
+@property (nonatomic) ZegoVideoMirrorMode openPreviewMirror;
 
 @property (nonatomic) ZegoLiveRoomApi *zegoApi;
 @property (nonatomic) ZGTopicLoginRoomState loginRoomState;
@@ -114,6 +116,7 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
     self.playViewMode = [ZGPlayTopicConfigManager sharedInstance].playViewMode;
     self.enableHardwareDecode = [ZGPlayTopicConfigManager sharedInstance].isEnableHardwareDecode;
     self.playStreamVolume = [ZGPlayTopicConfigManager sharedInstance].playStreamVolume;
+    self.openPreviewMirror = [ZGPlayTopicConfigManager sharedInstance].isPreviewMinnor;
 }
 
 - (void)initializeZegoApi {
@@ -142,6 +145,8 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
         [self.zegoApi setRoomDelegate:self];
         [self.zegoApi setPlayerDelegate:self];
     }
+    [self.zegoApi setVideoMirrorMode:self.openPreviewMirror?ZegoVideoMirrorModePreviewMirrorPublishNoMirror:ZegoVideoMirrorModePreviewCaptureBothNoMirror];
+
 }
 
 - (void)startPlayLive {
@@ -212,6 +217,7 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
             
             // 开始拉流
             [self.zegoApi startPlayingStream:streamID inView:self.playLiveView];
+            [self.zegoApi enableViewMirror:self.openPreviewMirror ofStream:self.currentStreamID];
             
             // 根据拉流配置设置拉流
             [self.zegoApi setPlayVolume:self.playStreamVolume ofStream:streamID];
@@ -450,6 +456,12 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
 - (void)playTopicConfigManager:(ZGPlayTopicConfigManager *)configManager enableHardwareDecodeDidChange:(BOOL)enableHardwareDecode {
     self.enableHardwareDecode = enableHardwareDecode;
     [ZegoLiveRoomApi requireHardwareDecoder:enableHardwareDecode];
+}
+
+- (void)playTopicConfigManager:(ZGPlayTopicConfigManager *)configManager previewMinnorDidChange:(BOOL)isPreviewMinnor
+{
+    self.openPreviewMirror = isPreviewMinnor;
+    [self.zegoApi enableViewMirror:isPreviewMinnor ofStream:self.currentStreamID];
 }
 
 @end
