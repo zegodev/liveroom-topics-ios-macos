@@ -535,13 +535,34 @@ static FUManager *shareManager = nil;
     
     /**设置美颜参数*/
     [self resetAllBeautyParams];
-
-    /*Faceunity核心接口，将道具及美颜效果绘制到pixelBuffer中，执行完此函数后pixelBuffer即包含美颜及贴纸效果*/
-
-    CVPixelBufferRef buffer = [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:sizeof(items)/sizeof(int) flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
-    frameID += 1;
     
-    return buffer;
+    OSType formatType = CVPixelBufferGetPixelFormatType(pixelBuffer);
+    if (formatType != kCVPixelFormatType_420YpCbCr8PlanarFullRange) {
+        /*Faceunity核心接口，将道具及美颜效果绘制到pixelBuffer中，执行完此函数后pixelBuffer即包含美颜及贴纸效果*/
+        CVPixelBufferRef buffer = [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:sizeof(items)/sizeof(int) flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
+        frameID += 1;
+        
+        return buffer;
+    }else {
+        CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+        void *yAddr = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
+        void *uAddr = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 1);
+        void *vAddr = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 2);
+        int yStrides = (int)CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 0);
+        int uStrides = (int)CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 1);
+        int vStrides = (int)CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 2);
+        int width = (int)CVPixelBufferGetWidth(pixelBuffer);
+        int height = (int)CVPixelBufferGetHeight(pixelBuffer);
+        
+        [[FURenderer shareRenderer] renderFrame:yAddr u:uAddr v:vAddr ystride:yStrides ustride:uStrides vstride:vStrides width:width height:height frameId:frameID items:items itemCount:sizeof(items)/sizeof(int) flipx:YES];
+        
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+        
+        frameID++;
+        return pixelBuffer;
+    }
+
+    
 }
 
 

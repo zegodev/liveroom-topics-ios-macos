@@ -86,7 +86,12 @@
 }
 
 - (void)saveToAlbum {
-    UISaveVideoAtPathToSavedPhotosAlbum(self.path, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
+    if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(self.path)) {
+        UISaveVideoAtPathToSavedPhotosAlbum(self.path, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
+    } else {
+        [ZegoHudManager showMessage:@"当前格式不支持保存到系统相册，请在沙盒中查看录制的视频"];
+        ZGLogError(@"当前格式不支持保存到系统相册，请在沙盒中查看录制的视频");
+    }
 }
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo; {

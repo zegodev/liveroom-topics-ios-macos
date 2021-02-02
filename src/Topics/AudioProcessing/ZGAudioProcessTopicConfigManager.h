@@ -6,14 +6,22 @@
 //  Copyright © 2019 Zego. All rights reserved.
 //
 #ifdef _Module_AudioProcessing
-
 #import <Foundation/Foundation.h>
+#if TARGET_OS_OSX
+#import <ZegoLiveRoomOSX/ZegoLiveRoomOSX.h>
+#elif TARGET_OS_IOS
+#import <ZegoLiveRoom/ZegoLiveRoom.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class ZGAudioProcessTopicConfigManager;
 @protocol ZGAudioProcessTopicConfigChangedHandler <NSObject>
 @optional
+- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
+               customVoiceChangerOpenChanged:(BOOL)customVoiceChangerOpen;
+- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
+               voiceChangerTypeChanged:(NSUInteger)voiceChangerType;
 - (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
                voiceChangerOpenChanged:(BOOL)voiceChangerOpen;
 
@@ -27,23 +35,16 @@ NS_ASSUME_NONNULL_BEGIN
               virtualStereoAngleChanged:(int)virtualStereoAngle;
 
 - (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
+             customReverbOpen:(BOOL)reverbOpen;
+
+- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
              reverbOpenChanged:(BOOL)reverbOpen;
 
 - (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
              reverbModeChanged:(NSUInteger)reverbMode;
 
 - (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
-             customReverbRoomSizeChanged:(float)customReverbRoomSize;
-
-- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
-           customDryWetRatioChanged:(float)customDryWetRatio;
-
-- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
-              customDampingChanged:(float)customDamping;
-
-- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
-                  customReverberanceChanged:(float)customReverberance;
-
+             customReverbValueChanged:(ZegoAudioAdvancedReverbParam)reverbParam;
 @end
 
 /**
@@ -52,7 +53,9 @@ NS_ASSUME_NONNULL_BEGIN
  * 通过实现 `ZGAudioProcessTopicConfigChangedHandler` 并添加到管理器中，可以收到专题设置更新事件。
  */
 @interface ZGAudioProcessTopicConfigManager : NSObject
-
+@property (nonatomic, assign) BOOL customVoiceChangerOpen;
+@property (nonatomic, assign) NSUInteger voiceChangerType;
+@property (nonatomic, assign) BOOL customReverbOpen;
 + (instancetype)sharedInstance;
 
 - (void)addConfigChangedHandler:(id<ZGAudioProcessTopicConfigChangedHandler>)handler;
@@ -125,46 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSUInteger)reverbMode;
 
-/**
- 保存`自定义混响的 roomSize`设置
- */
-- (void)setCustomReverbRoomSize:(float)roomSize;
-
-/**
- 返回保存的`自定义混响的 roomSize`。如果不存在，则返回默认
- */
-- (float)customReverbRoomSize;
-
-/**
- 保存`自定义混响的 dryWetRatio`设置
- */
-- (void)setCustomDryWetRatio:(float)dryWetRatio;
-
-/**
- 返回保存的`自定义混响的 dryWetRatio`。如果不存在，则返回默认
- */
-- (float)customDryWetRatio;
-
-/**
- 保存`自定义混响的 damping`设置
- */
-- (void)setCustomDamping:(float)damping;
-
-/**
- 返回保存的`自定义混响的 damping`。如果不存在，则返回默认
- */
-- (float)customDamping;
-
-/**
- 保存`自定义混响的 reverberance（余响）`设置
- */
-- (void)setCustomReverberance:(float)reverberance;
-
-/**
- 返回保存的`自定义混响的 reverberance（余响）`。如果不存在，则返回默认
- */
-- (float)customReverberance;
-
+- (void)setCustomReverbParam:(ZegoAudioAdvancedReverbParam)reverbParam;
 @end
 
 NS_ASSUME_NONNULL_END

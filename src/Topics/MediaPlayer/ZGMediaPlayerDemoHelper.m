@@ -23,23 +23,32 @@ NSString* kZGMediaURLKey = @"url";
 
 @implementation ZGMediaPlayerDemoHelper
 
++ (NSArray<NSDictionary *> *)mediaListOfType:(NSString*)ext inDirectory:(NSString*)subDir {
+    NSMutableArray* infoList = [NSMutableArray array];
+    NSArray<NSString*>* fileList = [[NSBundle mainBundle] pathsForResourcesOfType:ext inDirectory:subDir];
+    for (NSString* wav in fileList) {
+        [infoList addObject:@{
+            kZGMediaNameKey: [[wav pathComponents] lastObject],
+            kZGMediaFileTypeKey: ext,
+            KZGMediaSourceTypeKey: @"local",
+            kZGMediaURLKey: wav
+        }];
+    }
+    
+    return infoList;
+}
+
 + (NSArray<NSDictionary *> *)mediaList {
     
     static NSArray* s_mediaList = nil;
     if (!s_mediaList) {
+        s_mediaList = [NSArray array];
+        s_mediaList = [s_mediaList arrayByAddingObjectsFromArray: [self mediaListOfType:@"mp3" inDirectory:@""]];
+        s_mediaList = [s_mediaList arrayByAddingObjectsFromArray: [self mediaListOfType:@"mp4" inDirectory:@""]];
+        s_mediaList = [s_mediaList arrayByAddingObjectsFromArray: [self mediaListOfType:@"wav" inDirectory:@"speech"]];
+        s_mediaList = [s_mediaList arrayByAddingObjectsFromArray: [self mediaListOfType:@"mp3" inDirectory:@""]];
+        
         NSArray* list = @[@{
-                              kZGMediaNameKey: @"audio clip(-50% tempo)",
-                              kZGMediaFileTypeKey: @"mp3",
-                              KZGMediaSourceTypeKey: @"local",
-                              kZGMediaURLKey: [[NSBundle mainBundle] pathForResource:@"sample_-50_tempo" ofType:@"mp3"]
-                              },
-                          @{
-                              kZGMediaNameKey: @"ad",
-                              kZGMediaFileTypeKey: @"mp4",
-                              KZGMediaSourceTypeKey: @"local",
-                              kZGMediaURLKey: [[NSBundle mainBundle] pathForResource:@"ad" ofType:@"mp4"]
-                              },
-                          @{
                               kZGMediaNameKey: @"audio clip",
                               kZGMediaFileTypeKey: @"mp3",
                               KZGMediaSourceTypeKey: @"online",
@@ -51,8 +60,22 @@ NSString* kZGMediaURLKey = @"url";
                               KZGMediaSourceTypeKey: @"online",
                               kZGMediaURLKey: @"http://lvseuiapp.b0.upaiyun.com/201808270915.mp4"
                               }];
-                          
-        s_mediaList = [list arrayByAddingObjectsFromArray:[self getAVAssetPath]];
+        
+        s_mediaList = [s_mediaList arrayByAddingObjectsFromArray:list];
+        s_mediaList = [s_mediaList arrayByAddingObjectsFromArray:[self getAVAssetPath]];
+        
+        s_mediaList = [s_mediaList sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            NSString* type1 = [obj1 objectForKey:kZGMediaFileTypeKey];
+            NSString* name1 = [obj1 objectForKey:kZGMediaNameKey];
+            NSString* key1 = [NSString stringWithFormat:@"%@%@", type1, name1];
+            
+            NSString* type2 = [obj2 objectForKey:kZGMediaFileTypeKey];
+            NSString* name2 = [obj2 objectForKey:kZGMediaNameKey];
+            NSString* key2 = [NSString stringWithFormat:@"%@%@", type2, name2];
+                
+            return [key1 compare:key2];
+        }];
+        
     }
     
     return s_mediaList;

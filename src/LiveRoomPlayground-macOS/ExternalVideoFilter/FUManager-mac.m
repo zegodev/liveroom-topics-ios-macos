@@ -8,7 +8,7 @@
 
 #import "FUManager-mac.h"
 #import "FURenderer.h"
-#import "authpack.h"
+#import "authpack_mac.h"
 #import <sys/utsname.h>
 
 

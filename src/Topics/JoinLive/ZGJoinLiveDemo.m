@@ -82,7 +82,7 @@
     _audienceCreateRoomEnabled = audienceCreateRoomEnabled;
     [self.zegoApi setRoomConfig:audienceCreateRoomEnabled userStateUpdate:YES];
     NSString *boolStr = audienceCreateRoomEnabled?@"YES":@"NO";
-    ZGLogInfo(@"enableMic:%@", boolStr);
+    ZGLogInfo(@"enableAudienceCreateRoom:%@", boolStr);
 }
 
 - (void)setEnableMic:(BOOL)enableMic {
@@ -404,7 +404,7 @@
     BOOL isTypeAdd = type == ZEGO_STREAM_ADD;//流变更类型：增加/删除
     
     for (ZegoStream *stream in streamList) {
-        ZGLogInfo(@"收到流更新:%@，类型:%@，房间号:%@",stream.streamID, isTypeAdd ? @"增加":@"删除", roomID);
+        ZGLogInfo(@"收到流更新:%@，类型:%@， 原因:%d，房间号:%@",stream.streamID, isTypeAdd ? @"增加":@"删除", stream.streamDeleteReason, roomID);
     }
     
     if (![roomID isEqualToString:self.joinRoomID]) {

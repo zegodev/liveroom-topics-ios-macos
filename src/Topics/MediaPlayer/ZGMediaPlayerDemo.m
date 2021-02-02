@@ -46,6 +46,7 @@ typedef enum {
         [ZGApiManager releaseApi];
         
         self.videoCapture = [[ZGVideoCaptureForMediaPlayer alloc] init];
+        [ZegoExternalVideoCapture setVideoCaptureFactory:self.videoCapture channelIndex:ZEGOAPI_CHN_MAIN];
         
         self.player = [[ZegoMediaPlayer alloc] initWithPlayerType:MediaPlayerTypeAux];
         [self.player setEventWithIndexDelegate:self];
@@ -126,7 +127,7 @@ typedef enum {
 
 #pragma mark - ZegoMediaPlayerEventDelegate
 
-- (void)onPlayStart {
+- (void)onPlayStart:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
     
     assert(self.playerState == ZGPlayerState_Playing);
@@ -143,44 +144,44 @@ typedef enum {
     [self.delegate onGetAudioStreamCount:audioStreamCount];
 }
 
-- (void)onPlayPause {
+- (void)onPlayPause:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
     assert(self.playerState == ZGPlayerState_Playing);
     self.playingSubState = ZGPlayingSubState_Paused;
 }
 
-- (void)onPlayResume {
+- (void)onPlayResume:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
     assert(self.playerState == ZGPlayerState_Playing);
     self.playingSubState = ZGPlayingSubState_PlayBegin;
 }
 
-- (void)onPlayError:(int)code  {
+- (void)onPlayError:(int)code playerIndex:(ZegoMediaPlayerIndex)index  {
     NSLog(@"%s", __func__);
     self.playerState = ZGPlayerState_Stopped;
 }
 
-- (void)onVideoBegin  {
+- (void)onVideoBegin:(ZegoMediaPlayerIndex)index  {
     NSLog(@"%s", __func__);
 }
 
-- (void)onAudioBegin {
+- (void)onAudioBegin:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
 }
 
-- (void)onPlayEnd {
+- (void)onPlayEnd:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
     self.playerState = ZGPlayerState_Stopped;
 }
 
-- (void)onPlayStop {
+- (void)onPlayStop:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
     if (self.playerState == ZGPlayerState_Stopping) {
         self.playerState = ZGPlayerState_Stopped;
     }
 }
 
-- (void)onBufferBegin {
+- (void)onBufferBegin:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
     if (self.playerState == ZGPlayerState_Playing) {
         self.playingSubState = ZGPlayingSubState_Buffering;
@@ -189,7 +190,7 @@ typedef enum {
     }
 }
 
-- (void)onBufferEnd {
+- (void)onBufferEnd:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
     if (self.playerState == ZGPlayerState_Playing) {
         if (self.playingSubState == ZGPlayingSubState_Buffering) {
@@ -202,7 +203,7 @@ typedef enum {
     }
 }
 
-- (void)onSeekComplete:(int)code when:(long)millisecond {
+- (void)onSeekComplete:(int)code when:(long)millisecond playerIndex:(ZegoMediaPlayerIndex)index {
     NSLog(@"%s", __func__);
 }
 

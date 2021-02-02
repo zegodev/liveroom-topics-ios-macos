@@ -29,7 +29,7 @@ NSString* const ZGPublishTopicPublishStreamVCKey_streamID = @"kStreamID";
 
 @property (weak, nonatomic) IBOutlet UIView *previewView;
 @property (weak, nonatomic) IBOutlet UITextView *processTipTextView;
-@property (weak, nonatomic) IBOutlet UIStackView *startPublishStackView;
+@property (weak, nonatomic) IBOutlet UIView *startPublishStackView;
 @property (weak, nonatomic) IBOutlet UITextField *roomIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *streamIDTextField;
 @property (weak, nonatomic) IBOutlet UIButton *startLiveButn;

@@ -43,6 +43,13 @@ typedef NS_ENUM(NSUInteger, ZGAppEnvironment) {
 // 是否开启硬件解码
 @property (nonatomic, assign) BOOL openHardwareDecode;
 
+
+@property (nonatomic, assign) BOOL showLogUnCrypt;
+
+@property (nonatomic, assign) int logFileSize;
+
+@property (nonatomic, copy) NSString *logFileBaseDirName;
+
 /**
  从字典转化为当前类型实例。
  

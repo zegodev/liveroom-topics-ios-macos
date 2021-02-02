@@ -82,6 +82,19 @@ static ZGAudioProcessTopicConfigManager *instance = nil;
     });
 }
 
+- (void)setCustomVoiceChangerOpen:(BOOL)customVoiceChangerOpen {
+    _customVoiceChangerOpen = customVoiceChangerOpen;
+    dispatch_async(_configOptQueue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            for (id<ZGAudioProcessTopicConfigChangedHandler> handler in self.configChangedHandlers) {
+                if ([handler respondsToSelector:@selector(audioProcessTopicConfigManager:customVoiceChangerOpenChanged:)]) {
+                    [handler audioProcessTopicConfigManager:self customVoiceChangerOpenChanged:customVoiceChangerOpen];
+                }
+            }
+        });
+    });
+}
+
 - (void)setVoiceChangerOpen:(BOOL)voiceChangerOpen {
     dispatch_async(_configOptQueue, ^{
         NSNumber *obj = @(voiceChangerOpen);
@@ -118,6 +131,19 @@ static ZGAudioProcessTopicConfigManager *instance = nil;
             for (id<ZGAudioProcessTopicConfigChangedHandler> handler in self.configChangedHandlers) {
                 if ([handler respondsToSelector:@selector(audioProcessTopicConfigManager:voiceChangerParamChanged:)]) {
                     [handler audioProcessTopicConfigManager:self voiceChangerParamChanged:voiceChangerParam];
+                }
+            }
+        });
+    });
+}
+
+- (void)setVoiceChangerType:(NSUInteger)voiceChangerType {
+    _voiceChangerType = voiceChangerType;
+    dispatch_async(_configOptQueue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            for (id<ZGAudioProcessTopicConfigChangedHandler> handler in self.configChangedHandlers) {
+                if ([handler respondsToSelector:@selector(audioProcessTopicConfigManager:voiceChangerTypeChanged:)]) {
+                    [handler audioProcessTopicConfigManager:self voiceChangerTypeChanged:voiceChangerType];
                 }
             }
         });
@@ -194,6 +220,19 @@ static ZGAudioProcessTopicConfigManager *instance = nil;
     return val;
 }
 
+- (void)setCustomReverbOpen:(BOOL)customReverbOpen {
+    _customReverbOpen = customReverbOpen;
+    dispatch_async(_configOptQueue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            for (id<ZGAudioProcessTopicConfigChangedHandler> handler in self.configChangedHandlers) {
+                if ([handler respondsToSelector:@selector(audioProcessTopicConfigManager:customReverbOpen:)]) {
+                    [handler audioProcessTopicConfigManager:self customReverbOpen:customReverbOpen];
+                }
+            }
+        });
+    });
+}
+
 - (void)setReverbOpen:(BOOL)reverbOpen {
     dispatch_async(_configOptQueue, ^{
         NSNumber *obj = @(reverbOpen);
@@ -249,118 +288,16 @@ static ZGAudioProcessTopicConfigManager *instance = nil;
     });
     return val;
 }
-
-- (void)setCustomReverbRoomSize:(float)roomSize {
+- (void)setCustomReverbParam:(ZegoAudioAdvancedReverbParam)reverbParam {
     dispatch_async(_configOptQueue, ^{
-        NSNumber *obj = @(roomSize);
-        [self.zgUserDefaults setObject:obj forKey:ZGAudioProcessTopicConfigCustomReverbRoomSizeKey];
         dispatch_async(dispatch_get_main_queue(), ^{
             for (id<ZGAudioProcessTopicConfigChangedHandler> handler in self.configChangedHandlers) {
-                if ([handler respondsToSelector:@selector(audioProcessTopicConfigManager:customReverbRoomSizeChanged:)]) {
-                    [handler audioProcessTopicConfigManager:self customReverbRoomSizeChanged:roomSize];
+                if ([handler respondsToSelector:@selector(audioProcessTopicConfigManager:customReverbValueChanged:)]) {
+                    [handler audioProcessTopicConfigManager:self customReverbValueChanged:reverbParam];
                 }
             }
         });
     });
 }
-
-- (float)customReverbRoomSize {
-    __block float val = 0;
-    dispatch_sync(_configOptQueue, ^{
-        NSNumber *n = [self.zgUserDefaults objectForKey:ZGAudioProcessTopicConfigCustomReverbRoomSizeKey];
-        if (n) {
-            val = [n floatValue];
-        } else {
-            // 设置默认
-            val = 0;
-        }
-    });
-    return val;
-}
-
-- (void)setCustomDryWetRatio:(float)dryWetRatio {
-    dispatch_async(_configOptQueue, ^{
-        NSNumber *obj = @(dryWetRatio);
-        [self.zgUserDefaults setObject:obj forKey:ZGAudioProcessTopicConfigCustomDryWetRatioKey];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            for (id<ZGAudioProcessTopicConfigChangedHandler> handler in self.configChangedHandlers) {
-                if ([handler respondsToSelector:@selector(audioProcessTopicConfigManager:customDryWetRatioChanged:)]) {
-                    [handler audioProcessTopicConfigManager:self customDryWetRatioChanged:dryWetRatio];
-                }
-            }
-        });
-    });
-}
-
-- (float)customDryWetRatio {
-    __block float val = 0;
-    dispatch_sync(_configOptQueue, ^{
-        NSNumber *n = [self.zgUserDefaults objectForKey:ZGAudioProcessTopicConfigCustomDryWetRatioKey];
-        if (n) {
-            val = [n floatValue];
-        } else {
-            // 设置默认
-            val = 0;
-        }
-    });
-    return val;
-}
-
-- (void)setCustomDamping:(float)damping {
-    dispatch_async(_configOptQueue, ^{
-        NSNumber *obj = @(damping);
-        [self.zgUserDefaults setObject:obj forKey:ZGAudioProcessTopicConfigCustomDampingKey];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            for (id<ZGAudioProcessTopicConfigChangedHandler> handler in self.configChangedHandlers) {
-                if ([handler respondsToSelector:@selector(audioProcessTopicConfigManager:customDampingChanged:)]) {
-                    [handler audioProcessTopicConfigManager:self customDampingChanged:damping];
-                }
-            }
-        });
-    });
-}
-
-- (float)customDamping {
-    __block float val = 0;
-    dispatch_sync(_configOptQueue, ^{
-        NSNumber *n = [self.zgUserDefaults objectForKey:ZGAudioProcessTopicConfigCustomDampingKey];
-        if (n) {
-            val = [n floatValue];
-        } else {
-            // 设置默认
-            val = 0;
-        }
-    });
-    return val;
-}
-
-- (void)setCustomReverberance:(float)reverberance {
-    dispatch_async(_configOptQueue, ^{
-        NSNumber *obj = @(reverberance);
-        [self.zgUserDefaults setObject:obj forKey:ZGAudioProcessTopicConfigCustomReverberanceKey];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            for (id<ZGAudioProcessTopicConfigChangedHandler> handler in self.configChangedHandlers) {
-                if ([handler respondsToSelector:@selector(audioProcessTopicConfigManager:customReverberanceChanged:)]) {
-                    [handler audioProcessTopicConfigManager:self customReverberanceChanged:reverberance];
-                }
-            }
-        });
-    });
-}
-
-- (float)customReverberance {
-    __block float val = 0;
-    dispatch_sync(_configOptQueue, ^{
-        NSNumber *n = [self.zgUserDefaults objectForKey:ZGAudioProcessTopicConfigCustomReverberanceKey];
-        if (n) {
-            val = [n floatValue];
-        } else {
-            // 设置默认
-            val = 0;
-        }
-    });
-    return val;
-}
-
 @end
 #endif

@@ -352,14 +352,20 @@
     }
     
     // 构造布局信息
+    ZGMixStreamTopicConfig *myConfig = [[ZGMixStreamTopicConfigManager sharedInstance] config];
+    CGSize canvasSize = self.userLiveContainerView.frame.size;
+    CGFloat layoutScaleH = myConfig.outputResolutionWidth/canvasSize.width;
+    CGFloat layoutScaleV = myConfig.outputResolutionHeight/canvasSize.height;
+    
     NSMutableArray<ZegoMixStreamInput *> *inputStreams = [NSMutableArray<ZegoMixStreamInput*> array];
     for (ZGMixStreamTopicLiveViewLayout *item in self.liveViewLayoutList) {
         ZegoMixStreamInput *msi = [ZegoMixStreamInput new];
         msi.streamID = item.streamID;
-        msi.left = item.left;
-        msi.top = item.top;
-        msi.right = msi.left + item.width;
-        msi.bottom = msi.top + item.height;
+        
+        msi.left = item.left*layoutScaleH;
+        msi.top = item.top*layoutScaleV;
+        msi.right = msi.left + item.width*layoutScaleH;
+        msi.bottom = msi.top + item.height*layoutScaleV;
         
         // 设置 soundLevelID
         NSNumber *levelID = self.streamIDKeyedMixStreamInputSoundLevelIDs[item.streamID];
@@ -371,8 +377,6 @@
     }
     
     // 根据界面的混流配置填充以下参数
-    ZGMixStreamTopicConfig *myConfig = [[ZGMixStreamTopicConfigManager sharedInstance] config];
-    
     ZegoMixStreamConfig *mixConfig = [[ZegoMixStreamConfig alloc] init];
     mixConfig.outputFps = (int)myConfig.outputFps;
     mixConfig.outputBitrate = (int)myConfig.outputBitrate;

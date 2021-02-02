@@ -101,6 +101,13 @@ static NSArray<NSNumber*> *ZGPlayTopicCommonVideoViewModeList;
     NSArray<NSNumber*>* modeList = ZGPlayTopicCommonVideoViewModeList;
     
     UIAlertController *sheet = [UIAlertController alertControllerWithTitle:@"选择渲染视图模式" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        UIPopoverPresentationController *popVC = sheet.popoverPresentationController;
+        popVC.sourceView = cell;
+        popVC.sourceRect = cell.bounds;
+        popVC.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    }
     for (NSNumber *modeObj in modeList) {
         ZegoVideoViewMode viewMode = (ZegoVideoViewMode)[modeObj integerValue];
         [sheet addAction:[UIAlertAction actionWithTitle:[[self class] displayTextForVideoViewMode:viewMode] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

@@ -112,7 +112,7 @@
     
     switch (self.viewMode) {
         case ZegoVideoViewModeScaleToFill:{
-            viewport = (MTLViewport){0, 0, drawSize.width, drawSize.height, -1, 1};
+            viewport = (MTLViewport){0, 0, drawSize.width, drawSize.height, 0, 1};
         }
             break;
         case ZegoVideoViewModeScaleAspectFit:{
@@ -131,7 +131,7 @@
                 newOrigenX = (drawSize.width - newTextureW) / 2;
             }
             
-            viewport = (MTLViewport){newOrigenX, newOrigenY, newTextureW, newTextureH, -1, 1};
+            viewport = (MTLViewport){newOrigenX, newOrigenY, newTextureW, newTextureH, 0, 1};
         }
             break;
         case ZegoVideoViewModeScaleAspectFill:{
@@ -150,7 +150,7 @@
                 newOrigenY = (drawSize.height - newTextureH) / 2;
             }
             
-            viewport = (MTLViewport){newOrigenX, newOrigenY, newTextureW, newTextureH, -1, 1};
+            viewport = (MTLViewport){newOrigenX, newOrigenY, newTextureW, newTextureH, 0, 1};
         }
             break;
     }

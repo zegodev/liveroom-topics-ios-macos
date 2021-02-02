@@ -18,6 +18,7 @@
 #import "ZGMetalPreviewBGRARenderer.h"
 #import "ZGDemoExternalVideoCameraCaptureController.h"
 #import "ZGDemoExternalVideoImageCaptureController.h"
+#import "ZGDemoExternalVideoSreenCaptureController.h"
 #import "ZGDemoExternalVideoCaptureFactory.h"
 #import "ZGAppGlobalConfigManager.h"
 #import "ZGAppSignHelper.h"
@@ -39,6 +40,9 @@
 @property (nonatomic) ZGDemoExternalVideoCaptureFactory *externalVideoCaptureFactory;
 
 @property (nonatomic) ZegoLiveRoomApi *zegoApi;
+
+@property (weak, nonatomic) IBOutlet UILabel *screenRecordInfoLabel;
+
 
 #if EXTERNAL_VIDEO_CAPTURE_VERIFY_SIDE_INFO_BACKGROUND
 
@@ -74,6 +78,7 @@
     
     [self setupMtkPreviewViewIfNeed];
     [self setupMetalPreviewRendererIfNeed];
+    [self setupScreenRecordInfoLabelIfNeed];
     [self startLive];
 }
 
@@ -139,6 +144,14 @@
     }
 }
 
+- (void)setupScreenRecordInfoLabelIfNeed {
+    if (self.captureSource == 3) {
+        self.screenRecordInfoLabel.hidden = NO;
+    } else {
+        self.screenRecordInfoLabel.hidden = YES;
+    }
+}
+
 - (id<ZGDemoExternalVideoCaptureControllerProtocol>)videoCaptureController {
     if (!_videoCaptureController) {
         if (self.captureSource == 1) {
@@ -158,6 +171,8 @@
             // 图像 capture source 暂不支持 YUV 的类型
         } else if (self.captureSource == 3) {
             // screen record, FIXME: 还不支持该类型
+            _videoCaptureController = [[ZGDemoExternalVideoSreenCaptureController alloc] initWithPixelFormatType:kCVPixelFormatType_32BGRA];
+            _videoCaptureController.delegate = self;
         }
     }
     return _videoCaptureController;
@@ -291,12 +306,18 @@
     // 推流
     [_externalVideoCaptureFactory postCapturedData:imageData withPresentationTimeStamp:presentationTimeStamp];
     
-    // 预览
-    CVBufferRetain(imageData);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self->_metalPreviewRenderer displayPixelBuffer:imageData];
-        CVBufferRelease(imageData);
-    });
+    if (self.captureSource == 3) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.screenRecordInfoLabel.text = [NSString stringWithFormat:@"%lld", presentationTimeStamp.value];
+        });
+    } else {
+        // 预览
+        CVBufferRetain(imageData);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->_metalPreviewRenderer displayPixelBuffer:imageData];
+            CVBufferRelease(imageData);
+        });
+    }
 }
 
 #pragma mark - ZegoLivePublisherDelegate

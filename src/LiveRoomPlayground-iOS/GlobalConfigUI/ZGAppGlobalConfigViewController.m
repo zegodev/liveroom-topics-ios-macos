@@ -28,6 +28,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *appVersionLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *openHardwareEncodeSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *openHardwareDecodeSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *openLogEncryptSwitch;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *logBaseDirSegCtrl;
+@property (weak, nonatomic) IBOutlet UITextField *logFileSizeTextField;
 
 @end
 
@@ -80,6 +83,7 @@
         [[ZGAppGlobalConfigManager sharedInstance] setGlobalConfig:config];
         [ZegoHudManager showMessage:@"已重置为默认设置"];
         [self applyConfig:config];
+        
     }]];
     [alertVC addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
     [self presentViewController:alertVC animated:YES completion:nil];
@@ -97,6 +101,11 @@
         config.openHardwareEncode = self.openHardwareEncodeSwitch.isOn;
         config.openHardwareDecode = self.openHardwareDecodeSwitch.isOn;
         
+        config.showLogUnCrypt = self.openLogEncryptSwitch.isOn;
+        config.logFileSize = self.logFileSizeTextField.text ? self.logFileSizeTextField.text.intValue : 5;
+        config.logFileBaseDirName = self.logBaseDirSegCtrl.selectedSegmentIndex == 1 ? [self logBaseDirNameDefault] : @"Document";
+        
+        //TODO:// 添加保存 日志设置
         [[ZGAppGlobalConfigManager sharedInstance] setGlobalConfig:config];
         [ZegoHudManager showMessage:@"已保存设置"];
     }]];
@@ -110,9 +119,15 @@
     }
     self.appIDTxf.text = @(configInfo.appID).stringValue;
     self.appSignTxv.text = configInfo.appSign;
-    self.environmentSegCtrl.selectedSegmentIndex = configInfo.environment == ZGAppEnvironmentTest?0:1;
+    self.environmentSegCtrl.selectedSegmentIndex = configInfo.environment == ZGAppEnvironmentTest ? 0 : 1;
     self.openHardwareEncodeSwitch.on = configInfo.openHardwareEncode;
     self.openHardwareDecodeSwitch.on = configInfo.openHardwareDecode;
+    
+    self.openLogEncryptSwitch.on = configInfo.showLogUnCrypt;
+    self.logFileSizeTextField.text = @(configInfo.logFileSize).stringValue;
+    self.logBaseDirSegCtrl.selectedSegmentIndex = [configInfo.logFileBaseDirName isEqualToString:[self logBaseDirNameDefault]];
+    
+    
 }
 
 - (void)openWebRTCURLTestPage {
@@ -206,6 +221,18 @@
             }
         });
     });
+}
+
+#pragma mark - SDK log
+
+- (NSString *)logBaseDirNameDefault {
+    
+    return @"Library";
+}
+
+- (NSString *)logFileSizeNameDefault {
+    
+    return @"5M";
 }
 
 #pragma mark - table delegate & data source

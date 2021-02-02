@@ -29,7 +29,7 @@ NSString* const ZGPlayTopicPlayStreamVCKey_streamID = @"kStreamID";
 @property (weak, nonatomic) IBOutlet UIView *playLiveView;
 @property (weak, nonatomic) IBOutlet UITextView *processTipTextView;
 @property (weak, nonatomic) IBOutlet UILabel *playLiveQualityLabel;
-@property (weak, nonatomic) IBOutlet UIStackView *startPlayLiveStackView;
+@property (weak, nonatomic) IBOutlet UIView *startPlayLiveStackView;
 @property (weak, nonatomic) IBOutlet UITextField *roomIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *streamIDTextField;
 @property (weak, nonatomic) IBOutlet UIButton *startPlayLiveButn;

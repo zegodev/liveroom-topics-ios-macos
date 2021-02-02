@@ -12,6 +12,7 @@
 #import "ZegoDiskLogger.h"
 #import "ZegoRAMStoreLogger.h"
 #import "ZGTopicCommonDefines.h"
+#import "ZGSDKLogConfig.h"
 
 @interface AppDelegate ()
 
@@ -39,6 +40,9 @@
     [ZegoLog addLogger:ttyLogger];
     [ZegoLog addLogger:ramLogger];
     [ZegoLog addLogger:diskLogger];
+    
+    [ZGSDKLogConfig sdkLogConfig];
+
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

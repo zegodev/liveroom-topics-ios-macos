@@ -43,6 +43,21 @@
         obj.openHardwareDecode = [openHardwareDecode boolValue];
     }
     
+    id showLogUnCrypt = dic[NSStringFromSelector(@selector(showLogUnCrypt))];
+    if ([self checkIsNSStringOrNSNumber:showLogUnCrypt]) {
+        obj.showLogUnCrypt = [showLogUnCrypt boolValue];
+    }
+    
+    id logFileSize = dic[NSStringFromSelector(@selector(logFileSize))];
+    if ([self checkIsNSStringOrNSNumber:logFileSize]) {
+        obj.logFileSize = [logFileSize intValue];
+    }
+    
+    id logFileBaseDirName = dic[NSStringFromSelector(@selector(logFileBaseDirName))];
+    if ([self checkIsNSStringOrNSNumber:logFileBaseDirName]) {
+        obj.logFileBaseDirName = logFileBaseDirName;
+    }
+    
     return obj;
 }
 
@@ -54,9 +69,13 @@
     dic[NSStringFromSelector(@selector(environment))] = @(self.environment);
     dic[NSStringFromSelector(@selector(openHardwareEncode))] = @(self.openHardwareEncode);
     dic[NSStringFromSelector(@selector(openHardwareDecode))] = @(self.openHardwareDecode);
+    dic[NSStringFromSelector(@selector(showLogUnCrypt))] = @(self.showLogUnCrypt);
+    dic[NSStringFromSelector(@selector(logFileSize))] = @(self.logFileSize);
+    dic[NSStringFromSelector(@selector(logFileBaseDirName))] = [ZGAppGlobalConfig checkIsNSStringOrNSNumber:self.logFileBaseDirName] ? self.logFileBaseDirName : @"Library";
     
     return [dic copy];
 }
+
 
 + (BOOL)checkIsNSStringOrNSNumber:(id)obj {
     return ([obj isKindOfClass:[NSString class]] || [obj isKindOfClass:[NSNumber class]]);

@@ -30,6 +30,9 @@
 #ifdef _Module_Play
     [basicTopicList addObject:_Module_Play];
 #endif
+#ifdef _Module_L3_Play
+    [basicTopicList addObject:_Module_L3_Play];
+#endif
 #ifdef _Module_VideoTalk
     [commonTopicList addObject:_Module_VideoTalk];
 #endif
@@ -151,6 +154,13 @@
     #ifdef _Module_Play
     if ([topicName isEqualToString:_Module_Play]) {
         UIStoryboard* sb = [UIStoryboard storyboardWithName:@"PlayStream" bundle:nil];
+        vc = [sb instantiateInitialViewController];
+    }
+    #endif
+    
+    #ifdef _Module_L3_Play
+    if ([topicName isEqualToString:_Module_L3_Play]) {
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"L3PlayStream" bundle:nil];
         vc = [sb instantiateInitialViewController];
     }
     #endif

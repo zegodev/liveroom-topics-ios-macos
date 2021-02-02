@@ -129,6 +129,14 @@ static NSArray<NSNumber*> *ZGPublishTopicCommonVideoViewModeList;
 - (void)showResolutionListPickSheet {
     NSArray<NSValue*>* resolutionList = ZGPublishTopicCommonResolutionList;
     UIAlertController *sheet = [UIAlertController alertControllerWithTitle:@"选择分辨率" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        UIPopoverPresentationController *popVC = sheet.popoverPresentationController;
+        popVC.sourceView = cell;
+        popVC.sourceRect = cell.bounds;
+        popVC.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    }
     for (NSValue *sizeObj in resolutionList) {
         CGSize size = [sizeObj CGSizeValue];
         NSString *title = [[self class] displayTextForResolution:size];
@@ -147,6 +155,13 @@ static NSArray<NSNumber*> *ZGPublishTopicCommonVideoViewModeList;
     NSArray<NSNumber*> *bitrateList = ZGPublishTopicCommonBitrateList;
     
     UIAlertController *sheet = [UIAlertController alertControllerWithTitle:@"选择视频码率" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+        UIPopoverPresentationController *popVC = sheet.popoverPresentationController;
+        popVC.sourceView = cell;
+        popVC.sourceRect = cell.bounds;
+        popVC.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    }
     for (NSNumber *bitrateObj in bitrateList) {
         [sheet addAction:[UIAlertAction actionWithTitle:[bitrateObj stringValue] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             NSInteger bitrate = [bitrateObj integerValue];
@@ -164,6 +179,13 @@ static NSArray<NSNumber*> *ZGPublishTopicCommonVideoViewModeList;
     NSArray<NSNumber*>* fpsList = ZGPublishTopicCommonFpsList;
     
     UIAlertController *sheet = [UIAlertController alertControllerWithTitle:@"选择视频码率" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+        UIPopoverPresentationController *popVC = sheet.popoverPresentationController;
+        popVC.sourceView = cell;
+        popVC.sourceRect = cell.bounds;
+        popVC.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    }
     for (NSNumber *fpsObj in fpsList) {
         [sheet addAction:[UIAlertAction actionWithTitle:[fpsObj stringValue] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             NSInteger fps = [fpsObj integerValue];
@@ -181,6 +203,13 @@ static NSArray<NSNumber*> *ZGPublishTopicCommonVideoViewModeList;
     NSArray<NSNumber*>* modeList = ZGPublishTopicCommonVideoViewModeList;
     
     UIAlertController *sheet = [UIAlertController alertControllerWithTitle:@"选择渲染视图模式" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
+        UIPopoverPresentationController *popVC = sheet.popoverPresentationController;
+        popVC.sourceView = cell;
+        popVC.sourceRect = cell.bounds;
+        popVC.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    }
     for (NSNumber *modeObj in modeList) {
         ZegoVideoViewMode viewMode = (ZegoVideoViewMode)[modeObj integerValue];
         [sheet addAction:[UIAlertAction actionWithTitle:[[self class] displayTextForVideoViewMode:viewMode] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

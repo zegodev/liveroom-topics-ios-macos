@@ -159,7 +159,7 @@
 #pragma mark - Delegate
 
 - (void)onMediaRecord:(int)errCode channelIndex:(ZegoAPIMediaRecordChannelIndex)index storagePath:(NSString *)path {
-    BOOL success = errCode == 0;
+    BOOL success = (errCode == 0 || errCode ==5);
     self.isRecording = success;
 }
 

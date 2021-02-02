@@ -167,8 +167,22 @@
     pipelineStateDescriptor.vertexFunction = vertexFunction;
     pipelineStateDescriptor.fragmentFunction = fragmentFunction;
     pipelineStateDescriptor.colorAttachments[0].pixelFormat = self.renderView.colorPixelFormat; // 设置颜色格式
+    NSError *error;
     self.pipelineState = [self.device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor
-                                                                             error:NULL]; // 创建图形渲染管道，耗性能操作不宜频繁调用
+                                                       error:&error]; // 创建图形渲染管道，耗性能操作不宜频繁调用
+    if (error) {
+        UIViewController *rootVC = [[UIApplication sharedApplication].keyWindow rootViewController];
+        
+        NSString *alertStr = [NSString stringWithFormat:@"⚠️问题原因：%@\n请将该问题反馈给对应开发，谢谢！🙂", error.description];
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Metal 渲染遇到问题" message:alertStr preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        [alert addAction:[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            
+        }]];
+        [rootVC presentViewController:alert animated:true completion:nil];
+        return;
+    }
     self.commandQueue = [self.device newCommandQueue]; // CommandQueue是渲染指令队列，保证渲染指令有序地提交到GPU
 }
 

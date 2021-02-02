@@ -62,6 +62,11 @@ static ZGAppGlobalConfigManager *instance = nil;
     conf.appID = ZGKeyCenter.appID;
     conf.appSign = [ZGAppSignHelper convertAppSignToString:ZGKeyCenter.appSign];
     conf.environment = ZGAppEnvironmentTest;
+    
+    conf.showLogUnCrypt = NO;
+    conf.logFileSize = 5;
+    conf.logFileBaseDirName = @"Library";
+    
     return conf;
 }
 

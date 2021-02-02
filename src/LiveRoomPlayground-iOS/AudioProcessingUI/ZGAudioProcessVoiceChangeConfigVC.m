@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *modePicker;
 @property (weak, nonatomic) IBOutlet UILabel *customModeValueLabel;
 @property (weak, nonatomic) IBOutlet UISlider *customModeValueSlider;
+@property (weak, nonatomic) IBOutlet UISwitch *customVoiceChangerSwitch;
 
 @property (nonatomic, copy) NSArray<ZGAudioProcessTopicConfigMode*> *voiceChangerOptionModes;
 
@@ -49,11 +50,18 @@
     self.customModeValueLabel.text = @(voiceChangerParam).stringValue;
     
     [self.modePicker reloadAllComponents];
-    [self invalidateModePickerSelection];
+}
+
+- (IBAction)customVoiceChangerValueChanged:(UISwitch *)sender {
+    BOOL customVoiceChangerOpen = sender.isOn;
+    [ZGAudioProcessTopicConfigManager sharedInstance].customVoiceChangerOpen = customVoiceChangerOpen;
+    self.modePicker.userInteractionEnabled = !customVoiceChangerOpen;
 }
 
 - (IBAction)voiceChangerOpenValueChanged:(UISwitch *)sender {
     BOOL voiceChangerOpen = sender.isOn;
+    [self.customVoiceChangerSwitch setOn:!voiceChangerOpen];
+    self.modePicker.userInteractionEnabled = !self.customVoiceChangerSwitch.isOn;
     [[ZGAudioProcessTopicConfigManager sharedInstance] setVoiceChangerOpen:voiceChangerOpen];
     self.voiceChargerConfigContainerView.hidden = !voiceChangerOpen;
 }
@@ -62,7 +70,7 @@
     float voiceChangerParam = sender.value;
     [[ZGAudioProcessTopicConfigManager sharedInstance] setVoiceChangerParam:voiceChangerParam];
     self.customModeValueLabel.text = @(voiceChangerParam).stringValue;
-    [self invalidateModePickerSelection];
+    self.modePicker.userInteractionEnabled = !self.customVoiceChangerSwitch.isOn;
 }
 
 - (void)invalidateModePickerSelection {
@@ -117,7 +125,7 @@
     if ([ZGAudioProcessTopicConfigManager sharedInstance].voiceChangerOpen) {
         ZGAudioProcessTopicConfigMode *mode = self.voiceChangerOptionModes[row];
         if (!mode.isCustom) {
-            [[ZGAudioProcessTopicConfigManager sharedInstance] setVoiceChangerParam:mode.modeValue.floatValue];
+            [ZGAudioProcessTopicConfigManager sharedInstance].voiceChangerType = mode.modeValue.unsignedIntegerValue;
         }
     }
 }

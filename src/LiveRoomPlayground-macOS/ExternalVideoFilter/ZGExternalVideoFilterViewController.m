@@ -14,7 +14,7 @@
 #import "FUManager-mac.h"
 
 // 检查一下是否有 FaceUnity 的鉴权
-#import "authpack.h"
+#import "authpack_mac.h"
 
 static NSString *ZGEVFRoomID = @"ZGEVFRoomID";
 static NSString *ZGEVFStreamID = @"ZGEVFStreamID";

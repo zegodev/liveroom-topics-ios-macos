@@ -106,7 +106,6 @@
         ZGLogInfo(@"登录房间成功");
         
         // 设置音效处理配置
-        [self applyVoiceChangerConfig];
         [self applyVirtualStereoConfig];
         [self applyReverbConfig];
         // 开始推流
@@ -115,7 +114,18 @@
     }];
 }
 
+- (void)setVoiceChangerMode {
+    NSUInteger voiceChangerType = [ZGAudioProcessTopicConfigManager sharedInstance].voiceChangerType;
+    BOOL customVoiceChangerOpen = [ZGAudioProcessTopicConfigManager sharedInstance].customVoiceChangerOpen;
+    if (customVoiceChangerOpen) {
+        [ZegoAudioProcessing setVoicePreset:ZEGOAPI_VOICE_CHANGER_TYPE_CHANGER_OFF];
+        return;
+    }
+    [ZegoAudioProcessing setVoicePreset:voiceChangerType];
+}
+
 - (void)applyVoiceChangerConfig {
+    [ZegoAudioProcessing setVoicePreset:ZEGOAPI_VOICE_CHANGER_TYPE_CHANGER_OFF];
     float voiceChangerParam = ZEGOAPI_VOICE_CHANGER_NONE;
     BOOL voiceChangerOpen = [ZGAudioProcessTopicConfigManager sharedInstance].voiceChangerOpen;
     if (voiceChangerOpen) {
@@ -136,25 +146,21 @@
     }
 }
 
-- (void)applyReverbConfig {
+- (void)applyReverbConfig{
     BOOL reverbOpen = [ZGAudioProcessTopicConfigManager sharedInstance].reverbOpen;
-    if (reverbOpen) {
-        NSUInteger reverbMode = [ZGAudioProcessTopicConfigManager sharedInstance].reverbMode;
-        if (reverbMode != NSNotFound) {
-            [ZegoAudioProcessing enableReverb:YES mode:reverbMode];
-        } else {
-            float roomSize = [ZGAudioProcessTopicConfigManager sharedInstance].customReverbRoomSize;
-            float reverberance = [ZGAudioProcessTopicConfigManager sharedInstance].customReverberance;
-            float damping = [ZGAudioProcessTopicConfigManager sharedInstance].customDamping;
-            float drWetRatio = [ZGAudioProcessTopicConfigManager sharedInstance].customDryWetRatio;
-            ZegoAudioReverbParam reverbParam = {roomSize, reverberance, damping, drWetRatio};
-            [ZegoAudioProcessing setReverbParam:reverbParam];
-        }
-    } else {
-        [ZegoAudioProcessing enableReverb:NO mode:0];
-        ZegoAudioReverbParam reverbParam = {0.f,0.f,0.f,0.f};
-        [ZegoAudioProcessing setReverbParam:reverbParam];
+    if (!reverbOpen) {
+        [ZegoAudioProcessing setReverbPreset:ZEGO_AUDIO_REVERB_TYPE_OFF];
+        return;
     }
+    BOOL customReverbOpen = [ZGAudioProcessTopicConfigManager sharedInstance].customReverbOpen;
+    if (!customReverbOpen){
+        NSUInteger reverbMode = [ZGAudioProcessTopicConfigManager sharedInstance].reverbMode;
+        [ZegoAudioProcessing setReverbPreset:reverbMode];
+    }
+}
+
+- (void)applyReverbConfigWithParam:(ZegoAudioAdvancedReverbParam)param{
+    [ZegoAudioProcessing setAdvancedReverbParam:YES config:param];
 }
 
 #pragma mark - ZegoRoomDelegate
@@ -183,6 +189,20 @@
 
 #pragma mark - ZGAudioProcessTopicConfigChangedHandler
 
+- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager voiceChangerTypeChanged:(NSUInteger)voiceChangerType {
+    [self setVoiceChangerMode];
+}
+
+- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
+         customVoiceChangerOpenChanged:(BOOL)customVoiceChangerOpen {
+    if (customVoiceChangerOpen){
+        [self applyVoiceChangerConfig];
+    }else{
+        [self setVoiceChangerMode];
+    }
+    
+}
+
 - (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
                voiceChangerOpenChanged:(BOOL)voiceChangerOpen {
     [self applyVoiceChangerConfig];
@@ -203,6 +223,10 @@
     [self applyVirtualStereoConfig];
 }
 
+- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager customReverbOpen:(BOOL)reverbOpen {
+    [self applyReverbConfig];
+}
+
 - (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
                      reverbOpenChanged:(BOOL)reverbOpen {
     [self applyReverbConfig];
@@ -213,24 +237,8 @@
     [self applyReverbConfig];
 }
 
-- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
-           customReverbRoomSizeChanged:(float)customReverbRoomSize {
-    [self applyReverbConfig];
-}
-
-- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
-              customDryWetRatioChanged:(float)customDryWetRatio {
-    [self applyReverbConfig];
-}
-
-- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
-                  customDampingChanged:(float)customDamping {
-    [self applyReverbConfig];
-}
-
-- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager
-             customReverberanceChanged:(float)customReverberance {
-    [self applyReverbConfig];
+- (void)audioProcessTopicConfigManager:(ZGAudioProcessTopicConfigManager *)configManager customReverbValueChanged:(ZegoAudioAdvancedReverbParam)reverbParam {
+    [self applyReverbConfigWithParam:reverbParam];
 }
 
 @end

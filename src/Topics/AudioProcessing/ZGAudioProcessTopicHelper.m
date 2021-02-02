@@ -32,12 +32,39 @@
     static dispatch_once_t onceToken;
     static NSArray<ZGAudioProcessTopicConfigMode*> *_voiceChangerOptionModes = nil;
     dispatch_once(&onceToken, ^{
-        _voiceChangerOptionModes =
-        @[[ZGAudioProcessTopicConfigMode modeWithModeValue:@(ZEGOAPI_VOICE_CHANGER_WOMEN_TO_MEN) modeName:@"女声变男声" isCustom:NO],
-          [ZGAudioProcessTopicConfigMode modeWithModeValue:@(ZEGOAPI_VOICE_CHANGER_MEN_TO_WOMEN) modeName:@"男声变女声" isCustom:NO],
-          [ZGAudioProcessTopicConfigMode modeWithModeValue:@(ZEGOAPI_VOICE_CHANGER_WOMEN_TO_CHILD) modeName:@"女声变童声" isCustom:NO],
-          [ZGAudioProcessTopicConfigMode modeWithModeValue:@(ZEGOAPI_VOICE_CHANGER_MEN_TO_CHILD) modeName:@"男声变童声" isCustom:NO],
-          [ZGAudioProcessTopicConfigMode modeWithModeValue:nil modeName:@"自定义" isCustom:YES]];
+        NSArray *voiceChangerTypes = @[
+            @(ZEGOAPI_VOICE_CHANGER_TYPE_CHANGER_OFF),
+            @(ZEGOAPI_VOICE_CHANGER_TYPE_OPTIMUS_PRIME),
+            @(ZEGOAPI_VOICE_CHANGER_TYPE_AI_ROBOT),
+            @(ZEGOAPI_VOICE_CHANGER_TYPE_FOREIGNER),
+            @(ZEGOAPI_VOICE_CHANGER_TYPE_ELUSIVE),
+            @(ZEGOAPI_VOICE_CHANGER_TYPE_MALE_MAGNETIC),
+            @(ZEGOAPI_VOICE_CHANGER_TYPE_FEMALE_FRESH),
+            @(ZEGOAPI_VOICE_CHANGER_TYPE_MEN_TO_CHILD),
+            @(ZEGOAPI_VOICE_CHANGER_TYPE_MEN_TO_WOMEN),
+            @(ZEGOAPI_VOICE_CHANGER_TYPE_WOMEN_TO_CHILD),
+            @(ZEGOAPI_VOICE_CHANGER_TYPE_WOMEN_TO_MEN)
+        ];
+        NSArray *voiceChangerTitles = @[
+            @"恢复原声",
+            @"擎天柱",
+            @"AI 机器人",
+            @"外国人",
+            @"空灵",
+            @"磁性男声",
+            @"清新女声",
+            @"男声变童",
+            @"男声变女",
+            @"女声变童",
+            @"女声变男",
+        ];
+        NSMutableArray *modes = [@[] mutableCopy];
+        [voiceChangerTypes enumerateObjectsUsingBlock:^(NSNumber*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *title = [voiceChangerTitles objectAtIndex:idx];
+            ZGAudioProcessTopicConfigMode * configMode = [ZGAudioProcessTopicConfigMode modeWithModeValue:obj modeName:title isCustom:NO];
+            [modes addObject:configMode];
+        }];
+        _voiceChangerOptionModes = [modes copy];
     });
     return _voiceChangerOptionModes;
 }
@@ -46,12 +73,39 @@
     static dispatch_once_t onceToken;
     static NSArray<ZGAudioProcessTopicConfigMode*> *_reverbOptionModes = nil;
     dispatch_once(&onceToken, ^{
-        _reverbOptionModes =
-        @[[ZGAudioProcessTopicConfigMode modeWithModeValue:@(ZEGOAPI_AUDIO_REVERB_MODE_CONCERT_HALL) modeName:@"音乐厅" isCustom:NO],
-          [ZGAudioProcessTopicConfigMode modeWithModeValue:@(ZEGOAPI_AUDIO_REVERB_MODE_LARGE_AUDITORIUM) modeName:@"大教堂" isCustom:NO],
-          [ZGAudioProcessTopicConfigMode modeWithModeValue:@(ZEGOAPI_AUDIO_REVERB_MODE_WARM_CLUB) modeName:@"俱乐部" isCustom:NO],
-          [ZGAudioProcessTopicConfigMode modeWithModeValue:@(ZEGOAPI_AUDIO_REVERB_MODE_SOFT_ROOM) modeName:@"房间" isCustom:NO],
-          [ZGAudioProcessTopicConfigMode modeWithModeValue:nil modeName:@"自定义" isCustom:YES]];
+        NSArray *voiceReverbTypes = @[
+            @(ZEGO_AUDIO_REVERB_TYPE_OFF),
+            @(ZEGO_AUDIO_REVERB_TYPE_SOFT_ROOM),
+            @(ZEGO_AUDIO_REVERB_TYPE_WARM_CLUB),
+            @(ZEGO_AUDIO_REVERB_TYPE_CONCERT_HALL),
+            @(ZEGO_AUDIO_REVERB_TYPE_LARGE_AUDITORIUM),
+            @(ZEGO_AUDIO_REVERB_TYPE_RECORDING_STUDIO),
+            @(ZEGO_AUDIO_REVERB_TYPE_BASEMENT),
+            @(ZEGO_AUDIO_REVERB_TYPE_KTV),
+            @(ZEGO_AUDIO_REVERB_TYPE_POPULAR),
+            @(ZEGO_AUDIO_REVERB_TYPE_ROCK),
+            @(ZEGO_AUDIO_REVERB_TYPE_VOCAL_CONCERT),
+        ];
+        NSArray *voiceReverbTitles = @[
+            @"关闭混响",
+            @"房间模式",
+            @"俱乐部（大房间）",
+            @"音乐厅",
+            @"大教堂",
+            @"录音棚",
+            @"地下室",
+            @"KTV",
+            @"流行",
+            @"摇滚",
+            @"演唱会",
+        ];
+        NSMutableArray *modes = [@[] mutableCopy];
+        [voiceReverbTypes enumerateObjectsUsingBlock:^(NSNumber*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *title = [voiceReverbTitles objectAtIndex:idx];
+            ZGAudioProcessTopicConfigMode * configMode = [ZGAudioProcessTopicConfigMode modeWithModeValue:obj modeName:title isCustom:NO];
+            [modes addObject:configMode];
+        }];
+        _reverbOptionModes = [modes copy];
     });
     return _reverbOptionModes;
 }
